@@ -1,0 +1,226 @@
+#!/usr/bin/php5
+<?php
+
+/**
+ * Tool to quickly generate admin finders, models and forms.
+ */
+$usage = <<<EOT
+
+Monad tool to quickly generate admin finders, models and forms.
+It accepts the following arguments:
+
+-b base path [OPTIONAL] The path where to create stuff. Uses current path if
+                        omitted.
+-n namespace [OPTIONAL] Namespace for your objects. Should NOT include the
+                        special 'admin' namespace. If omitted, the objects
+                        will be created directly in the admin directory under
+                        the base path.
+-t target name          The name of the model/finder to create. This should be
+                        the actual classname as used, including camel cased
+                        naming. This tool takes care of deducing what (sub)-
+                        folders should be created (if not existing yet).
+-o no/yes               Overwrite existing objects. Defaults to no (overwrite).
+                        Note that the original file is renamed to {file}.orig.
+
+Please note that this tools only generates skeletons; the programmer is
+responsible for actually making them do something useful. Still, it saves some
+typing :)
+
+EOT;
+$args = $argv;
+array_shift($args);
+for ($i = 0; $i < count($args); $i += 2) {
+    if (!(in_array($args[$i], ['-b', '-n', '-t', '-o'])
+        && isset($args[$i + 1])
+    )) {
+        die($usage);
+    }
+    $varname = $args[$i]{1};
+    $$varname = $args[$i + 1];
+}
+if (!isset($t)) {
+    die($usage);
+}
+$start = getcwd();
+if (!isset($b)) {
+    $b = $start;
+}
+$b = realpath($b);
+$n = isset($n) ? $n : '';
+$o = isset($o) ? ($o == 'yes' ? true : false) : false;
+
+if ($n) {
+    // Check to see if we are already in the correct namespace.
+    if (!preg_match("@/$n$@", $b)) {
+        @mkdir("$b/$n");
+        $b = "$b/$n";
+    }
+}
+@mkdir("$b/admin");
+
+// What we need:
+// $namespace
+// $target
+// $tableguess
+// ...that's it, really...
+// TODO: extend the form to auto-generate fields by looking in the database.
+$tableguess = '';
+if ($n) {
+    $tableguess .= "{$n}_";
+}
+$parts = array_reverse(explode('_', $t));
+$tableguess .= strtolower(implode('_', $parts));
+$file = array_pop($parts);
+$dir = implode(DIRECTORY_SEPARATOR, $parts);
+$vars = [
+    '{namespace}' => $n ? "$n\\admin" : 'admin',
+    '{target}' => $t,
+    '{tableguess}' => $tableguess,
+];
+foreach ([
+    'Model' => <<<'EOT'
+<?php
+
+namespace {namespace};
+use monad\admin\Model;
+use monolyth\adapter\sql\InsertNone_Exception;
+use monolyth\adapter\sql\UpdateNone_Exception;
+use monolyth\adapter\sql\DeleteNone_Exception;
+use monolyth\render\form\Info;
+
+class {target}_Model extends Model
+{
+    public $requires = ['{tableguess}'];
+
+    public function save({target}_Form $form)
+    {
+        $id = isset($this['id']) ? $this['id'] : null;
+        $data = [];
+        foreach ($form as $key => $value) {
+            if ($value instanceof Info) {
+                continue;
+            }
+            $data[$key] = $value->value;
+        }
+        if (!$data) {
+            return null;
+        }
+        try {
+            if ($id) {
+                $this->adapter->update('{tableguess}', $data, compact('id'));
+            } else {
+                $this->adapter->insert('{tableguess}', $data);
+            }
+        } catch (InsertNone_Exception $e) {
+            return 'insert';
+        } catch (UpdateNone_Exception $e) {
+            return 'nochange';
+        }
+        return null;
+    }
+
+    public function delete()
+    {
+        try {
+            $this->adapter->delete('{tableguess}', ['id' => $this['id']]);
+            return null;
+        } catch (DeleteNone_Exception $e) {
+            return 'delete';
+        }
+    }
+}
+
+
+EOT
+    ,
+    'Finder' => <<<'EOT'
+<?php
+
+namespace {namespace};
+use monad\core;
+use monolyth\adapter\sql\NoResults_Exception;
+
+class {target}_Finder extends core\Finder
+{
+    public function all($size, $page, array $where = [], array $options = [])
+    {
+        $options += [
+            'limit' => $size,
+            'offset' => ($page - 1) * $size,
+        ];
+        try {
+            return $this->adapter->pages(
+                '{tableguess}',
+                '*',
+                $where,
+                $options
+            );
+        } catch (NoResults_Exception $e) {
+            return null;
+        }
+    }
+
+    public function find(array $where)
+    {
+        try {
+            return $this->model->load($this->adapter->row(
+                '{tableguess}',
+                '*',
+                $where
+            ));
+        } catch (NoResults_Exception $e) {
+            return null;
+        }
+    }
+}
+
+
+EOT
+    ,
+    'Form' => <<<'EOT'
+<?php
+
+namespace {namespace};
+use monad\core\Form;
+
+class {target}_Form extends Form
+{
+    public function prepare($id = null)
+    {
+        return parent::prepare($id);
+    }
+}
+
+
+EOT
+    ,
+] as $subdir => $template) {
+    if (!file_exists("$b/admin/$subdir/$dir")) {
+        @mkdir("$b/admin/$subdir/$dir", 0755, true);
+    }
+    if (!is_dir("$b/admin/$subdir/$dir")) {
+        die("\n$b/admin/$subdir/$dir already exists, and is not a directory.\n\n");
+    }
+    if (file_exists("$b/admin/$subdir/$dir/$file.php")) {
+        if ($o) {
+            echo "$b/admin/$subdir/$dir/$file.php exists, renaming...\n";
+            if (file_exists("$b/admin/$subdir/$dir/$file.php.orig")) {
+                echo "Backup exists. Removing first...\n";
+                unlink("$b/admin/$subdir/$dir/$file.php.orig");
+            }
+            rename("$b/admin/$subdir/$dir/$file.php", "admin/$b/$subdir/$dir/$file.php.orig");
+        } else {
+            echo "$b/admin/$subdir/$dir/$file.php exists, skipping...\n";
+            continue;
+        }
+    }
+    file_put_contents(
+        "$b/admin/$subdir/$dir/$file.php",
+        str_replace(
+            array_keys($vars),
+            array_values($vars),
+            $template
+        )
+    );
+}
+

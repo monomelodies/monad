@@ -1,0 +1,93 @@
+
+html, body {
+    min-height: 100%;
+    background: #fff;
+    overflow-x: hidden;
+    }
+#filebrowser {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    }
+#create {
+    height: 46px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    }
+#create form {
+    width: 50%;
+    float: left;
+    background: #666;
+    border-bottom: 2px solid #999;
+    color: #fff;
+    }
+#create form fieldset {
+    padding: 10px;
+    border: 0;
+    background: transparent;
+    margin: 0;
+    }
+#create form + form {
+    float: right;
+    }
+#folders {
+    position: fixed;
+    width: 20%;
+    left: 0;
+    top: 46px;
+    bottom: 0;
+    overflow-y: scroll;
+    }
+#files {
+    margin: 46px 0 0 20%;
+    float: right;
+    width: 80%;
+    z-index: 99;
+    }
+.ui-draggable-dragging {
+    position: relative;
+    z-index: 101;
+    }
+#folders ul {
+    list-style-image: url(folder.png);
+    }
+#folders li {
+    min-height: 16px;
+    margin: 2px 2px 2px 8px;
+    }
+#folders a {
+    display: block;
+    padding: 4px 0;
+    }
+#folders a.hover {
+    background: #333;
+    color: #fff;
+    }
+#files ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-indent: 0;
+    }
+#files li {
+    float: left;
+    margin: 10px;
+    width: 80px;
+    height: 100px;
+    }
+#files span {
+    display: block;
+    width: 80px;
+    height: 80px;
+    margin: auto;
+    overflow: hidden;
+    }
+figure {
+    margin: 0;
+    }
+

@@ -1,0 +1,15 @@
+
+body {
+    padding: 0 1em;
+    }
+#login {
+	margin: 0 auto;
+	max-width: 35em;
+	}
+#monadlogin button {
+	background-image: url(login.png);
+	}
+#menu-container {
+    display: none;
+    }
+

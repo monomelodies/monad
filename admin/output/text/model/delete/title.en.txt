@@ -1,0 +1,1 @@
+Delete row from <code>%1$s</code>

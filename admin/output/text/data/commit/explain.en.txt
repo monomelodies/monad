@@ -1,0 +1,15 @@
+<p>
+	Select the queries you want to commit. Committing means the changes will
+	become public. You can also opt to not commit certain queries yet, or to
+	drop them completely.
+</p>
+<p>
+	Please note that the queries are executed in order of their timestamps.
+	Hence, if you drop or ignore queries somewhere in the middle, subsequent
+	queries might fail. MonAd will notify you of this and show the conflict
+	so you can resolve it first.
+</p>
+<p>
+	If you're sure all your changes are correct, it's usually the simplest
+	to just commit everything in the queue.
+</p>

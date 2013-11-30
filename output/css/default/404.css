@@ -1,0 +1,8 @@
+/** vertically center our 404 text */
+@import url(content-centered.css);
+
+#page404 {
+	max-width: 100%;
+	margin: 0 auto;
+	width: 35em;
+	}

@@ -1,0 +1,95 @@
+
+div#dock {
+	position: fixed;
+	top: 4px;
+	left: 0;
+	width: 100%;
+	padding: 4px 0;
+	}
+div#dock .box {
+	margin: 0 4px;
+	opacity: 1;
+	}
+div#dock .box ul {
+	list-style: none;
+	text-indent: 0;
+	padding: 2px 8px;
+	margin: 0;
+	opacity: 1;
+	text-align: center;
+	}
+div#dock ul li {
+	display: inline-block;
+	width: 64px;
+	height: 48px;
+	}
+div#dock a {
+	display: inline-block;
+	width: 64px;
+	height: 64px;
+	opacity: .5;
+	text-indent: -8192px;
+	}
+div#dock li:hover a {
+	opacity: .9;
+	}
+div#dock b a {
+	opacity: 1;
+	}
+div#dock #repositories {
+	background-image: url(dock/repositories.png);
+	}
+div#dock #settings {
+	background-image: url(dock/settings.png);
+	}
+div#dock #files {
+	background-image: url(dock/files.png);
+	}
+div#dock #modules {
+	background-image: url(dock/modules.png);
+	}
+div#dock #users {
+	background-image: url(dock/users.png);
+	}
+div#dock #data {
+	background-image: url(dock/data.png);
+	}
+div#dock #logout {
+	background-image: url(dock/logout.png);
+	}
+
+#dock li div {
+	display: none;
+	position: absolute;
+	background: url(fade.png);
+	padding: 2px;
+	width: 200px;
+	margin-left: -68px;
+	-moz-border-radius: 8px;
+	}
+#dock li:hover div {
+	display: block;
+	}
+
+#dock ul li div ul {
+	display: block;
+	background: #000;
+	-moz-border-radius: 8px;
+	}
+#dock ul li div ul li {
+	display: block;
+	width: auto;
+	height: auto;
+	}
+#dock li ul li a {
+	text-indent: 0;
+	color: #fff;
+	width: auto;
+	height: auto;
+	display: block;
+	opacity: 1;
+	}
+#dock li ul li a:hover {
+	color: #000;
+	background: #fff;
+	}

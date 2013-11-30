@@ -1,0 +1,2 @@
+Dit veld verwijst naar <code>%1$s.%2$s</code>.
+Defineer daar s.v.p. minimaal &eacute;&eacute;n geldige rij.

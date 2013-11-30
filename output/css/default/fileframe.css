@@ -1,0 +1,42 @@
+
+body {
+    text-align: center;
+    background: #fea;
+    overflow-x: hidden;
+    }
+body > div {
+    padding: .5em 0;
+    max-width: 100%;
+    }
+img {
+    margin: 0 auto;
+    max-width: 100%;
+    display: block;
+    }
+form fieldset {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    }
+#upload {
+    display: none;
+    }
+progress {
+    display: none;
+    width: 80%;
+    margin: 0 auto;
+    }
+#uploader.uploading {
+    display: none;
+    }
+#uploader.uploading + progress {
+    display: block;
+    }
+form fieldset > div {
+    margin: .5em 0 0;
+    }
+iframe {
+    display: none;
+    }
+
