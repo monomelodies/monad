@@ -57,7 +57,7 @@ CREATE TABLE monad_section_i18n (
         REFERENCES monolyth_language(id) ON DELETE CASCADE
 ) ENGINE='InnoDB' DEFAULT CHARSET='UTF8';
 
-CREATE TABLE monad_section_link_page (
+CREATE TABLE monad_page_section (
     section bigint UNSIGNED NOT NULL,
     page bigint UNSIGNED NOT NULL,
     parent bigint UNSIGNED,
