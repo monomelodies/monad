@@ -8,6 +8,11 @@ class Page_Finder extends core\I18n_Finder
 {
     public function all($size, $page, array $where = [], array $options = [])
     {
+        $options += [
+            'order' => $this->fields('', ['title'], false),
+            'limit' => $size,
+            'offset' => ($page - 1) * $size,
+        ];
         try {
             return $this->adapter->pages(
                 $this->table('monad_page', 'monad_page_i18n')
@@ -20,11 +25,7 @@ class Page_Finder extends core\I18n_Finder
                     ['title']
                 ),
                 $where,
-                [
-                    'order' => $this->fields('', ['title'], false),
-                    'limit' => $size,
-                    'offset' => ($page - 1) * $size,
-                ]
+                $options
             );
         } catch (NoResults_Exception $e) {
             return null;
@@ -49,6 +50,11 @@ class Page_Finder extends core\I18n_Finder
         } catch (NoResults_Exception $e) {
             return null;
         }
+    }
+
+    public function sections(Page_Model $page, $language)
+    {
+        return $this->sections->sections($page, $language);
     }
 }
 
