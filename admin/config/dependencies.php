@@ -248,6 +248,10 @@ $container->using(
             'Page_Finder',
             ['sections' => function() { return new Section_Finder; }]
         );
+        $container->register(
+            'Section_Finder',
+            ['section' => function() { return new Section_Model; }]
+        );
     }
 );
 $finder = $container->satisfy(new Module_Finder);
