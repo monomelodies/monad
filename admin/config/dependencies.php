@@ -244,6 +244,10 @@ $container->using(
             'Move_File_Controller',
             ['media' => function() { return new File_Media_Model; }]
         );
+        $container->register(
+            'Page_Finder',
+            ['sections' => function() { return new Section_Finder; }]
+        );
     }
 );
 $finder = $container->satisfy(new Module_Finder);
