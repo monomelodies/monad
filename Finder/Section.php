@@ -17,10 +17,10 @@ class Section_Finder implements Finder, adapter\Access, Language_Access
             return $this->adapter->rows(
                 'monad_section s
                  JOIN monad_section_i18n i USING(id)
-                 JOIN monad_section_link_page l ON section = s.id',
+                 JOIN monad_page_section l ON section = s.id',
                 '*',
                 compact('page', 'language'),
-                array('order' => 'sortorder ASC')
+                ['order' => 'sortorder ASC']
             );
         } catch (NoResults_Exception $e) {
             return null;
