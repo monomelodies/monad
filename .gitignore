@@ -1,0 +1,15 @@
+# vim swapfiles
+.*.sw*
+
+# Kate swapfiles
+*~
+
+# Emacs swapfiles
+.\#*
+
+# Mysterious tmp-images
+._*
+
+# Mercurial backups
+*.orig
+
