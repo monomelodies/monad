@@ -110,5 +110,10 @@ class Page_Model extends core\Model implements User_Access
             return 'database';
         }
     }
+
+    public function inlines()
+    {
+        return ['sections'];
+    }
 }
 
