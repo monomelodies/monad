@@ -46,7 +46,7 @@ CREATE TABLE monad_section_i18n (
     PRIMARY KEY(id, language)
 );
 
-CREATE TABLE monad_section_link_page (
+CREATE TABLE monad_page_section (
     section INTEGER NOT NULL REFERENCES monad_section(id) ON DELETE CASCADE,
     page INTEGER NOT NULL REFERENCES monad_page(id) ON DELETE CASCADE,
     parent INTEGER NOT NULL REFERENCES monad_section(id) ON DELETE SET NULL,
