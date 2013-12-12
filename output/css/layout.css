@@ -170,12 +170,19 @@ hr {
         display: none;
         }
     }
-#main > ul {
+#main > ul, #menu-container.monad-nomenu {
 	clear: both;
 	}
 @media only screen and (min-width: 960px) {
     #main > ul {
     	width: 20em;
+        }
+    #menu-container.monad-nomenu {
+        width: 18em;
+        padding: 1em;
+        background: red;
+        color: yellow;
+        $border_radius(8px);
         }
     }
 #main > ul > li {
