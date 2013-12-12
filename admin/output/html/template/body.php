@@ -55,7 +55,7 @@ $Script->unshift(
                         'id' => 'main',
                     ]
                 ) :
-                $view('slice/nomenu')?>
+                ($user->loggedIn() ? $view('slice/nomenu') : '')?>
         </div>
         <aside id="sidebar">
 <?php if ($msgs = $message->get()) foreach ($msgs as $msg) { ?>
