@@ -439,3 +439,19 @@ SET @subitem = LAST_INSERT_ID();
 INSERT INTO monad_admin_item_i18n VALUES (@subitem, 1, 'Media'), (@subitem, 2, 'Media');
 -- }}}
 
+-- {{{ v0.23.2
+
+-- @emit The admin menu has been moved from monad_admin/monad_admin_item etc.
+-- @emit into PHP code in various ./config/menu.php files. Please refer to
+-- @emit the examples on how to handle the new menus.
+-- @emit
+-- @emit I'm leaving your old tables as is so you can copy their contents
+-- @emit to your new menu.php file, but when you're done, you can safely
+-- @emit remove them.
+-- @emit
+-- @emit This concerns the following tables (you'll also want to delete some
+-- @emit foreign keys first probably):
+-- @emit
+-- @emit monad_admin, monad_admin_i18n, monad_admin_item, monad_admin_item_i18n
+
+-- }}}
