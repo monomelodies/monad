@@ -7,9 +7,8 @@
 # Emacs swapfiles
 .\#*
 
-# Mysterious tmp-images
-._*
-
 # Mercurial backups
 *.orig
 
+# Mac swapfile
+._*

@@ -1,18 +1,20 @@
 <?php
 
-namespace monad\admin;
+namespace monad\core;
 use monolyth;
-use monolyth\adapter;
 use monolyth\Language_Access;
 use monolyth\User_Access;
-use monolyth\adapter\sql\NoResults_Exception;
 
-class Finder
-implements monolyth\Finder, adapter\Access, Language_Access, User_Access
+class Menu_Finder implements monolyth\Finder, Language_Access, User_Access
 {
     public function find()
     {
         try {
+            return $this->menu->init('admin/config/menu.php');
+        } catch (MenuNotFound_Exception $e) {
+            return null;
+        }
+        /*
             $q = $this->adapter->row(
                 'monad_admin JOIN monad_admin_i18n USING(id)',
                 '*',
@@ -70,6 +72,7 @@ implements monolyth\Finder, adapter\Access, Language_Access, User_Access
         } catch (NoResults_Exception $e) {
             return null;
         }
+        */
     }
 }
 
