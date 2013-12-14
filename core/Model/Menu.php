@@ -32,7 +32,8 @@ class Menu_Model implements Language_Access
     public function using($namespace, $callback)
     {
         $this->namespace = $namespace;
-        return $callback();
+        $callback();
+        return $this;
     }
 
     public function add($target, $package = null, $link = null)
