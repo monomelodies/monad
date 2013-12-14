@@ -47,14 +47,7 @@ $Script->unshift(
                 <span>&laquo;</span>
             </a>
             <?=isset($menumain) ?
-                $view(
-                    'monolyth\render\slice/menu',
-                    [
-                        'items' => $menumain,
-                        'headers_clickable' => false,
-                        'id' => 'main',
-                    ]
-                ) :
+                $view('monad\admin\slice/menu', ['menu' => $menumain]) :
                 ($user->loggedIn() ? $view('slice/nomenu') : '')?>
         </div>
         <aside id="sidebar">
