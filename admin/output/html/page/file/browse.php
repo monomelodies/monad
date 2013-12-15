@@ -62,7 +62,7 @@ if ($files) {
     $i = 0;
     foreach ($files as $file) {
         if (!($i % 10)) {
-            $src = $project->httpimg($url('monad/admin/multi_media', ['ids' => implode(',', $ids[++$idx]), 'size' => '80x80', 'type' => 'jpg']));
+            $src = $httpimg($url('monad/admin/multi_media', ['ids' => implode(',', $ids[++$idx]), 'size' => '80x80', 'type' => 'jpg']));
         }
 
 ?>
@@ -72,7 +72,7 @@ if ($files) {
                     alt="<?=$file['originalname']?>"
                     title="<?=$file['originalname']?>"
                     data-id="<?=$file['id']?>"
-                    data-src="<?=$project->httpimg($url(
+                    data-src="<?=$httpimg($url(
                         'monad/admin/media',
                         ['id' => $file['id'], 'type' => end(explode('/', $file['mimetype']))]
                     ))?>"></span>
