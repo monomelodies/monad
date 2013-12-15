@@ -1,4 +1,26 @@
-<?php namespace monad\admin ?>
+<?php
+
+namespace monad\admin;
+$Css->unshift(
+    'monolyth/output/css/reset.css',
+    'monolyth/output/css/html5.css',
+    'monolyth/output/js/formalize/css/formalize.css',
+    'monad/output/css/layout.css',
+    "monad/output/css/{$project['theme']}/{$project['theme']}.css",
+    'output/css/monad.css?'
+);
+$Script->unshift(
+    'monolyth/output/js/formalize/js/jquery.formalize.js',
+    'monolyth/output/js/jquery/ui.timepicker.js',
+    'monolyth/output/js/jquery/validator.js',
+    'monolyth/output/js/jquery/rangeinput.js',
+    'monolyth/output/js/jquery/html5.js',
+    'monolyth/output/js/monolyth.js',
+    'monolyth/output/js/text.js',
+    'monad/output/js/core.js'
+);
+
+?>
 <body>
 <?php if (!isset($_GET['disabled'])) { ?>
     <div>
@@ -35,36 +57,33 @@ if ($media['mimetype']) {
 
 ?>
 <iframe name="upload"></iframe>
-<script src="/monolyth/js/LAB.js"></script>
+<script src="/monolyth/js/modernizr.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="/ckeditor/ckeditor.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+<script src="/ckeditor/adapters/jquery.js"></script>
+<?=$Script?>
 <script>
-$LAB.script(['//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js']).
-     wait().
-     script([
-        '/monolyth/js/html5.js',
-        '/monad/js/core.js'
-     ]).
-     wait(function() {
-        $('body').width($('body').width());
-        $('#uploader').submit(function() {
-            var $this = $(this);
-            $this.addClass('uploading');
-            return Monad.file.upload($this);
-        });
-        $('#delete_img').click(function() {
-            window.parent.Monad.file.remove($('[name=element]').val());
-            return false;
-        });
-        $('body').on('load', 'img', function() {
-            window.parent.resizeFileFrame($('body').height(), '<?=$media['id']?>');
-            if ($('img').width() > $('body').width()) {
-                $('img').width($('body').width());
-            }
-        });
-        $(document).ready(function() {
-            window.parent.resizeFileFrame($('body').height(), '<?=$media['id']?>');
-            Monolyth.scripts.execute();
-        });
-     });
+$('body').width($('body').width());
+$('#uploader').submit(function() {
+    var $this = $(this);
+    $this.addClass('uploading');
+    return Monad.file.upload($this);
+});
+$('#delete_img').click(function() {
+    window.parent.Monad.file.remove($('[name=element]').val());
+    return false;
+});
+$('body').on('load', 'img', function() {
+    window.parent.resizeFileFrame($('body').height(), '<?=$media['id']?>');
+    if ($('img').width() > $('body').width()) {
+        $('img').width($('body').width());
+    }
+});
+$(document).ready(function() {
+    window.parent.resizeFileFrame($('body').height(), '<?=$media['id']?>');
+    Monolyth.scripts.execute();
+});
 </script>
 </body>
 <?php
