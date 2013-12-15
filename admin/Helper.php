@@ -3,6 +3,7 @@
 namespace monad\admin;
 use monolyth\utils\Name_Helper;
 use monolyth\render\Url_Helper;
+use monad\core\Model;
 
 trait Helper
 {
