@@ -1,7 +1,7 @@
 <?php
 
 namespace monad\admin;
-use monad\admin\Model;
+use monad\core\Model;
 use monolyth\adapter\sql\InsertNone_Exception;
 use monolyth\adapter\sql\UpdateNone_Exception;
 use monolyth\adapter\sql\DeleteNone_Exception;
