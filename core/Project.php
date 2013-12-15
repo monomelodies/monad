@@ -11,7 +11,6 @@ class Project extends Myproject
     {
         parent::__construct();
         $this->variables = sprintf($this->variables, $theme);
-        $this['name'] = 'Monad :.:.: MONolyth ADministrator';
         $this->styles = [];
         $this['theme'] = $theme;
     }
