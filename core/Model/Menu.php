@@ -42,11 +42,10 @@ class Menu_Model implements Language_Access
             $link = 'monad\admin\database';
         }
         if (!isset($package)) {
-            $package = substr(
-                $this->namespace,
-                0,
-                strpos($this->namespace, '\\')
-            );
+            $package = $this->package();
+        }
+        if ($package == 'admin') {
+            $package = 'project';
         }
         $this->items[$this->url(
             $link,
@@ -63,11 +62,7 @@ class Menu_Model implements Language_Access
     public function group($target, $package = null)
     {
         if (!isset($package)) {
-            $package = substr(
-                $this->namespace,
-                0,
-                strpos($this->namespace, '\\')
-            );
+            $package = $this->package();
         }
         $menu = clone $this;
         $menu->reset();
@@ -80,6 +75,25 @@ class Menu_Model implements Language_Access
     public function items()
     {
         return $this->items;
+    }
+
+    public function find($what)
+    {
+        foreach ($this->items as $key => $value) {
+            if ($key == $what) {
+                return $value;
+            }
+        }
+        return null;
+    }
+
+    public function delete($item)
+    {
+        foreach ($this->items as $key => $value) {
+            if ($value == $item) {
+                unset($this->items[$key]);
+            }
+        }
     }
 
     public function reset()
@@ -101,6 +115,19 @@ class Menu_Model implements Language_Access
             $this->mother = $mother;
         }
         return $this->mother;
+    }
+
+    private function package()
+    {
+        $package = substr(
+            $this->namespace,
+            0,
+            strpos($this->namespace, '\\')
+        );
+        if (!$package) {
+            $package = 'admin';
+        }
+        return $package;
     }
 }
 
