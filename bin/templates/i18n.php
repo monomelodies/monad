@@ -65,7 +65,7 @@ class {target}_Finder extends core\I18n_Finder
                 ),
                 $this->fields(
                     ['{tableguess}.*', 'l.title AS language_str'],
-                    ['{tableguess}_i18n.*']
+                    ['*']
                 ),
                 $where,
                 $options
