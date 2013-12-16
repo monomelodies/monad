@@ -106,6 +106,7 @@ EOT
 
 namespace {namespace};
 use monad\core\I18n_Form;
+use monolyth\Language_Access;
 
 class {target}_Form extends I18n_Form implements Language_Access
 {
