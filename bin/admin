@@ -21,6 +21,8 @@ It accepts the following arguments:
                         folders should be created (if not existing yet).
 -o no/yes               Overwrite existing objects. Defaults to no (overwrite).
                         Note that the original file is renamed to {file}.orig.
+-i no/yes               Defaults to 'no'; set to yes to auto-generate a skeleton
+                        with multilanguage support.
 
 Please note that this tools only generates skeletons; the programmer is
 responsible for actually making them do something useful. Still, it saves some
@@ -30,7 +32,7 @@ EOT;
 $args = $argv;
 array_shift($args);
 for ($i = 0; $i < count($args); $i += 2) {
-    if (!(in_array($args[$i], ['-b', '-n', '-t', '-o'])
+    if (!(in_array($args[$i], ['-b', '-n', '-t', '-o', '-i'])
         && isset($args[$i + 1])
     )) {
         die($usage);
@@ -48,6 +50,7 @@ if (!isset($b)) {
 $b = realpath($b);
 $n = isset($n) ? $n : '';
 $o = isset($o) ? ($o == 'yes' ? true : false) : false;
+$i = isset($i) ? ($i == 'yes' ? true : false) : false;
 
 if ($n) {
     // Check to see if we are already in the correct namespace.
@@ -77,6 +80,7 @@ $vars = [
     '{target}' => $t,
     '{tableguess}' => $tableguess,
 ];
+$templates = include realpath(__DIR__).'/templates/'.($i ? 'i18n' : 'basic').'.php';
 foreach ([
     'Model' => <<<'EOT'
 <?php
