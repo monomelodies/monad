@@ -31,14 +31,14 @@ typing :)
 EOT;
 $args = $argv;
 array_shift($args);
-for ($i = 0; $i < count($args); $i += 2) {
-    if (!(in_array($args[$i], ['-b', '-n', '-t', '-o', '-i'])
-        && isset($args[$i + 1])
+for ($idx = 0; $idx < count($args); $idx += 2) {
+    if (!(in_array($args[$idx], ['-b', '-n', '-t', '-o', '-i'])
+        && isset($args[$idx + 1])
     )) {
         die($usage);
     }
-    $varname = $args[$i]{1};
-    $$varname = $args[$i + 1];
+    $varname = $args[$idx]{1};
+    $$varname = $args[$idx + 1];
 }
 if (!isset($t)) {
     die($usage);
