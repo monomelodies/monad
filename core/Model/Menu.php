@@ -39,7 +39,7 @@ class Menu_Model implements Language_Access
     public function add($target, $link = null, $package = null)
     {
         if (!isset($link)) {
-            $link = 'monad\admin\database';
+            $link = 'monad/admin/database';
         }
         if (!isset($package)) {
             $package = $this->package();
