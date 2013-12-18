@@ -3,10 +3,11 @@
 namespace monad\core;
 use ErrorException;
 use monolyth\Language_Access;
+use monolyth\User_Access;
 use monolyth\render\Url_Helper;
 use monolyth\utils\Translatable;
 
-class Menu_Model implements Language_Access
+class Menu_Model implements Language_Access, User_Access
 {
     use Url_Helper;
     use Translatable;
