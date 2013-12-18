@@ -159,52 +159,6 @@ implements User_Access, Session_Access
         }
     }
 
-    public function __invoke($method, array $arguments)
-    {
-        try {
-            if ($this instanceof Scaffold_Controller
-                and isset($arguments['package'], $arguments['target'])
-            ) {
-                $acl = include "{$arguments['package']}/config/acl.php";
-                $require_groups = [];
-                foreach ($acl as $settings) {
-                    list($groups, $objects) = $settings;
-                    if (!is_array($groups)) {
-                        $groups = preg_split('@\s*|\s*@', $groups);
-                    }
-                    if ($objects == '*') {
-                        $require_groups = array_merge($require_groups, $groups);
-                        continue;
-                    }
-                    if (!is_array($objects)) {
-                        $objects = preg_split('@\s*|\s*@', $objects);
-                    }
-                    if (in_array($arguments['target'], $objects)) {
-                        $require_groups = array_merge($require_groups, $groups);
-                    }
-                }
-                if ($require_groups) {
-                    $this->addRequirement(
-                        'monad\admin\Login_Required',
-                        $this->user->loggedIN()
-                            && call_user_func_array(
-                                [$this->user, 'inGroup'],
-                                $require_groups
-                        ),
-                        function() use($redir, $language) {
-                            call_user_func($this->logout);
-                            throw new HTTP301_Exception(
-                                $this->url('monad/admin/login').'?redir='.urlencode($redir)
-                            );
-                        }
-                    );
-                }
-            }
-        } catch (ErrorException $e) {
-        }
-        return parent::__invoke($method, $arguments);
-    }
-
     /**
      * Destructor overload. End() the querysaver.
      *
