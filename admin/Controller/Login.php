@@ -24,8 +24,7 @@ class Login_Controller extends core\Controller implements Logout_Required
         if (!$this->form->errors()
             && !($error = $this->user->login($this->form))
         ) {
-            $acl = $this->user->acl;
-            if ($acl->using('monad')->can($acl::READ)) {
+            if ($this->user->loggedIn()) {
                 if ($redir = $this->http->getRedir()) {
                     $redir = urldecode($redir);
                     if ($redir != $this->http->getSelf()) {
