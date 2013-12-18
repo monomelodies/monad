@@ -48,11 +48,9 @@ implements User_Access, Session_Access
         $user = $this->user;
         $redir = $this->http->getRedir();
         $this->modules->all();
-        $this->mainmenu = $this->user->loggedIn() ?
-            $this->admins->find() :
-            null;
+        $this->mainmenu = $user->loggedIn() ? $this->admins->find() : null;
         $this->menubottom = [];
-        if ($this->user->loggedIn()) {
+        if ($user->loggedIn()) {
             $this->menubottom['logout'] = [
                 $this->url('monad/admin/logout'),
                 method_exists($this, 'text') ?
@@ -70,14 +68,21 @@ implements User_Access, Session_Access
             'monad\admin\template/body',
             'monolyth\template/page',
         ]);
-        $user = $this->user;
         $redir = $this->http->getRedir();
         $language = $this->language;
-        $acl = $user->acl;
         $this->addRequirement(
             'monad\admin\Login_Required',
-            $user->loggedIn()
-                && $acl->using('monad')->can($acl::READ),
+            $this->user->loggedIn(),
+            function() use($redir, $language) {
+                call_user_func($this->logout);
+                throw new HTTP301_Exception(
+                    $this->url('monad/admin/login').'?redir='.urlencode($redir)
+                );
+            }
+        );
+        $this->addRequirement(
+            'monad\admin\Administrator_Required',
+            $this->user->inGroup('Administrators'),
             function() use($redir, $language) {
                 call_user_func($this->logout);
                 throw new HTTP301_Exception(
@@ -139,10 +144,7 @@ implements User_Access, Session_Access
             call_user_func_array([$this->Css, 'push'], $extra);
         }
         $this->attach(['siteselect' => $this->siteselect]);
-        $acl = $this->user->acl;
-        if ($this->user->loggedIn()
-            && $acl->using('monad')->can($acl::READ)
-        ) {
+        if ($this->user->loggedIn()) {
             $this->sidebar(
                 self::MESSAGE_INFO,
                 $this->text(
@@ -155,6 +157,52 @@ implements User_Access, Session_Access
             $this->head = $this->view('monad\admin\slice/head');
         } catch (FileNotFound_Exception $e) {
         }
+    }
+
+    public function __invoke($method, array $arguments)
+    {
+        try {
+            if ($this instanceof Scaffold_Controller
+                and isset($arguments['package'], $arguments['target'])
+            ) {
+                $acl = include "{$arguments['package']}/config/acl.php";
+                $require_groups = [];
+                foreach ($acl as $settings) {
+                    list($groups, $objects) = $settings;
+                    if (!is_array($groups)) {
+                        $groups = preg_split('@\s*|\s*@', $groups);
+                    }
+                    if ($objects == '*') {
+                        $require_groups = array_merge($require_groups, $groups);
+                        continue;
+                    }
+                    if (!is_array($objects)) {
+                        $objects = preg_split('@\s*|\s*@', $objects);
+                    }
+                    if (in_array($arguments['target'], $objects)) {
+                        $require_groups = array_merge($require_groups, $groups);
+                    }
+                }
+                if ($require_groups) {
+                    $this->addRequirement(
+                        'monad\admin\Login_Required',
+                        $this->user->loggedIN()
+                            && call_user_func_array(
+                                [$this->user, 'inGroup'],
+                                $require_groups
+                        ),
+                        function() use($redir, $language) {
+                            call_user_func($this->logout);
+                            throw new HTTP301_Exception(
+                                $this->url('monad/admin/login').'?redir='.urlencode($redir)
+                            );
+                        }
+                    );
+                }
+            }
+        } catch (ErrorException $e) {
+        }
+        return parent::__invoke($method, $arguments);
     }
 
     /**
