@@ -7,10 +7,12 @@ use monolyth\HTTP404_Exception;
 
 class Static_Page_Controller extends Controller
 {
+    use Page_Access;
+
     protected function get(array $args)
     {
         extract($args);
-        if (!($page = $this->pages->find($slug))) {
+        if (!($page = self::pages()->find($slug))) {
             throw new HTTP404_Exception();
         }
         return $this->view($page['viewname'], compact('page'));
@@ -22,14 +24,14 @@ class Static_Page_Controller extends Controller
         if (!isset($new['language'])) {
             return $new;
         }
-        $language = $this->language->current->id;
-        foreach ($this->language->available as $lang) {
+        $language = self::language()->current->id;
+        foreach (self::language()->available as $lang) {
             if ($lang->code == $new['language']) {
                 $language = $lang->id;
                 break;
             }
         }
-        $page = $this->pages->find($new['slug'], $language);
+        $page = self::pages()->find($new['slug'], $language);
         $new['slug'] = $page['slug'];
         return $new;
     }
