@@ -7,10 +7,12 @@ use monolyth\User_Access;
 use monolyth\render\Url_Helper;
 use monolyth\utils\Translatable;
 
-class Menu_Model implements Language_Access, User_Access
+class Menu_Model
 {
     use Url_Helper;
     use Translatable;
+    use User_Access;
+    use Language_Access;
 
     private $namespace = '';
     private $items = [];
