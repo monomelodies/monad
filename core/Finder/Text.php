@@ -1,13 +1,14 @@
 <?php
 
 namespace monad\core;
-use monolyth\Finder as Base;
+use monolyth\Finder;
 use monolyth\Language_Access;
 use monolyth\utils\Translatable;
 
-class Text_Finder implements Base, Language_Access
+class Text_Finder implements Finder
 {
     use Translatable;
+    use Language_Access;
 
     public function all()
     {
@@ -15,13 +16,13 @@ class Text_Finder implements Base, Language_Access
             'monad\\admin\\deleteconfirm' => '',
         ];
         foreach ($texts as $id => &$text) {
-            $text = [$id, $this->language->current->code];
+            $text = [$id, self::language()->current->code];
         }
         $this->text->load($texts);
         foreach ($texts as $id => &$text) {
             $text = [
                 $id,
-                $this->text->retrieve($id, $this->language->current->code)
+                $this->text->retrieve($id, self::language()->current->code)
             ];
         }
         return array_values($texts);
