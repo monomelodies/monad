@@ -10,15 +10,17 @@ use monolyth\adapter\sql\NoResults_Exception;
 use monolyth\adapter\sql\Adapter;
 use Closure;
 use monad\core\Scaffold_Controller;
+use adapter\Access as Adapter_Access;
 
 class Database_Controller extends Scaffold_Controller
 {
     use Translatable;
+    use Adapter_Access;
 
     protected function get(array $args)
     {
         $databases = [];
-        foreach ($this->adapters as $name => $db) {
+        foreach (self::adapters() as $name => $db) {
             if ($db instanceof Closure) {
                 $db = $db();
             }
@@ -48,7 +50,7 @@ class Database_Controller extends Scaffold_Controller
                     'monad/admin/list',
                     [
                         'database' => $databases[0],
-                        'language' => $this->language->current->code,
+                        'language' => self::language()->current->code,
                     ] + $args
                 ));
         }
