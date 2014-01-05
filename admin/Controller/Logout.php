@@ -1,16 +1,18 @@
 <?php
 
 namespace monad\admin;
-use monolyth;
+use monolyth\account\Logout_Model;
+use monolyth\HTTP301_Exception;
 
 class Logout_Controller extends Controller
 {
     public function get()
     {
-        call_user_func($this->logout);
-        throw new monolyth\HTTP301_Exception($this->url(
+        $logout = new Logout_Model;
+        $logout();
+        throw new HTTP301_Exception($this->url(
             'monad/admin/login',
-            array('language' => $this->language->current->code)
+            ['language' => self::language()->current->code]
         ));
     }
 }
