@@ -5,6 +5,7 @@ use monolyth\HTTP301_Exception;
 use monolyth\HTTP404_Exception;
 use monolyth\utils\Name_Helper;
 use monad\core\Scaffold_Controller;
+use monolyth\Message;
 
 class Update_Controller extends Scaffold_Controller
 {
@@ -21,7 +22,7 @@ class Update_Controller extends Scaffold_Controller
         foreach ($this->model->inlines() as $fn) {
             $inlines[$fn] = $this->finder->$fn(
                 $this->model,
-                $this->language->current->id
+                self::language()->current->id
             );
             $propname = preg_replace_callback(
                 "@(ie)?s$@",
@@ -121,18 +122,18 @@ class Update_Controller extends Scaffold_Controller
                 }
             }
             if ($error) {
-                $this->message->add(
-                    self::MESSAGE_ERROR,
+                self::message()->add(
+                    Message::ERROR,
                     $this->text(["./error.$error", "error.$error"])
                 );
             } else {
-                $this->message->add(
-                    self::MESSAGE_SUCCESS,
+                self::message()->add(
+                    Message::SUCCESS,
                     $this->text(['./success', 'success'])
                 );
                 throw new HTTP301_Exception(isset($_GET['redir']) ?
                     urldecode($_GET['redir']) :
-                    $this->http->getSelf()
+                    self::http()->getSelf()
                 );
             }
         }
