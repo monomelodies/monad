@@ -1,18 +1,29 @@
 <?php
 
 namespace monad\admin;
-use monad\core;
+use monad\core\Controller;
 use monolyth\Logout_Required;
 use monolyth\HTTP301_Exception;
 use monolyth\utils\Translatable;
+use monolyth\account\Logout_Model;
+use monolyth\account\Login_Form;
+use monolyth\Message;
 
-class Login_Controller extends core\Controller implements Logout_Required
+class Login_Controller extends Controller implements Logout_Required
 {
-    use Translatable, Helper;
+    use Translatable;
+    use Helper;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->form = new Login_Form;
+    }
 
     protected function get(array $args)
     {
-        call_user_func($this->logout);
+        $logout = new Logout_Model;
+        $logout();
         $this->menumodules = $this->menutop = array();
         unset($this->menubottom['logout']);
         return $this->view('page/login');
@@ -20,27 +31,26 @@ class Login_Controller extends core\Controller implements Logout_Required
 
     protected function post(array $args)
     {
-        $text = $this->text;
         if (!$this->form->errors()
-            && !($error = $this->user->login($this->form))
+            && !($error = self::user()->login($this->form))
         ) {
-            if ($this->user->loggedIn()) {
-                if ($redir = $this->http->getRedir()) {
+            if (self::user()->loggedIn()) {
+                if ($redir = self::http()->getRedir()) {
                     $redir = urldecode($redir);
-                    if ($redir != $this->http->getSelf()) {
+                    if ($redir != self::http()->getSelf()) {
                         throw new HTTP301_Exception($redir);
                     }
                 }
                 throw new HTTP301_Exception($this->url('monad/admin'));
             }
-            $this->message->add(
-                self::MESSAGE_ERROR,
-                $text('monad\user\login/error.denied')
+            self::message()->add(
+                Message::ERROR,
+                $this->text('monad\user\login/error.denied')
             );
         } else {
-            $this->message->add(
-                self::MESSAGE_ERROR,
-                $text('monolyth\account\login/error.credentials')
+            self::message()->add(
+                Message::ERROR,
+                $this->text('monolyth\account\login/error.credentials')
             );
         }
         return $this->get($args);
