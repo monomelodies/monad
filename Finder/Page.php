@@ -2,25 +2,28 @@
 
 namespace monad;
 use monolyth\Finder;
-use monolyth\adapter;
 use monolyth\Language_Access;
+use adapter\Access as Adapter_Access;
 use monolyth\adapter\sql\NoResults_Exception;
 
-class Page_Finder implements Finder, adapter\Access, Language_Access
+class Page_Finder implements Finder
 {
+    use Adapter_Access;
+    use Language_Access;
+
     public function all(array $where = [], $options = [])
     {
-        $page = $this->page;
+        $page = new Page_Model;
         $where += [
             sprintf(
                 "monad_page_i18n.status & '%d'",
                 $page::STATUS_HIDDEN
             ) => 0,
-            'monad_page_i18n.language' => $this->language->current->id,
-            'd.language' => $this->language->default->id,
+            'monad_page_i18n.language' => self::language()->current->id,
+            'd.language' => self::language()->default->id,
         ];
         try {
-            return $this->adapter->models(
+            return self::adapter()->models(
                 $page,
                 'monad_page
                  JOIN monad_page_i18n USING(id)
@@ -32,7 +35,7 @@ class Page_Finder implements Finder, adapter\Access, Language_Access
                     'd.slug AS default_slug',
                     sprintf(
                         "fn_assembleslug(monad_page.id, %s) AS slug",
-                        $this->adapter->quote($this->language->current->id)
+                        self::adapter()->quote(self::language()->current->id)
                     ),
                 ],
                 $where,
@@ -47,17 +50,17 @@ class Page_Finder implements Finder, adapter\Access, Language_Access
     public function find($slug, $language = null)
     {
         if (!isset($language)) {
-            $language = $this->language->current->id;
+            $language = self::language()->current->id;
         }
-        $page = clone $this->page;
+        $page = new Page_Model;
         try {
-            $page->load($this->adapter->row(
+            $page->load(self::adapter()->row(
                 'monad_page JOIN monad_page_i18n USING(id)',
                 [
                     '*',
                     sprintf(
                         "fn_assembleslug(monad_page.id, %s) AS slug",
-                        $this->adapter->quote($language)
+                        self::adapter()->quote($language)
                     ),
                 ],
                 [
@@ -65,7 +68,7 @@ class Page_Finder implements Finder, adapter\Access, Language_Access
                         'id IN (
                             SELECT id FROM monad_page_i18n WHERE slug = %s
                         )',
-                        $this->adapter->quote($slug)
+                        self::adapter()->quote($slug)
                     ),
                     'language' => $language,
                     sprintf("status & '%d'", $page::STATUS_HIDDEN) => 0,
@@ -80,7 +83,7 @@ class Page_Finder implements Finder, adapter\Access, Language_Access
     public function slug(array $where)
     {
         try {
-            return $this->adapter->field(
+            return self::adapter()->field(
                 'monad_page p JOIN monad_page_i18n i USING(id)',
                 'slug',
                 $where
@@ -93,17 +96,17 @@ class Page_Finder implements Finder, adapter\Access, Language_Access
     public function home($language = null)
     {
         if (!isset($language)) {
-            $language = $this->language->current->id;
+            $language = self::language()->current->id;
         }
-        $page = clone $this->page;
+        $page = new Page_Model;
         try {
-            $page->load($this->adapter->row(
+            $page->load(self::adapter()->row(
                 'monad_page JOIN monad_page_i18n USING(id)',
                 [
                     '*',
                     sprintf(
                         "fn_assembleslug(monad_page.id, %s) AS slug",
-                        $this->adapter->quote($language)
+                        self::adapter()->quote($language)
                     ),
                 ],
                 [
