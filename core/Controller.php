@@ -19,12 +19,25 @@ use monolyth\Config;
 use monolyth\HTTP301_Exception;
 use monolyth\render\FileNotFound_Exception;
 use monolyth\render\Static_Helper;
+use monolyth\render\form\Select;
+use monad\admin\Module_Finder;
+use monolyth\render\Css;
+use monolyth\render\Script;
+use monolyth\Message;
+use monolyth\Project_Access;
+use monolyth\Text_Model;
+use monolyth\render\Translate_Parser;
+use monolyth\account\Logout_Model;
 
 abstract class Controller extends core\Controller
-implements User_Access, Session_Access
 {
     use Translatable;
     use Static_Helper;
+    use User_Access;
+    use Session_Access;
+    use Project_Access {
+        Project_Access::project as myproject;
+    }
 
     public
         /** Sidebar items (type + title + content). */
@@ -42,12 +55,14 @@ implements User_Access, Session_Access
     public static $theme = 'default';
 
     /** Constructor. */
-    public function __construct(DependencyContainer $container)
+    public function __construct()
     {
-        parent::__construct($container);
-        $user = $this->user;
-        $redir = $this->http->getRedir();
-        $this->modules->all();
+        parent::__construct();
+        $this->Css = new Css;
+        $this->Script = new Script;
+        $user = self::user();
+        $redir = self::http()->getRedir();
+        $this->admins = new Menu_Finder;
         $this->mainmenu = $user->loggedIn() ? $this->admins->find() : null;
         $this->menubottom = [];
         if ($user->loggedIn()) {
@@ -58,7 +73,7 @@ implements User_Access, Session_Access
                     'Logout',
             ];
         }
-        foreach ($this->language->available as $lang) {
+        foreach (self::language()->available as $lang) {
             $this->menubottom[$lang->code] = [
                 "/monad/{$lang->code}/",
                 $lang->title
@@ -68,13 +83,14 @@ implements User_Access, Session_Access
             'monad\admin\template/body',
             'monolyth\template/page',
         ]);
-        $redir = $this->http->getRedir();
-        $language = $this->language;
+        $redir = self::http()->getRedir();
+        $language = self::language();
         $this->addRequirement(
             'monad\admin\Login_Required',
-            $this->user->loggedIn(),
+            self::user()->loggedIn(),
             function() use($redir, $language) {
-                call_user_func($this->logout);
+                $logout = new Logout_Model;
+                $logout();
                 throw new HTTP301_Exception(
                     $this->url('monad/admin/login').'?redir='.urlencode($redir)
                 );
@@ -82,7 +98,7 @@ implements User_Access, Session_Access
         );
         $this->addRequirement(
             'monad\admin\Administrator_Required',
-            $this->user->inGroup('Administrators'),
+            self::user()->inGroup('Administrators'),
             function() use($redir, $language) {
                 call_user_func($this->logout);
                 throw new HTTP301_Exception(
@@ -103,7 +119,9 @@ implements User_Access, Session_Access
         }
         */
         // Fill the sidebar.
-        $this->attach([
+        $texts = new Text_Finder;
+        $texts->text = new Text_Model($this);
+        $this->template->data([
             'menumodules' => $this->menumodules,
             //'menutop' => $this->menutop,
             'menumain' => $this->mainmenu,
@@ -111,16 +129,18 @@ implements User_Access, Session_Access
             'sidebar' => $this->sidebar,
             'querysaver' => $this->querysaver,
             'scripts' => [],
-            'texts' => $this->texts->all(),
+            'texts' => $texts->all(),
         ]);
+        $this->template->addParser(new Translate_Parser);
         call_user_func(function() {
             $options = [];
             try {
                 $options = include 'config/sites.php';
             } catch (ErrorException $e) {
-                $myproject = $this->myproject;
-                $options[$this->project['http']] = $myproject['name'];
+                $myproject = self::project();
+                $options[$myproject['http']] = $myproject['name'];
             }
+            $this->siteselect = new Select;
             $this->siteselect->prepare(
                 'pick',
                 $options,
@@ -128,7 +148,8 @@ implements User_Access, Session_Access
             );
         });
         $extra = [];
-        foreach (array_keys($this->modules->all()) as $name) {
+        $modules = new Module_Finder;
+        foreach (array_keys($modules->all()) as $name) {
             try {
                 fclose(fopen("$name/output/css/admin.css", "r", true));
                 $extra[] = "$name/output/css/admin.css";
@@ -144,12 +165,12 @@ implements User_Access, Session_Access
             call_user_func_array([$this->Css, 'push'], $extra);
         }
         $this->attach(['siteselect' => $this->siteselect]);
-        if ($this->user->loggedIn()) {
+        if (self::user()->loggedIn()) {
             $this->sidebar(
-                self::MESSAGE_INFO,
+                Message::INFO,
                 $this->text(
                     'monad\admin\login/success',
-                    $this->user->name()
+                    self::user()->name()
                 )
             );
         }
@@ -157,6 +178,15 @@ implements User_Access, Session_Access
             $this->head = $this->view('monad\admin\slice/head');
         } catch (FileNotFound_Exception $e) {
         }
+    }
+
+    public static function project()
+    {
+        static $project;
+        if (!isset($project)) {
+            $project = new Project;
+        }
+        return $project;
     }
 
     /**
