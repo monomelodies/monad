@@ -10,13 +10,65 @@ use monad\admin\Login_Required;
 use monad\admin\Controller;
 use monad\admin\Helper;
 use monad\admin\Searchable;
+use monolyth\render\Paginator;
+use monolyth\Config;
 
 abstract class Scaffold_Controller extends Controller implements Login_Required
 {
-    use Translatable, Helper;
+    use Translatable;
+    use Helper;
 
     public function __invoke($method, array $arguments)
     {
+        $basename = Model::generateBasename($arguments);
+        $class = "{$basename}_Finder";
+        $this->finder = class_exists($class) ? new $class : null;
+        $class = "{$basename}_Model";
+        $this->model = class_exists($class) ? new $class : null;
+        $class = "{$basename}_Form";
+        $this->form = class_exists($class) ? new $class : null;
+        $this->paginator = new Paginator;
+
+        $this->actions = [];
+        if (method_exists($this->finder, 'all')) {
+            $this->actions['list'] = $this->url('monad/admin/list', $arguments);
+        }
+        if (!($this->model instanceof Uncreateable_Model)) {
+            $this->actions['create'] = $this->url(
+                'monad/admin/create',
+                $arguments
+            );
+        }
+        $arguments = $arguments + ['key' => '%s'];
+        if (method_exists($this->finder, 'find')) {
+            if ($this->model instanceof Sortable
+                && !($this->model instanceof Readonly_Model)
+            ) {
+                $this->actions['sort'] = '#';
+            }
+            $this->actions['view'] = $this->url('monad/admin/view', $arguments);
+            if (!($this->model instanceof Readonly_Model)) {
+                if (method_exists($this->model, 'save')) {
+                    $this->actions['update'] = $this->url(
+                        'monad/admin/update',
+                        $arguments
+                    );
+                    if (!($this->model instanceof Uncreateable_Model)) {
+                        $this->actions['copy'] = $this->url(
+                            'monad/admin/copy',
+                            $arguments
+                        );
+                    }
+                }
+                if (method_exists($this->model, 'delete')) {
+                    $this->actions['delete'] = $this->url(
+                        'monad/admin/delete',
+                        $arguments
+                    );
+                }
+            }
+        }
+
         try {
             $acl = include "{$arguments['package']}/config/acl.php";
             $require_groups = [];
@@ -104,8 +156,9 @@ abstract class Scaffold_Controller extends Controller implements Login_Required
                 $options['order'] .= ", id {$_GET['d']}";
             }
         }
+        $config = Config::get('monad');
         $items = $this->finder->all(
-            $this->config->pageSize,
+            $config->pageSize,
             $page,
             $where,
             $options
