@@ -1,16 +1,18 @@
 <?php
 
 namespace monad\admin;
-use monolyth;
+use monolyth\Finder;
 use monolyth\Session_Access;
 use ErrorException;
 
-class Module_Finder implements monolyth\Finder, Session_Access
+class Module_Finder implements Finder
 {
+    use Session_Access;
+
     public function all()
     {
         // Check available modules.
-        $Modules = $this->session->get('Modules');
+        $Modules = self::session()->get('Modules');
         if (true || !isset($Modules)) {
             clearstatcache();
             $Modules = [];
@@ -35,7 +37,7 @@ class Module_Finder implements monolyth\Finder, Session_Access
                 }
             }
             ksort($Modules);
-            $this->session->set(compact('Modules'));
+            self::session()->set(compact('Modules'));
         }
         return $Modules;
     }
