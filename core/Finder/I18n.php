@@ -2,22 +2,26 @@
 
 namespace monad\core;
 use monolyth\Language_Access;
+use adapter\Access as Adapter_Access;
 
-abstract class I18n_Finder extends Finder implements Language_Access
+abstract class I18n_Finder extends Finder
 {
+    use Language_Access;
+    use Adapter_Access;
+
     protected static $languages;
 
     protected function languages()
     {
         if (!isset(static::$languages)) {
-            static::$languages = $this->adapter->rows(
+            static::$languages = self::adapter()->rows(
                 'monolyth_language',
                 '*',
                 [],
                 ['order' => sprintf(
                     'id = %s DESC,
                      is_default = true DESC',
-                    $this->adapter->quote($this->language->current->id)
+                    self::adapter()->quote(self::language()->current->id)
                 )]
             );
         }
