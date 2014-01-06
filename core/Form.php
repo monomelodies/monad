@@ -4,6 +4,7 @@ namespace monad\core;
 use monolyth\core\Post_Form;
 use monolyth\render\form\Bitflags;
 use monolyth\render\form\Radios;
+use monad\render\form\Foreignkey;
 
 abstract class Form extends Post_Form
 {
@@ -18,6 +19,26 @@ abstract class Form extends Post_Form
             $this->text(['./save', 'save', 'monad\admin\save'])
         );
         return $this;
+    }
+
+    protected function addForeignKey($name, $label, $load, $external)
+    {
+        $element = new Foreignkey;
+        $element->setParent($this);
+        if (!isset($label)) {
+            $label = null;
+        }
+        if (!is_null($label)) {
+            if ($this->placeholders) {
+                $element->setPlaceholder($label);
+            } else {
+                $element->setLabel($label);
+            }
+        }
+        $element->prepare($name, $load, $external);
+        $element->prependFormname($this->getId());
+        $this[$element->getName()] = $element;
+        return $element;
     }
 
     public function hideEmptyFields()
