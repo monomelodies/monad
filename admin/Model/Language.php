@@ -1,11 +1,13 @@
 <?php
 
-namespace monad;
+namespace monad\admin;
 use monolyth;
 
 class Language_Model extends monolyth\Language_Model
 {
-    public function __construct()
+    use monolyth\core\Singleton;
+
+    protected function __construct()
     {
         $this->_new = false;
         parent::build([
