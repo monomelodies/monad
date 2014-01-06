@@ -5,7 +5,6 @@ namespace monad;
 const EDITING = true;
 
 namespace monad\core;
-use monolyth;
 use monolyth\DependencyContainer;
 use monolyth\User_Access;
 use monolyth\utils\Translatable;
@@ -13,8 +12,7 @@ use monolyth\core;
 use monolyth\Session_Access;
 use ArrayObject;
 use ErrorException;
-use monad;
-use monad\Admin;
+use monad\admin;
 use monolyth\Config;
 use monolyth\HTTP301_Exception;
 use monolyth\render\FileNotFound_Exception;
@@ -28,6 +26,7 @@ use monolyth\Project_Access;
 use monolyth\Text_Model;
 use monolyth\render\Translate_Parser;
 use monolyth\account\Logout_Model;
+use monolyth\Language_Access;
 
 abstract class Controller extends core\Controller
 {
@@ -37,6 +36,10 @@ abstract class Controller extends core\Controller
     use Session_Access;
     use Project_Access {
         Project_Access::project as myproject;
+    }
+    use Language_Access, admin\Language_Access {
+        admin\Language_Access::language insteadof Language_Access;
+        Language_Access::language as projectlanguage;
     }
 
     public
@@ -130,6 +133,7 @@ abstract class Controller extends core\Controller
             'querysaver' => $this->querysaver,
             'scripts' => [],
             'texts' => $texts->all(),
+            'projectlanguage' => self::projectlanguage(),
         ]);
         $this->template->addParser(new Translate_Parser);
         call_user_func(function() {
