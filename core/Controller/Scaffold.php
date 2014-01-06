@@ -31,7 +31,16 @@ abstract class Scaffold_Controller extends Controller implements Login_Required
 
         $this->actions = [];
         if (method_exists($this->finder, 'all')) {
-            $this->actions['list'] = $this->url('monad/admin/list', $arguments);
+            $this->actions['list'] = $this->url(
+                'monad/admin/list',
+                [
+                    'package' => $arguments['package'],
+                    'target' => $arguments['target'],
+                ] + (isset($arguments['database']) ?
+                    ['database' => $arguments['database']] :
+                    []
+                )
+            );
         }
         if (!($this->model instanceof Uncreateable_Model)) {
             $this->actions['create'] = $this->url(
