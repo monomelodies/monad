@@ -3,8 +3,10 @@
 namespace monad\core;
 use monad\admin\Language_Access;
 
-class I18n_Form extends Form implements Language_Access
+class I18n_Form extends Form
 {
+    use Language_Access;
+
     public static $IDENTIFIER;
     public $languagetabs = true;
 
@@ -22,7 +24,7 @@ class I18n_Form extends Form implements Language_Access
         });
         foreach ($fields as $field => $value) {
             if (in_array($field, func_get_args())) {
-                foreach ($this->projectlanguage->available as $lang) {
+                foreach (self::projectlanguage()->available as $lang) {
                     if (!isset(static::$IDENTIFIER)) {
                         static::$IDENTIFIER = "{$identifier}[{$lang->id}]";
                         $this->addHidden("{$identifier}[{$lang->id}]");
