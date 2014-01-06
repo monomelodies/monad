@@ -2,15 +2,18 @@
 
 namespace monad\admin;
 use monolyth\Finder;
-use monolyth\adapter;
+use adapter\Access as Adapter_Access;
 use monolyth\adapter\sql\NoResults_Exception;
+use monolyth\Media_Model;
 
-class Media_Finder implements Finder, adapter\Access
+class Media_Finder implements Finder
 {
+    use Adapter_Access;
+
     public function all($folder = null)
     {
         try {
-            $rows = $this->adapter->rows(
+            $rows = self::adapter()->rows(
                 'monolyth_media',
                 '*',
                 compact('folder')
@@ -30,7 +33,7 @@ class Media_Finder implements Finder, adapter\Access
     public function find($id)
     {
         try {
-            return $this->model->load($this->adapter->row(
+            return (new Media_Model)->load(self::adapter()->row(
                 'monolyth_media',
                 '*',
                 compact('id')
