@@ -49,9 +49,10 @@ class Database_Controller extends Scaffold_Controller
                 throw new HTTP301_Exception($this->url(
                     'monad/admin/list',
                     [
+                        'package' => $args['package'],
+                        'target' => $args['target'],
                         'database' => $databases[0],
-                        'language' => self::language()->current->code,
-                    ] + $args
+                    ]
                 ));
         }
         unset($args['language']);
