@@ -3,6 +3,7 @@
 namespace monad\admin;
 use monolyth\HTTP301_Exception;
 use monad\core\Scaffold_Controller;
+use monolyth\Message;
 
 class Delete_Controller extends Scaffold_Controller
 {
@@ -23,13 +24,13 @@ class Delete_Controller extends Scaffold_Controller
             if (!isset($error)) {
                 $error = 'notfound';
             }
-            $this->message->add(
-                self::MESSAGE_ERROR,
+            self::message()->add(
+                Message::ERROR,
                 $this->text("./error.$error")
             );
         } else {
-            $this->message->add(
-                self::MESSAGE_SUCCESS,
+            self::message()->add(
+                Message::SUCCESS,
                 $this->text('./success')
             );
         }
