@@ -3,9 +3,12 @@
 namespace monad\core;
 use monolyth;
 use monolyth\adapter;
+use adapter\Access as Adapter_Access;
 
-abstract class Finder implements monolyth\Finder, adapter\Access
+abstract class Finder implements monolyth\Finder
 {
+    use Adapter_Access;
+
     public $view = 'monad\admin\slice/table';
     public $stripTags = true;
 
