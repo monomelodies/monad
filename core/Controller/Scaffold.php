@@ -9,10 +9,14 @@ use monolyth\DependencyContainer;
 use monad\admin\Login_Required;
 use monad\admin\Controller;
 use monad\admin\Helper;
-use monad\admin\Searchable;
-use monad\admin\Uncreateable_Model;
 use monolyth\render\Paginator;
 use monolyth\Config;
+use monad\admin\Searchable;
+use monad\admin\Sortable;
+use monad\admin\Readonly_Model;
+use monad\admin\Editable_Model;
+use monad\admin\Uncreateable_Model;
+use monad\admin\Uncopyable_Model;
 
 abstract class Scaffold_Controller extends Controller implements Login_Required
 {
@@ -65,7 +69,7 @@ abstract class Scaffold_Controller extends Controller implements Login_Required
                             $arguments
                         );
                     }
-                    if (!($this->model instanceof Uncreateable_Model)) {
+                    if (!($this->model instanceof Uncopyable_Model)) {
                         $this->actions['copy'] = $this->url(
                             'monad/admin/copy',
                             $arguments
