@@ -30,9 +30,9 @@ class {target}_Model extends Model
         }
         try {
             if ($id) {
-                $this->adapter->update('{tableguess}', $data, compact('id'));
+                self::adapter()->update('{tableguess}', $data, compact('id'));
             } else {
-                $this->adapter->insert('{tableguess}', $data);
+                self::adapter()->insert('{tableguess}', $data);
             }
         } catch (InsertNone_Exception $e) {
             return 'insert';
@@ -45,7 +45,7 @@ class {target}_Model extends Model
     public function delete()
     {
         try {
-            $this->adapter->delete('{tableguess}', ['id' => $this['id']]);
+            self::adapter()->delete('{tableguess}', ['id' => $this['id']]);
             return null;
         } catch (DeleteNone_Exception $e) {
             return 'delete';
@@ -72,7 +72,7 @@ class {target}_Finder extends core\Finder
             'offset' => ($page - 1) * $size,
         ];
         try {
-            return $this->adapter->pages(
+            return self::adapter()->pages(
                 '{tableguess}',
                 '*',
                 $where,
@@ -86,7 +86,7 @@ class {target}_Finder extends core\Finder
     public function find(array $where)
     {
         try {
-            return $this->model->load($this->adapter->row(
+            return (new {target}_Model)->load(self::adapter()->row(
                 '{tableguess}',
                 '*',
                 $where
@@ -108,8 +108,9 @@ use monad\core\Form;
 
 class {target}_Form extends Form
 {
-    public function prepare($id = null)
+    public function __construct($id = null)
     {
+        parent::__construct($id);
         return parent::prepare($id);
     }
 }

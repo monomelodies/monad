@@ -30,7 +30,7 @@ class {target}_Model extends Model
     public function delete()
     {
         try {
-            $this->adapter->delete('{tableguess}', ['id' => $this['id']]);
+            self::adapter()->delete('{tableguess}', ['id' => $this['id']]);
             return null;
         } catch (DeleteNone_Exception $e) {
             return 'delete';
@@ -57,7 +57,7 @@ class {target}_Finder extends core\I18n_Finder
             'offset' => ($page - 1) * $size,
         ];
         try {
-            return $this->adapter->pages(
+            return self::adapter()->pages(
                 $this->table('{tableguess}', '{tableguess}_i18n')
                .sprintf(
                     " JOIN monolyth_language l ON %s = l.id ",
@@ -78,7 +78,7 @@ class {target}_Finder extends core\I18n_Finder
     public function find(array $where)
     {
         try {
-            return $this->model->load($this->adapter->row(
+            return $this->model->load(self::adapter()->row(
                 '{tableguess}',
                 '*',
                 $where
@@ -91,7 +91,7 @@ class {target}_Finder extends core\I18n_Finder
     public function languageData(array $where)
     {
         try {
-            return $this->adapter->rows('{tableguess}_i18n', '*', $where);
+            return self::adapter()->rows('{tableguess}_i18n', '*', $where);
         } catch (NoResults_Exception $e) {
             return null;
         }
@@ -110,8 +110,9 @@ use monolyth\Language_Access;
 
 class {target}_Form extends I18n_Form implements Language_Access
 {
-    public function prepare($id = null)
+    public function __construct($id = null)
     {
+        parent::__construct($id);
         return parent::prepare($id);
     }
 }
