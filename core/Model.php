@@ -2,9 +2,12 @@
 
 namespace monad\core;
 use monolyth\core;
+use adapter\Access as Adapter_Access;
 
 abstract class Model extends core\Model
 {
+    use Adapter_Access;
+
     const INLINE_POSITION = 'after';
 
     public $requires = [];
