@@ -59,10 +59,12 @@ abstract class Scaffold_Controller extends Controller implements Login_Required
             $this->actions['view'] = $this->url('monad/admin/view', $arguments);
             if (!($this->model instanceof Readonly_Model)) {
                 if (method_exists($this->model, 'save')) {
-                    $this->actions['update'] = $this->url(
-                        'monad/admin/update',
-                        $arguments
-                    );
+                    if (!($this->model instanceof Uneditable_Model)) {
+                        $this->actions['update'] = $this->url(
+                            'monad/admin/update',
+                            $arguments
+                        );
+                    }
                     if (!($this->model instanceof Uncreateable_Model)) {
                         $this->actions['copy'] = $this->url(
                             'monad/admin/copy',
