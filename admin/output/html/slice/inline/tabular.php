@@ -46,7 +46,7 @@ if (method_exists($model, 'inlineLinks')) {
 <?php   } else { ?>
                 <td class="action"></td>
 <?php   } ?>
-<?php   if (!($item instanceof Uncreateable_Model)) { ?>
+<?php   if (!($item instanceof Uncopyable_Model)) { ?>
                 <td class="action"><a href="<?=$scaffold('copy', $database, $item).$params
                     ?>" class="icon copy" title="<?=htmlentities($text('copy'))?>"><?=$text('copy')?></a></td>
 <?php   } else { ?>
