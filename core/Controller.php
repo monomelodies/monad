@@ -90,7 +90,7 @@ abstract class Controller extends core\Controller
         $language = self::language();
         $this->addRequirement(
             'monad\admin\Login_Required',
-            self::user()->loggedIn(),
+            self::user()->loggedIn() && self::user()->inGroup('Monad'),
             function() use($redir, $language) {
                 $logout = new Logout_Model;
                 $logout();
