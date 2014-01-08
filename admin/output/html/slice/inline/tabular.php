@@ -43,6 +43,8 @@ if (method_exists($model, 'inlineLinks')) {
 <?php   if (!($item instanceof Uneditable_Model)) { ?>
                 <td class="action"><a href="<?=$scaffold('update', $database, $item).$params
                     ?>" class="icon update" title="<?=htmlentities($text('update'))?>"><?=$text('update')?></a></td>
+<?php   } else { ?>
+                <td class="action"></td>
 <?php   } ?>
 <?php   if (!($item instanceof Uncreateable_Model)) { ?>
                 <td class="action"><a href="<?=$scaffold('copy', $database, $item).$params
