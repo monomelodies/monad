@@ -2,7 +2,7 @@
 
 namespace monad\admin;
 
-interface Uncreateable_Model
+interface Uncreateable_Model extends Uncopyable_Model
 {
 }
 
