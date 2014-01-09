@@ -2,10 +2,11 @@
 
 namespace monad\admin;
 use monolyth\HTTP301_Exception;
+use monolyth\Message;
 
 class Copy_Controller extends Update_Controller
 {
-    public function get(array $args)
+    protected function get(array $args)
     {
         unset($args['language']);
         $args['key'] = $this->parseKey($args['key']);
@@ -39,16 +40,16 @@ class Copy_Controller extends Update_Controller
         $view = $this->get($args);
         if (!$this->form->errors()) {
             if ($error = $this->model->save($this->form)) {
-                $this->message->add(
-                    self::MESSAGE_ERROR,
+                self::message()->add(
+                    Message::ERROR,
                     $this->text(["./error.$error", "error.$error"])
                 );
             } else {
-                $this->message->add(
-                    self::MESSAGE_SUCCESS,
+                self::message()->add(
+                    Message::SUCCESS,
                     $this->text(['./success', 'success'])
                 );
-                throw new HTTP301_Exception($this->http->getSelf());
+                throw new HTTP301_Exception(self::http()->getSelf());
             }
         }
         return $view;
