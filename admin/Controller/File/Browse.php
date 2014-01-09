@@ -6,6 +6,13 @@ use monolyth\HTTP301_Exception;
 
 class Browse_File_Controller extends core\Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->folders = new Folder_Finder;
+        $this->medias = new Media_Finder;
+    }
+
     protected function get(array $args)
     {
         $this->template = $this->view([
@@ -25,9 +32,9 @@ class Browse_File_Controller extends core\Controller
     {
         if (isset($_POST['folder'])) {
             $parent = null;
-            $this->folder->create($_POST['folder'], $parent);
+            (new Folder_Model)->create($_POST['folder'], $parent);
         }
-        throw new HTTP301_Exception($this->http->getSelf());
+        throw new HTTP301_Exception(self::http()->getSelf());
     }
 }
 
