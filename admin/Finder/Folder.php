@@ -11,7 +11,7 @@ class Folder_Finder implements Finder, adapter\Access
     {
         try {
             $folders = [];
-            $q = $this->adapter->rows(
+            $q = self::adapter()->rows(
                 'monolyth_folder',
                 ['*', 'NULL AS children'],
                 [],
