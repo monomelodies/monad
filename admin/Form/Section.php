@@ -43,7 +43,7 @@ class Section_Form extends I18n_Form implements Language_Access, adapter\Access
             'parent',
             $this->text(['./parent', 'column/parent']),
             function() use($language) {
-                return $this->adapter->pages(
+                return self::adapter()->pages(
                     'monad_page_i18n',
                     ['id', 'title'],
                     ['language' => $language->id],
@@ -51,7 +51,7 @@ class Section_Form extends I18n_Form implements Language_Access, adapter\Access
                 );
             },
             [
-                'adapter' => $this->adapter,
+                'adapter' => self::adapter(),
                 'table' => 'monad_page_i18n',
                 'field' => 'title',
                 'id' => 'id',
@@ -64,7 +64,7 @@ class Section_Form extends I18n_Form implements Language_Access, adapter\Access
             'owner',
             $this->text('./owner'),
             function() {
-                return $this->adapter->pages(
+                return self::adapter()->pages(
                     'monad_auth',
                     ['id', 'name'],
                     [],
@@ -72,7 +72,7 @@ class Section_Form extends I18n_Form implements Language_Access, adapter\Access
                 );
             },
             [
-                'adapter' => $this->adapter,
+                'adapter' => self::adapter(),
                 'table' => 'monolyth_auth',
                 'field' => 'name',
                 'id' => 'id',
