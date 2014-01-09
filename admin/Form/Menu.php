@@ -23,7 +23,7 @@ class Menu_Form extends I18n_Form implements Language_Access, adapter\Access
             'owner',
             $this->text(['./owner', 'column/owner']),
             function() {
-                return $this->adapter->pages(
+                return self::adapter()->pages(
                     'monolyth_auth',
                     ['id', 'name'],
                     [],
@@ -31,7 +31,7 @@ class Menu_Form extends I18n_Form implements Language_Access, adapter\Access
                 );
             },
             [
-                'adapter' => $this->adapter,
+                'adapter' => self::adapter(),
                 'table' => 'monolyth_auth',
                 'field' => 'name',
                 'id' => 'id',
