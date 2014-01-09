@@ -10,7 +10,7 @@ class Menu_Finder extends core\I18n_Finder implements Language_Access
     public function all($size, $page, array $where = [], array $options = [])
     {
         try {
-            return $this->adapter->pages(
+            return self::adapter()->pages(
                 "monad_menu m
                  JOIN monad_menu_i18n mi USING(id)
                  JOIN monolyth_language l ON mi.language = l.id",
@@ -38,7 +38,7 @@ class Menu_Finder extends core\I18n_Finder implements Language_Access
     {
         $menu = $this->model;
         try {
-            $menu->load($this->adapter->row('monad_menu', '*', $where));
+            $menu->load(self::adapter()->row('monad_menu', '*', $where));
             return $menu;
         } catch (NoResults_Exception $e) {
             return null;
@@ -48,7 +48,7 @@ class Menu_Finder extends core\I18n_Finder implements Language_Access
     public function items(Menu_Model $menu, $language)
     {
         try {
-            return $this->adapter->models(
+            return self::adapter()->models(
                 $this->item,
                 'monad_menu_item m
                  JOIN monad_menu_item_i18n i USING(id)
@@ -76,7 +76,7 @@ class Menu_Finder extends core\I18n_Finder implements Language_Access
     public function languageData(array $where)
     {
         try {
-            return $this->adapter->rows('monad_menu_i18n', '*', $where);
+            return self::adapter()->rows('monad_menu_i18n', '*', $where);
         } catch (NoResults_Exception $e) {
             return null;
         }
