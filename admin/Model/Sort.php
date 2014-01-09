@@ -15,7 +15,7 @@ class Sort_Model extends core\Model implements User_Access
         }
         $old = $this->items->sortorderData(compact('id'));
         try {
-            $this->adapter->update(
+            self::adapter()->update(
                 'monad_menu_item',
                 [sprintf(
                     "sortorder = sortorder + %d",
@@ -27,15 +27,15 @@ class Sort_Model extends core\Model implements User_Access
         }
         if ((int)$move > 0) { 
             try {
-                $this->adapter->update(
+                self::adapter()->update(
                     'monad_menu_item',
                     ['sortorder = sortorder - 1'],
                     $where + [
                         'id' => ['!=' => $id],
                         [sprintf(
                             "sortorder BETWEEN %s AND %s", 
-                            $this->adapter->quote($old['sortorder']), 
-                            $this->adapter->quote($old['sortorder'] + $move)
+                            self::adapter()->quote($old['sortorder']), 
+                            self::adapter()->quote($old['sortorder'] + $move)
                         )], 
                     ]
                 );
@@ -44,15 +44,15 @@ class Sort_Model extends core\Model implements User_Access
             }
         } elseif ((int)$move < 0) {
             try {
-                $this->adapter->update(
+                self::adapter()->update(
                     'monad_menu_item',
                     ['sortorder = sortorder + 1'],
                     $where + [
                         'id' => ['!=' => $id],
                         [sprintf(
                             "sortorder BETWEEN %s AND %s",
-                            $this->adapter->quote($old['sortorder'] + $move),
-                            $this->adapter->quote($old['sortorder'])
+                            self::adapter()->quote($old['sortorder'] + $move),
+                            self::adapter()->quote($old['sortorder'])
                         )],
                     ]
                 );
