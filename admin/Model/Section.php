@@ -21,7 +21,7 @@ class Section_Model extends Model
     public function delete()
     {
         try {
-            $this->adapter->delete('monad_section', ['id' => $this['id']]);
+            self::adapter()->delete('monad_section', ['id' => $this['id']]);
             return null;
         } catch (DeleteNone_Exception $e) {
             return 'delete';
