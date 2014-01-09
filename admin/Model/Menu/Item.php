@@ -36,11 +36,11 @@ class Item_Menu_Model extends Model implements User_Access
         }
         $id = $this['id'];
         try {
-            $this->adapter->update(
+            self::adapter()->update(
                 'monad_menu_item',
                 [
-                    'usermodified' => $this->user->id(),
-                    'datemodified' => $this->adapter->now(),
+                    'usermodified' => self::user()->id(),
+                    'datemodified' => self::adapter()->now(),
                 ],
                 compact('id')
             );
@@ -52,7 +52,7 @@ class Item_Menu_Model extends Model implements User_Access
     public function delete()
     {
         try {
-            $this->adapter->delete('monad_menu_item', ['id' => $this['id']]);
+            self::adapter()->delete('monad_menu_item', ['id' => $this['id']]);
             return null;
         } catch (DeleteNone_Exception $e) {
             return 'database';
