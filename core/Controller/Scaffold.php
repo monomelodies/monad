@@ -11,6 +11,7 @@ use monad\admin\Controller;
 use monad\admin\Helper;
 use monolyth\render\Paginator;
 use monolyth\Config;
+use monolyth\account\Logout_Model;
 use monad\admin\Searchable;
 use monad\admin\Sortable;
 use monad\admin\Readonly_Model;
@@ -107,13 +108,13 @@ abstract class Scaffold_Controller extends Controller implements Login_Required
             if ($require_groups) {
                 $this->addRequirement(
                     'monad\admin\Login_Required',
-                    $this->user->loggedIN()
+                    self::user()->loggedIN()
                         && call_user_func_array(
-                            [$this->user, 'inGroup'],
+                            [self::user(), 'inGroup'],
                             $require_groups
                     ),
                     function() use($redir, $language) {
-                        call_user_func($this->logout);
+                        call_user_func(new Logout_Model);
                         throw new HTTP301_Exception(
                             $this->url('monad/admin/login').'?redir='.urlencode($redir)
                         );
