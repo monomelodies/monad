@@ -13,14 +13,14 @@ class Menu_Finder implements Finder, adapter\Access, Language_Access
     public function find($where)
     {
         try {
-            $q = $this->adapter->row(
+            $q = self::adapter()->row(
                 'monad_menu JOIN monad_menu_i18n USING(id)',
                 '*',
-                $where + ['language' => $this->language->current->id]
+                $where + ['language' => self::language()->current->id]
             );
             $item = $this->_item;
             $page = $this->page;
-            $q2 = $this->adapter->rows(
+            $q2 = self::adapter()->rows(
                 'monad_menu_item m
                  JOIN monad_menu_item_i18n i USING(id)
                  LEFT JOIN monad_page p ON m.page = p.id
@@ -35,7 +35,7 @@ class Menu_Finder implements Finder, adapter\Access, Language_Access
                 ],
                 [
                     'menu' => $q['id'],
-                    'i.language' => $this->language->current->id,
+                    'i.language' => self::language()->current->id,
                     sprintf(
                         "i.status & '%d'",
                         $item::STATUS_HIDDEN
@@ -52,7 +52,7 @@ class Menu_Finder implements Finder, adapter\Access, Language_Access
             );
             $items = [];
             foreach ($q2 as $row) {
-                $row['language'] = $this->language->get($row['language'])->code;
+                $row['language'] = self::language()->get($row['language'])->code;
                 $items["{$row['id']} {$row['title']}"] = $row;
             }
             $menu = clone $this->_menu;
