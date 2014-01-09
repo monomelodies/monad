@@ -3,12 +3,13 @@
 namespace monad\admin;
 use monolyth\core\Parser;
 use monolyth\render\Url_Helper;
-use monolyth\Project_Access;
-use monolyth\adapter;
+use adapter\Access as Adapter_Access;
 use monolyth\adapter\sql\NoResults_Exception;
 
-class Media_Parser extends Parser implements Project_Access, adapter\Access
+class Media_Parser extends Parser
 {
+    use Project_Access;
+    use Adapter_Access;
     use Url_Helper;
 
     public function __invoke($html)
@@ -31,7 +32,7 @@ class Media_Parser extends Parser implements Project_Access, adapter\Access
         }
         try {
             $imgs = [];
-            foreach ($this->adapter->rows(
+            foreach (self::adapter()->rows(
                 'monolyth_media',
                 '*',
                 [['id' => ['IN' => $ids], 'md5' => ['IN' => $ids]]]
