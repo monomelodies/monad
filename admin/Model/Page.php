@@ -50,7 +50,7 @@ class Page_Model extends core\Model implements User_Access
             if (($new & self::STATUS_HOME) != ($status & self::STATUS_HOME)) {
                 if ($new & self::STATUS_HOME) {
                     try {
-                        $this->adapter->update(
+                        self::adapter()->update(
                             'monad_page_i18n',
                             [sprintf(
                                 "status = status & ~%d",
@@ -61,7 +61,7 @@ class Page_Model extends core\Model implements User_Access
                     } catch (UpdateNone_Exception $e) {
                     }
                     try {
-                        $this->adapter->update(
+                        self::adapter()->update(
                             'monad_page_i18n',
                             [sprintf(
                                 "status = status | %d",
@@ -73,7 +73,7 @@ class Page_Model extends core\Model implements User_Access
                     }                
                 } else {
                     try {
-                        $this->adapter->update(
+                        self::adapter()->update(
                             'monad_page_i18n',
                             [sprintf(
                                 "status = status & ~%d",
@@ -86,11 +86,11 @@ class Page_Model extends core\Model implements User_Access
                 }
             }
             try {
-                $this->adapter->update(
+                self::adapter()->update(
                     'monad_page',
                     [
-                        'usermodified' => $this->user->id(),
-                        'datemodified' => $this->adapter->now(),
+                        'usermodified' => self::user()->id(),
+                        'datemodified' => self::adapter()->now(),
                     ],
                     ['id' => $this['id']]
                 );
@@ -104,7 +104,7 @@ class Page_Model extends core\Model implements User_Access
     public function delete()
     {
         try {
-            $this->adapter->delete('monad_page', ['id' => $this['id']]);
+            self::adapter()->delete('monad_page', ['id' => $this['id']]);
             return null;
         } catch (DeleteNone_Exception $e) {
             return 'database';
