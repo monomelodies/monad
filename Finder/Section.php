@@ -11,10 +11,10 @@ class Section_Finder implements Finder, adapter\Access, Language_Access
     public function all($page, $language = null)
     {
         if (!isset($language)) {
-            $language = $this->language->current->id;
+            $language = self::language()->current->id;
         }
         try {
-            return $this->adapter->rows(
+            return self::adapter()->rows(
                 'monad_section s
                  JOIN monad_section_i18n i USING(id)
                  JOIN monad_page_section l ON section = s.id',
