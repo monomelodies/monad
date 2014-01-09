@@ -17,7 +17,7 @@ trait Delete_Model
                 $id = 'id';
             }
             try {
-                $this->adapter->delete($table, ['id' => $this[$id]]);
+                self::adapter()->delete($table, ['id' => $this[$id]]);
                 $done++;
             } catch (DeleteNone_Exception $e) {
             }
