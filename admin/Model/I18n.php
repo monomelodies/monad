@@ -39,10 +39,10 @@ trait I18n_Model
         if ($normals) {
             try {
                 if ($id) {
-                    $this->adapter->update($table, $normals, compact('id'));
+                    self::adapter()->update($table, $normals, compact('id'));
                 } else {
-                    $this->adapter->insert($table, $normals);
-                    $id = $this->adapter->lastInsertId();
+                    self::adapter()->insert($table, $normals);
+                    $id = self::adapter()->lastInsertId();
                 }
                 ++$changed;
             } catch (UpdateNone_Exception $e) {
@@ -55,7 +55,7 @@ trait I18n_Model
                 continue;
             }
             try {
-                $this->adapter->update(
+                self::adapter()->update(
                     $i18n,
                     $data,
                     compact('id', 'language')
@@ -63,10 +63,10 @@ trait I18n_Model
                 ++$changed;
             } catch (UpdateNone_Exception $e) {
                 try {
-                    $this->adapter->field($i18n, 1, compact('id', 'language'));
+                    self::adapter()->field($i18n, 1, compact('id', 'language'));
                 } catch (NoResults_Exception $e) {
                     try {
-                        $this->adapter->insert(
+                        self::adapter()->insert(
                             $i18n,
                             $data + compact('id', 'language')
                         );
