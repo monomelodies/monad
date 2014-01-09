@@ -51,14 +51,14 @@ class Menu_Model extends core\Model implements Language_Access, User_Access
             }
         }
         $changed = 0;
-        $this->adapter->beginTransaction();
+        self::adapter()->beginTransaction();
         if ($menu) {
             try {
-                $this->adapter->update('monad_menu', $menu, compact('id'));
+                self::adapter()->update('monad_menu', $menu, compact('id'));
                 ++$changed;
-                $this->adapter->update(
+                self::adapter()->update(
                     'monad_menu',
-                    ['usermodified' => [$this->user->id()]],
+                    ['usermodified' => [self::user()->id()]],
                     compact('id')
                 );
             } catch (UpdateNone_Exception $e) {
@@ -69,15 +69,15 @@ class Menu_Model extends core\Model implements Language_Access, User_Access
                 continue;
             }
             try {
-                $this->adapter->update(
+                self::adapter()->update(
                     'monad_menu_i18n',
                     $data,
                     compact('id', 'language')
                 );
                 ++$changed;
-                $this->adapter->update(
+                self::adapter()->update(
                     'monad_menu',
-                    ['usermodified' => [$this->user->id()]],
+                    ['usermodified' => [self::user()->id()]],
                     compact('id')
                 );
             } catch (UpdateNone_Exception $e) {
@@ -86,17 +86,17 @@ class Menu_Model extends core\Model implements Language_Access, User_Access
         if ($order = json_decode($form['sort[menu_item]']->value)) {
             foreach ($order as $row) {
                 try {
-                    $this->adapter->update(
+                    self::adapter()->update(
                         'monad_menu_item',
                         ['sortorder' => $row[1]],
                         ['id' => $row[0]]
                     );
                     ++$changed;
-                    $this->adapter->update(
+                    self::adapter()->update(
                         'monad_menu_item',
                         [
-                            'usermodified' => [$this->user->id()],
-                            'datemodified' => $this->adapter->now(),
+                            'usermodified' => [self::user()->id()],
+                            'datemodified' => self::adapter()->now(),
                         ],
                         ['id' => $row[0]]
                     );
@@ -104,14 +104,14 @@ class Menu_Model extends core\Model implements Language_Access, User_Access
                 }
             }
         }
-        $this->adapter->commit();
+        self::adapter()->commit();
         return $changed ? null : 'nochange';
     }
 
     public function delete()
     {
         try {
-            $this->adapter->delete('monad_menu', ['id' => $this['id']]);
+            self::adapter()->delete('monad_menu', ['id' => $this['id']]);
             return null;
         } catch (DeleteNone_Exception $e) {
             return 'database';
