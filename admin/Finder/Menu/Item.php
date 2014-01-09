@@ -9,7 +9,7 @@ class Item_Menu_Finder extends core\I18n_Finder
     public function all($size, $page, array $where = [], array $options = [])
     {
         try {
-            return $this->adapter->pages(
+            return self::adapter()->pages(
                 $this->table('monad_menu_item', 'monad_menu_item_i18n')
                .sprintf(
                     " JOIN monolyth_language l ON %s = l.id ",
@@ -35,7 +35,7 @@ class Item_Menu_Finder extends core\I18n_Finder
     {
         $page = $this->model;
         try {
-            $page->load($this->adapter->row('monad_menu_item', '*', $where));
+            $page->load(self::adapter()->row('monad_menu_item', '*', $where));
             return $page;
         } catch (NoResults_Exception $e) {
             return null;
@@ -44,7 +44,7 @@ class Item_Menu_Finder extends core\I18n_Finder
 
     public function sortorderData(array $where) {
         try {
-            return $this->adapter->row('monad_menu_item', 'sortorder', $where);
+            return self::adapter()->row('monad_menu_item', 'sortorder', $where);
         } catch (NoResults_Exception $e) {
             return null;
         }
@@ -53,7 +53,7 @@ class Item_Menu_Finder extends core\I18n_Finder
     public function languageData(array $where)
     {
         try {
-            return $this->adapter->rows('monad_menu_item_i18n', '*', $where);
+            return self::adapter()->rows('monad_menu_item_i18n', '*', $where);
         } catch (NoResults_Exception $e) {
             return null;
         }
@@ -62,7 +62,7 @@ class Item_Menu_Finder extends core\I18n_Finder
     public function items(Item_Menu_Model $item, $language)
     {
         try {
-            return $this->adapter->models(
+            return self::adapter()->models(
                 $this->item,
                 'monad_menu_item m
                  JOIN monad_menu_item_i18n i USING(id)
