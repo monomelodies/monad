@@ -17,7 +17,7 @@ implements Language_Access, adapter\Access
             'owner',
             $this->text(['./owner', 'column/owner']),
             function() {
-                return $this->adapter->rows(
+                return self::adapter()->rows(
                     'monad_auth',
                     ['id', 'name'],
                     [],
@@ -25,7 +25,7 @@ implements Language_Access, adapter\Access
                 );
             },
             [
-                'adapter' => $this->adapter,
+                'adapter' => self::adapter(),
                 'table' => 'monad_auth',
                 'field' => 'name',
                 'id' => 'id',
@@ -38,15 +38,15 @@ implements Language_Access, adapter\Access
             'menu',
             $this->text(['./menu', 'column/menu']),
             function() {
-                return $this->adapter->rows(
+                return self::adapter()->rows(
                     'monad_menu m JOIN monad_menu_i18n i USING(id)',
                     ['id', 'title'],
-                    ['language' => $this->language->current->id],
+                    ['language' => self::language()->current->id],
                     ['order' => 'LOWER(title) ASC']
                 );
             },
             [
-                'adapter' => $this->adapter,
+                'adapter' => self::adapter(),
                 'table' => 'monad_menu',
                 'field' => 'name',
                 'id' => 'id',
@@ -60,15 +60,15 @@ implements Language_Access, adapter\Access
             'parent',
             $this->text(['./parent', 'column/parent']),
             function() {
-                return $this->adapter->rows(
+                return self::adapter()->rows(
                     'monad_menu_item i
                      JOIN monad_menu_item_i18n ii USING(id)
                      LEFT JOIN monad_page_i18n p ON p.id = i.page',
                     ['i.id', 'COALESCE(ii.title, p.title) AS title', 'menu'],
                     [
-                        'ii.language' => $this->language->current->id,
+                        'ii.language' => self::language()->current->id,
                         [
-                            'p.language' => $this->language->current->id,
+                            'p.language' => self::language()->current->id,
                             ['p.language IS NULL'],
                         ],
                     ],
@@ -76,7 +76,7 @@ implements Language_Access, adapter\Access
                 );
             },
             [
-                'adapter' => $this->adapter,
+                'adapter' => self::adapter(),
                 'table' => 'monad_menu',
                 'field' => 'name',
                 'id' => 'id',
@@ -99,15 +99,15 @@ implements Language_Access, adapter\Access
             'page',
             $this->text(['./page', 'column/page']),
             function() {
-                return $this->adapter->rows(
+                return self::adapter()->rows(
                     'monad_page p JOIN monad_page_i18n i USING(id)',
                     ['id', 'title'],
-                    ['language' => $this->language->current->id],
+                    ['language' => self::language()->current->id],
                     ['order' => 'LOWER(title) ASC']
                 );
             },
             [
-                'adapter' => $this->adapter,
+                'adapter' => self::adapter(),
                 'table' => 'monad_menu',
                 'field' => 'name',
                 'id' => 'id',
