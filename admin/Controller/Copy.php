@@ -2,7 +2,6 @@
 
 namespace monad\admin;
 use monolyth\HTTP301_Exception;
-use monolyth\Message;
 
 class Copy_Controller extends Update_Controller
 {
@@ -41,12 +40,12 @@ class Copy_Controller extends Update_Controller
         if (!$this->form->errors()) {
             if ($error = $this->model->save($this->form)) {
                 self::message()->add(
-                    Message::ERROR,
+                    'error',
                     $this->text(["./error.$error", "error.$error"])
                 );
             } else {
                 self::message()->add(
-                    Message::SUCCESS,
+                    'success',
                     $this->text(['./success', 'success'])
                 );
                 throw new HTTP301_Exception(self::http()->getSelf());
