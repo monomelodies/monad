@@ -14,7 +14,7 @@ class Page_Finder extends core\I18n_Finder
             'offset' => ($page - 1) * $size,
         ];
         try {
-            return $this->adapter->pages(
+            return self::adapter()->pages(
                 $this->table('monad_page', 'monad_page_i18n')
                .sprintf(
                     " JOIN monolyth_language l ON %s = l.id ",
@@ -34,19 +34,21 @@ class Page_Finder extends core\I18n_Finder
 
     public function find(array $where)
     {
-        $page = $this->model;
         try {
-            $page->load($this->adapter->row('monad_page', '*', $where));
-            return $page;
+            return (new Page_Model)->load(self::adapter()->row(
+                'monad_page',
+                '*',
+                $where
+            ));
         } catch (NoResults_Exception $e) {
-            return null;
+            return new Page_Model;
         }
     }
 
     public function languageData(array $where)
     {
         try {
-            return $this->adapter->rows('monad_page_i18n', '*', $where);
+            return self::adapter()->rows('monad_page_i18n', '*', $where);
         } catch (NoResults_Exception $e) {
             return null;
         }
@@ -54,7 +56,11 @@ class Page_Finder extends core\I18n_Finder
 
     public function sections(Page_Model $page, $language)
     {
-        return $this->sections->sections($page, $language);
+        return (new Section_Finder)->all(
+            100,
+            1,
+            ['language' => $language, 'page' => $page['id']]
+        );
     }
 }
 
