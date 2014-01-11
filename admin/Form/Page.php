@@ -18,9 +18,9 @@ class Page_Form extends I18n_Form
         ]
     ];
 
-    public function prepare()
+    public function __construct()
     {
-        $model = $this->model;
+        parent::__construct();
         $language = $this->projectlanguage->available[0];
         foreach ($this->projectlanguage->available as $lang) {
             if (!isset(self::$IDENTIFIER)) {
@@ -85,7 +85,7 @@ class Page_Form extends I18n_Form
             $this->addBitflags(
                 "status[{$lang->id}]",
                 $this->text('./status'),
-                $model::$allowed['status']
+                Page_Model::$allowed['status']
             )->setClass("language {$lang->code}");
         }
         $this->languagetabs = true;
