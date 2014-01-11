@@ -11,9 +11,8 @@ class Menu_Form extends I18n_Form
 
     public static $IDENTIFIER;
 
-    public function prepare()
+    public function __construct()
     {
-        $model = $this->model;
         $language = self::projectlanguage()->available[0];
         foreach (self::projectlanguage()->available as $lang) {
             $this->addText(
@@ -46,7 +45,7 @@ class Menu_Form extends I18n_Form
         $this->addBitflags(
             'status',
             $this->text(['./status', 'column/status']),
-            $model::$allowed['status']
+            Menu_Model::$allowed['status']
         );
         $this->addButton(
             self::BUTTON_SUBMIT,
