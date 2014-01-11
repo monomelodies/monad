@@ -2,7 +2,7 @@
 
 namespace monad\admin;
 use monolyth\Finder;
-use adapter\Access as Adapter_Access;
+use Adapter_Access;
 use monolyth\adapter\sql\NoResults_Exception;
 use monolyth\Media_Model;
 

@@ -2,11 +2,13 @@
 
 namespace monad\admin;
 use monolyth\Finder;
-use monolyth\adapter;
 use monolyth\adapter\sql\NoResults_Exception;
+use Adapter_Access;
 
-class Folder_Finder implements Finder, adapter\Access
+class Folder_Finder implements Finder
 {
+    use Adapter_Access;
+
     public function all()
     {
         try {

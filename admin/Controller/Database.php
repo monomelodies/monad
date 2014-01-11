@@ -10,7 +10,7 @@ use monolyth\adapter\sql\NoResults_Exception;
 use monolyth\adapter\sql\Adapter;
 use Closure;
 use monad\core\Scaffold_Controller;
-use adapter\Access as Adapter_Access;
+use Adapter_Access;
 
 class Database_Controller extends Scaffold_Controller
 {

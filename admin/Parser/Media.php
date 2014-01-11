@@ -3,7 +3,7 @@
 namespace monad\admin;
 use monolyth\core\Parser;
 use monolyth\render\Url_Helper;
-use adapter\Access as Adapter_Access;
+use Adapter_Access;
 use monolyth\adapter\sql\NoResults_Exception;
 
 class Media_Parser extends Parser

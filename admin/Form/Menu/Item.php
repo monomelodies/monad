@@ -2,11 +2,13 @@
 
 namespace monad\admin;
 use monad\core\I18n_Form;
-use monolyth\adapter;
+use Adapter_Access;
 
 class Item_Menu_Form extends I18n_Form
-implements Language_Access, adapter\Access
 {
+    use Language_Access;
+    use Adapter_Access;
+
     public static $IDENTIFIER;
 
     public function prepare()
