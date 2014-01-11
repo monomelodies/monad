@@ -14,7 +14,7 @@ class Section_Finder extends core\I18n_Finder
             'offset' => ($page - 1) * $size,
         ];
         try {
-            return $this->adapter->pages(
+            return self::adapter()->pages(
                 $this->table('monad_section', 'monad_section_i18n')
                .sprintf(
                     " JOIN monolyth_language l ON %s = l.id
@@ -30,52 +30,29 @@ class Section_Finder extends core\I18n_Finder
                 $options
             );
         } catch (NoResults_Exception $e) {
-            return null;
+            return new Section_Model;
         }
     }
 
     public function find(array $where)
     {
         try {
-            return $this->model->load($this->adapter->row(
+            return (new Section_Model)->load(self::adapter()->row(
                 'monad_section',
                 '*',
                 $where
             ));
         } catch (NoResults_Exception $e) {
-            return null;
+            return new Section_Model;
         }
     }
 
     public function languageData(array $where)
     {
         try {
-            return $this->adapter->rows('monad_section_i18n', '*', $where);
+            return self::adapter()->rows('monad_section_i18n', '*', $where);
         } catch (NoResults_Exception $e) {
             return null;
-        }
-    }
-
-    public function sections(Page_Model $page, $language)
-    {
-        try {
-            return $this->adapter->models(
-                $this->section,
-                'monad_section s
-                 JOIN monad_section_i18n i USING(id)
-                 JOIN monad_page_section ps ON ps.section = s.id',
-                [
-                    's.id',
-                    'i.header',
-                ],
-                [
-                    'page' => $page['id'],
-                    'i.language' => $language,
-                ],
-                ['order' => 'ps.sortorder ASC']
-            );
-        } catch (NoResults_Exception $e) {
-            return $this->section;
         }
     }
 }
