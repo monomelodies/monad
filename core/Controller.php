@@ -21,7 +21,6 @@ use monolyth\render\form\Select;
 use monad\admin\Module_Finder;
 use monolyth\render\Css;
 use monolyth\render\Script;
-use monolyth\Message;
 use monolyth\Project_Access;
 use monolyth\Text_Model;
 use monolyth\render\Translate_Parser;
@@ -171,7 +170,7 @@ abstract class Controller extends core\Controller
         $this->attach(['siteselect' => $this->siteselect]);
         if (self::user()->loggedIn()) {
             $this->sidebar(
-                Message::INFO,
+                'info',
                 $this->text(
                     'monad\admin\login/success',
                     self::user()->name()
