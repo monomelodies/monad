@@ -455,3 +455,18 @@ INSERT INTO monad_admin_item_i18n VALUES (@subitem, 1, 'Media'), (@subitem, 2, '
 -- @emit monad_admin, monad_admin_i18n, monad_admin_item, monad_admin_item_i18n
 
 -- }}}
+
+-- {{{ v0.24.4
+DROP VIEW monad_auth;
+CREATE VIEW monad_auth
+    (id, name, pass, salt, email, datecreated, datemodified, dateactive,
+        status, feature) AS
+    SELECT DISTINCT a.id, a.name, pass, salt, email, datecreated, datemodified,
+        dateactive, status, feature
+    FROM
+        monolyth_auth a
+        JOIN monolyth_auth_group ag ON a.id = ag.auth
+        JOIN monolyth_group g ON g.id = ag.auth_group
+    WHERE g.name = 'Monad' GROUP BY a.id;
+-- }}}
+
