@@ -3,7 +3,7 @@
 namespace monad\core;
 use monolyth;
 use monolyth\adapter;
-use adapter\Access as Adapter_Access;
+use Adapter_Access;
 
 abstract class Finder implements monolyth\Finder
 {

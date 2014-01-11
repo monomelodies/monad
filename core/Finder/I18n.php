@@ -2,7 +2,7 @@
 
 namespace monad\core;
 use monolyth\Language_Access;
-use adapter\Access as Adapter_Access;
+use Adapter_Access;
 
 abstract class I18n_Finder extends Finder
 {
