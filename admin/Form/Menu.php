@@ -14,8 +14,8 @@ class Menu_Form extends I18n_Form
     public function prepare()
     {
         $model = $this->model;
-        $language = $this->projectlanguage->available[0];
-        foreach ($this->projectlanguage->available as $lang) {
+        $language = self::projectlanguage()->available[0];
+        foreach (self::projectlanguage()->available as $lang) {
             $this->addText(
                 "title[{$lang->id}]",
                 $this->text(['./title', 'column/title'])
