@@ -3,7 +3,7 @@
 namespace monad;
 use monolyth\Finder;
 use monolyth\Language_Access;
-use adapter\Access as Adapter_Access;
+use Adapter_Access;
 use monolyth\adapter\sql\NoResults_Exception;
 
 class Page_Finder implements Finder
