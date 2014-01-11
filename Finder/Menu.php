@@ -2,14 +2,15 @@
 
 namespace monad;
 use monolyth\Finder;
-use monolyth\adapter;
+use Adapter_Access;
 use monolyth\Language_Access;
-use monolyth\ui\Menu;
-use monolyth\ui\Menuitem;
 use monolyth\adapter\sql\NoResults_Exception;
 
-class Menu_Finder implements Finder, adapter\Access, Language_Access
+class Menu_Finder implements Finder
 {
+    use Language_Access;
+    use Adapter_Access;
+
     public function find($where)
     {
         try {

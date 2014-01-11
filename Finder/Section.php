@@ -2,12 +2,15 @@
 
 namespace monad;
 use monolyth\Finder;
-use monolyth\adapter;
 use monolyth\Language_Access;
 use monolyth\adapter\sql\NoResults_Exception;
+use Adapter_Access;
 
-class Section_Finder implements Finder, adapter\Access, Language_Access
+class Section_Finder implements Finder
 {
+    use Language_Access;
+    use Adapter_Access;
+
     public function all($page, $language = null)
     {
         if (!isset($language)) {
