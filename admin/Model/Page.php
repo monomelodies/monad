@@ -9,9 +9,11 @@ use monolyth\adapter\sql\DeleteNone_Exception;
 use monolyth\User_Access;
 use monolyth\render\Extract_Media;
 
-class Page_Model extends core\Model implements User_Access
+class Page_Model extends core\Model
 {
-    use I18n_Model, Extract_Media;
+    use I18n_Model;
+    use Extract_Media;
+    use User_Access;
 
     const STATUS_HIDDEN = Base::STATUS_HIDDEN;
     const STATUS_HOME = Base::STATUS_HOME;
