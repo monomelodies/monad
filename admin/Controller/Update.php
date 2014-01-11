@@ -5,7 +5,6 @@ use monolyth\HTTP301_Exception;
 use monolyth\HTTP404_Exception;
 use monolyth\utils\Name_Helper;
 use monad\core\Scaffold_Controller;
-use monolyth\Message;
 
 class Update_Controller extends Scaffold_Controller
 {
@@ -123,12 +122,12 @@ class Update_Controller extends Scaffold_Controller
             }
             if ($error) {
                 self::message()->add(
-                    Message::ERROR,
+                    'error',
                     $this->text(["./error.$error", "error.$error"])
                 );
             } else {
                 self::message()->add(
-                    Message::SUCCESS,
+                    'success',
                     $this->text(['./success', 'success'])
                 );
                 throw new HTTP301_Exception(isset($_GET['redir']) ?
