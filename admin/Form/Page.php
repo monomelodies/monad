@@ -21,8 +21,8 @@ class Page_Form extends I18n_Form
     public function __construct()
     {
         parent::__construct();
-        $language = $this->projectlanguage->available[0];
-        foreach ($this->projectlanguage->available as $lang) {
+        $language = self::projectlanguage()->available[0];
+        foreach (self::projectlanguage()->available as $lang) {
             if (!isset(self::$IDENTIFIER)) {
                 self::$IDENTIFIER = "slug[{$lang->id}]";
             }
@@ -73,7 +73,7 @@ class Page_Form extends I18n_Form
                 'limit' => 10,
             ]
         )->isRequired();
-        foreach ($this->projectlanguage->available as $lang) {
+        foreach (self::projectlanguage()->available as $lang) {
             $this->addTextHTML("content[{$lang->id}]", $this->text('./content'))
                  ->setClass("html content language {$lang->code}");
             $this->addText("keywords[{$lang->id}]", $this->text('./keywords'))
