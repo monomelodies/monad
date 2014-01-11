@@ -7,7 +7,6 @@ use monolyth\HTTP301_Exception;
 use monolyth\utils\Translatable;
 use monolyth\account\Logout_Model;
 use monolyth\account\Login_Form;
-use monolyth\Message;
 
 class Login_Controller extends Controller implements Logout_Required
 {
@@ -44,12 +43,12 @@ class Login_Controller extends Controller implements Logout_Required
                 throw new HTTP301_Exception($this->url('monad/admin'));
             }
             self::message()->add(
-                Message::ERROR,
+                'error',
                 $this->text('monad\user\login/error.denied')
             );
         } else {
             self::message()->add(
-                Message::ERROR,
+                'error',
                 $this->text('monolyth\account\login/error.credentials')
             );
         }
