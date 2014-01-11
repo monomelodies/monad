@@ -36,10 +36,7 @@ abstract class Controller extends core\Controller
     use Project_Access {
         Project_Access::project as myproject;
     }
-    use Language_Access, admin\Language_Access {
-        admin\Language_Access::language insteadof Language_Access;
-        Language_Access::language as projectlanguage;
-    }
+    use admin\Language_Access;
 
     public
         /** Sidebar items (type + title + content). */
