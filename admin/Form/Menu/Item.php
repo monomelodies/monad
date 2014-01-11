@@ -11,10 +11,10 @@ class Item_Menu_Form extends I18n_Form
 
     public static $IDENTIFIER;
 
-    public function prepare()
+    public function __construct()
     {
-        $model = $this->model;
-        $language = $this->projectlanguage->available[0];
+        parent::__construct();
+        $language = self::projectlanguage()->available[0];
         $this->addForeignkey(
             'owner',
             $this->text(['./owner', 'column/owner']),
@@ -91,7 +91,7 @@ class Item_Menu_Form extends I18n_Form
             'sortorder',
             $this->text(['./sortorder', 'column/sortorder'])
         );
-        foreach ($this->projectlanguage->available as $lang) {
+        foreach (self::projectlanguage()->available as $lang) {
             $this->addText(
                 "title[{$lang->id}]",
                 $this->text(['./title', 'column/title'])
@@ -120,7 +120,7 @@ class Item_Menu_Form extends I18n_Form
         );
         $this->addText('link', $this->text(['./link', 'column/link']));
         $this->addText('params', $this->text(['./params', 'column/params']));
-        foreach ($this->projectlanguage->available as $lang) {
+        foreach (self::projectlanguage()->available as $lang) {
             $this->addText(
                 "i18nparams[{$lang->id}]",
                 $this->text(['./i18nparams', 'column/i18nparams'])
@@ -128,7 +128,7 @@ class Item_Menu_Form extends I18n_Form
             $this->addBitflags(
                 "status[{$lang->id}]",
                 $this->text(['./status', 'column/status']),
-                $this->translateArray($model::$allowed['status'])
+                $this->translateArray(Item_Menu_Model::$allowed['status'])
             )->setClass("language {$lang->code}");
         }
         $this->addInfo(
