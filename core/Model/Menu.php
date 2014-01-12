@@ -94,6 +94,12 @@ class Menu_Model
     public function hidden($target, $link = null, $package = null)
     {
         $this->add($target, $link, $package);
+        if (!isset($package)) {
+            $package = $this->package();
+        }
+        if ($package == 'admin') {
+            $package = 'project';
+        }
         $this->items["$package $target"]->hidden = true;
         return $this;
     }
