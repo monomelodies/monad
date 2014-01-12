@@ -3,6 +3,9 @@
 <?php
 
 foreach ($menu->items() as $package => $group) {
+    if (!$group->hasPermission()) {
+        continue;
+    }
     $classes = explode(' ', $package);
     foreach ($classes as &$class) {
         $class = "menu-$class";
@@ -14,7 +17,11 @@ foreach ($menu->items() as $package => $group) {
         <ul class="submenu">
 <?php
 
-    foreach ($group->items() as $uri => $txt) {
+    foreach ($group->items() as $item) {
+        if (!$item->hasPermission()) {
+            continue;
+        }
+        $uri = $item->url();
         $parts = explode('/', $uri);
         $class = '';
         while (!strlen($class) && $parts) {
@@ -22,7 +29,7 @@ foreach ($menu->items() as $package => $group) {
         }
 
 ?>
-            <li class="menu-<?=$class?>"><a href="<?=$uri?>"><?=$txt?></a></li>
+            <li class="menu-<?=$class?>"><a href="<?=$uri?>"><?=$item?></a></li>
             
 <?php   } ?>
         </ul>
