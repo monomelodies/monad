@@ -18,6 +18,7 @@ class Menu_Model
     private $title;
     private $mother;
     private $requires = [];
+    private $itemrequires = [];
 
     public function init($file)
     {
@@ -52,9 +53,15 @@ class Menu_Model
             $actions = null;
         }
         $old = $this->requires;
-        $this->requires = compact('group', 'actions');
+        $this->requires = $this->itemrequires = [$group => $actions];
         $callback();
-        $this->requires = $old;
+        $this->requires = $this->itemrequires = $old;
+    }
+
+    public function inheritRequirements(array $requires)
+    {
+        $this->requires += $requires;
+        $this->itemrequires = $requires;
     }
 
     public function add($target, $link = null, $package = null)
@@ -79,7 +86,7 @@ class Menu_Model
                 $this->mother(),
                 $target
             )),
-            $this->requires
+            $this->itemrequires
         );
         return $this;
     }
@@ -89,11 +96,16 @@ class Menu_Model
         if (!isset($package)) {
             $package = $this->package();
         }
-        $menu = clone $this;
-        $menu->reset();
-        $menu->title($this->text("{$this->namespace}\menu/$target"));
-        $menu->mother($target);
-        $this->items["$package $target"] = $menu;
+        if (!isset($this->items["$package $target"])) {
+            $menu = clone $this;
+            $menu->reset();
+            $menu->title($this->text("{$this->namespace}\menu/$target"));
+            $menu->mother($target);
+            $this->items["$package $target"] = $menu;
+        } else {
+            $menu = $this->items["$package $target"];
+            $menu->inheritRequirements($this->requires);
+        }
         return $menu;
     }
 
