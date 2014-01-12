@@ -1,10 +1,10 @@
 <?php
 
 namespace monad\render\form;
-use monolyth\core\Element;
+use monolyth\render\form\Text;
 use monolyth\adapter\sql\NoResults_Exception;
 
-class Foreignkey extends Element
+class Foreignkey extends Text
 {
     public $initial;
     protected $type = 'foreignkey',
