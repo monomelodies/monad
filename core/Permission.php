@@ -9,16 +9,15 @@ trait Permission
 
     public function hasPermission($actions = [])
     {
-        if (isset($this->requires['group'])
-            && $this->requires['group']
-            && !self::user()->inGroup($this->requires['group'])
-        ) {
-            return false;
-        }
-        if (!isset($group, $actions)) {
+        if (!$this->requires) {
             return true;
         }
-        return true;
+        foreach (array_keys($this->requires) as $group) {
+            if (self::user()->inGroup($group)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
