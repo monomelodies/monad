@@ -15,6 +15,7 @@ use ErrorException;
 use monad\admin;
 use monolyth\Config;
 use monolyth\HTTP301_Exception;
+use monolyth\HTTP404_Exception;
 use monolyth\render\FileNotFound_Exception;
 use monolyth\render\Static_Helper;
 use monolyth\render\form\Select;
@@ -86,20 +87,34 @@ abstract class Controller extends core\Controller
         $language = self::language();
         $this->addRequirement(
             'monad\admin\Login_Required',
-            self::user()->loggedIn() && self::user()->inGroup('Monad'),
+            function() {
+                if (!(self::user()->loggedIn()
+                    && self::user()->inGroup('Monad')
+                )) {
+                    return false;
+                }
+                $parts = explode('/', substr($_SERVER['REQUEST_URI'], 1));
+                foreach ($parts as $key => $value) {
+                    if (!strlen($value)) {
+                        unset($parts[$key]);
+                    }
+                }
+                try {
+                    $package = $parts[2];
+                    $target = $parts[3];
+                } catch (ErrorException $e) {
+                    // No selection made yet, so we can't say anything
+                    // sensible about permissions yet.
+                    return true;
+                }
+                if ($item = $this->mainmenu->find("$package $target")) {
+                    return $item->hasPermission();
+                }
+                return false;
+            },
             function() use($redir, $language) {
                 $logout = new Logout_Model;
                 $logout();
-                throw new HTTP301_Exception(
-                    $this->url('monad/admin/login').'?redir='.urlencode($redir)
-                );
-            }
-        );
-        $this->addRequirement(
-            'monad\admin\Administrator_Required',
-            self::user()->inGroup('Administrators'),
-            function() use($redir, $language) {
-                call_user_func($this->logout);
                 throw new HTTP301_Exception(
                     $this->url('monad/admin/login').'?redir='.urlencode($redir)
                 );
