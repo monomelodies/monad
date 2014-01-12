@@ -3,7 +3,6 @@
 namespace monad\core;
 use ErrorException;
 use monolyth\Language_Access;
-use monolyth\User_Access;
 use monolyth\render\Url_Helper;
 use monolyth\utils\Translatable;
 
@@ -11,13 +10,14 @@ class Menu_Model
 {
     use Url_Helper;
     use Translatable;
-    use User_Access;
     use Language_Access;
+    use Permission;
 
     private $namespace = '';
     private $items = [];
     private $title;
     private $mother;
+    private $requires = [];
 
     public function init($file)
     {
@@ -39,6 +39,24 @@ class Menu_Model
         return $this;
     }
 
+    public function requires($callback)
+    {
+        $args = func_get_args();
+        if (count($args) == 3) {
+            list($group, $actions, $callback) = $args;
+        } elseif (count($args) == 2) {
+            list($group, $callback) = $args;
+            $actions = null;
+        } elseif (count($args) == 1) {
+            $group = null;
+            $actions = null;
+        }
+        $old = $this->requires;
+        $this->requires = compact('group', 'actions');
+        $callback();
+        $this->requires = $old;
+    }
+
     public function add($target, $link = null, $package = null)
     {
         if (!isset($link)) {
@@ -50,15 +68,19 @@ class Menu_Model
         if ($package == 'admin') {
             $package = 'project';
         }
-        $this->items[$this->url(
-            $link,
-            compact('package', 'target')
-        )] = $this->text(sprintf(
-            '%s\menu/%s/%s',
-            $this->namespace,
-            $this->mother(),
-            $target
-        ));
+        $this->items["$package $target"] = new Item_Model(
+            $this->url(
+                $link,
+                compact('package', 'target')
+            ),
+            $this->text(sprintf(
+                '%s\menu/%s/%s',
+                $this->namespace,
+                $this->mother(),
+                $target
+            )),
+            $this->requires
+        );
         return $this;
     }
 
@@ -82,9 +104,15 @@ class Menu_Model
 
     public function find($what)
     {
+        $me = get_class($this);
         foreach ($this->items as $key => $value) {
             if ($key == $what) {
                 return $value;
+            }
+            if ($value instanceof $me) {
+                if ($found = $value->find($what)) {
+                    return $found;
+                }
             }
         }
         return null;
