@@ -91,6 +91,13 @@ class Menu_Model
         return $this;
     }
 
+    public function hidden($target, $link = null, $package = null)
+    {
+        $this->add($target, $link, $package);
+        $this->items["$package $target"]->hidden = true;
+        return $this;
+    }
+
     public function group($target, $package = null)
     {
         if (!isset($package)) {
