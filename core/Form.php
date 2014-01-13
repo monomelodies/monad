@@ -21,8 +21,12 @@ abstract class Form extends Post_Form
         return $this;
     }
 
-    protected function addForeignKey($name, $label, $load, $external)
-    {
+    protected function addForeignKey(
+        $name,
+        $label,
+        array $settings,
+        array $options = []
+    ) {
         $element = new Foreignkey;
         $element->setParent($this);
         if (!isset($label)) {
@@ -35,7 +39,7 @@ abstract class Form extends Post_Form
                 $element->setLabel($label);
             }
         }
-        $element->prepare($name, $load, $external);
+        $element->prepare($name, $settings, $options);
         $element->prependFormname($this->getId());
         $this[$element->getName()] = $element;
         return $element;
