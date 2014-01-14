@@ -21,6 +21,12 @@ class Foreignkey extends Text
     {
         parent::prepare($name, $options);
         $this->settings = $settings;
+        $this->options['data-package'] = $settings['package'];
+        $this->options['data-target'] = $settings['target'];
+        $this->options['data-field'] = $settings['field'];
+        $this->renderOptions[] = 'data-package';
+        $this->renderOptions[] = 'data-target';
+        $this->renderOptions[] = 'data-field';
     }
 
     public function __set($name, $value)
