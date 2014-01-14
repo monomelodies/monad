@@ -9,19 +9,6 @@ window.resizeFileFrame = function(height, id) {
 var orig;
 Monad = $.extend(Monad, {
     core: {
-        model: {
-            fk_select : function(field, msg) {
-                field.addEvent('keyup', function() {
-                    /**
-                     * Use Ajax-calls to retrieve possible matches.
-                     * If the length of the field's value is less than 4 characters,
-                     * return only direct matches.
-                     * If the length is 4 or greater, return a list of possible matches
-                     * beginning with these four characters.
-                     */
-                });
-            },
-        },
         select: {
             getSize : function() {
                 return {width: this.getSize().x, height: this.getScrollSize().y};
@@ -221,7 +208,20 @@ $('.foreignkey input').click(function() {
         '<b class="icons"><a href="#" class="icon cancel">[x]</a></b>' +
         '<h1>' + Monolyth.text.get('monad\\admin\\selectforeignkey') + '</h1>' +
         '</header>');
-    popup.append('<div class="inner">bla</div>');
+    popup.append('<div class="inner"/>');
+    var $this = $(this);
+    $.get(
+        '/monad/' +
+        Monad.language +
+        $this.attr('data-package') +
+        '/' +
+        $this.attr('data-target') +
+        '/foreign-key/' +
+        $this.attr('data-field') +
+        '/',
+        function(data) {
+        }
+    );
     return false;
 });
 $('.monad_sortable td').each(function() {
