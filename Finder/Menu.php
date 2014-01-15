@@ -2,6 +2,7 @@
 
 namespace monad;
 use monolyth\Finder;
+use monolyth\core\Singleton;
 use Adapter_Access;
 use monolyth\Language_Access;
 use monolyth\adapter\sql\NoResults_Exception;
