@@ -8,6 +8,7 @@ use monolyth\adapter\sql\NoResults_Exception;
 
 class Menu_Finder implements Finder
 {
+    use Singleton;
     use Language_Access;
     use Adapter_Access;
 
@@ -19,8 +20,6 @@ class Menu_Finder implements Finder
                 '*',
                 $where + ['language' => self::language()->current->id]
             );
-            $item = $this->_item;
-            $page = $this->page;
             $q2 = self::adapter()->rows(
                 'monad_menu_item m
                  JOIN monad_menu_item_i18n i USING(id)
@@ -39,12 +38,12 @@ class Menu_Finder implements Finder
                     'i.language' => self::language()->current->id,
                     sprintf(
                         "i.status & '%d'",
-                        $item::STATUS_HIDDEN
+                        Item_Menu_Model::STATUS_HIDDEN
                     ) => 0,
                     [
                         [sprintf(
                             "pi.status & '%d'",
-                            $page::STATUS_HIDDEN
+                            Page_Model::STATUS_HIDDEN
                         ) => 0],
                         ['pi.status' => null],
                     ]
@@ -56,8 +55,7 @@ class Menu_Finder implements Finder
                 $row['language'] = self::language()->get($row['language'])->code;
                 $items["{$row['id']} {$row['title']}"] = $row;
             }
-            $menu = clone $this->_menu;
-            return $menu->build($items);
+            return (new Menu_Model)->build($items);
         } catch (NoResults_Exception $e) {
             return null;
         }
@@ -65,8 +63,7 @@ class Menu_Finder implements Finder
 
     public function main()
     {
-        $menu = $this->menu;
-        return $this->find(['status' => $menu::STATUS_MAIN]);
+        return $this->find(['status' => Menu_Model::STATUS_MAIN]);
     }
 }
 
