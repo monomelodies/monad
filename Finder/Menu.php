@@ -3,6 +3,7 @@
 namespace monad;
 use monolyth\Finder;
 use monolyth\core\Singleton;
+use monolyth\render\Menu;
 use Adapter_Access;
 use monolyth\Language_Access;
 use monolyth\adapter\sql\NoResults_Exception;
@@ -39,7 +40,7 @@ class Menu_Finder implements Finder
                     'i.language' => self::language()->current->id,
                     sprintf(
                         "i.status & '%d'",
-                        Item_Menu_Model::STATUS_HIDDEN
+                        Menuitem_Model::STATUS_HIDDEN
                     ) => 0,
                     [
                         [sprintf(
@@ -56,7 +57,7 @@ class Menu_Finder implements Finder
                 $row['language'] = self::language()->get($row['language'])->code;
                 $items["{$row['id']} {$row['title']}"] = $row;
             }
-            return (new Menu_Model)->build($items);
+            return (new Menu)->build($items);
         } catch (NoResults_Exception $e) {
             return null;
         }
