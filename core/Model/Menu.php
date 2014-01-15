@@ -10,7 +10,6 @@ class Menu_Model
 {
     use Url_Helper;
     use Translatable;
-    use Language_Access;
     use Permission;
 
     private $namespace = '';
