@@ -2,13 +2,15 @@
 
 namespace monad\admin;
 use monad\Menuitem_Model;
+use monad\core\Model;
 use monolyth\User_Access;
 use monolyth\adapter\sql\UpdateNone_Exception;
 use monolyth\adapter\sql\DeleteNone_Exception;
 
-class Item_Menu_Model extends Model implements User_Access
+class Item_Menu_Model extends Model
 {
     use I18n_Model;
+    use User_Access;
 
     const STATUS_HIDDEN = Menuitem_Model::STATUS_HIDDEN;
     const STATUS_HOME = Menuitem_Model::STATUS_HOME;
