@@ -6,11 +6,12 @@ use monad\core;
 use monolyth\adapter\sql\NoResults_Exception;
 use monolyth\adapter\sql\UpdateNone_Exception;
 use monolyth\adapter\sql\DeleteNone_Exception;
-use monolyth\Language_Access;
 use monolyth\User_Access;
 
-class Menu_Model extends core\Model implements Language_Access, User_Access
+class Menu_Model extends core\Model
 {
+    use I18n_Model;
+
     const STATUS_MAIN = Base::STATUS_MAIN;
 
     public $requires = [
