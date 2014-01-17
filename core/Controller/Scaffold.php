@@ -108,7 +108,7 @@ abstract class Scaffold_Controller extends Controller implements Login_Required
             if ($require_groups) {
                 $this->addRequirement(
                     'monad\admin\Login_Required',
-                    self::user()->loggedIN()
+                    self::user()->loggedIn()
                         && call_user_func_array(
                             [self::user(), 'inGroup'],
                             $require_groups
