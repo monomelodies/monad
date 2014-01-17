@@ -29,6 +29,17 @@ class Foreignkey extends Text
         $this->renderOptions[] = 'data-field';
     }
 
+    private function classname()
+    {
+        $namespace = "{$this->settings['package']}\\admin\\";
+        $parts = array_reverse(explode('_', $this->settings['target']));
+        foreach ($parts as &$part) {
+            $part = ucfirst($part);
+        }
+        $class = $namespace.implode('/', $parts);
+        return "{$class}_Finder";
+    }
+
     public function __set($name, $value)
     {
         if ($name != 'value') {
@@ -46,13 +57,11 @@ class Foreignkey extends Text
         $id = null;
         if ($value) {
             $id = $value;
-            try {
-                $value = self::adapter()->get(
-                    $this->settings['table'],
-                    $this->settings['field'],
-                    compact('id')
-                );
-            } catch (NoResults_Exception $e) {
+            $class = $this->classname();                
+            $finder = new $class;
+            if ($model = $finder->find(compact('id'))) {
+                $value = $model[$this->settings['field']];
+            } else {
                 $value = null;
             }
         }
