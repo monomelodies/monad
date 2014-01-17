@@ -4,10 +4,12 @@ namespace monad\render\form;
 use monolyth\render\form\Text;
 use monolyth\adapter\sql\NoResults_Exception;
 use Adapter_Access;
+use monolyth\Language_Access;
 
 class Foreignkey extends Text
 {
     use Adapter_Access;
+    use Language_Access;
 
     public $initial;
     protected $type = 'foreignkey';
@@ -60,7 +62,17 @@ class Foreignkey extends Text
             $class = $this->classname();                
             $finder = new $class;
             if ($model = $finder->find(compact('id'))) {
-                $value = $model[$this->settings['field']];
+                if (method_exists($model, 'saveI18n')) {
+                    $props = (array)$model;
+                    foreach ($finder->languageData(compact('id')) as $lang) {
+                        if ($lang['language'] = self::language()->current->id) {
+                            $props += $lang;
+                        }
+                    }
+                    $value = $props[$this->settings['field']];
+                } else {
+                    $value = $model[$this->settings['field']];
+                }
             } else {
                 $value = null;
             }
