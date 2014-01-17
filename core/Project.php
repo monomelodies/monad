@@ -6,6 +6,8 @@ use Project as Myproject;
 class Project extends Myproject
 {
     protected $variables = 'monad/output/%%s/%s/variables.php';
+    public $staticServers = [];
+    public $staticSecureServers = [];
 
     public function __construct($theme = 'default')
     {
