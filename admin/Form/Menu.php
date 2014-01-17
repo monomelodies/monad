@@ -24,22 +24,10 @@ class Menu_Form extends I18n_Form
         $this->addForeignkey(
             'owner',
             $this->text(['./owner', 'column/owner']),
-            function() {
-                return self::adapter()->pages(
-                    'monolyth_auth',
-                    ['id', 'name'],
-                    [],
-                    ['order' => 'LOWER(name) ASC', 'limit' => 30]
-                );
-            },
             [
-                'adapter' => self::adapter(),
-                'table' => 'monolyth_auth',
+                'package' => 'monolyth',
+                'target' => 'auth',
                 'field' => 'name',
-                'id' => 'id',
-                'where' => [],
-                'order' => 'LOWER(name) ASC',
-                'limit' => 10,
             ]
         )->isRequired();
         $this->addBitflags(
