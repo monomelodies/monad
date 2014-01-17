@@ -2,10 +2,10 @@
 
 namespace monad\admin;
 use monad\core;
-use monolyth\Language_Access;
 use monolyth\adapter\sql\NoResults_Exception;
+use ErrorException;
 
-class Menu_Finder extends core\I18n_Finder implements Language_Access
+class Menu_Finder extends core\I18n_Finder
 {
     public function all($size, $page, array $where = [], array $options = [])
     {
@@ -22,7 +22,7 @@ class Menu_Finder extends core\I18n_Finder implements Language_Access
                          l.is_default DESC,
                          l.sortorder,
                          mi.title',
-                        $this->language->current->id
+                        self::language()->current->id
                     ),
                     'group' => 'm.id',
                     'limit' => $size,
@@ -36,10 +36,12 @@ class Menu_Finder extends core\I18n_Finder implements Language_Access
 
     public function find(array $where)
     {
-        $menu = $this->model;
         try {
-            $menu->load(self::adapter()->row('monad_menu', '*', $where));
-            return $menu;
+            return (new Menu_Model)->load(self::adapter()->row(
+                'monad_menu',
+                '*',
+                $where
+            ));
         } catch (NoResults_Exception $e) {
             return null;
         }
@@ -49,7 +51,7 @@ class Menu_Finder extends core\I18n_Finder implements Language_Access
     {
         try {
             return self::adapter()->models(
-                $this->item,
+                new Item_Menu_Model,
                 'monad_menu_item m
                  JOIN monad_menu_item_i18n i USING(id)
                  LEFT JOIN monad_page_i18n p ON
@@ -69,7 +71,9 @@ class Menu_Finder extends core\I18n_Finder implements Language_Access
                 ['order' => 'm.sortorder ASC']
             );
         } catch (NoResults_Exception $e) {
-            return $this->item;
+            return new Item_Menu_Model;
+        } catch (ErrorException $e) {
+            return new Item_Menu_Model;
         }
     }
 
