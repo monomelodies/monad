@@ -78,7 +78,7 @@ class {target}_Finder extends core\I18n_Finder
     public function find(array $where)
     {
         try {
-            return $this->model->load(self::adapter()->row(
+            return (new {$target}_Model)->load(self::adapter()->row(
                 '{tableguess}',
                 '*',
                 $where
