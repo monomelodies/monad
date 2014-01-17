@@ -9,6 +9,7 @@ class Item_Model
     private $url;
     private $txt;
     private $requires;
+    public $hidden = false;
 
     public function __construct($url, $txt, $requires)
     {

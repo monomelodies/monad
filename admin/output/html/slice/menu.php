@@ -18,7 +18,7 @@ foreach ($menu->items() as $package => $group) {
 <?php
 
     foreach ($group->items() as $item) {
-        if (!$item->hasPermission()) {
+        if (!$item->hasPermission() || $item->hidden) {
             continue;
         }
         $uri = $item->url();

@@ -306,7 +306,9 @@ span.cke_skin_kama {
 .box b.icons a {
     display: block;
     float: left;
-    background: center center no-repeat transparent;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: transparent;
     text-indent: -8192px;
     }
 form > section {

@@ -90,6 +90,19 @@ class Menu_Model
         return $this;
     }
 
+    public function hidden($target, $link = null, $package = null)
+    {
+        $this->add($target, $link, $package);
+        if (!isset($package)) {
+            $package = $this->package();
+        }
+        if ($package == 'admin') {
+            $package = 'project';
+        }
+        $this->items["$package $target"]->hidden = true;
+        return $this;
+    }
+
     public function group($target, $package = null)
     {
         if (!isset($package)) {

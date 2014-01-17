@@ -9,19 +9,6 @@ window.resizeFileFrame = function(height, id) {
 var orig;
 Monad = $.extend(Monad, {
     core: {
-        model: {
-            fk_select : function(field, msg) {
-                field.addEvent('keyup', function() {
-                    /**
-                     * Use Ajax-calls to retrieve possible matches.
-                     * If the length of the field's value is less than 4 characters,
-                     * return only direct matches.
-                     * If the length is 4 or greater, return a list of possible matches
-                     * beginning with these four characters.
-                     */
-                });
-            },
-        },
         select: {
             getSize : function() {
                 return {width: this.getSize().x, height: this.getScrollSize().y};
@@ -80,56 +67,7 @@ Monad = $.extend(Monad, {
                 p.addClass('pretty');
                 return false;
             },
-        },
-        foreignKey : {
-            up : function(el, name, current) {
-                Monad.core.foreignKeys[name].index--;
-                var i = Monad.core.foreignKeys[name].index;
-                var cache = Monad.core.foreignKeys[name].cache;
-                var input = el.getParent('label').getElement('input');
-                if (typeof cache[i] != 'undefined') {
-                    Monad.core.foreignKey.set(input, i);
-                    return false;
-                }
-                var request = new Request.JSON({
-                    'url' : '/monad/ajax/foreignkey/get/previous/',
-                    'onSuccess' : function(json, raw) {
-                        Monad.core.foreignKeys[name].cache = json;
-                        Monad.core.foreignKeys[name].index = json.length - 1;
-                        Monad.core.foreignKey.set(input, json.length - 1);
-                    },
-                }).post({name : name, current : current,
-                    model : Monad.core.foreignKeys[name].model});
-                return false;
-            },
-            down : function(el, name, current) {
-                Monad.core.foreignKeys[name].index++;
-                var i = Monad.core.foreignKeys[name].index;
-                var cache = Monad.core.foreignKeys[name].cache;
-                var input = el.getParent('label').getElement('input');
-                if (typeof cache[i] != 'undefined') {
-                    Monad.core.foreignKey.set(input, i);
-                    return false;
-                }
-                var request = new Request.JSON({
-                    'url' : '/monad/ajax/foreignkey/get/next/',
-                    'onSuccess' : function(json, raw) {
-                        Monad.core.foreignKeys[name].cache = json;
-                        Monad.core.foreignKeys[name].index = 0;
-                        Monad.core.foreignKey.set(input, 0);
-                    },
-                }).post({name : name, current : current,
-                    model : Monad.core.foreignKeys[name].model});
-                return false;
-            },
-            jump : function() {
-                return false;
-            },
-            set : function(el, index) {
-                el.value = Monad.core.foreignKeys[el.name].cache[index].str;
-            },
-        },
-        foreignKeys : {},
+        }
     },
     file: {
         upload: function(form) {
@@ -261,7 +199,29 @@ $('.monad_tabs_menu a').click(function() {
     return false;
 });
 $('.monad_tabs_menu a:first-child').removeClass('active').click();
-$('.foreignkey .select').click(function() {
+$('.foreignkey input').click(function() {
+    $('#monad-modal').remove();
+    $('body').append('<div id="monad-modal"/>');
+    $('body').append('<div class="popup box"/>');
+    var popup = $('.popup.box');
+    popup.append('<header class="outer">' +
+        '<b class="icons"><a href="#" class="icon cancel">[x]</a></b>' +
+        '<h1>' + Monolyth.text.get('monad\\admin\\selectforeignkey') + '</h1>' +
+        '</header>');
+    popup.append('<div class="inner"/>');
+    var $this = $(this);
+    $.get(
+        '/monad/' +
+        Monad.language +
+        $this.attr('data-package') +
+        '/' +
+        $this.attr('data-target') +
+        '/foreign-key/' +
+        $this.attr('data-field') +
+        '/',
+        function(data) {
+        }
+    );
     return false;
 });
 $('.monad_sortable td').each(function() {

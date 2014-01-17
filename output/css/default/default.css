@@ -104,7 +104,7 @@ span.icon {
 .icon.update {
     background-image: url(data/update.png);
     }
-.icon.delete {
+.icon.delete, .icon.cancel {
     background-image: url(data/delete.png);
     }
 .icon.copy {
@@ -123,7 +123,7 @@ span.icon {
     }
 code.sql {
     display: block;
-    background: $sqlBg
+    background: $sqlBg;
     border: 2px solid $medium;
     color: $sqlColour;
     font: 120% "Courier new", monospace;
@@ -700,5 +700,25 @@ form label:hover small {
     }
 .monad_inline.stacked .editing span {
     display: none;
+    }
+#monad-modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: $black;
+    opacity: .5;
+    filter: alpha(opacity=50);
+    z-index: 999;
+    }
+#monad-modal + .popup {
+    z-index: 1000;
+    width: 500px;
+    height: 500px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin: -250px 0 0 -250px;
     }
 

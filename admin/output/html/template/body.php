@@ -79,6 +79,7 @@ $Script->unshift(
     <script src="/ckeditor/adapters/jquery.js"></script>
     <?=$Script?>
     <script>
+        Monad = {language: '<?=$language->current->code?>'};
         Monolyth.text.setup(<?=json_encode($texts)?>);
         Monolyth.scripts.execute();
     </script>
