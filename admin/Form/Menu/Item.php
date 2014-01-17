@@ -18,73 +18,29 @@ class Item_Menu_Form extends I18n_Form
         $this->addForeignkey(
             'owner',
             $this->text(['./owner', 'column/owner']),
-            function() {
-                return self::adapter()->rows(
-                    'monad_auth',
-                    ['id', 'name'],
-                    [],
-                    ['order' => 'LOWER(name) ASC']
-                );
-            },
             [
-                'adapter' => self::adapter(),
-                'table' => 'monad_auth',
+                'package' => 'monolyth',
+                'target' => 'auth',
                 'field' => 'name',
-                'id' => 'id',
-                'where' => [],
-                'order' => 'LOWER(name) ASC',
-                'limit' => 10,
             ]
         )->isRequired();
         $this->addForeignkey(
             'menu',
             $this->text(['./menu', 'column/menu']),
-            function() {
-                return self::adapter()->rows(
-                    'monad_menu m JOIN monad_menu_i18n i USING(id)',
-                    ['id', 'title'],
-                    ['language' => self::language()->current->id],
-                    ['order' => 'LOWER(title) ASC']
-                );
-            },
             [
-                'adapter' => self::adapter(),
-                'table' => 'monad_menu',
-                'field' => 'name',
-                'id' => 'id',
-                'where' => [],
-                'order' => 'LOWER(title) ASC',
-                'limit' => 10,
+                'package' => 'monad',
+                'target' => 'menu',
+                'field' => 'title',
             ]
-        )->filter('parent')
+        )//->filter('parent')
          ->isRequired();
         $this->addForeignkey(
             'parent',
             $this->text(['./parent', 'column/parent']),
-            function() {
-                return self::adapter()->rows(
-                    'monad_menu_item i
-                     JOIN monad_menu_item_i18n ii USING(id)
-                     LEFT JOIN monad_page_i18n p ON p.id = i.page',
-                    ['i.id', 'COALESCE(ii.title, p.title) AS title', 'menu'],
-                    [
-                        'ii.language' => self::language()->current->id,
-                        [
-                            'p.language' => self::language()->current->id,
-                            ['p.language IS NULL'],
-                        ],
-                    ],
-                    ['order' => 'LOWER(COALESCE(ii.title, p.title)) ASC']
-                );
-            },
             [
-                'adapter' => self::adapter(),
-                'table' => 'monad_menu',
-                'field' => 'name',
-                'id' => 'id',
-                'where' => [],
-                'order' => 'LOWER(title) ASC',
-                'limit' => 10,
+                'package' => 'monad',
+                'target' => 'menu_item',
+                'field' => 'title',
             ]
         );
         $this->addNumeric(
@@ -100,22 +56,10 @@ class Item_Menu_Form extends I18n_Form
         $this->addForeignkey(
             'page',
             $this->text(['./page', 'column/page']),
-            function() {
-                return self::adapter()->rows(
-                    'monad_page p JOIN monad_page_i18n i USING(id)',
-                    ['id', 'title'],
-                    ['language' => self::language()->current->id],
-                    ['order' => 'LOWER(title) ASC']
-                );
-            },
             [
-                'adapter' => self::adapter(),
-                'table' => 'monad_menu',
-                'field' => 'name',
-                'id' => 'id',
-                'where' => [],
-                'order' => 'LOWER(title) ASC',
-                'limit' => 10,
+                'package' => 'monad',
+                'target' => 'page',
+                'field' => 'title',
             ]
         );
         $this->addText('link', $this->text(['./link', 'column/link']));
