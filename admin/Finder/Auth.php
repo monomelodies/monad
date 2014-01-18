@@ -15,7 +15,7 @@ class Auth_Finder extends core\Finder
         try {
             return self::adapter()->pages(
                 'monad_auth',
-                '*',
+                ['id', 'name', 'email'],
                 $where,
                 $options
             );
