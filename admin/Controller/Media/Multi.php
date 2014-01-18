@@ -8,7 +8,7 @@ class Multi_Media_Controller extends Controller
     {
         extract($args);
         $ids = explode(',', $ids);
-        if (!($medias = $this->medias->all($ids))) {
+        if (!($medias = Media_Finder::instance()->all($ids))) {
             throw new HTTP404_Exception();
         }
         uasort($medias, function($a, $b) {
