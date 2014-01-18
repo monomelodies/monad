@@ -14,7 +14,7 @@ return function($m) use($project) {
         'monad\admin\Media'
     );
     $m->connect(
-        '/monad/media/multi/(%a:ids).(%s:size).(%s:type)',
+        '/monad/media-multi/(%s:ids).(%s:size).(%s:type)',
         'monad\admin\Multi_Media'
     );
     $m->connect(
