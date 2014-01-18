@@ -8,7 +8,7 @@ class Media_Controller extends Controller
     {
         extract($args);
         if (!($media = Media_Finder::instance()->find($id))) {
-            throw new HTTP404_Exception();
+            throw new HTTP404_Exception;
         }
         $args['mimetype'] = $media['mimetype'];
         if (isset($type)) {
