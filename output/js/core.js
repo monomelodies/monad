@@ -210,6 +210,10 @@ $('.foreignkey input').click(function() {
         '</header>');
     popup.append('<div class="inner"/>');
     var $this = $(this);
+    var select = function(id, value) {
+        $this.attr('data-value', id);
+        $this.val(value);
+    };
     $.get(
         '/monad/' + Monad.language + '/foreign-key/',
         {
@@ -219,7 +223,32 @@ $('.foreignkey input').click(function() {
             field: $this.attr('data-field')
         },
         function(data) {
-        }
+            var t = $('<table class="foreign-key-select"/>');
+            var h = $('<thead/>');
+            var b = $('<tbody/>');
+            var tr = $('<tr/>');
+            for (var header in data.headers) {
+                tr.append('<th>' + data.headers[header] + '</th>');
+            }
+            h.append(tr);
+            t.append(h);
+            for (var i = 0; i < data.items.length; i++) {
+                ;(function(item) {
+                    var tr = $('<tr/>');
+                    for (var field in item) {
+                        tr.append('<td>' + item[field] + '</td>');
+                    }
+                    b.append(tr);
+                    tr.click(function() {
+                        select(item.id, item[$this.attr('data-field')]);
+                        return false;
+                    });
+                })(data.items[i]);
+            }
+            t.append(b);
+            popup.find('.inner').append(t);
+        },
+        'json'
     );
     return false;
 });
