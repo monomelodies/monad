@@ -3,6 +3,7 @@
 namespace monad\admin;
 use monad\core;
 use monolyth\HTTP301_Exception;
+use monolyth\render\Translate_Parser;
 
 class Browse_File_Controller extends core\Controller
 {
@@ -11,6 +12,7 @@ class Browse_File_Controller extends core\Controller
         parent::__construct();
         $this->folders = new Folder_Finder;
         $this->medias = new Media_Finder;
+        $this->translate = new Translate_Parser;
     }
 
     protected function get(array $args)
