@@ -85,6 +85,13 @@ abstract class Controller extends core\Controller
         ]);
         $redir = self::http()->getRedir();
         $language = self::language();
+        if (preg_match(
+            '@^/monad/([a-z]{2})/@',
+            $_SERVER['REQUEST_URI'],
+            $match
+        )) {
+            $language->set($match[1]);
+        }
         $this->addRequirement(
             'monad\admin\Login_Required',
             function() {
