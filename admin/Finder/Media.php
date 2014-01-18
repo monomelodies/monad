@@ -32,6 +32,26 @@ class Media_Finder implements Finder
         }
     }
 
+    public function ids(array $ids = [])
+    {
+        try {
+            $rows = self::adapter()->rows(
+                'monolyth_media',
+                '*',
+                ['id' => ['IN' => $ids]]
+            );
+            uasort($rows, function($a, $b) {
+                if ($a['originalname'] == $b['originalname']) {
+                    return $a['id'] < $b['id'] ? -1 : 1;
+                }
+                return $a['originalname'] < $b['originalname'] ? -1 : 1;
+            });
+            return $rows;
+        } catch (NoResults_Exception $e) {
+            return null;
+        }
+    }
+
     public function find($id)
     {
         try {
