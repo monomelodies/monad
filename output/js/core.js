@@ -211,14 +211,13 @@ $('.foreignkey input').click(function() {
     popup.append('<div class="inner"/>');
     var $this = $(this);
     $.get(
-        '/monad/' +
-        Monad.language +
-        $this.attr('data-package') +
-        '/' +
-        $this.attr('data-target') +
-        '/foreign-key/' +
-        $this.attr('data-field') +
-        '/',
+        '/monad/' + Monad.language + '/foreign-key/',
+        {
+            database: $this.attr('data-database'),
+            'package': $this.attr('data-package'),
+            target: $this.attr('data-target'),
+            field: $this.attr('data-field')
+        },
         function(data) {
         }
     );
