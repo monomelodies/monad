@@ -202,18 +202,7 @@ $('.monad_tabs_menu a:first-child').removeClass('active').click();
 $('.foreignkey input').click(function() {
     $('#monad-modal').remove();
     $('body').append('<div id="monad-modal"/>');
-    $('body').append('<div class="popup box"/>');
-    var popup = $('.popup.box');
-    popup.append('<header class="outer">' +
-        '<b class="icons"><a href="#" class="icon cancel">[x]</a></b>' +
-        '<h1>' + Monolyth.text.get('monad\\admin\\selectforeignkey') + '</h1>' +
-        '</header>');
-    popup.append('<div class="inner"/>');
     var $this = $(this);
-    var select = function(id, value) {
-        $this.attr('data-value', id);
-        $this.val(value);
-    };
     $.get(
         '/monad/' + Monad.language + '/foreign-key/',
         {
@@ -223,6 +212,24 @@ $('.foreignkey input').click(function() {
             field: $this.attr('data-field')
         },
         function(data) {
+            var select = function(id, value) {
+                $this.attr('data-value', id);
+                $this.val(value);
+                popup.remove();
+                $('#monad-modal').remove();
+            };
+            $('body').append('<div class="popup box"/>');
+            var popup = $('.popup.box');
+            popup.append('<header class="outer">' +
+                '<b class="icons"><a href="#" class="icon cancel">[x]</a></b>' +
+                '<h1>' + Monolyth.text.get('monad\\admin\\foreignkey/select') + '</h1>' +
+                '</header>');
+            popup.find('.icon.cancel').click(function() {
+                popup.remove();
+                $('#monad-modal').remove();
+                return false;
+            });
+            popup.append('<div class="inner"/>');
             var t = $('<table class="foreign-key-select"/>');
             var h = $('<thead/>');
             var b = $('<tbody/>');
@@ -247,6 +254,13 @@ $('.foreignkey input').click(function() {
             }
             t.append(b);
             popup.find('.inner').append(t);
+            popup.find('.inner').append('<div class="buttons"><button>' +
+                Monolyth.text.get('monad\\admin\\foreignkey/novalue') +
+                '</button><hr></div>');
+            popup.find('button').click(function() {
+                select(null, '');
+                return false;
+            });
         },
         'json'
     );
