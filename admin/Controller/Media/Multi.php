@@ -8,8 +8,8 @@ class Multi_Media_Controller extends Controller
     {
         extract($args);
         $ids = explode(',', $ids);
-        if (!($medias = Media_Finder::instance()->all($ids))) {
-            throw new HTTP404_Exception();
+        if (!($medias = Media_Finder::instance()->ids($ids))) {
+            throw new HTTP404_Exception;
         }
         uasort($medias, function($a, $b) {
             if ($a['originalname'] == $b['originalname']) {
@@ -25,7 +25,11 @@ class Multi_Media_Controller extends Controller
                 break;
         }
         $this->template = false;
-        return $this->view('misc/media/multi', compact('medias') + $args);
+        $helper = new Media_Helper;
+        return $this->view(
+            'misc/media/multi',
+            compact('medias', 'helper') + $args
+        );
     }
 }
 
