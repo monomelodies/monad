@@ -100,7 +100,8 @@ abstract class Controller extends core\Controller
                 )) {
                     return false;
                 }
-                $parts = explode('/', substr($_SERVER['REQUEST_URI'], 1));
+                $uri = array_shift(explode('?', $_SERVER['REQUEST_URI']));
+                $parts = explode('/', substr($uri, 1));
                 foreach ($parts as $key => $value) {
                     if (!strlen($value)) {
                         unset($parts[$key]);
