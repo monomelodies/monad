@@ -34,43 +34,19 @@ class Page_Form extends I18n_Form
         $this->addForeignkey(
             'parent',
             $this->text(['./parent', 'column/parent']),
-            function() use($language) {
-                return self::adapter()->pages(
-                    'monad_page_i18n',
-                    ['id', 'title'],
-                    ['language' => $language->id],
-                    ['order' => 'LOWER(title) ASC', 'limit' => 30]
-                );
-            },
             [
-                'adapter' => self::adapter(),
-                'table' => 'monad_page_i18n',
+                'package' => 'monad',
+                'target' => 'page',
                 'field' => 'title',
-                'id' => 'id',
-                'where' => ['language' => $language->id],
-                'order' => 'LOWER(title) ASC',
-                'limit' => 10,
             ]
         )->null();
         $this->addForeignkey(
             'owner',
             $this->text('./owner'),
-            function() {
-                return self::adapter()->pages(
-                    'monad_auth',
-                    ['id', 'name'],
-                    [],
-                    ['order' => 'LOWER(name) ASC', 'limit' => 30]
-                );
-            },
             [
-                'adapter' => self::adapter(),
-                'table' => 'monolyth_auth',
+                'package' => 'monad',
+                'target' => 'auth',
                 'field' => 'name',
-                'id' => 'id',
-                'where' => [],
-                'order' => 'LOWER(name) ASC',
-                'limit' => 10,
             ]
         )->isRequired();
         foreach (self::projectlanguage()->available as $lang) {
