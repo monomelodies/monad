@@ -54,7 +54,7 @@ return function($m) use($project) {
     $m->connect($scaffold, 'monad\admin\Database');
     $scaffold .= "(%s:database)";
     $m->connect("$scaffold/", 'monad\admin\List');
-    $m->connect("$scaffold/foreign-key/(%field)/", 'monad\admin\ForeignKey');
+    $m->connect('/monad/(%s:language)/foreign-key/', 'monad\admin\ForeignKey');
     $m->connect("$scaffold/create/", 'monad\admin\Create');
     $scaffold .= "/(%s:key)";
     $m->connect("$scaffold/", 'monad\admin\View');
