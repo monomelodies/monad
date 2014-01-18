@@ -26,6 +26,13 @@ class Foreignkey extends Text
         $this->options['data-package'] = $settings['package'];
         $this->options['data-target'] = $settings['target'];
         $this->options['data-field'] = $settings['field'];
+        foreach (self::adapters() as $name => $adapter) {
+            if ($name != '_current' && $adapter == self::adapter()) {
+                $this->options['data-database'] = $name;
+                $this->renderOptions[] = 'data-database';
+                break;
+            }
+        }
         $this->renderOptions[] = 'data-package';
         $this->renderOptions[] = 'data-target';
         $this->renderOptions[] = 'data-field';
@@ -80,6 +87,11 @@ class Foreignkey extends Text
         $this->original = $this->value;
         $this->originalInternalId = $this->internalId;
         $this->value = $value;
+        if ($value) {
+            $this->renderOptions[] = 'value';
+            $this->renderOptions[] = 'data-value';
+            $this->options['data-value'] =& $this->internalId;
+        }
         $this->internalId = $id;
         unset($this->options[$name]);
         return $value;
