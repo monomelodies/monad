@@ -5,10 +5,12 @@ use monolyth\Finder;
 use Adapter_Access;
 use monolyth\adapter\sql\NoResults_Exception;
 use monolyth\Media_Model;
+use monolyth\core\Singleton;
 
 class Media_Finder implements Finder
 {
     use Adapter_Access;
+    use Singleton;
 
     public function all($folder = null)
     {
