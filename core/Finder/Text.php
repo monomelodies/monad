@@ -14,7 +14,8 @@ class Text_Finder implements Finder
     {
         $texts = [
             'monad\\admin\\deleteconfirm' => '',
-            'monad\\admin\\selectforeignkey' => '',
+            'monad\\admin\\foreignkey/select' => '',
+            'monad\\admin\\foreignkey/novalue' => '',
         ];
         foreach ($texts as $id => &$text) {
             $text = [$id, self::language()->current->code];
