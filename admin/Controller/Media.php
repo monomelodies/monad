@@ -7,7 +7,7 @@ class Media_Controller extends Controller
     protected function get(array $args)
     {
         extract($args);
-        if (!($media = $this->medias->find($id))) {
+        if (!($media = Media_Finder::instance()->find($id))) {
             throw new HTTP404_Exception();
         }
         $args['mimetype'] = $media['mimetype'];
@@ -21,7 +21,8 @@ class Media_Controller extends Controller
             }
         }
         $this->template = false;
-        return $this->view('misc/media', compact('media') + $args);
+        $helper = new Media_Helper;
+        return $this->view('misc/media', compact('media', 'helper') + $args);
     }
 }
 
