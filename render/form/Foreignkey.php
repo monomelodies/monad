@@ -96,5 +96,13 @@ class Foreignkey extends Text
         unset($this->options[$name]);
         return $value;
     }
+
+    public function __get($name)
+    {
+        if ($name != 'value') {
+            return null;
+        }
+        return $this->internalId;
+    }
 }
 
