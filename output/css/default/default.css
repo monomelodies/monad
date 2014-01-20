@@ -612,6 +612,7 @@ label.hidden {
     }
 .paginate li {
     display: inline-block;
+    margin: .5em 0;
     }
 .paginate a, .paginate strong {
     font-weight: bold;
