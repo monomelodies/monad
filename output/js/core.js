@@ -199,8 +199,8 @@ $('.monad_tabs_menu a').click(function() {
     return false;
 });
 $('.monad_tabs_menu a:first-child').removeClass('active').click();
-$('.foreignkey').parents('form').find('button').click(function() {
-    var f = $(this).parents('form');
+$('.foreignkey').parents('form').submit(function() {
+    var f = $(this);
     f.find('.foreignkey input').each(function() {
         var $this = $(this);
         $this.val($this.attr('data-value'));
@@ -226,7 +226,7 @@ $('.foreignkey input').click(function() {
                 popup.remove();
                 $('#monad-modal').remove();
             };
-            $('body').append('<div class="popup box"/>');
+            $('body').append('<div class="popup box foreign-key"/>');
             var popup = $('.popup.box');
             popup.append('<header class="outer">' +
                 '<b class="icons"><a href="#" class="icon cancel">[x]</a></b>' +
