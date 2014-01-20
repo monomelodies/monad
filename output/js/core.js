@@ -199,6 +199,14 @@ $('.monad_tabs_menu a').click(function() {
     return false;
 });
 $('.monad_tabs_menu a:first-child').removeClass('active').click();
+$('.foreignkey').parents('form').find('button').click(function() {
+    var f = $(this).parents('form');
+    f.find('.foreignkey input').each(function() {
+        var $this = $(this);
+        $this.val($this.attr('data-value'));
+    });
+    return true;
+});
 $('.foreignkey input').click(function() {
     $('#monad-modal').remove();
     $('body').append('<div id="monad-modal"/>');
