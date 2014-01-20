@@ -211,23 +211,26 @@ $('.foreignkey input').click(function() {
     $('#monad-modal').remove();
     $('body').append('<div id="monad-modal"/>');
     var $this = $(this);
+    var page = 1;
+    var popup;
+    var select = function(id, value) {
+        $this.attr('data-value', id);
+        $this.val(value);
+        popup.remove();
+        $('#monad-modal').remove();
+    };
     $.get(
         '/monad/' + Monad.language + '/foreign-key/',
         {
             database: $this.attr('data-database'),
             'package': $this.attr('data-package'),
             target: $this.attr('data-target'),
-            field: $this.attr('data-field')
+            field: $this.attr('data-field'),
+            page: page
         },
         function(data) {
-            var select = function(id, value) {
-                $this.attr('data-value', id);
-                $this.val(value);
-                popup.remove();
-                $('#monad-modal').remove();
-            };
             $('body').append('<div class="popup box foreign-key"/>');
-            var popup = $('.popup.box');
+            popup = $('.popup.box');
             popup.append('<header class="outer">' +
                 '<b class="icons"><a href="#" class="icon cancel">[x]</a></b>' +
                 '<h1>' + Monolyth.text.get('monad\\admin\\foreignkey/select') + '</h1>' +
@@ -238,30 +241,6 @@ $('.foreignkey input').click(function() {
                 return false;
             });
             popup.append('<div class="inner"/>');
-            var t = $('<table class="foreign-key-select"/>');
-            var h = $('<thead/>');
-            var b = $('<tbody/>');
-            var tr = $('<tr/>');
-            for (var header in data.headers) {
-                tr.append('<th>' + data.headers[header] + '</th>');
-            }
-            h.append(tr);
-            t.append(h);
-            for (var i = 0; i < data.items.length; i++) {
-                ;(function(item) {
-                    var tr = $('<tr/>');
-                    for (var field in item) {
-                        tr.append('<td>' + item[field] + '</td>');
-                    }
-                    b.append(tr);
-                    tr.click(function() {
-                        select(item.id, item[$this.attr('data-field')]);
-                        return false;
-                    });
-                })(data.items[i]);
-            }
-            t.append(b);
-            popup.find('.inner').append(t);
             popup.find('.inner').append('<div class="buttons"><button>' +
                 Monolyth.text.get('monad\\admin\\foreignkey/novalue') +
                 '</button><hr></div>');
@@ -269,9 +248,71 @@ $('.foreignkey input').click(function() {
                 select(null, '');
                 return false;
             });
+            updateFks(data);
         },
         'json'
     );
+    var updateFks = function(data) {
+        popup.find('.inner').find('table, ul.paginate').remove();
+        var updateFks = arguments.callee;
+        if (parseInt(data.pages) > 1) {
+            var ul = $('<ul class="paginate"/>');
+            if (page > 1) {
+                ul.append('<li><a href="#" data-page="1">&laquo;</a></li>');
+            }
+            for (var i = 1; i <= data.pages; i++) {
+                if (i == page) {
+                    ul.append('<li><strong>' + i + '</strong></li>');
+                } else {
+                    ul.append('<li><a href="#" data-page="' + i + '">' + i + '</a></li>');
+                }
+            }
+            if (page != data.pages) {
+                ul.append('<li><a href="#" data-page=' + data.pages + '">&raquo;</a></li>');
+            }
+        }
+        popup.find('.inner').prepend(ul);
+        popup.find('.inner .paginate a').click(function() {
+            page = $(this).attr('data-page');
+            $.get(
+                '/monad/' + Monad.language + '/foreign-key/',
+                {
+                    database: $this.attr('data-database'),
+                    'package': $this.attr('data-package'),
+                    target: $this.attr('data-target'),
+                    field: $this.attr('data-field'),
+                    page: page
+                },
+                updateFks,
+                'json'
+            );
+            return false;
+        });
+        var t = $('<table class="foreign-key-select"/>');
+        var h = $('<thead/>');
+        var b = $('<tbody/>');
+        var tr = $('<tr/>');
+        for (var header in data.headers) {
+            tr.append('<th>' + data.headers[header] + '</th>');
+        }
+        h.append(tr);
+        t.append(h);
+        for (var i = 0; i < data.items.length; i++) {
+            ;(function(item) {
+                var tr = $('<tr/>');
+                for (var field in item) {
+                    tr.append('<td>' + item[field] + '</td>');
+                }
+                b.append(tr);
+                tr.click(function() {
+                    select(item.id, item[$this.attr('data-field')]);
+                    return false;
+                });
+            })(data.items[i]);
+        }
+        t.append(b);
+        popup.find('.inner').prepend(t);
+    };
     return false;
 });
 $('.monad_sortable td').each(function() {
