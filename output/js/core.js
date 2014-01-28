@@ -1,10 +1,9 @@
 
 ;(function($) {
 
-window.Monad = window.Monad || {};
-var Monad = window.Monad; 
+var Monad = window.Monad || {}; 
 window.resizeFileFrame = function(height, id) {
-    $('iframe[data-id=' + id + ']').css({height: height});
+    $('.' + id + ' iframe').css({height: height});
 };
 var orig;
 Monad = $.extend(Monad, {
@@ -101,7 +100,7 @@ Monad = $.extend(Monad, {
             var pick = $(window.open(
                 '/monad/' + Monolyth.language.code + '/file/',
                 'filebrowser',
-                ['width=' + parseInt(w * .8), 'height=' + parseInt(w * .7)].
+                ['width=' + parseInt(w * .8), 'height=' + parseInt(h * .7)].
                     join(','),
                 true
             ));
@@ -119,17 +118,30 @@ Monad = $.extend(Monad, {
         },
         done: function(data) {
             $('body > div + div').remove();
-            $('body > div').after(
-                '<div><img src="' + data.src + '" alt="' + data.alt +
-                    '"></div>'
-            );
+            var i = $('<img>');
+            i.load(function() { window.Monad.file.resize(this, $('body').height()) });
+            $('body > div').after('<div>');
+            i.attr('src', data.src);
+            i.attr('alt', data.alt);
+            $('body > div + div').append(i);
             window.parent.Monad.file.set(
                 $('[name=element]').val(),
                 data.id
             );
         },
         remove: function(el) {
-            $('[name=' + el.replace(/([\[\]])/, '\\\\\1') + ']').val('');
+            var el = $('[name=' + el + ']');
+            el.val('');
+            console.log(el.get(0), el.parents('td'));
+            var i = el.parents('td').find('iframe');
+            i.attr('src', i.attr('src').replace(/\d+/, 0));
+        },
+        resize: function(img, height) {
+            window.parent.resizeFileFrame(height, window.Monad.file.element);
+            var $img = $(img);
+            if ($img.width() > $('body').width()) {
+                $img.width($('body').width());
+            }
         }
     },
     languages: {
@@ -491,6 +503,9 @@ $('.icon.delete').on('click', function() {
         return false;
     }
     var $this = $(this);
+    if ($this.hasClass('media')) {
+        return false;
+    }
     var f = $this.parents('.monad_inline');
     if (f.length) {
         if (f.hasClass('stacked')) {
@@ -544,6 +559,7 @@ $('#main h2').click(function() {
     p.addClass('active');
     return false;
 });
+window.Monad = Monad;
 
 })(jQuery);
 
