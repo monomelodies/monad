@@ -98,7 +98,7 @@ Monad = $.extend(Monad, {
         choose: function() {
             var w = $(window.parent).width(), h = $(window.parent).height();
             var pick = $(window.open(
-                '/monad/' + Monolyth.language.code + '/file/',
+                '/monad/' + Monolyth.language.code + '/monad/file/',
                 'filebrowser',
                 ['width=' + parseInt(w * .8), 'height=' + parseInt(h * .7)].
                     join(','),
@@ -172,9 +172,9 @@ $.fn.monadEditor = function(lang, options) {
             entities_greek: false,
             toolbar: 'Full',
             disableNativeSpellChecker: true,
-            filebrowserBrowseUrl: '/monad/' + lang + '/file/',
-            filebrowserImageBrowseUrl: '/monad/' + lang + '/file/image/',
-            filebrwoserFlashBrowseUrl: '/monad/' + lang + '/file/flash/',
+            filebrowserBrowseUrl: '/monad/' + lang + '/monad/file/',
+            filebrowserImageBrowseUrl: '/monad/' + lang + '/monad/file/image/',
+            filebrwoserFlashBrowseUrl: '/monad/' + lang + '/monad/file/flash/',
         };
         if (options) {
             $.extend(settings, options);
