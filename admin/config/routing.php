@@ -23,30 +23,30 @@ return function($m) use($project) {
     );
     $m->connect('/monad/(%s:language)/', 'monad\admin');
     $m->connect('/monad/(%s:language)/login/', 'monad\admin\Login');
-    $m->connect('/monad/(%s:language)/file/', 'monad\admin\Browse_File');
-    $m->connect('/monad/(%s:language)/file/add/', 'monad\admin\Upload_File');
+    $m->connect('/monad/(%s:language)/monad/file/', 'monad\admin\Browse_File');
+    $m->connect('/monad/(%s:language)/monad/file/add/', 'monad\admin\Upload_File');
     $m->connect(
-        '/monad/(%s:language)/ajax/file/move/',
+        '/monad/(%s:language)/monad/ajax/file/move/',
         'monad\admin\Move_File'
     );
     $m->connect(
-        '/monad/(%s:language)/ajax/reorder/',
+        '/monad/(%s:language)/monad/ajax/reorder/',
         'monad\admin\Reorder'
     );
     $m->connect(
-        '/monad/(%s:language)/file/(%d:id)/frame/',
+        '/monad/(%s:language)/monad/file/(%d:id)/frame/',
         'monad\admin\Frame_File'
     );
     $m->connect(
-        '/monad/(%s:language)/file/(%d:id)/view/',
+        '/monad/(%s:language)/monad/file/(%d:id)/view/',
         'monad\admin\View_File'
     );
     $m->connect(
-        '/monad/(%s:language)/file/(%s:type)/',
+        '/monad/(%s:language)/monad/file/(%s:type)/',
         'monad\admin\Browse_File'
     );
     $m->connect(
-        '/monad/(%s:language)/file/(%s:type)/add/',
+        '/monad/(%s:language)/monad/file/(%s:type)/add/',
         'monad\admin\Upload_File'
     );
     $m->connect('/monad/(%s:language)/logout/', 'monad\admin\Logout');
