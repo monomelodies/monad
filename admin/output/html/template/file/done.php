@@ -8,7 +8,9 @@ if ($type == 'jpeg') {
 
 ?>
 <!doctype html>
-<html><body><script>
+<html><body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script>
 <?php if (isset($_GET['redir'])) { ?>
 /**
  * @see http://docs.cksource.com/CKEditor_3.x/Developers_Guide/File_Browser_%28Uploader%29/Custom_File_Browser
