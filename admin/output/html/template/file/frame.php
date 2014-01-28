@@ -24,13 +24,13 @@ $Script->unshift(
 <body>
 <?php if (!isset($_GET['disabled'])) { ?>
     <div>
-        <form id="uploader" target="upload" method="post" enctype="multipart/form-data" action="<?=$url('monad/admin/upload_file')?>">
+        <form id="uploader" target="upload" method="post" enctype="multipart/form-data" action="<?=$url('monad/admin/upload_file').'?element='.$_GET['element']?>">
             <fieldset>
                 <?=$input?>
                 <button type="submit" name="act_submit"><?=$text('./upload')?></button>
                 <button type="button"><?=$text('./choose')?></button>
 <?php if ($media['id']) { ?>
-                <a class="icon delete" id="delete_img" href="#"><?=$text('./delete')?></a>
+                <a class="icon delete media" id="delete_img" href="#"><?=$text('./delete')?></a>
 <?php } ?>
                 <input type="hidden" class="upload_name" name="<?=ini_get('session.upload_progress.name')?>" value="monad_media">
                 <input type="hidden" name="id" value="<?=$media['id']?>">
@@ -71,17 +71,17 @@ $('#uploader').submit(function() {
     return Monad.file.upload($this);
 });
 $('#delete_img').click(function() {
-    window.parent.Monad.file.remove($('[name=element]').val());
+    if (!window.confirm(Monolyth.text.get('monad\\admin\\deleteconfirm'))) {
+        return false;
+    }
+    window.parent.Monad.file.remove('<?=$_GET['element']?>');
     return false;
 });
-$('body').on('load', 'img', function() {
-    window.parent.resizeFileFrame($('body').height(), '<?=$media['id']?>');
-    if ($('img').width() > $('body').width()) {
-        $('img').width($('body').width());
-    }
-});
 $(document).ready(function() {
-    window.parent.resizeFileFrame($('body').height(), '<?=$media['id']?>');
+    window.Monad.file.element = '<?=$_GET['element']?>';
+    $('img').load(function() { window.Monad.file.resize(this, $('body').height()); });
+    window.Monad.file.resize($('img').get(0), $('body').height());
+    Monolyth.text.setup(<?=json_encode($texts)?>);
     Monolyth.scripts.execute();
 });
 </script>
