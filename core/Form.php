@@ -5,6 +5,7 @@ use monolyth\core\Post_Form;
 use monolyth\render\form\Bitflags;
 use monolyth\render\form\Radios;
 use monad\render\form\Foreignkey;
+use monad\render\form\Media;
 
 abstract class Form extends Post_Form
 {
@@ -40,6 +41,26 @@ abstract class Form extends Post_Form
             }
         }
         $element->prepare($name, $settings, $options);
+        $element->prependFormname($this->getId());
+        $this[$element->getName()] = $element;
+        return $element;
+    }
+
+    protected function addMedia($name, $label = null, array $options = [])
+    {
+        $element = new Media;
+        $element->setParent($this);
+        if (!isset($label)) {
+            $label = null;
+        }
+        if (!is_null($label)) {
+            if ($this->placeholders) {
+                $element->setPlaceholder($label);
+            } else {
+                $element->setLabel($label);
+            }
+        }
+        $element->prepare($name, $options);
         $element->prependFormname($this->getId());
         $this[$element->getName()] = $element;
         return $element;
