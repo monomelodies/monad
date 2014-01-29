@@ -26,7 +26,6 @@ use monolyth\Text_Model;
 use monolyth\render\Translate_Parser;
 use monolyth\account\Logout_Model;
 use monolyth\Language_Access;
-use monad\Project;
 
 abstract class Controller extends core\Controller
 {
@@ -55,6 +54,7 @@ abstract class Controller extends core\Controller
     public function __construct()
     {
         parent::__construct();
+        $this->project = Project::instance();
         $this->Css = new Css;
         $this->Script = new Script;
         $user = self::user();
@@ -157,7 +157,7 @@ abstract class Controller extends core\Controller
             try {
                 $options = include 'config/sites.php';
             } catch (ErrorException $e) {
-                $myproject = self::project();
+                $myproject = \Project::instance();
                 $options[$myproject['http']] = $myproject['name'];
             }
             $this->siteselect = new Select;
@@ -200,15 +200,6 @@ abstract class Controller extends core\Controller
         }
     }
 
-    public static function project()
-    {
-        static $project;
-        if (!isset($project)) {
-            $project = \Project::instance();
-        }
-        return $project;
-    }
-
     /**
      * Destructor overload. End() the querysaver.
      *
@@ -235,7 +226,7 @@ abstract class Controller extends core\Controller
     {
         $files = [];
         $paths = explode(PATH_SEPARATOR, get_include_path());
-        $project = Project::instance();
+        $project = $this->project;
         foreach ($paths as $path) {
             foreach (['model', 'view'] as $subdir) {
                 if (file_exists("{$project['private']}$path/$subdir")) {
