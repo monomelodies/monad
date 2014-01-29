@@ -22,11 +22,11 @@ use monolyth\render\form\Select;
 use monad\admin\Module_Finder;
 use monolyth\render\Css;
 use monolyth\render\Script;
-use monolyth\Project_Access;
 use monolyth\Text_Model;
 use monolyth\render\Translate_Parser;
 use monolyth\account\Logout_Model;
 use monolyth\Language_Access;
+use monad\Project;
 
 abstract class Controller extends core\Controller
 {
@@ -34,9 +34,6 @@ abstract class Controller extends core\Controller
     use Static_Helper;
     use User_Access;
     use Session_Access;
-    use Project_Access {
-        Project_Access::project as myproject;
-    }
     use admin\Language_Access;
 
     public
@@ -207,7 +204,7 @@ abstract class Controller extends core\Controller
     {
         static $project;
         if (!isset($project)) {
-            $project = new Project;
+            $project = \Project::instance();
         }
         return $project;
     }
@@ -238,7 +235,7 @@ abstract class Controller extends core\Controller
     {
         $files = [];
         $paths = explode(PATH_SEPARATOR, get_include_path());
-        $project = monad\Project::instance();
+        $project = Project::instance();
         foreach ($paths as $path) {
             foreach (['model', 'view'] as $subdir) {
                 if (file_exists("{$project['private']}$path/$subdir")) {
