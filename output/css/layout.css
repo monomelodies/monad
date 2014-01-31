@@ -111,7 +111,7 @@ hr {
     border: 2px solid;
     border-color: $alternateBorder1;
     $border_radius(0 8px 8px 0);
-    $gradient($headerGradient);
+    $gradient($headerGradientFrom, $headerGradientTo);
     $transition(right .5s ease, top .5s ease, bottom .5s ease);
     }
 #menu-container.expanded {
