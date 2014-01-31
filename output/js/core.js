@@ -3,7 +3,7 @@
 
 var Monad = window.Monad || {}; 
 window.resizeFileFrame = function(height, id) {
-    $('.' + id + ' iframe').css({height: height});
+    $('[name=' + id + ']').parents('td').find('iframe').css({height: height});
 };
 var orig;
 Monad = $.extend(Monad, {
@@ -114,18 +114,18 @@ Monad = $.extend(Monad, {
             window.parent.Monad.file.set($('[name=element]').val(), id);
         },
         set: function(el, id) {
-            $('[name=' + el.replace(/([\[\]])/, '\\\\\1') + ']').val(id);
+            $('[name=' + el + ']').val(id);
         },
-        done: function(data) {
+        done: function(element, data) {
             $('body > div + div').remove();
             var i = $('<img>');
-            i.load(function() { window.Monad.file.resize(this, $('body').height()) });
+            i.load(function() { window.Monad.file.resize(element, this, $('body').height()) });
             $('body > div').after('<div>');
             i.attr('src', data.src);
             i.attr('alt', data.alt);
             $('body > div + div').append(i);
             window.parent.Monad.file.set(
-                $('[name=element]').val(),
+                element,
                 data.id
             );
         },
@@ -136,8 +136,8 @@ Monad = $.extend(Monad, {
             var i = el.parents('td').find('iframe');
             i.attr('src', i.attr('src').replace(/\d+/, 0));
         },
-        resize: function(img, height) {
-            window.parent.resizeFileFrame(height, window.Monad.file.element);
+        resize: function(element, img, height) {
+            window.parent.resizeFileFrame(height, element);
             var $img = $(img);
             if ($img.width() > $('body').width()) {
                 $img.width($('body').width());
