@@ -25,7 +25,7 @@ class Multi_Media_Controller extends Controller
                 break;
         }
         $this->template = false;
-        $helper = new Media_Helper;
+        $helper = new Media_Helper($this->project);
         return $this->view(
             'misc/media/multi',
             compact('medias', 'helper') + $args

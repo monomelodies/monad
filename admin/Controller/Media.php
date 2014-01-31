@@ -21,7 +21,7 @@ class Media_Controller extends Controller
             }
         }
         $this->template = false;
-        $helper = new Media_Helper;
+        $helper = new Media_Helper($this->project);
         return $this->view('misc/media', compact('media', 'helper') + $args);
     }
 }
