@@ -55,8 +55,8 @@ abstract class Controller extends core\Controller
     {
         parent::__construct();
         $this->project = Project::instance();
-        $this->Css = new Css;
-        $this->Script = new Script;
+        $this->Css = new Css($this->project);
+        $this->Script = new Script($this->project);
         $user = self::user();
         $redir = self::http()->getRedir();
         $this->admins = new Menu_Finder;
