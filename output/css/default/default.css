@@ -275,7 +275,7 @@ div.datecontainer {
     border: 2px solid $medium;
     }
 #main > ul > li > h2 {
-    $gradient($headerGradient);
+    $gradient($headerGradientFrom, $headerGradientTo);
     border: 2px solid;
     border-color: $alternateBorder1;
     $border_radius(0 8px 0 0);
@@ -342,7 +342,7 @@ div.datecontainer {
     border-color: $alternateBorder2;
     }
 .box .outer {
-    $gradient($headerGradient);
+    $gradient($headerGradientFrom, $headerGradientTo);
     border: 2px solid;
     border-color: $alternateBorder1;
     $border_radius(0 8px 0 0);
@@ -549,7 +549,7 @@ form fieldset {
     padding: .3em .5em;
     }
 form legend {
-    $gradient($headerGradient);
+    $gradient($headerGradientFrom, $headerGradientTo);
     border: 2px solid;
     border-color: $alternateBorder1;
     $border_radius(0 8px 0 0);
