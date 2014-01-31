@@ -54,6 +54,11 @@ if ($media['mimetype']) {
             break;
     }
 }
+$element = str_replace(
+    ['[', ']'],
+    ['\\\\\\[', '\\\\\\]'],
+    $_GET['element']
+);
 
 ?>
 <iframe name="upload"></iframe>
@@ -74,12 +79,11 @@ $('#delete_img').click(function() {
     if (!window.confirm(Monolyth.text.get('monad\\admin\\deleteconfirm'))) {
         return false;
     }
-    window.parent.Monad.file.remove('<?=$_GET['element']?>');
+    window.parent.Monad.file.remove('<?=$element?>');
     return false;
 });
 $(document).ready(function() {
-    window.Monad.file.element = '<?=$_GET['element']?>';
-    $('img').load(function() { window.Monad.file.resize(this, $('body').height()); });
+    $('img').load(function() { window.Monad.file.resize('<?=$element?>', this, $('body').height()); });
     window.Monad.file.resize($('img').get(0), $('body').height());
     Monolyth.text.setup(<?=json_encode($texts)?>);
     Monolyth.scripts.execute();
