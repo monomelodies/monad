@@ -4,6 +4,11 @@ namespace monad\admin;
 
 class Media_Helper
 {
+    public function __construct($project)
+    {
+        $this->project = $project;
+    }
+
     public function box($media, $size = null)
     {
         if (!isset($size)) {
