@@ -5,6 +5,11 @@ $type = substr($media['mimetype'], strrpos($media['mimetype'], '/') + 1);
 if ($type == 'jpeg') {
     $type = 'jpg';
 }
+$element = str_replace(
+    ['[', ']'],
+    ['\\\\\\[', '\\\\\\]'],
+    $_GET['element']
+);
 
 ?>
 <!doctype html>
@@ -29,7 +34,7 @@ window.opener.CKEDITOR.tools.callFunction(
 );
 window.close();
 <?php } else { ?>
-window.parent.Monad.file.done(<?=json_encode([
+window.parent.Monad.file.done('<?=$element?>', <?=json_encode([
     'id' => $media['id'],
     'alt' => $media['originalname'],
     'src' => $url('monad/admin/view_file', ['id' => $media['id']]),
