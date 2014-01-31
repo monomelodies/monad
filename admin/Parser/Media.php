@@ -8,7 +8,6 @@ use monolyth\adapter\sql\NoResults_Exception;
 
 class Media_Parser extends Parser
 {
-    use Project_Access;
     use Adapter_Access;
     use Url_Helper;
 

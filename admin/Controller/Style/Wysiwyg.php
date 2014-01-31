@@ -3,9 +3,8 @@
 namespace monad\admin;
 use monad\core;
 use ErrorException;
-use monolyth\Project_Access;
 
-class Wysiwyg_Style_Controller extends core\Controller implements Project_Access
+class Wysiwyg_Style_Controller extends core\Controller
 {
     protected function get(array $args)
     {
