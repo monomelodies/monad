@@ -77,6 +77,11 @@ trait I18n_Model
                 ++$changed;
             }
         }
+        $this->load(self::adapter()->row(
+            "$table JOIN $i18n USING(id)",
+            '*',
+            ['id' => $id, 'language' => self::language()->current->id]
+        ));
         return $changed ? null : 'nochange';
     }
 }
