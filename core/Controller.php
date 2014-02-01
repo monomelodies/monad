@@ -54,7 +54,9 @@ abstract class Controller extends core\Controller
     public function __construct()
     {
         parent::__construct();
+        $realproject = $this->project;
         $this->project = Project::instance();
+        $this->project['public'] = $realproject['public'];
         $this->Css = new Css($this->project);
         $this->Script = new Script($this->project);
         $user = self::user();
