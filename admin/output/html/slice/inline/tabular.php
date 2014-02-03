@@ -38,7 +38,8 @@ if (method_exists($items[0], 'inlineLinks')) {
 <?php foreach ($items as $item) { ?>
             <tr>
 <?php   if ($item instanceof Sortable) { ?>
-                <td class="action"><a href="#" class="icon sort" title="<?=htmlentities($text('sort'))?>"><?=$text('sort')?></a></td>
+                <td class="action"><a href="<?=$scaffold('sort', $database, $item)
+                    ?>" class="icon sort" title="<?=htmlentities($text('sort'))?>"><?=$text('sort')?></a></td>
 <?php   } ?>
 <?php   if (!($item instanceof Uneditable_Model)) { ?>
                 <td class="action"><a href="<?=$scaffold('update', $database, $item).$params
