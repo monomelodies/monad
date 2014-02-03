@@ -61,6 +61,7 @@ return function($m) use($project) {
     $m->connect("$scaffold/update/", 'monad\admin\Update');
     $m->connect("$scaffold/copy/", 'monad\admin\Copy');
     $m->connect("$scaffold/delete/", 'monad\admin\Delete');
+    $m->connect("$scaffold/sort/", 'monad\admin\Sort');
     $m->connect(
         '/css/wysiwyg/(%s:package)/(%s:target)/(%s:field)/(%s:override).css',
         'monad\admin\Wysiwyg_Style'
