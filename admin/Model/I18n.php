@@ -10,6 +10,8 @@ use ErrorException;
 
 trait I18n_Model
 {
+    use Language_Access;
+
     public function saveI18n(Form $form, $table, $i18n = null)
     {
         try {
