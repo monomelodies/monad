@@ -7,7 +7,8 @@ $menu->using(__NAMESPACE__, function() use($menu) {
         $menu->group('content')->add('page')
                                ->add('menu')
                                ->hidden('item_menu')
-                               ->hidden('file');
+                               ->hidden('file')
+                               ->hidden('ajax');
     });
 });
 

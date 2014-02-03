@@ -10,7 +10,7 @@ class Update_Controller extends Scaffold_Controller
 {
     use Helper;
 
-    public function get(array $args)
+    protected function get(array $args)
     {
         unset($args['language']);
         $args['key'] = $this->parseKey($args['key']);
