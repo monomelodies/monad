@@ -9,8 +9,8 @@ if ($items[0] instanceof Sortable) {
 }
 $namespace = substr($class, strrpos($class, '\\'));
 $params = '?redir='.urlencode($http->getSelf());
-if (method_exists($model, 'inlineLinks')) {
-    $params .= '&amp;'.$model->inlineLinks($items[0]);
+if (method_exists($items[0], 'inlineLinks')) {
+    $params .= '&amp;'.$items[0]->inlineLinks($model);
 }
 
 ?>
