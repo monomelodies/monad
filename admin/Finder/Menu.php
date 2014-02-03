@@ -51,7 +51,7 @@ class Menu_Finder extends core\I18n_Finder
     {
         try {
             return self::adapter()->models(
-                new Item_Menu_Model,
+                new Inline_Item_Menu_Model,
                 'monad_menu_item m
                  JOIN monad_menu_item_i18n i USING(id)
                  LEFT JOIN monad_page_i18n p ON
@@ -71,9 +71,9 @@ class Menu_Finder extends core\I18n_Finder
                 ['order' => 'm.sortorder ASC']
             );
         } catch (NoResults_Exception $e) {
-            return new Item_Menu_Model;
+            return new Inline_Item_Menu_Model;
         } catch (ErrorException $e) {
-            return new Item_Menu_Model;
+            return new Inline_Item_Menu_Model;
         }
     }
 
