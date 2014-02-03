@@ -59,7 +59,10 @@ abstract class Scaffold_Controller extends Controller implements Login_Required
             if ($this->model instanceof Sortable
                 && !($this->model instanceof Readonly_Model)
             ) {
-                $this->actions['sort'] = '#';
+                $this->actions['sort'] = $this->url(
+                    'monad/admin/move',
+                    $arguments
+                );
             }
             $this->actions['view'] = $this->url('monad/admin/view', $arguments);
             if (!($this->model instanceof Readonly_Model)) {
