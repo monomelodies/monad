@@ -347,7 +347,7 @@ if ($.fn.sortable) {
                     $('td .icon.sort', $(this)).addClass("loading");
                 });
                 $.post(
-                    '/monad/' + window.Monad.language + '/ajax/reorder/', 
+                    '/monad/' + window.Monad.language + '/monad/ajax/reorder/', 
                     {
                         id: $('td.numeric', ui.item).html(),
                         move: (ui.item.index() - ui.item.startPos),
