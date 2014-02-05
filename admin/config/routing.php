@@ -52,6 +52,7 @@ return function($m) use($project) {
     $m->connect('/monad/(%s:language)/logout/', 'monad\admin\Logout');
     $scaffold = '/monad/(%s:language)/(%s:package)/(%s:target)/';
     $m->connect($scaffold, 'monad\admin\Database');
+    $m->connect("{$scaffold}create/", 'monad\admin\Create');
     $scaffold .= "(%s:database)";
     $m->connect("$scaffold/", 'monad\admin\List');
     $m->connect('/monad/(%s:language)/foreign-key/', 'monad\admin\ForeignKey');
