@@ -25,7 +25,7 @@ implements Ajax_Required, Login_Required
         }
         $class = sprintf(
             '%s\admin\%s_Finder',
-            $package,
+            $package == 'project' ? '' : "\\$package",
             implode('_', $parts)
         );
         $finder = $class::instance();
