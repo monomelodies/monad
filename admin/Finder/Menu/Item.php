@@ -16,7 +16,7 @@ class Item_Menu_Finder extends core\I18n_Finder
                     implode('', $this->fields([], 'language', false))
                 ),
                 $this->fields(
-                    ['monad_menu_item.id', 'l.title AS language_str'],
+                    ['monad_menu_item.id', 'l.title AS language'],
                     ['title']
                 ),
                 $where,
@@ -33,10 +33,12 @@ class Item_Menu_Finder extends core\I18n_Finder
 
     public function find(array $where)
     {
-        $page = $this->model;
         try {
-            $page->load(self::adapter()->row('monad_menu_item', '*', $where));
-            return $page;
+            return (new Item_Menu_Model)->load(self::adapter()->row(
+                'monad_menu_item',
+                '*',
+                $where
+            ));
         } catch (NoResults_Exception $e) {
             return null;
         }
@@ -63,7 +65,7 @@ class Item_Menu_Finder extends core\I18n_Finder
     {
         try {
             return self::adapter()->models(
-                $this->item,
+                clone $item,
                 'monad_menu_item m
                  JOIN monad_menu_item_i18n i USING(id)
                  LEFT JOIN monad_page_i18n p ON
@@ -83,7 +85,7 @@ class Item_Menu_Finder extends core\I18n_Finder
                 ['order' => 'm.sortorder ASC']
             );
         } catch (NoResults_Exception $e) {
-            return $this->item;
+            return new Item_Menu_Model;
         }
     }
 }
