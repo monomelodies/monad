@@ -19,7 +19,7 @@ class Item_Menu_Form extends I18n_Form
             'owner',
             $this->text(['./owner', 'column/owner']),
             [
-                'package' => 'monolyth',
+                'package' => 'monad',
                 'target' => 'auth',
                 'field' => 'name',
             ]
