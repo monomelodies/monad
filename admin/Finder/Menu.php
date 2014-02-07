@@ -14,7 +14,7 @@ class Menu_Finder extends core\I18n_Finder
                 "monad_menu m
                  JOIN monad_menu_i18n mi USING(id)
                  JOIN monolyth_language l ON mi.language = l.id",
-                ['m.id', 'mi.title', 'l.title AS language_str'],
+                ['m.id', 'mi.title', 'l.title AS language'],
                 [],
                 [
                     'order' => sprintf(
