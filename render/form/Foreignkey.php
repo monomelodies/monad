@@ -40,12 +40,16 @@ class Foreignkey extends Text
 
     private function classname()
     {
-        $namespace = "{$this->settings['package']}\\admin\\";
+        if ($this->settings['package'] == 'project') {
+            $namespace = "\\admin\\";
+        } else {
+            $namespace = "\\{$this->settings['package']}\\admin\\";
+        }
         $parts = array_reverse(explode('_', $this->settings['target']));
         foreach ($parts as &$part) {
             $part = ucfirst($part);
         }
-        $class = $namespace.implode('/', $parts);
+        $class = $namespace.implode('_', $parts);
         return "{$class}_Finder";
     }
 
