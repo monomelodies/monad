@@ -3,6 +3,7 @@
 namespace monad\admin;
 use monad\core\Scaffold_Controller;
 use monolyth\adapter\sql\Resultset;
+use monolyth\render\Paginator;
 
 class List_Controller extends Scaffold_Controller
 {
@@ -17,7 +18,7 @@ class List_Controller extends Scaffold_Controller
         $actions = $this->actions;
         $finder = $this->finder;
         if ($items instanceof Resultset) {
-            $this->paginator->init(__CLASS__, $args, $items);
+            $this->paginator = new Paginator(__CLASS__, $args, $items);
         }
         return $this->view(
             $this->viewname,
