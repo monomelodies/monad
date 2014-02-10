@@ -9,7 +9,6 @@ use monolyth\DependencyContainer;
 use monad\admin\Login_Required;
 use monad\admin\Controller;
 use monad\admin\Helper;
-use monolyth\render\Paginator;
 use monolyth\Config;
 use monolyth\account\Logout_Model;
 use monad\admin\Searchable;
@@ -33,7 +32,6 @@ abstract class Scaffold_Controller extends Controller implements Login_Required
         $this->model = class_exists($class) ? new $class : null;
         $class = "{$basename}_Form";
         $this->form = class_exists($class) ? new $class : null;
-        $this->paginator = new Paginator;
 
         $this->actions = [];
         if (method_exists($this->finder, 'all')) {
