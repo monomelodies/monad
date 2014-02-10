@@ -21,7 +21,7 @@ class Page_Finder extends core\I18n_Finder
                     implode('', $this->fields([], 'language', false))
                 ),
                 $this->fields(
-                    ['monad_page.id', 'l.title AS language_str'],
+                    ['monad_page.id', 'l.title language'],
                     ['title']
                 ),
                 $where,

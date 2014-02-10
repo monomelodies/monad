@@ -20,7 +20,7 @@ if ($filters = $finder->filters()) {
         <input type="hidden" name="filter">
 <?php
 
-    foreach ($filters as $idx => $filter) {
+    foreach (array_values($filters) as $idx => $filter) {
         if (isset($filter['html'])) {
             if ($filter['title']) {
                 echo '<label for="f_'.$idx.'">'.$filter['title'].'</label> ';

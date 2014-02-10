@@ -57,7 +57,10 @@ abstract class Scaffold_Controller extends Controller implements Login_Required
             if ($this->model instanceof Sortable
                 && !($this->model instanceof Readonly_Model)
             ) {
-                $this->actions['sort'] = '#';
+                $this->actions['sort'] = $this->url(
+                    'monad/admin/move',
+                    $arguments
+                );
             }
             $this->actions['view'] = $this->url('monad/admin/view', $arguments);
             if (!($this->model instanceof Readonly_Model)) {
@@ -150,11 +153,13 @@ abstract class Scaffold_Controller extends Controller implements Login_Required
             $page = 1;
         }
         $where = [];
-        try {
-            $where = isset($_GET['filters']) ?
-                unserialize(base64_decode($_GET['filters'])) :
-                [];
-        } catch (ErrorException $e) {
+        if (isset($_GET['f'])) {
+            $ffields = array_keys($this->finder->filters());
+            foreach ($_GET['f'] as $key => $value) {
+                if (strlen($value)) {
+                    $where[$ffields[$key]] = $value;
+                }
+            }
         }
         if ($this->finder instanceof Searchable && isset($_GET['q'])) {
             $where = [[]];

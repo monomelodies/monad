@@ -6,7 +6,7 @@ $class = get_class($model);
 if ($items instanceof Sortable) {
     $classes[] = 'monad_sortable';
 }
-$params = '?redir='.urlencode($http->getSelf()).(method_exists($model, 'inlineLinks') ? '&amp;'.$model->inlineLinks($items) : '');
+$params = '?redir='.urlencode($http->getSelf()).(method_exists($items, 'inlineLinks') ? '&amp;'.$items->inlineLinks($model) : '');
 
 ?>
 <section>
