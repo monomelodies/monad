@@ -17,12 +17,13 @@ class List_Controller extends Scaffold_Controller
         $items = $this->data();
         $actions = $this->actions;
         $finder = $this->finder;
+        $paginator = null;
         if ($items instanceof Resultset) {
-            $this->paginator = new Paginator(__CLASS__, $args, $items);
+            $paginator = new Paginator(__CLASS__, $args, $items);
         }
         return $this->view(
             $this->viewname,
-            compact('items', 'actions', 'finder') + $args
+            compact('items', 'actions', 'finder', 'paginator') + $args
         );
     }
 }
