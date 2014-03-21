@@ -49,7 +49,7 @@ class Foreignkey extends Text
         foreach ($parts as &$part) {
             $part = ucfirst($part);
         }
-        $class = $namespace.implode('/', $parts);
+        $class = $namespace.implode('_', $parts);
         return "{$class}_Finder";
     }
 
