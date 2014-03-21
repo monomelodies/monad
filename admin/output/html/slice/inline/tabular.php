@@ -7,7 +7,7 @@ $class = get_class($model);
 if ($items[0] instanceof Sortable) {
     $classes[] = 'monad_sortable';
 }
-$namespace = substr($class, strrpos($class, '\\'));
+$namespace = substr($class, 0, strrpos($class, '\\'));
 $params = '?redir='.urlencode($http->getSelf());
 if (method_exists($items[0], 'inlineLinks')) {
     $params .= '&amp;'.$items[0]->inlineLinks($model);

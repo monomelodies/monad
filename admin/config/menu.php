@@ -10,6 +10,7 @@ $menu->using(__NAMESPACE__, function() use($menu) {
                                ->hidden('section')
                                ->hidden('file')
                                ->hidden('ajax');
+        $menu->group('users')->add('user');
     });
 });
 

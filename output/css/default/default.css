@@ -580,7 +580,7 @@ form .compound label, form .collapse label {
     padding-right: 1em;
     white-space: pre;
     }
-.update form textarea, .update form input[type=text] {
+.update form textarea {
     width: 100%;
     $box_sizing(border-box);
     }
