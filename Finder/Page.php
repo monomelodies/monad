@@ -5,11 +5,13 @@ use monolyth\Finder;
 use monolyth\Language_Access;
 use Adapter_Access;
 use monolyth\adapter\sql\NoResults_Exception;
+use monolyth\core\Singleton;
 
 class Page_Finder implements Finder
 {
     use Adapter_Access;
     use Language_Access;
+    use Singleton;
 
     public function all(array $where = [], $options = [])
     {
