@@ -2,10 +2,8 @@
 
 namespace monad\admin;
 use monad\core\Controller;
-use monolyth\Ajax_Required;
 
-class Move_File_Controller extends Controller
-implements Ajax_Required, Login_Required
+class Move_File_Controller extends Controller implements Login_Required
 {
     protected function post(array $args)
     {

@@ -1,13 +1,11 @@
 <?php
 
 namespace monad\admin;
-use monolyth\Ajax_Required;
 use ErrorException;
 use monolyth\HTTP400_Exception;
 use monolyth\Text_Model;
 
-class ForeignKey_Controller extends Controller
-implements Ajax_Required, Login_Required
+class ForeignKey_Controller extends Controller implements Login_Required
 {
     protected function get(array $args)
     {
