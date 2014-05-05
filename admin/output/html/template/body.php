@@ -78,7 +78,8 @@ $Script->unshift(
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
     <script src="/ckeditor/adapters/jquery.js"></script>
     <script>
-        Monad = {language: '<?=$language->current->code?>'};
+        var Monad = Monad || {};
+        Monad.language = '<?=$language->current->code?>';
     </script>
     <?=$Script?>
     <script>
