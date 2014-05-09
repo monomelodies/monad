@@ -184,7 +184,7 @@ abstract class Scaffold_Controller extends Controller implements Login_Required
             $options
         );
         if (!$items && $page > 1) {
-            throw new HTTP404_Exception();
+            throw new HTTP404_Exception;
         }
         return $items;
     }
@@ -194,7 +194,7 @@ abstract class Scaffold_Controller extends Controller implements Login_Required
         try {
             return unserialize(base64_decode($key));
         } catch (ErrorException $e) {
-            throw new HTTP404_Exception();
+            throw new HTTP404_Exception;
         }
     }
 }
