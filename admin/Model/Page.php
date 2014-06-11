@@ -43,9 +43,7 @@ class Page_Model extends core\Model
             }
             $new = 0;
             foreach ($form as $key => $el) {
-                if (substr($key, 0, 6) == 'status'
-                    && $el->value != $status
-                ) {
+                if (substr($key, 0, 6) == 'status') {
                     $new |= $el->value;
                 }
             }
@@ -94,7 +92,7 @@ class Page_Model extends core\Model
                         'usermodified' => self::user()->id(),
                         'datemodified' => self::adapter()->now(),
                     ],
-                    ['id' => $this['id']]
+                    compact('id')
                 );
             } catch (UpdateNone_Exception $e) {
             }
