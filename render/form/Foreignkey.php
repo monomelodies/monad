@@ -5,6 +5,7 @@ use monolyth\render\form\Text;
 use monolyth\adapter\sql\NoResults_Exception;
 use Adapter_Access;
 use monolyth\Language_Access;
+use monolyth\core\Form;
 
 class Foreignkey extends Text
 {
@@ -18,10 +19,21 @@ class Foreignkey extends Text
     private $settings;
     private $internalId;
     private $originalInternalId;
+    private $namespace;
+
+    public function __construct(Form $form)
+    {
+        $class = get_class($form);
+        $this->namespace = substr($class, 0, strpos($class, '\\'));
+        if ($this->namespace == 'admin') {
+            $this->namespace = 'project';
+        }
+    }
 
     public function prepare($name, array $settings, array $options = [])
     {
         parent::prepare($name, $options);
+        $settings += ['package' => $this->namespace];
         $this->settings = $settings;
         $this->options['data-package'] = $settings['package'];
         $this->options['data-target'] = $settings['target'];

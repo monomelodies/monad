@@ -28,7 +28,7 @@ abstract class Form extends Post_Form
         array $settings,
         array $options = []
     ) {
-        $element = new Foreignkey;
+        $element = new Foreignkey($this);
         $element->setParent($this);
         if (!isset($label)) {
             $label = null;

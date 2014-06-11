@@ -33,7 +33,7 @@ class Update_Controller extends Scaffold_Controller
                 },
                 $fn
             );
-            $this->$propname = is_array($inlines[$fn]) ?
+            $this->$propname = !is_object($inlines[$fn]) ?
                 $inlines[$fn][0] :
                 $inlines[$fn];
         }

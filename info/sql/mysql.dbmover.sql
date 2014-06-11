@@ -1,5 +1,6 @@
 
 -- {{{ v0.23.1
+
 CREATE TABLE monad_page (
     id bigint UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     parent bigint UNSIGNED,
@@ -208,7 +209,6 @@ CREATE VIEW monad_auth
     WHERE r.name IN ('monad', '*') AND a.id IS NOT NULL;
 
 DROP FUNCTION IF EXISTS fn_monad_page_i18n_unique_slug;
-DELIMITER $$
 CREATE FUNCTION fn_monad_page_i18n_unique_slug(oldid INT, str TEXT, lang INT) RETURNS TEXT
 BEGIN
     SET @uniq = 0;
@@ -225,11 +225,8 @@ BEGIN
     UNTIL @uniq = 1 END REPEAT;
     RETURN str;
 END;
-$$
-DELIMITER ;
 
 DROP FUNCTION IF EXISTS fn_assembleslug;
-DELIMITER $$
 CREATE FUNCTION fn_assembleslug(pageid INT, lang INT) RETURNS TEXT
 BEGIN
     SELECT parent, slug FROM monad_page JOIN monad_page_i18n USING(id)
@@ -243,32 +240,23 @@ BEGIN
     UNTIL @parent IS NULL END REPEAT;
     RETURN @slug;
 END;
-$$
-DELIMITER ;
 
 
 DROP TRIGGER IF EXISTS monad_page_update_before;
-DELIMITER $$
 CREATE TRIGGER monad_page_update_before BEFORE UPDATE ON monad_page
 FOR EACH ROW
 BEGIN
     SET NEW.datemodified = NOW();
 END;
-$$
-DELIMITER ;
 
 DROP TRIGGER IF EXISTS monad_query_insert_before;
-DELIMITER $$
 CREATE TRIGGER monad_query_insert_before BEFORE INSERT ON monad_query
 FOR EACH ROW
 BEGIN
     SET NEW.checksum = md5(CONCAT(NEW.owner, NEW.`session`, NEW.querysql, NOW()));
 END;
-$$
-DELIMITER ;
 
 DROP TRIGGER IF EXISTS monad_page_insert_before;
-DELIMITER $$
 CREATE TRIGGER monad_page_insert_before BEFORE INSERT ON monad_page
 FOR EACH ROW
 BEGIN
@@ -288,11 +276,8 @@ BEGIN
         SET NEW.sortorder = 1;
     END IF;
 END;
-$$
-DELIMITER ;
 
 DROP TRIGGER IF EXISTS monad_page_insert_after;
-DELIMITER $$
 CREATE TRIGGER monad_page_insert_after AFTER INSERT ON monad_page
 FOR EACH ROW
 BEGIN
@@ -300,11 +285,8 @@ BEGIN
         SELECT NEW.id, id, md5(CONCAT(NEW.datecreated, NEW.id)),
             NULL, NULL, NULL, NULL, 1 FROM monolyth_language;
 END;
-$$
-DELIMITER ;
 
 DROP TRIGGER IF EXISTS monad_page_i18n_insert_before;
-DELIMITER $$
 CREATE TRIGGER monad_page_i18n_insert_before BEFORE INSERT ON monad_page_i18n
 FOR EACH ROW
 BEGIN
@@ -312,11 +294,8 @@ BEGIN
         SET NEW.slug = fn_monad_page_i18n_unique_slug(0, fn_generate_slug(NEW.title), NEW.language);
     END IF;
 END;
-$$
-DELIMITER ;
 
 DROP TRIGGER IF EXISTS monad_page_i18n_update_before;
-DELIMITER $$
 CREATE TRIGGER monad_page_i18n_update_before BEFORE UPDATE ON monad_page_i18n
 FOR EACH ROW
 BEGIN
@@ -324,53 +303,38 @@ BEGIN
         SET NEW.slug = fn_monad_page_i18n_unique_slug(NEW.id, fn_generate_slug(NEW.title), NEW.language);
     END IF;
 END;
-$$
-DELIMITER ;
 
 DROP TRIGGER IF EXISTS monad_section_insert_after;
-DELIMITER $$
 CREATE TRIGGER monad_section_insert_after AFTER INSERT ON monad_section
 FOR EACH ROW
 BEGIN
     INSERT INTO monad_section_i18n
         SELECT NEW.id, id, NULL, NULL, NULL FROM monolyth_language;
 END;
-$$
-DELIMITER ;
 
 DROP TRIGGER IF EXISTS monad_menu_update_before;
-DELIMITER $$
 CREATE TRIGGER monad_menu_update_before BEFORE UPDATE ON monad_menu
 FOR EACH ROW
 BEGIN
     SET NEW.datemodified = NOW();
 END;
-$$
-DELIMITER ;
 
 DROP TRIGGER IF EXISTS monad_menu_insert_after;
-DELIMITER $$
 CREATE TRIGGER monad_menu_insert_after AFTER INSERT ON monad_menu
 FOR EACH ROW BEGIN
     INSERT INTO monad_menu_i18n
         SELECT NEW.id, id, 'New menu' FROM
             monolyth_language;
 END;
-$$
-DELIMITER ;
 
 DROP TRIGGER IF EXISTS monad_menu_item_update_before;
-DELIMITER $$
 CREATE TRIGGER monad_menu_item_update_before BEFORE UPDATE ON monad_menu_item
 FOR EACH ROW
 BEGIN
     SET NEW.datemodified = NOW();
 END;
-$$
-DELIMITER ;
 
 DROP TRIGGER IF EXISTS monad_menu_item_insert_before;
-DELIMITER $$
 CREATE TRIGGER monad_menu_item_insert_before BEFORE INSERT ON monad_menu_item
 FOR EACH ROW
 BEGIN
@@ -390,19 +354,14 @@ BEGIN
         SET NEW.sortorder = 1;
     END IF;
 END;
-$$
-DELIMITER ;
 
 DROP TRIGGER IF EXISTS monad_menu_item_insert_after;
-DELIMITER $$
 CREATE TRIGGER monad_menu_item_insert_after AFTER INSERT ON monad_menu_item
 FOR EACH ROW BEGIN
     INSERT INTO monad_menu_item_i18n
         SELECT NEW.id, id, CONCAT('Option ', NEW.sortorder), NULL, 1 FROM
             monolyth_language;
 END;
-$$
-DELIMITER ;
 
 -- Monad's main menu.
 INSERT INTO monad_admin VALUES (NULL, 1);
@@ -437,6 +396,7 @@ INSERT INTO monad_admin_item_i18n VALUES (@subitem, 1, 'Menus'), (@subitem, 2, '
 INSERT INTO monad_admin_item VALUES (NULL, 1, @admin, @item, 3, 'monad/admin/database', 'monolyth', 'media');
 SET @subitem = LAST_INSERT_ID();
 INSERT INTO monad_admin_item_i18n VALUES (@subitem, 1, 'Media'), (@subitem, 2, 'Media');
+
 -- }}}
 
 -- {{{ v0.23.2
@@ -457,6 +417,7 @@ INSERT INTO monad_admin_item_i18n VALUES (@subitem, 1, 'Media'), (@subitem, 2, '
 -- }}}
 
 -- {{{ v0.24.4
+
 DROP VIEW monad_auth;
 CREATE VIEW monad_auth
     (id, name, pass, salt, email, datecreated, datemodified, dateactive,
@@ -468,5 +429,6 @@ CREATE VIEW monad_auth
         JOIN monolyth_auth_group ag ON a.id = ag.auth
         JOIN monolyth_group g ON g.id = ag.auth_group
     WHERE g.name = 'Monad' GROUP BY a.id;
+
 -- }}}
 

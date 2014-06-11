@@ -195,7 +195,7 @@ var check = document.createElement('input');
 check.setAttribute('type', 'date');
 if (check.type === 'text' && $.fn.datepicker) {
     $('input[type=date]').datepicker();
-    $('input[type=datetime]').datetimepicker();
+    $('input[type=datetime]').datetimepicker({selectors: true});
 }
 $('.language').parents('.mg').slideUp(0);
 $('.monad_tabs_menu a').click(function() {
