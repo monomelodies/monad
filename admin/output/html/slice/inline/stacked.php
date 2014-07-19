@@ -19,7 +19,7 @@ $namespace = substr($formClass, 0, strrpos($formClass, '\\'));
 
 ?>
 <section>
-    <?=$view(__NAMESPACE__.'\slice/inline/title')?>
+    <?=$view(__NAMESPACE__.'\inline/title')?>
     <table class="<?=implode(' ', $classes)?>">
         <thead>
             <tr>

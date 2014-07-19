@@ -15,7 +15,7 @@ if (method_exists($items[0], 'inlineLinks')) {
 
 ?>
 <section>
-    <?=$view(__NAMESPACE__.'\slice/inline/title')?>
+    <?=$view(__NAMESPACE__.'\inline/title')?>
     <table class="<?=implode(' ', $classes)?>">
         <thead>
             <tr>

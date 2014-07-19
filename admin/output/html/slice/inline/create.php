@@ -10,7 +10,7 @@ $params = '?redir='.urlencode($http->getSelf()).(method_exists($items, 'inlineLi
 
 ?>
 <section>
-    <?=$view(__NAMESPACE__.'\slice/inline/title')?>
+    <?=$view(__NAMESPACE__.'\inline/title')?>
 <?php if (!($items instanceof Uncreateable_Model)) { ?>
     <table class="<?=implode(' ', $classes)?>">
         <thead>

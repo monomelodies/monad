@@ -13,9 +13,9 @@ $renderInline = function($title, $items) use($model, $view, $self) {
             $class = get_class($items);
             $class = preg_replace('@[a-zA-Z_]*?Inline_(.*?)_Model@', '\\1_Form', $class);
             $args += ['formClass' => $class];
-            echo $view('slice/inline/stacked', $args);
+            echo $view('inline/stacked', $args);
         } elseif (!($self instanceof Create_Controller)) {
-            echo $view('slice/inline/create', $args);
+            echo $view('inline/create', $args);
         }
         return;
     }
@@ -23,13 +23,13 @@ $renderInline = function($title, $items) use($model, $view, $self) {
         $class = get_class($items[0]);
         $class = preg_replace('@[a-zA-Z_]*?Inline_(.*?)_Model@', '\\1_Form', $class);
         $args += ['formClass' => $class];
-        echo $view('slice/inline/stacked', $args);
+        echo $view('inline/stacked', $args);
     } elseif ($items[0] instanceof Tabular_Inline) {
-        echo $view('slice/inline/tabular', $args);
+        echo $view('inline/tabular', $args);
     } elseif ($items[0] instanceof Checkboxes_Inline) {
-        echo $view('slice/inline/checkboxes', $args);
+        echo $view('inline/checkboxes', $args);
     } else {
-        echo $view('slice/inline', $args);
+        echo $view('inline', $args);
     }
 };
 
@@ -78,7 +78,7 @@ if ($form->languagetabs) {
 
 }
 echo $view(
-    ['monolyth\render\form\slice/table'],
+    ['monolyth\render\form\table'],
     compact('form', 'buttons', 'class')
 );
 if ($model::INLINE_POSITION == 'after') {

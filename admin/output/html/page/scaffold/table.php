@@ -7,7 +7,7 @@ $h = new Box_Helper();
 
 echo $h->using($o['title'])->head();
 
-$this->publish(new view\PHP(__NAMESPACE__.'\slice/form/table'), $o['model']);
+$this->publish(new view\PHP(__NAMESPACE__.'\form/table'), $o['model']);
 
 echo $h->using('')->foot();
 
