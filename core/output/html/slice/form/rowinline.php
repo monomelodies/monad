@@ -10,7 +10,7 @@ $first = array_shift($fields[$o::FIELDS]);
     <th><label for="<?=$o['getId']($first['field'])?>"><?=$o['defaultLabel']($first['field'])?></label></th>
     <td><?php
     
-$view = $this->view(__NAMESPACE__.'\slice/fields/'.$o['getView']($first['field']));
+$view = $this->view(__NAMESPACE__.'\fields/'.$o['getView']($first['field']));
 $view->data($first);
 echo $view;
 foreach ($fields[$o::FIELDS] as $field) {
@@ -20,7 +20,7 @@ foreach ($fields[$o::FIELDS] as $field) {
 <?php
 
     $view = $o['getView']($field['field']);
-    $view = $this->view(__NAMESPACE__.'\slice/fields/'.$view));
+    $view = $this->view(__NAMESPACE__.'\fields/'.$view));
     $view->data($field);
     echo $view;
 }

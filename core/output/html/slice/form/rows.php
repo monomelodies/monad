@@ -13,7 +13,7 @@ foreach ($fields[$o::FIELDS] as $field):
     <td><?php
 
     $view = $o['getView']($field['field']);
-    echo $this->view(__NAMESPACE__."\slice/fields/$view")->attach($field);
+    echo $this->view(__NAMESPACE__."\fields/$view")->attach($field);
     
 ?></td>
 </tr>
