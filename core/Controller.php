@@ -197,7 +197,7 @@ abstract class Controller extends core\Controller
             );
         }
         try {
-            $this->head = $this->view('monad\admin\slice/head');
+            $this->head = $this->view('monad\admin\head');
         } catch (FileNotFound_Exception $e) {
         }
     }
