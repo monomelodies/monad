@@ -17,7 +17,7 @@ class Body_Page_Controller extends Controller
         if (!($page = self::pages()->find($slug))) {
             throw new HTTP404_Exception();
         }
-        return $this->view("\\{$page['viewname']}", compact('page'));
+        return $this->view($page['viewname'], compact('page'));
     }
 }
 
