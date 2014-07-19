@@ -55,7 +55,7 @@ if ($items && count($items)) {
     echo $text(['./none', 'monad\admin\list/none']);
 }
 if ($paginator && $paginator->last() > 1) {
-    echo $view('monad\admin\slice/paginate', compact('paginator'));
+    echo $view('monad\admin\paginate', compact('paginator'));
 }
 echo $boxFoot();
 return compact('title');
