@@ -11,7 +11,7 @@ abstract class Finder implements monolyth\Finder
     use Adapter_Access;
     use Singleton;
 
-    public $view = 'monad\admin\slice/table';
+    public $view = 'monad\admin\table';
     public $stripTags = true;
 
     public abstract function all($s, $p, array $w = [], array $o = []);
