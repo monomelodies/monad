@@ -17,7 +17,7 @@ class Wysiwyg_Style_Controller extends core\Controller
         // Grab custom fonts.
         try {
             ob_start();
-            include 'output/html/slice/fonts.php';
+            include 'output/html/fonts.php';
             echo str_replace(['<style>', '</style>'], '', ob_get_clean());
         } catch (ErrorException $e) {
             ob_end_clean();
