@@ -22,7 +22,7 @@ return function($m) use($project) {
         'monad\admin\Media'
     );
     $m->connect('/monad/(%s:language)/', 'monad\admin');
-    $m->connect('/monad/(%s:language)/login/', 'monad\admin\Login');
+    $m->connect('/monad/(%s:language)/login/', 'monad\admin\login');
     $m->connect('/monad/(%s:language)/monad/file/', 'monad\admin\Browse_File');
     $m->connect('/monad/(%s:language)/monad/file/add/', 'monad\admin\Upload_File');
     $m->connect(
