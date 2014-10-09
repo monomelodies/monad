@@ -7,49 +7,12 @@
 #header a, #footer a {
 	color: #fea;
 	}
-#header {
-	border-width: 0 0 2px;
-	}
-#footer {
-	border-width: 2px 0 0;
-	}
-    
-#header #modules #monolyth a {
-	border-right: 2px solid #999;
-	}
-#footer #menu-logout a {
-	background-image: url(menu/logout.png);
-	}
-#footer #menu-logout {
-	border-right: 2px solid #999;
-	}
-#footer #menu-en a {
-	background-image: url(i18n/en.png);
-	}
-#footer #menu-nl a {
-	background-image: url(i18n/nl.png);
-	}
-#footer #menu-querycommit {
-	border-left: 2px solid #999;
-	}
-#footer #menu-querycommit .ok {
-	color: #9f9;
-	}
-#footer #menu-querycommit .warn {
-	color: yellow;
-	}
-#footer #menu-querycommit .alert {
-	color: red;
-	}
-#footer #copyright {
-	border-left: 2px solid #999;
-	}
-#header #monolyth a {
-	background-image: url(../../monolyth/logo.64x64.png);
-	}
-#header #monad a {
-	background-image: url(logo.64x64.png);
-	}
+
+@import 'header';
+@import 'footer';
+@import 'sidebar';
+@import 'languages';
+
 #sites fieldset {
 	background: #333;
 	border: 2px solid #999;
@@ -58,9 +21,7 @@
 	background: url(hdr-999.png) center top repeat-x #999;
 	border: 2px solid;
 	border-color: #dfdfdf #eee;
-	-moz-border-radius: 0 8px 0 0;
-	-webkit-border-radius: 0 8px 0 0;
-	border-radius: 0 8px 0 0;
+    @include border-radius(0 8px 0 0);
 	font: 140% "Strenuous", "Arial Black", Arial, sans-serif;
 	color: #fff;
 	}
@@ -76,54 +37,5 @@
 	}
 #main .menu-menu a {
 	background-image: url(menu/menus.png);
-	}
-#sidebar div {
-    border: 2px solid;
-    border-color: #dfdfdf #eee;
-    background: #fea;
-    color: #666;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
-    border-radius: 8px;
-    }
-#sidebar .success {
-    background: #3a2;
-    color: #fff;
-    }
-#sidebar .info {
-    background: #1ae;
-    color: #fff;
-    }
-#sidebar .warning {
-    background: #f80;
-    color: #fff;
-    }
-#sidebar .error {
-    background: #d22;
-    color: #fff;
-    }
-.languages .language a {
-	border: 2px solid #fff;
-	}
-.languages .language a:hover {
-	border-color: #dfdfdf #eee;
-	}
-.languages .language.en a {
-	background-image: url(i18n/en.png);
-	}
-.languages .language.nl a {
-	background-image: url(i18n/nl.png);
-	}
-.languages .language.de a {
-	background-image: url(i18n/de.png);
-	}
-.languages .language.fr a {
-	background-image: url(i18n/fr.png);
-	}
-.languages .language.es a {
-	background-image: url(i18n/es.png);
-	}
-.languages .language a.selected {
-	border-color: #666 #333;
 	}
 
