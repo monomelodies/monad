@@ -5,7 +5,7 @@ namespace monad\admin;
 $title = $text('monad\admin\list/title');
 unset($actions['list']);
 if (isset($actions['create'])) {
-    $txt = $text('monad\admin\create', $target, $database);
+    $txt = $text('monad\admin\create', $target);
     echo $boxHead($boxIcons($title, '<a class="create" title="'.htmlentities($txt).'" href="'.$actions['create'].'">'.$txt.'</a>'), null, ' monad');
     unset($actions['create']);
 } else {
