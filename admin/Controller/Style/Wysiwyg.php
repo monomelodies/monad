@@ -12,12 +12,12 @@ class Wysiwyg_Style_Controller extends core\Controller
         header("Content-type: text/css");
         // Grab resets.
         foreach (['reset', 'html5'] as $file) {
-            include "monolyth/output/css/$file.css";
+            include "monad/admin/_sass/_$file.scss";
         }
         // Grab custom fonts.
         try {
             ob_start();
-            include 'output/html/fonts.php';
+            include 'template/fonts.php';
             echo str_replace(['<style>', '</style>'], '', ob_get_clean());
         } catch (ErrorException $e) {
             ob_end_clean();
@@ -31,7 +31,7 @@ class Wysiwyg_Style_Controller extends core\Controller
             $paths[] = array_shift($try);
             try {
                 ob_start();
-                include 'output/css/wysiwyg/'.implode('/', $paths).'.css';
+                include 'admin/_sass/wysiwyg/'.implode('/', $paths).'.css';
                 $css = ob_get_clean();
                 $css = preg_replace_callback(
                     '/@import url\((.*?)\);/i',
