@@ -1,6 +1,7 @@
 <?php
 
 namespace monad\admin;
+/*
 $Css->unshift(
     'monolyth/output/css/reset.css',
     'monolyth/output/css/html5.css',
@@ -19,6 +20,7 @@ $Script->unshift(
     'monolyth/output/js/text.js',
     'monad/output/js/core.js'
 );
+*/
 
 ?>
 <body>
