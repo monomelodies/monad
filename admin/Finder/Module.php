@@ -4,10 +4,12 @@ namespace monad\admin;
 use monolyth\Finder;
 use monolyth\Session_Access;
 use ErrorException;
+use monolyth\core\Singleton;
 
 class Module_Finder implements Finder
 {
     use Session_Access;
+    use Singleton;
 
     public function all()
     {
