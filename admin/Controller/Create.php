@@ -51,7 +51,7 @@ class Create_Controller extends Update_Controller
                     ));
                 default:
                     return $this->view(
-                        'page/databases',
+                        'databases',
                         $args + compact('databases')
                     );
             }
@@ -78,7 +78,7 @@ class Create_Controller extends Update_Controller
         $finder = $this->finder;
         $model = $this->model;
         return $this->view(
-            __NAMESPACE__.'\page/create',
+            __NAMESPACE__.'\create',
             compact('actions', 'finder', 'inlines', 'model') + $args
         );
     }
