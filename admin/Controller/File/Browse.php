@@ -27,7 +27,7 @@ class Browse_File_Controller extends core\Controller
         }
         $folders = $this->folders->all();
         $files = $this->medias->all($folder);
-        return $this->view('page/file/browse', compact('folders', 'files'));
+        return $this->view('file/browse', compact('folders', 'files'));
     }
 
     protected function post(array $args)
