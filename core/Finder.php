@@ -15,7 +15,7 @@ abstract class Finder implements monolyth\Finder
 
     public $view = 'monad\admin\table';
     public $stripTags = true;
-    private static $db;
+    protected static $db;
 
     public abstract function all($s, $p, array $w = [], array $o = []);
 
