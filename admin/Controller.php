@@ -19,9 +19,9 @@ class Controller extends core\Controller implements Login_Required
             if (strlen($class)) {
                 $class .= '/';
             }
-            $view = $this->view("$ns\\page/{$class}default");
+            $view = $this->view("$ns\\{$class}default");
         } catch (FileNotFound_Exception $e) {
-            $view = $this->view('page/default');
+            $view = $this->view('default');
         }
         $view->data([
             'name' => substr(
