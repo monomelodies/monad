@@ -10,10 +10,25 @@ class Wysiwyg_Style_Controller extends core\Controller
     {
         extract($args);
         header("Content-type: text/css");
+
+        /**
+         * As of version 2.0.1, this works differently:
+         * - WYSIWYG styles are assumed to be defined under ./admin/public. They
+         *   in turn could be generated using compass from ./admin/_sass or so.
+         * - If the path (under admin/public) is e.g. foo/bar/baz.css, the proxy
+         *   will attempt to concat the following files (in that order):
+         *   foo.css, foo/bar.css and foo/bar/baz.css. This means your styles
+         *   will always be rendered from least to most specific.
+         * - Hence there usually is no need to @import anything in your .scss
+         *   partias, except probably for the topmost one (foo.css in our
+         *   example).
+         */
         // Grab resets.
+        /*
         foreach (['reset', 'html5'] as $file) {
             include "monad/admin/_sass/_$file.scss";
         }
+        */
         // Grab custom fonts.
         try {
             ob_start();
@@ -22,7 +37,7 @@ class Wysiwyg_Style_Controller extends core\Controller
         } catch (ErrorException $e) {
             ob_end_clean();
         }
-        $try = [$package, $target, $field];
+        $try = [$database, $package, $target, $field];
         if (isset($override)) {
             $try[] = $override;
         }
@@ -31,7 +46,7 @@ class Wysiwyg_Style_Controller extends core\Controller
             $paths[] = array_shift($try);
             try {
                 ob_start();
-                include 'admin/_sass/wysiwyg/'.implode('/', $paths).'.css';
+                include 'admin/public/'.implode('/', $paths).'.css';
                 $css = ob_get_clean();
                 $css = preg_replace_callback(
                     '/@import url\((.*?)\);/i',
