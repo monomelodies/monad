@@ -56,7 +56,7 @@ class Database_Controller extends Scaffold_Controller
                 ));
         }
         unset($args['language']);
-        return $this->view('page/databases', $args + compact('databases'));
+        return $this->view('databases', $args + compact('databases'));
     }
 }
 
