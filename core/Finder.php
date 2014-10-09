@@ -21,7 +21,6 @@ abstract class Finder implements monolyth\Finder
 
     public static function instance($db = null)
     {
-        var_dump($db);
         $object = self::_instance();
         $object->using($db);
         return $object;
