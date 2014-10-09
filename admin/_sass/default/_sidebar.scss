@@ -1,0 +1,27 @@
+
+#sidebar {
+    div {
+        border: 2px solid;
+        border-color: #dfdfdf #eee;
+        background: #fea;
+        color: #666;
+        @include border-radius(8px);
+        }
+    .success {
+        background: #3a2;
+        color: #fff;
+        }
+    .info {
+        background: #1ae;
+        color: #fff;
+        }
+    .warning {
+        background: #f80;
+        color: #fff;
+        }
+    .error {
+        background: #d22;
+        color: #fff;
+        }
+    }
+
