@@ -34,7 +34,7 @@ if (isset($description) && is_array($description)) {
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <?php } ?>
     <?=$view('monolyth\render\head')?>
-    <link rel="stylesheet" href="/css/monad.css">
+    <link rel="stylesheet" href="/css/monad/monad.css">
     <link rel="stylesheet" href="/css/monad/<?=$project['theme']?>/<?=$project['theme']?>.css">
 <?php
 
