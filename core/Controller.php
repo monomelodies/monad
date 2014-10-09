@@ -80,7 +80,7 @@ abstract class Controller extends core\Controller
         }
         $this->template = $this->view([
             'monad\admin\template/body',
-            'monolyth\template/page',
+            'monad\admin\template/page',
         ]);
         $redir = self::http()->getRedir();
         $language = self::language();
