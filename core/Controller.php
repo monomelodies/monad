@@ -1,9 +1,5 @@
 <?php
 
-namespace monad;
-// Set the EDITING constant to true so we can check for various stuff.
-const EDITING = true;
-
 namespace monad\core;
 use monolyth\DependencyContainer;
 use monolyth\User_Access;
