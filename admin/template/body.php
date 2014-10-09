@@ -50,7 +50,7 @@
         <li id="menu-<?=$id?>"><a href="<?=$item[0]?>" title="<?=$item[1]?>"><span><?=$item[1]?></span></a></li>
 <?php } ?>
     </ul></footer>
-    <script src="/monolyth/js/modernizr.js"></script>
+    <script src="/js/monolyth/modernizr.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
     <script src="/js/monad/ckeditor/ckeditor.js"></script>
