@@ -1,7 +1,7 @@
 <?php
 
 namespace monad\admin;
-$title = $text('login/title');
+$title = $text('./title');
 $Css->push(
     "monad/output/css/{$project['theme']}/vertical.css",
     "monad/output/css/{$project['theme']}/login.css"
