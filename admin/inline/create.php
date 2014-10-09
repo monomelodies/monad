@@ -18,7 +18,6 @@ $params = '?redir='.urlencode($http->getSelf()).(method_exists($items, 'inlineLi
                 <th class="actions"><?=$text('actions')?></th>
                 <th class="action"><a href="<?=$scaffold(
                     'create',
-                    $database,
                     $items
                 ).$params?>" class="icon create" title="<?=htmlentities($text('create'))?>">
                     <?=$text('create')?>
