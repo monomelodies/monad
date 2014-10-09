@@ -12,3 +12,5 @@
 
 # Mac swapfile
 ._*
+
+.sass-cache
