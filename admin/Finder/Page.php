@@ -56,7 +56,7 @@ class Page_Finder extends core\I18n_Finder
 
     public function sections(Page_Model $page, $language)
     {
-        return Section_Finder::instance()->all(
+        return Section_Finder::instance(self::$db)->all(
             100,
             1,
             ['language' => $language, 'page' => $page['id']]
