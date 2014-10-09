@@ -10,7 +10,7 @@ class HTTP404_Controller extends Base implements HTTPError, Login_Required
     {
         header("HTTP/1.1 404 File not found", true, 404);
         header("Content-type: text/html", true); // might have been overridden
-        return $this->view('monad\admin\page/404');
+        return $this->view('monad\admin\404');
     }
 }
 
