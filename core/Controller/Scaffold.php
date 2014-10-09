@@ -26,11 +26,10 @@ abstract class Scaffold_Controller extends Controller implements Login_Required
     public function __invoke($method, array $arguments)
     {
         $basename = Model::generateBasename($arguments);
-        $db = isset($arguments['database']) ? $arguments['database'] : null;
         $class = "{$basename}_Finder";
-        $this->finder = class_exists($class) ? $class::instance($db) : null;
+        $this->finder = class_exists($class) ? $class::instance() : null;
         $class = "{$basename}_Model";
-        $this->model = class_exists($class) ? new $class($db) : null;
+        $this->model = class_exists($class) ? new $class : null;
         $class = "{$basename}_Form";
         $this->form = class_exists($class) ? new $class : null;
 
@@ -41,10 +40,7 @@ abstract class Scaffold_Controller extends Controller implements Login_Required
                 [
                     'package' => $arguments['package'],
                     'target' => $arguments['target'],
-                ] + (isset($arguments['database']) ?
-                    ['database' => $arguments['database']] :
-                    []
-                )
+                ]
             );
         }
         if (!($this->model instanceof Uncreateable_Model)) {
@@ -126,25 +122,6 @@ abstract class Scaffold_Controller extends Controller implements Login_Required
         } catch (ErrorException $e) {
         }
         return parent::__invoke($method, $arguments);
-    }
-
-    protected function get(array $args)
-    {
-        unset($args['language']);
-        if (!isset($args['database']) && count($this->databases) == 1) {
-            $url = $this->url;
-            throw new HTTP301_Exception($url(
-                'monad/admin/scaffold',
-                $args + [
-                    'language' => $this->language->current->code,
-                    'database' => $this->databases[0],
-                ]
-            ));
-        }
-        return $this->view(
-            'page/databases',
-            $args + ['databases' => $this->databases]
-        );
     }
 
     protected function data()
