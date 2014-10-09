@@ -1,6 +1,6 @@
 <?php
 
-namespace monolyth;
+namespace monad\admin;
 use ErrorException;
 
 try {
@@ -15,11 +15,7 @@ if (isset($description) && is_array($description)) {
 
 ?>
 <!doctype html>
-<!--[if lt IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7" lang="<?=$language->current->code?>"><![endif]-->
-<!--[if IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8" lang="<?=$language->current->code?>"><![endif]-->
-<!--[if IE 8]><html class="no-js lt-ie10 lt-ie9" lang="<?=$language->current->code?>"><![endif]-->
-<!--[if IE 9]><html class="no-js lt-ie10" lang="<?=$language->current->code?>"><![endif]-->
-<!--[if gt IE 9]><!--><html class="no-js" lang="<?=$language->current->code?>"><!--<![endif]-->
+<html class="no-js<?=$self instanceof login\Controller ? ' valign' : ''?>" lang="<?=$language->current->code?>">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title><?=implode(' - ', $title)?></title>
@@ -34,8 +30,22 @@ if (isset($description) && is_array($description)) {
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <?php } ?>
     <?=$view('monolyth\render\head')?>
-    <link rel="stylesheet" href="/css/monad/monad.css">
-    <link rel="stylesheet" href="/css/monad/<?=$project['theme']?>/<?=$project['theme']?>.css">
+    <style>
+        @font-face {
+            font-family: 'Strenuous';
+            src: url('/css/admin/monad/default/font/strenuou-webfont.eot');
+            src: local('☺'),
+                 url('/css/admin/monad/default/font/strenuou-webfont.woff') format('woff'),
+                 url('/css/admin/monad/default/font/strenuou-webfont.ttf') format('truetype'),
+                 url('/css/admin/monad/default/font/strenuou-webfont.svg#webfontWb8YiIY1') format('svg');
+            font-weight: normal;
+            font-style: normal;
+            }
+    </style>
+<?php foreach (Module_Finder::instance()->all() as $module => $data) { ?>
+    <link rel="stylesheet" href="/css/admin/<?=$module?>/<?=$module?>.css">
+<?php } ?>
+    <link rel="stylesheet" href="/css/admin/monad/<?=$project['theme']?>/<?=$project['theme']?>.css">
 <?php
 
 if (isset($favicon)) {
