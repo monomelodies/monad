@@ -9,7 +9,7 @@ class List_Controller extends Scaffold_Controller
 {
     use Helper;
 
-    protected $viewname = 'monad\admin\page/list';
+    protected $viewname = 'monad\admin\list';
 
     protected function get(array $args)
     {
