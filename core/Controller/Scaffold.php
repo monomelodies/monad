@@ -26,10 +26,11 @@ abstract class Scaffold_Controller extends Controller implements Login_Required
     public function __invoke($method, array $arguments)
     {
         $basename = Model::generateBasename($arguments);
+        $db = isset($arguments['database']) ? $arguments['database'] : null;
         $class = "{$basename}_Finder";
-        $this->finder = class_exists($class) ? $class::instance() : null;
+        $this->finder = class_exists($class) ? $class::instance($db) : null;
         $class = "{$basename}_Model";
-        $this->model = class_exists($class) ? new $class : null;
+        $this->model = class_exists($class) ? new $class($db) : null;
         $class = "{$basename}_Form";
         $this->form = class_exists($class) ? new $class : null;
 
