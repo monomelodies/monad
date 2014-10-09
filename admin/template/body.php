@@ -50,19 +50,19 @@
         <li id="menu-<?=$id?>"><a href="<?=$item[0]?>" title="<?=$item[1]?>"><span><?=$item[1]?></span></a></li>
 <?php } ?>
     </ul></footer>
-    <script src="/js/monolyth/modernizr.js"></script>
+    <script src="/js/admin/monolyth/modernizr.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
-    <script src="/js/monad/ckeditor/ckeditor.js"></script>
-    <script src="/js/monad/ckeditor/adapters/jquery.js"></script>
-    <script src="/js/monad/formalize/js/jquery.formalize.js"></script>
-    <script src="/js/monolyth/jquery/ui.timepicker.js"></script>
-    <script src="/js/monolyth/jquery/validator.js"></script>
-    <script src="/js/monolyth/jquery/rangeinput.js"></script>
-    <script src="/js/monolyth/jquery/html5.js"></script>
-    <script src="/js/monolyth/monolyth.js"></script>
-    <script src="/js/monolyth/text.js"></script>
-    <script src="/js/monad/core.js"></script>
+    <script src="/js/admin/monad/ckeditor/ckeditor.js"></script>
+    <script src="/js/admin/monad/ckeditor/adapters/jquery.js"></script>
+    <script src="/js/admin/monad/formalize/js/jquery.formalize.js"></script>
+    <script src="/js/admin/monolyth/jquery/ui.timepicker.js"></script>
+    <script src="/js/admin/monolyth/jquery/validator.js"></script>
+    <script src="/js/admin/monolyth/jquery/rangeinput.js"></script>
+    <script src="/js/admin/monolyth/jquery/html5.js"></script>
+    <script src="/js/admin/monolyth/monolyth.js"></script>
+    <script src="/js/admin/monolyth/text.js"></script>
+    <script src="/js/admin/monad/core.js"></script>
     <script>
         var Monad = Monad || {};
         Monad.language = '<?=$language->current->code?>';
