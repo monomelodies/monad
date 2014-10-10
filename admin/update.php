@@ -118,7 +118,8 @@ Monolyth.scripts.push(function() {
                 $args += ['override' => $form[$form::$IDENTIFIER]->value];
             }
             $editor['contentsCss'] = $url('monad/admin/wysiwyg_style', $args);
-            $editor['bodyId'] = $editor['bodyClass'] = $form[$form::$IDENTIFIER]->value;
+            $editor['bodyId'] = implode('-', $args);
+            $editor['bodyClass'] = implode(' ', $args);
 
 ?>
         $('textarea.html.<?=$field?>').monadEditor('<?=$language->current->code?>', <?=json_encode($editor)?>);
