@@ -15,7 +15,7 @@ class Page_Controller extends Controller
     {
         extract($args);
         if (!($page = self::pages()->find($slug))) {
-            throw new HTTP404_Exception();
+            throw new HTTP404_Exception;
         }
         return $this->view('monolyth\render\json', ['data' => $page]);
     }
