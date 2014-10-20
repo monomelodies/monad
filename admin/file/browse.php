@@ -90,5 +90,5 @@ if ($files) {
 </div>
 <?php
 
-$Css->push("monad/output/css/{$project['theme']}/filebrowser.css");
+return ['Styles' => ["/css/admin/monad/{$project['theme']}/filebrowser.css"]];
 
