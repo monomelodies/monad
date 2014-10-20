@@ -19,7 +19,7 @@ class Browse_File_Controller extends core\Controller
     {
         $this->template = $this->view([
             'template/popup',
-            'monolyth\template/page',
+            'template/page',
         ]);
         $folder = null;
         if (isset($_GET['id']) && (int)$_GET['id']) {
