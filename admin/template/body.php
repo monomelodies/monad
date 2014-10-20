@@ -67,7 +67,6 @@
         var Monad = Monad || {};
         Monad.language = '<?=$language->current->code?>';
     </script>
-    <?=$Script?>
     <script>
         Monolyth.text.setup(<?=json_encode($texts)?>);
         Monolyth.scripts.execute();
