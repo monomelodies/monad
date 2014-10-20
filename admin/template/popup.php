@@ -1,6 +1,8 @@
 <?php
 
 namespace monad\admin;
+
+/*
 $Css->unshift(
     'monolyth/output/css/reset.css',
     'monolyth/output/css/html5.css',
@@ -19,6 +21,7 @@ $Script->unshift(
     'monolyth/output/js/text.js',
     'monad/output/js/core.js'
 );
+*/
 
 ?>
 <body>
@@ -29,6 +32,21 @@ $Script->unshift(
     <script src="/ckeditor/ckeditor.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
     <script src="/ckeditor/adapters/jquery.js"></script>
-    <?=$Script?>
+    <script src="/js/admin/monad/formalize/js/jquery.formalize.js"></script>
+    <script src="/js/admin/monolyth/jquery/ui.timepicker.js"></script>
+    <script src="/js/admin/monolyth/jquery/validator.js"></script>
+    <script src="/js/admin/monolyth/jquery/rangeinput.js"></script>
+    <script src="/js/admin/monolyth/jquery/html5.js"></script>
+    <script src="/js/admin/monolyth/monolyth.js"></script>
+    <script src="/js/admin/monolyth/text.js"></script>
+    <script src="/js/admin/monad/core.js"></script>
+    <script>
+        var Monad = Monad || {};
+        Monad.language = '<?=$language->current->code?>';
+    </script>
+    <script>
+        Monolyth.text.setup(<?=json_encode($texts)?>);
+        Monolyth.scripts.execute();
+    </script>
 </body>
 
