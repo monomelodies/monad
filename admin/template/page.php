@@ -46,6 +46,10 @@ if (isset($description) && is_array($description)) {
     <link rel="stylesheet" href="/css/admin/<?=$module?>/<?=$module?>.css">
 <?php } ?>
     <link rel="stylesheet" href="/css/admin/monad/<?=$project['theme']?>/<?=$project['theme']?>.css">
+<?php if (isset($Styles) && $Styles) foreach ($Styles as $style) { ?>
+    <link rel="stylesheet" href="<?=$style?>">
+<?php } ?>
+
 <?php
 
 if (isset($favicon)) {
