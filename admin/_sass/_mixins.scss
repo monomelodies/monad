@@ -1,0 +1,19 @@
+
+@mixin box-sizing($how) {
+    -webkit-box-sizing: $how;
+    -moz-box-sizing: $how;
+    -ms-box-sizing: $how;
+    -o-box-sizing: $how;
+    box-sizing: $how;
+    }
+@mixin border-radius($how) {
+    -moz-border-radius: $how;
+    -webkit-border-radius: $how;
+    border-radius: $how;
+    }
+@mixin transition($how...) {
+    -moz-transition: $how;
+    -webkit-transition: $how;
+    transition: $how;
+    }
+

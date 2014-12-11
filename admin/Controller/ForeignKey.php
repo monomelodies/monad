@@ -57,7 +57,7 @@ class ForeignKey_Controller extends Controller implements Login_Required
             }
         }
         $this->template = false;
-        return $this->view('monolyth\render\page/json', compact('data'));
+        return $this->view('monolyth\render\json', compact('data'));
     }
 }
 

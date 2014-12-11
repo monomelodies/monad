@@ -2,5 +2,5 @@
 
 namespace monad\admin;
 
-require 'monolyth/render/form/output/html/slice/select.php';
+require 'monolyth/render/form/select.php';
 

@@ -3,7 +3,6 @@
 namespace monad\admin;
 use monolyth\HTTP301_Exception;
 use monolyth\HTTP404_Exception;
-use monolyth\utils\Name_Helper;
 use monad\core\Scaffold_Controller;
 
 class Update_Controller extends Scaffold_Controller
@@ -51,7 +50,7 @@ class Update_Controller extends Scaffold_Controller
             $this->form->hideEmptyFields();
         }
         return $this->view(
-            __NAMESPACE__.'\page/update',
+            __NAMESPACE__.'\update',
             compact('languages', 'actions', 'finder', 'inlines')
                 + $args + $inlines
         );

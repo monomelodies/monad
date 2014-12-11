@@ -19,7 +19,7 @@ class Browse_File_Controller extends core\Controller
     {
         $this->template = $this->view([
             'template/popup',
-            'monolyth\template/page',
+            'template/page',
         ]);
         $folder = null;
         if (isset($_GET['id']) && (int)$_GET['id']) {
@@ -27,7 +27,7 @@ class Browse_File_Controller extends core\Controller
         }
         $folders = $this->folders->all();
         $files = $this->medias->all($folder);
-        return $this->view('page/file/browse', compact('folders', 'files'));
+        return $this->view('file/browse', compact('folders', 'files'));
     }
 
     protected function post(array $args)

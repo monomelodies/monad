@@ -2,12 +2,10 @@
 
 namespace monad\core;
 use monolyth\Language_Access;
-use Adapter_Access;
 
 abstract class I18n_Finder extends Finder
 {
     use Language_Access;
-    use Adapter_Access;
 
     protected static $languages;
 

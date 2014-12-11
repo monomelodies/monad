@@ -28,7 +28,7 @@ class Copy_Controller extends Update_Controller
             $this->form->hideEmptyFields();
         }
         return $this->view(
-            __NAMESPACE__.'\page/update',
+            __NAMESPACE__.'\update',
             compact('languages', 'actions', 'finder', 'inlines')
                 + $args + $inlines
         );

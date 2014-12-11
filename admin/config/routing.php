@@ -22,7 +22,7 @@ return function($m) use($project) {
         'monad\admin\Media'
     );
     $m->connect('/monad/(%s:language)/', 'monad\admin');
-    $m->connect('/monad/(%s:language)/login/', 'monad\admin\Login');
+    $m->connect('/monad/(%s:language)/login/', 'monad\admin\login');
     $m->connect('/monad/(%s:language)/monad/file/', 'monad\admin\Browse_File');
     $m->connect('/monad/(%s:language)/monad/file/add/', 'monad\admin\Upload_File');
     $m->connect(
@@ -50,10 +50,7 @@ return function($m) use($project) {
         'monad\admin\Upload_File'
     );
     $m->connect('/monad/(%s:language)/logout/', 'monad\admin\Logout');
-    $scaffold = '/monad/(%s:language)/(%s:package)/(%s:target)/';
-    $m->connect($scaffold, 'monad\admin\Database');
-    $m->connect("{$scaffold}create/", 'monad\admin\Create');
-    $scaffold .= "(%s:database)";
+    $scaffold = '/monad/(%s:language)/(%s:package)/(%s:target)';
     $m->connect("$scaffold/", 'monad\admin\List');
     $m->connect('/monad/(%s:language)/foreign-key/', 'monad\admin\ForeignKey');
     $m->connect("$scaffold/create/", 'monad\admin\Create');

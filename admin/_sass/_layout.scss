@@ -1,0 +1,431 @@
+
+@import 'compass';
+@import 'reset';
+@import 'html5';
+@import '../../vendor/formalize/assets/css/_formalize.scss';
+@import 'mixins';
+@import 'default/variables';
+
+body {
+    width: 100%;
+    @include box-sizing(border-box);
+    }
+a {
+    outline: 0;
+    }
+#wrap {
+    padding: 52px 0 30px;
+    }
+@media only screen and (min-width: 960px) {
+    #wrap {
+	    padding-top: 84px;
+    	}
+    }
+#header, #footer {
+	margin: 0;
+	position: fixed;
+	width: 100%;
+	z-index: 100;
+    left: 0;
+	}
+#header {
+	padding: 0;
+    top: 0;
+
+    #modules {
+        li {
+	        float: left;
+        	margin: 0;
+	        }
+        a, strong {
+        	display: block;
+        	margin: 0;
+        	padding: 4px 1em;
+        	width: 32px;
+        	height: 32px;
+            background-size: 32px 32px;
+        	text-indent: -1000em;
+        	background-position: center center;
+        	background-repeat: no-repeat;
+        	}
+        }
+	}
+#footer {
+	bottom: 0;
+
+    li {
+        float: left;
+        margin: 0;
+        padding: 4px .5em;
+        min-height: 16px;
+
+        a {
+            display: block;
+            width: 16px;
+            height: 16px;
+            background-position: center center;
+            background-repeat: no-repeat;
+            text-indent: -1000em;
+            }
+        }
+    #copyright {
+        float: right;
+        min-height: 16px;
+        display: none;
+
+        a {
+        	display: inline;
+        	text-indent: 0;
+        	background: transparent;
+        	}
+        }
+	}
+@media only screen and (min-width: 960px) {
+    #header #modules a, #header #modules strong {
+        width: 64px;
+        height: 64px;
+        background-size: 64px 64px;
+        }
+    }
+hr {
+	border: 0;
+	height: 0;
+	line-height: 0;
+    font-size: 0;
+    overflow: hidden;
+	margin: 0;
+	padding: 0;
+	clear: both;
+	visibility: hidden;
+	}
+@media only screen and (min-width: 960px) {
+    #footer #copyright {
+        display: block;
+        }
+    }
+#sites {
+	float: right;
+	
+    fieldset {
+	    margin: .5em 1em;
+    	}
+    button {
+	    margin: 0;
+    	}
+    }
+#menu-container {
+    position: fixed;
+    top: 52px;
+    bottom: 30px;
+    left: -22em;
+    margin-right: -2.5em;
+    right: 100%;
+    padding: 1em;
+    padding-right: 2em;
+    border: 2px solid;
+    border-color: $alternateBorder1;
+    @include border-radius(0 8px 8px 0);
+    @include background-image(linear-gradient($headerGradientFrom, $headerGradientTo));
+    @include transition(right .5s ease, top .5s ease, bottom .5s ease);
+    
+    > a {
+        font: 30px/34px "Courier new", monospace;
+        width: .8em;
+        text-align: center;
+        color: $creme;
+        top: 50%;
+        right: 0;
+        position: absolute;
+        margin-top: -17px;
+        text-decoration: none;
+        
+        span + span {
+            display: none;
+            }
+        }
+    &.expanded {
+        left: -2px;
+        right: 3.5em;
+        z-index: 101;
+        
+        > a {
+            span:first-child {
+                display: none;
+                }
+            span + span {
+                display: inline;
+                }
+            }
+        }
+    }
+#main {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 2.5em;
+    padding: 1em;
+    padding-right: 0;
+    overflow-x: hidden;
+
+    h2 {
+        cursor: pointer;
+        }
+    }
+@media only screen and (min-width: 960px) {
+    #main {
+        position: relative;
+        padding: 0;
+        }
+    #menu-container {
+        position: relative;
+        float: left;
+        padding: 0 1em;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        border: 0;
+        margin: 0;
+        background: transparent;
+        @include border-radius(0);
+
+        > a {
+            display: none;
+            }
+        }
+    }
+#main > ul, #menu-container.monad-nomenu {
+	clear: both;
+	}
+@media only screen and (min-width: 960px) {
+    #main > ul {
+    	width: 20em;
+        }
+    #menu-container.monad-nomenu {
+        width: 18em;
+        padding: 1em;
+        background: red;
+        color: yellow;
+        @include border-radius(8px);
+        }
+    }
+#main > ul > li {
+	margin-top: 0;
+	}
+#main ul ul {
+	width: auto;
+	float: none;
+    height: 0;
+    overflow: hidden;
+    @include transition(height .5s ease);
+	
+    &.active {
+        height: auto;
+        }
+    }
+@media only screen and (min-width: 960px) {
+    #main h2 {
+        cursor: auto;
+        }
+    #main ul ul {
+        height: auto;
+        }
+    }
+.box, #main > ul > li {
+    margin-bottom: 0.8em;
+    }
+#main > ul > li:last-child {
+    margin-bottom: 0;
+    }
+#main > ul > li > h2 {
+	display: block;
+	margin: 0 0 2px;
+	padding: .2em .4em;
+	}
+#main ul ul li {
+	margin: 0;
+	
+    a {
+	    min-height: 16px;
+    	background-position: 2px center;
+    	background-repeat: no-repeat;
+    	font-weight: bold;
+    	padding: 2px 0 2px 24px;
+    	text-decoration: none;
+    	display: block;
+    	}
+    }
+.box .inner {
+    padding: .2em .4em;
+    }
+#main > ul ul {
+    padding: 0 .4em;
+    
+    li:first-child {
+        margin-top: .2em;
+        }
+    li:last-child {
+        margin-bottom: .2em;
+        }
+    }
+#content {
+	width: auto;
+	margin: 0 1em 0 3em;
+
+    > div {
+	    width: 100%;
+    	float: left;
+    	}
+	}
+@media only screen and (min-width: 960px) {
+    #content {
+        margin: 0 22em;
+        }
+    }
+#sidebar {
+	width: 20em;
+	padding: 0 1em;
+	float: right;
+	
+    div {
+        margin: 0 0 1em;
+        padding: .5em;
+        }
+    }
+.generic-2col {
+	width: 100%;
+	float: left;
+	}
+.languages {
+    ul {
+    	float: right;
+    	}
+    li {
+	    float: left;
+    	margin-left: .5em;
+	    }
+    .language a {
+	    display: block;
+    	width: 16px;
+    	height: 11px;
+	    background: center center no-repeat;
+    	text-indent: -1000em;
+	    }
+    }
+.editable {
+    clear: both;
+    }
+span.cke_skin_kama {
+    border: 0!important;
+    @include border-radius(0!important);
+    padding: 0!important;
+    }
+.box {
+    .outer {
+        margin: 0 0 2px;
+        padding: .2em .4em;
+    
+        h1 {
+            margin: 0;
+            padding: 0;
+            }
+        }
+    b.icons {
+        float: right;
+    
+        a {
+            display: block;
+            float: left;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-color: transparent;
+            text-indent: -8192px;
+            }
+        }
+    }
+form {
+    > section {
+        margin: 0 0 1em;
+        }
+    fieldset fieldset {
+        border: 0;
+        background: transparent;
+        padding: 0;
+        }
+    legend {
+        margin: 0 0 2px;
+        padding: .2em .4em;
+        }
+    label {
+        padding: .2em 0;
+
+        > span {
+            clear: left;
+            }
+        }
+    td label {
+        display: inline;
+        }
+    }
+.collapse div {
+    display: inline;
+    }
+
+/*
+ * This quite complex selector is to stop fancy editors
+ * like ckeditor from barfing.
+ */
+form label > span:first-child, form label img:first-child + span {
+    display: block;
+    }
+@media only screen and (min-width: 960px) {
+    form label > span:first-child, form label img:first-child + span {
+        width: 10em;
+        float: left;
+        padding: 0 1em 0 0;
+        text-align: right;
+        }
+    }
+form label {
+    img:first-child {
+        float: right;
+        }
+    img.language {
+        float: none;
+        }
+    }
+span.info {
+    padding: 1px 4px;
+    }
+
+table.monad.list {
+    .action table td {
+        display: none;
+        padding: 0;
+
+        &:first-child {
+            display: table-cell;
+            }
+        }
+    .actions + th, .action + td, th + th + th + th + th, .data + .data + .data + .data {
+        display: none;
+        }
+    button {
+        margin: 0;
+        }
+    }
+@media only screen and (min-width: 960px) {
+    table.monad.list {
+        .action table td {
+            display: table-cell;
+            
+            &:first-child {
+                display: none;
+                }
+            }
+        .actions + th, .action + td, th + th + th + th + th, .data + .data + .data + .data {
+            display: table-cell;
+            }
+        }
+    }
+

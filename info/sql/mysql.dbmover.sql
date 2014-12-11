@@ -22,6 +22,22 @@ CREATE TABLE monad_page (
     CONSTRAINT FOREIGN KEY(usermodified) REFERENCES monolyth_auth(id) ON DELETE SET NULL
 ) ENGINE='InnoDB' DEFAULT CHARSET='UTF8';
 
+DROP TRIGGER IF EXISTS monad_page_insert_before;
+CREATE TRIGGER monad_page_insert_before BEFORE INSERT ON monad_page
+FOR EACH ROW
+BEGIN
+    IF NEW.sortorder IS NULL OR NEW.sortorder = 0 THEN
+        SET NEW.sortorder = COALESCE((SELECT sortorder FROM monad_page WHERE parent = NEW.parent ORDER BY sortorder DESC LIMIT 1), 0) + 1;
+    END IF;
+END;
+
+DROP TRIGGER IF EXISTS monad_page_update_before;
+CREATE TRIGGER monad_page_update_before BEFORE UPDATE ON monad_page
+FOR EACH ROW
+BEGIN
+    SET NEW.datemodified = NOW();
+END;
+
 CREATE TABLE monad_page_i18n (
     id bigint UNSIGNED NOT NULL,
     language bigint UNSIGNED NOT NULL,
@@ -37,6 +53,57 @@ CREATE TABLE monad_page_i18n (
     CONSTRAINT FOREIGN KEY(id) REFERENCES monad_page(id) ON DELETE CASCADE,
     CONSTRAINT FOREIGN KEY(language) REFERENCES monolyth_language(id) ON DELETE CASCADE
 ) ENGINE='InnoDB' DEFAULT CHARSET='UTF8';
+
+DROP FUNCTION IF EXISTS fn_monad_page_i18n_unique_slug;
+CREATE FUNCTION fn_monad_page_i18n_unique_slug(oldid INT, str TEXT, lang INT) RETURNS TEXT
+BEGIN
+    SET @uniq = 0;
+    SET @incr = 0;
+    REPEAT
+        SELECT COUNT(*) FROM monad_page_i18n
+            WHERE slug = str AND language = lang AND id <> oldid INTO @check;
+        IF @check = 0 THEN
+            SET @uniq = 1;
+        ELSE
+            SET @incr = @incr + 1;
+            SET str = fn_increment_slug(str, @incr);
+        END IF;
+    UNTIL @uniq = 1 END REPEAT;
+    RETURN str;
+END;
+
+DROP FUNCTION IF EXISTS fn_assembleslug;
+CREATE FUNCTION fn_assembleslug(pageid INT, lang INT) RETURNS TEXT
+BEGIN
+    SELECT parent, slug FROM monad_page JOIN monad_page_i18n USING(id)
+        WHERE id = pageid AND language = lang INTO @parent, @slug;
+    REPEAT
+        IF @parent IS NOT NULL THEN
+            SELECT parent, slug FROM monad_page JOIN monad_page_i18n USING(id)
+                WHERE id = @parent AND language = lang INTO @parent, @slug2;
+            SET @slug = CONCAT_WS('/', @slug2, @slug);
+        END IF;
+    UNTIL @parent IS NULL END REPEAT;
+    RETURN @slug;
+END;
+
+DROP TRIGGER IF EXISTS monad_page_i18n_insert_before;
+CREATE TRIGGER monad_page_i18n_insert_before BEFORE INSERT ON monad_page_i18n
+FOR EACH ROW
+BEGIN
+    IF NEW.slug = '' OR NEW.slug IS NULL THEN
+        SET NEW.slug = fn_monad_page_i18n_unique_slug(0, fn_generate_slug(NEW.title), NEW.language);
+    END IF;
+END;
+
+DROP TRIGGER IF EXISTS monad_page_i18n_update_before;
+CREATE TRIGGER monad_page_i18n_update_before BEFORE UPDATE ON monad_page_i18n
+FOR EACH ROW
+BEGIN
+    IF OLD.title <> NEW.title AND NEW.slug = OLD.slug THEN
+        SET NEW.slug = fn_monad_page_i18n_unique_slug(NEW.id, fn_generate_slug(NEW.title), NEW.language);
+    END IF;
+END;
 
 CREATE TABLE monad_section (
     id bigint UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -208,100 +275,11 @@ CREATE VIEW monad_auth
         LEFT JOIN monolyth_auth AS a ON (a.id = c.owner OR a.id = l.auth)
     WHERE r.name IN ('monad', '*') AND a.id IS NOT NULL;
 
-DROP FUNCTION IF EXISTS fn_monad_page_i18n_unique_slug;
-CREATE FUNCTION fn_monad_page_i18n_unique_slug(oldid INT, str TEXT, lang INT) RETURNS TEXT
-BEGIN
-    SET @uniq = 0;
-    SET @incr = 0;
-    REPEAT
-        SELECT COUNT(*) FROM monad_page_i18n
-            WHERE slug = str AND language = lang AND id <> oldid INTO @check;
-        IF @check = 0 THEN
-            SET @uniq = 1;
-        ELSE
-            SET @incr = @incr + 1;
-            SET str = fn_increment_slug(str, @incr);
-        END IF;
-    UNTIL @uniq = 1 END REPEAT;
-    RETURN str;
-END;
-
-DROP FUNCTION IF EXISTS fn_assembleslug;
-CREATE FUNCTION fn_assembleslug(pageid INT, lang INT) RETURNS TEXT
-BEGIN
-    SELECT parent, slug FROM monad_page JOIN monad_page_i18n USING(id)
-        WHERE id = pageid AND language = lang INTO @parent, @slug;
-    REPEAT
-        IF @parent IS NOT NULL THEN
-            SELECT parent, slug FROM monad_page JOIN monad_page_i18n USING(id)
-                WHERE id = @parent AND language = lang INTO @parent, @slug2;
-            SET @slug = CONCAT_WS('/', @slug2, @slug);
-        END IF;
-    UNTIL @parent IS NULL END REPEAT;
-    RETURN @slug;
-END;
-
-
-DROP TRIGGER IF EXISTS monad_page_update_before;
-CREATE TRIGGER monad_page_update_before BEFORE UPDATE ON monad_page
-FOR EACH ROW
-BEGIN
-    SET NEW.datemodified = NOW();
-END;
-
 DROP TRIGGER IF EXISTS monad_query_insert_before;
 CREATE TRIGGER monad_query_insert_before BEFORE INSERT ON monad_query
 FOR EACH ROW
 BEGIN
     SET NEW.checksum = md5(CONCAT(NEW.owner, NEW.`session`, NEW.querysql, NOW()));
-END;
-
-DROP TRIGGER IF EXISTS monad_page_insert_before;
-CREATE TRIGGER monad_page_insert_before BEFORE INSERT ON monad_page
-FOR EACH ROW
-BEGIN
-    IF NEW.sortorder IS NULL OR NEW.sortorder = 0 THEN
-        IF NEW.parent IS NULL THEN
-            SET NEW.sortorder = (SELECT COALESCE(sortorder, 0) FROM
-                monad_page WHERE parent IS NULL ORDER BY sortorder DESC LIMIT 1
-            ) + 1;
-        ELSE
-            SET NEW.sortorder = (SELECT COALESCE(sortorder, 0) FROM
-                monad_page WHERE parent = NEW.parent
-                ORDER BY sortorder DESC LIMIT 1
-            ) + 1;
-        END IF;
-    END IF;
-    IF NEW.sortorder IS NULL OR NEW.sortorder = 0 THEN
-        SET NEW.sortorder = 1;
-    END IF;
-END;
-
-DROP TRIGGER IF EXISTS monad_page_insert_after;
-CREATE TRIGGER monad_page_insert_after AFTER INSERT ON monad_page
-FOR EACH ROW
-BEGIN
-    INSERT INTO monad_page_i18n
-        SELECT NEW.id, id, md5(CONCAT(NEW.datecreated, NEW.id)),
-            NULL, NULL, NULL, NULL, 1 FROM monolyth_language;
-END;
-
-DROP TRIGGER IF EXISTS monad_page_i18n_insert_before;
-CREATE TRIGGER monad_page_i18n_insert_before BEFORE INSERT ON monad_page_i18n
-FOR EACH ROW
-BEGIN
-    IF NEW.slug = '' OR NEW.slug IS NULL THEN
-        SET NEW.slug = fn_monad_page_i18n_unique_slug(0, fn_generate_slug(NEW.title), NEW.language);
-    END IF;
-END;
-
-DROP TRIGGER IF EXISTS monad_page_i18n_update_before;
-CREATE TRIGGER monad_page_i18n_update_before BEFORE UPDATE ON monad_page_i18n
-FOR EACH ROW
-BEGIN
-    IF OLD.title <> NEW.title AND NEW.slug = OLD.slug THEN
-        SET NEW.slug = fn_monad_page_i18n_unique_slug(NEW.id, fn_generate_slug(NEW.title), NEW.language);
-    END IF;
 END;
 
 DROP TRIGGER IF EXISTS monad_section_insert_after;

@@ -1,0 +1,31 @@
+
+.languages {
+    .language {
+        a {
+        	border: 2px solid #fff;
+        	
+            &:hover {
+                border-color: #dfdfdf #eee;
+                }
+            &.selected {
+                border-color: #666 #333;
+                }
+            }
+        &.en a {
+            background-image: url(i18n/en.png);
+            }
+        &.nl a {
+            background-image: url(i18n/nl.png);
+            }
+        &.de a {
+            background-image: url(i18n/de.png);
+            }
+        &.fr a {
+            background-image: url(i18n/fr.png);
+            }
+        &.es a {
+            background-image: url(i18n/es.png);
+            }
+        }
+    }
+

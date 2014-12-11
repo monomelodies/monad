@@ -1,9 +1,5 @@
 <?php
 
-namespace monad;
-// Set the EDITING constant to true so we can check for various stuff.
-const EDITING = true;
-
 namespace monad\core;
 use monolyth\DependencyContainer;
 use monolyth\User_Access;
@@ -80,7 +76,7 @@ abstract class Controller extends core\Controller
         }
         $this->template = $this->view([
             'monad\admin\template/body',
-            'monolyth\template/page',
+            'monad\admin\template/page',
         ]);
         $redir = self::http()->getRedir();
         $language = self::language();
@@ -197,7 +193,7 @@ abstract class Controller extends core\Controller
             );
         }
         try {
-            $this->head = $this->view('monad\admin\slice/head');
+            $this->head = $this->view('monad\admin\head');
         } catch (FileNotFound_Exception $e) {
         }
     }

@@ -21,7 +21,7 @@ foreach ($fieldsets as $legend => $fieldset):
         foreach ($group[$o::FIELDS] as &$field):
             $field = $o['export']($field);
         endforeach;
-        echo $this->view(__NAMESPACE__.'\slice/form/'.$group[$o::TYPE])
+        echo $this->view(__NAMESPACE__.'\form/'.$group[$o::TYPE])
                  ->attach($o['using']($group));
     endforeach;
 

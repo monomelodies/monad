@@ -9,7 +9,7 @@ trait Helper
 {
     use Name_Helper, Url_Helper;
 
-    public function scaffold($action, $database, Model $object)
+    public function scaffold($action, Model $object)
     {
         $namespace = $this->getNamespace($object);
         $package = substr($namespace, 0, strpos($namespace, '\\'));
