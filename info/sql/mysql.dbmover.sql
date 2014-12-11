@@ -418,7 +418,7 @@ INSERT INTO monad_admin_item_i18n VALUES (@subitem, 1, 'Media'), (@subitem, 2, '
 
 -- {{{ v0.24.4
 
-DROP VIEW monad_auth;
+DROP VIEW IF EXISTS monad_auth;
 CREATE VIEW monad_auth
     (id, name, pass, salt, email, datecreated, datemodified, dateactive,
         status, feature) AS
