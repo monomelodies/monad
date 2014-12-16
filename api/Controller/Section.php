@@ -20,9 +20,9 @@ class Section_Controller extends Controller
             throw new HTTP404_Exception;
         }
         if (!($sections = self::sections()->all($page['id']))) {
-            throw new HTTP404_Exception;
+            $sections = [];
         }
-        return $this->view('monolyth\render\page/json', ['data' => $sections]);
+        return $this->view('monolyth\render\json', ['data' => $sections]);
     }
 }
 
