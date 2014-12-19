@@ -28,7 +28,6 @@ if (method_exists($items[0], 'inlineLinks')) {
 <?php } else { ?>
                 <th class="action"><a href="<?=$scaffold(
                     'create',
-                    $database,
                     $items[0]
                 ).$params?>" class="icon create" title="<?=htmlentities($text('create'))?>"><?=$text('create')?></a></th>
 <?php } ?>
@@ -38,23 +37,23 @@ if (method_exists($items[0], 'inlineLinks')) {
 <?php foreach ($items as $item) { ?>
             <tr>
 <?php   if ($item instanceof Sortable) { ?>
-                <td class="action"><a href="<?=$scaffold('sort', $database, $item)
+                <td class="action"><a href="<?=$scaffold('sort', $item)
                     ?>" class="icon sort" title="<?=htmlentities($text('sort'))?>"><?=$text('sort')?></a></td>
 <?php   } ?>
 <?php   if (!($item instanceof Uneditable_Model)) { ?>
-                <td class="action"><a href="<?=$scaffold('update', $database, $item).$params
+                <td class="action"><a href="<?=$scaffold('update', $item).$params
                     ?>" class="icon update" title="<?=htmlentities($text('update'))?>"><?=$text('update')?></a></td>
 <?php   } else { ?>
                 <td class="action"></td>
 <?php   } ?>
 <?php   if (!($item instanceof Uncopyable_Model)) { ?>
-                <td class="action"><a href="<?=$scaffold('copy', $database, $item).$params
+                <td class="action"><a href="<?=$scaffold('copy', $item).$params
                     ?>" class="icon copy" title="<?=htmlentities($text('copy'))?>"><?=$text('copy')?></a></td>
 <?php   } else { ?>
                 <td class="action"></td>
 <?php   } ?>
 <?php   if (method_exists($item, 'delete')) { ?>
-                <td class="action"><a href="<?=$scaffold('delete', $database, $item).$params
+                <td class="action"><a href="<?=$scaffold('delete', $item).$params
                     ?>" class="icon delete" title="<?=htmlentities($text('delete'))?>"><?=$text('delete')?></a></td>
 <?php   } else { ?>
                 <td class="action"></td>
