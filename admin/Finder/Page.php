@@ -56,11 +56,27 @@ class Page_Finder extends core\I18n_Finder
 
     public function sections(Page_Model $page, $language)
     {
-        return Section_Finder::instance(self::$db)->all(
-            100,
-            1,
-            ['language' => $language, 'page' => $page['id']]
-        );
+        try {
+            return self::adapter()->models(
+                new Inline_Section_Model,
+                'monad_section s
+                 JOIN monad_section_i18n i USING(id)
+                 JOIN monad_page_section ps ON ps.section = s.id',
+                [
+                    's.id',
+                    'i.header',
+                    's.viewname',
+                    's.datecreated',
+                ],
+                [
+                    'ps.page' => $page['id'],
+                    'i.language' => $language,
+                ],
+                ['order' => 'ps.sortorder']
+            );
+        } catch (NoResults_Exception $e) {
+            return new Inline_Section_Model;
+        }
     }
 }
 
