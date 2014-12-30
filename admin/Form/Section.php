@@ -30,6 +30,28 @@ class Section_Form extends I18n_Form
     {
         parent::__construct();
         $language = self::projectlanguage()->available[0];
+        $this->addForeignKey(
+            'page',
+            $this->text(['./page', 'column/page']),
+            [
+                'package' => 'monad',
+                'target' => 'page',
+                'field' => 'title',
+            ]
+        )->isRequired();
+        $this->addForeignKey(
+            'owner',
+            $this->text(['./owner', 'column/owner']),
+            [
+                'package' => 'monad',
+                'target' => 'auth',
+                'field' => 'name',
+            ]
+        )->isRequired();
+        $this->addNumeric(
+            'sortorder',
+            $this->text(['./sortorder', 'column/sortoder'])
+        )->isRequired();
         foreach (self::projectlanguage()->available as $lang) {
             if (!isset(self::$IDENTIFIER)) {
                 self::$IDENTIFIER = "header[{$lang->id}]";
