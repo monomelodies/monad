@@ -67,6 +67,7 @@ class Page_Finder extends core\I18n_Finder
                     'i.header',
                     's.viewname',
                     's.datecreated',
+                    'ps.sortorder',
                 ],
                 [
                     'ps.page' => $page['id'],
