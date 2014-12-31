@@ -9,9 +9,11 @@ if ($items[0] instanceof Sortable) {
 }
 $namespace = substr($class, 0, strrpos($class, '\\'));
 $params = '?redir='.urlencode($http->getSelf());
-if (method_exists($items[0], 'inlineLinks')) {
-    $params .= '&amp;'.$items[0]->inlineLinks($model);
-}
+$links = function($model, $parent) {
+    if (method_exists($model, 'inlineLinks')) {
+        return '&amp;'.$model->inlineLinks($parent);
+    }
+};
 
 ?>
 <section>
@@ -29,7 +31,7 @@ if (method_exists($items[0], 'inlineLinks')) {
                 <th class="action"><a href="<?=$scaffold(
                     'create',
                     $items[0]
-                ).$params?>" class="icon create" title="<?=htmlentities($text('create'))?>"><?=$text('create')?></a></th>
+                ).$params.$links($items[0], $model)?>" class="icon create" title="<?=htmlentities($text('create'))?>"><?=$text('create')?></a></th>
 <?php } ?>
             </tr>
         </thead>
@@ -37,23 +39,23 @@ if (method_exists($items[0], 'inlineLinks')) {
 <?php foreach ($items as $item) { ?>
             <tr>
 <?php   if ($item instanceof Sortable) { ?>
-                <td class="action"><a href="<?=$scaffold('sort', $item)
+                <td class="action"><a href="<?=$scaffold('sort', $item).$params.$links($items[0], $model)
                     ?>" class="icon sort" title="<?=htmlentities($text('sort'))?>"><?=$text('sort')?></a></td>
 <?php   } ?>
 <?php   if (!($item instanceof Uneditable_Model)) { ?>
-                <td class="action"><a href="<?=$scaffold('update', $item).$params
+                <td class="action"><a href="<?=$scaffold('update', $item).$params.$links($items[0], $model)
                     ?>" class="icon update" title="<?=htmlentities($text('update'))?>"><?=$text('update')?></a></td>
 <?php   } else { ?>
                 <td class="action"></td>
 <?php   } ?>
 <?php   if (!($item instanceof Uncopyable_Model)) { ?>
-                <td class="action"><a href="<?=$scaffold('copy', $item).$params
+                <td class="action"><a href="<?=$scaffold('copy', $item).$params.$links($items[0], $model)
                     ?>" class="icon copy" title="<?=htmlentities($text('copy'))?>"><?=$text('copy')?></a></td>
 <?php   } else { ?>
                 <td class="action"></td>
 <?php   } ?>
 <?php   if (method_exists($item, 'delete')) { ?>
-                <td class="action"><a href="<?=$scaffold('delete', $item).$params
+                <td class="action"><a href="<?=$scaffold('delete', $item).$params.$links($items[0], $model)
                     ?>" class="icon delete" title="<?=htmlentities($text('delete'))?>"><?=$text('delete')?></a></td>
 <?php   } else { ?>
                 <td class="action"></td>
