@@ -60,15 +60,19 @@ class Section_Model extends Model
     public function inlineLinks($model)
     {
         if ($model instanceof Page_Model) { 
-            try {
-               $sortorder = self::adapter()->field(
-                    'monad_page_section',
-                    'sortorder + 1',
-                    ['page' => $model['id']],
-                    ['order' => 'sortorder DESC']
-                );
-            } catch (NoResults_Exception $e) {
-                $sortorder = 1;
+            if (isset($this['sortorder'])) {
+                $sortorder = $this['sortorder'];
+            } else {
+                try {
+                   $sortorder = self::adapter()->field(
+                        'monad_page_section',
+                        'sortorder + 1',
+                        ['page' => $model['id']],
+                        ['order' => 'sortorder DESC']
+                    );
+                } catch (NoResults_Exception $e) {
+                    $sortorder = 1;
+                }
             }
             return http_build_query([
                 'page' => $model['id'],
