@@ -52,7 +52,7 @@ class Page_Form extends I18n_Form
         foreach (self::projectlanguage()->available as $lang) {
             $this->addTextHTML("content[{$lang->id}]", $this->text('./content'))
                  ->setClass("html content language {$lang->code}");
-            $this->addText("keywords[{$lang->id}]", $this->text('./keywords'))
+            $this->addTextarea("keywords[{$lang->id}]", $this->text('./keywords'))
                  ->setClass("language {$lang->code}");
             $this->addTextarea(
                 "description[{$lang->id}]",
