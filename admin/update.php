@@ -13,9 +13,9 @@ $renderInline = function($title, $items) use($model, $view, $self) {
             $class = get_class($items);
             $class = preg_replace('@[a-zA-Z_]*?Inline_(.*?)_Model@', '\\1_Form', $class);
             $args += ['formClass' => $class];
-            echo $view('inline/stacked', $args);
+            echo $view(__NAMESPACE__.'\inline/stacked', $args);
         } elseif (!($self instanceof Create_Controller)) {
-            echo $view('inline/create', $args);
+            echo $view(__NAMESPACE__.'\inline/create', $args);
         }
         return;
     }
@@ -23,11 +23,11 @@ $renderInline = function($title, $items) use($model, $view, $self) {
         $class = get_class($items[0]);
         $class = preg_replace('@[a-zA-Z_]*?Inline_(.*?)_Model@', '\\1_Form', $class);
         $args += ['formClass' => $class];
-        echo $view('inline/stacked', $args);
+        echo $view(__NAMESPACE__.'\inline/stacked', $args);
     } elseif ($items[0] instanceof Tabular_Inline) {
-        echo $view('inline/tabular', $args);
+        echo $view(__NAMESPACE__.'\inline/tabular', $args);
     } elseif ($items[0] instanceof Checkboxes_Inline) {
-        echo $view('inline/checkboxes', $args);
+        echo $view(__NAMESPACE__.'\inline/checkboxes', $args);
     } else {
         echo $view('inline', $args);
     }
