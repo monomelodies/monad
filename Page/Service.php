@@ -2,7 +2,7 @@
 
 namespace monad\Page;
 use monolyth\adapter\sql\NoResults_Exception;
-use disclosure\Injector;
+use Disclosure\Injector;
 
 class Service
 {
