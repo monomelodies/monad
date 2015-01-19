@@ -13,7 +13,7 @@ class Service
 
     public function __construct()
     {
-        $this->inject('adapter');
+        $this->inject(function ($adapter) {});
     }
 
     public function all($language, $slug)
