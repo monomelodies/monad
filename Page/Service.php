@@ -1,7 +1,6 @@
 <?php
 
-namespace monad\Page;
-use monolyth\adapter\sql\NoResults_Exception;
+namespace Monad\Page;
 use Disclosure\Injector;
 
 class Service
