@@ -1,6 +1,6 @@
 <?php
 
-namespace monad\Section;
+namespace Monad\Section;
 
 use Disclosure\Injector;
 use PDO;
