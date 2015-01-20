@@ -1,0 +1,14 @@
+{
+    "name": "monomelodies/monad",
+    "description": "AngularJS based generic CMS/backend",
+    "keywords": [],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marijn Ophorst",
+            "email": "marijn@monomelodies.nl"
+        }
+    ],
+    "require": {},
+    "require-dev": {}
+}
