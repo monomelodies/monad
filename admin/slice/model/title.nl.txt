@@ -1,1 +1,0 @@
-Modellen in <code>%1$s</code>

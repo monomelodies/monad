@@ -1,1 +1,0 @@
-Verwijder rij uit <code>%1$s</code>

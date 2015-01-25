@@ -1,6 +1,0 @@
-	<li>'Standaard' iconen komen uit de Crystal Icons set door Everaldo
-		en de Silk iconen set door FamFamFam.</li>
-	<li>Extra iconen werden ontworpen door <a
-        href="http://www.minekevanzeyl.nl/">Mineke van Zeyl</a>.</li>
-	<li>Inspiratie kwam van (onder vele anderen) Django, CakePHP, Symfony en
-		Lithium.</li>

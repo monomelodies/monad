@@ -1,5 +1,0 @@
-		MonAd is de standaard back-end/CMS voor het MonoLyth framework.
-		MonoLyth is een op MVC-gebaseerd PHP5 framework, ontworpen met
-		stabiliteit en effici&euml;ntie in het achterhoofd. Ja, we houden
-		ervan, maar natuurlijk zeggen we dat zelf. Waarom probeer je het niet
-		eens uit, en bespaar je ook tijd op je ontwikkeling?

@@ -1,1 +1,0 @@
-Wijzig pagina <code>%1$s</code>

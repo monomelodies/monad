@@ -1,1 +1,0 @@
-Pages in <code>%s</code>
