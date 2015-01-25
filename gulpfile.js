@@ -11,6 +11,7 @@ gulp.task('default', function() {
 });
 
 var watch = {};
+
 ;(function(scripts) {
     gulp.task('scripts', function() {
         gulp.src(scripts).
@@ -33,12 +34,10 @@ var watch = {};
     });
     watch.scripts = scripts;
 })([
-    'vendor/angular-ui-router/release/angular-ui-router.js',
     'vendor/angular-translate/angular-translate.js',
-    'src/app.js',
+    'src/monad.js',
     'src/**/*.js'
 ]);
-
 
 ;(function(styles) {
     gulp.task('styles-project', function() {
@@ -62,10 +61,19 @@ var watch = {};
     'httpdocs/css/formalize/assest/css/**/*.scss'
 ]);
 
+;(function(assets) {
+    gulp.task('assets-html', function() {
+        gulp.src(assets).
+             pipe(gulp.dest('build/assets/html'));
+    });
+    watch.assets_html = assets;
+})(['src/**/*.html']);
+
 gulp.task('watch', function() {
 //    gulp.watch(watch['3rdparty'], ['scripts-3rdparty']);
 //    gulp.watch(watch.libraries, ['scripts-libraries']);
     gulp.watch(watch.scripts, ['scripts']);
+    gulp.watch(watch.assets_html, ['assets-html']);
 //    gulp.watch(watch.project_styles, ['styles-project']);
 });
 
