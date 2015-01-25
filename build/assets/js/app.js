@@ -1,9 +1,9 @@
 
 import {runner} from "./run";
-import {routing} from "./routing";
+//import {routing} from "./routing";
 
 angular.module('monad', [
-    'ui.router',
+    'ngRoute',
     'ngAnimate',
     'ngSanitize',
     'pascalprecht.translate'
@@ -12,9 +12,9 @@ angular.module('monad', [
 /*
 angular.module('monad').config(['$stateProvider', '$translateProvider', routing]);
 */
-angular.module('monad').config(['$stateProvider', function($stateProvider) {
+angular.module('monad').config(['$routeProvider', function($routeProvider) {
 
-$stateProvider.state('home', {
+$routeProvider.route('home', {
     'url': '/',
     'controller': function() {
         alert('yay');
@@ -24,4 +24,6 @@ $stateProvider.state('home', {
 
 }]);
 angular.module('monad').run(['$http', '$rootScope', runner]);
+
+export angular.module('monad');
 

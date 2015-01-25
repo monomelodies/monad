@@ -1,19 +1,17 @@
 
 import {HomeController} from './home/Controller';
 
-export function routing($stateProvider, $translateProvider)
+export function routing($routeProvider, $translateProvider)
 {
     $translateProvider.preferredLanguage('nl');
-    $stateProvider.
-        state('404', {
+    $routeProvider.when('/', {
+        controller: HomeController,
+        controllerAs: 'home',
+        templateUrl: '/assets/html/home/view.html'
+    }).
+        otherwise({
             controller: '404Controller',
-            templateUrl: '/assets/html/page/404.html'
-        }).
-        state('home', {
-            url: '/',
-            controller: ['$rootScope', '$http', HomeController],
-            controllerAs: 'home',
-            templateUrl: '/assets/html/page/home.html'
+            templateUrl: '/assets/html/404/view.html'
         });
 }
 

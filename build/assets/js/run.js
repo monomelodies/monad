@@ -1,5 +1,5 @@
 
-export function runner($http, $rootScope)
+export function runner($http)
 {
     delete $http.defaults.headers.common['X-Requested-With'];
     $http.defaults.withCredentials = true;
