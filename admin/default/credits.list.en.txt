@@ -1,6 +1,0 @@
-    <li>'Standard' icons were taken from the Crystal Icons package by Everaldo
-        and the Silk icon set by FamFamFam.</li>
-    <li>Custom icons were designed by
-        <a href="http://www.minekevanzeyl.nl/">Mineke van Zeyl</a>.</li>
-    <li>Inspiration by (among many others) Django, CakePHP, Symfony and
-        Lithium.</li>

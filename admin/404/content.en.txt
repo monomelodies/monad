@@ -1,9 +1,0 @@
-<p>
-    I'm sorry, I can't seem to find the page you're looking for.
-    Please check to see if you spelled the URL correctly.
-</p>
-<p>
-    If you came here via a link in MonAd, please report this as a bug to the
-    package maintainers.
-</p>
-

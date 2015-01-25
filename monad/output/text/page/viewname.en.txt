@@ -1,1 +1,0 @@
-../viewname.en.txt

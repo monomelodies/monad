@@ -1,1 +1,0 @@
-Switch to %1$s

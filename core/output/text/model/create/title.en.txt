@@ -1,1 +1,0 @@
-Create a new <code>%1$s</code>

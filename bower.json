@@ -1,0 +1,19 @@
+{
+  "name": "monad",
+  "version": "0.26.2",
+  "moduleType": [
+    "es6"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "angular-ui-router": "~0.2.13",
+    "angular-translate": "~2.5.2"
+  }
+}

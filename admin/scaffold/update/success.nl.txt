@@ -1,1 +1,0 @@
-Data voor tabel %1$s is opgeslagen.

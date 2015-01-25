@@ -1,1 +1,0 @@
-Data for &quot;%1$s&quot; successfully saved.
