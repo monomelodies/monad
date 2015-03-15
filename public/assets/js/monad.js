@@ -11,8 +11,10 @@ class Monad
             'ngSanitize',
             'pascalprecht.translate'
         ]);
+        this.$http = undefined;
         var that = this;
         this._angular.run(['$http', '$rootScope', function($http, $rootScope) {
+            this.$http = $http;
             delete $http.defaults.headers.common['X-Requested-With'];
             $http.defaults.withCredentials = true;
             $http.defaults.headers.post["Content-Type"] = 'application/x-www-form-urlencoded;charset=utf-8';
