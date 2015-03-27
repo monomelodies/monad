@@ -4,7 +4,6 @@ var watch = require('gulp-watch');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var compass = require('gulp-compass');
-var minifyCss = require('gulp-minify-css');
 var traceur = require('gulp-traceur');
 
 gulp.task('default', function() {
@@ -51,7 +50,6 @@ var watch = {};
                     'httpdocs/css/formalize/assets/css'
                 ]
              })).
-             pipe(minifyCss()).
              pipe(gulp.dest('httpdocs/css'));
     });
     watch.project_styles = styles;
