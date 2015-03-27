@@ -15,7 +15,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-        <base ng-href="{{$root.config.path}}">
+        <base ng-href="/monad/">
     </head>
     <body role="document">
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -44,10 +44,9 @@
             <ui-view/>
         </div>
         
-        <script src="/js/babel.js"></script>
-        <script src="/js/es6-module-loader.js"></script>
-        <script>System.transpiler = 'babel'</script>
-        <script src="/js/Monad.js"></script>
+        <script src="/monad/jspm_packages/system.js"></script>
+        <script src="/monad/config.js"></script>
+        <script>System.import('Monad')</script>
         <!--
         <script src="/monad/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 
