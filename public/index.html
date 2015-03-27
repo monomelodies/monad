@@ -44,13 +44,18 @@
             <ui-view/>
         </div>
         
-        <script src="/monad/vendor/jquery/dist/jquery.min.js"></script>
+        <script src="/js/babel.js"></script>
+        <script src="/js/es6-module-loader.js"></script>
+        <script>System.transpiler = 'babel'</script>
+        <script src="/js/Monad.js"></script>
+        <!--
         <script src="/monad/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 
         <script src="/monad/vendor/angular/angular.min.js"></script>
         <script src="/monad/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
         <script src="/monad/vendor/angular-translate/angular-translate.min.js"></script>
         <script src="/monad/app.js"></script>
+        -->
     </body>
 </html>
 
