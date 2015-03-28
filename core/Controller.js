@@ -7,7 +7,7 @@ class Controller
         this.paths = {
             root: '/monad/',
             bootstrap: '/vendor/github/twbs/bootstrap@3.3.4',
-            monad: '/vendor/github/monomelodies/monad@nextgen/build',
+            monad: '/vendor/github/monomelodies/monad@nextgen',
             theme: undefined
         };
     }
