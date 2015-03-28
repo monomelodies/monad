@@ -1,12 +1,66 @@
 
 import jquery from 'jquery';
 import angular from 'angular';
-import translate from 'angular-translate';
-import router from 'angular-ui-router';
+import * as router from 'angular-ui-router';
+import * as translate from 'angular-translate';
 
-var Monad = angular.module('monad', [translate, router]);
+var Monad = angular.module('monad', ['pascalprecht.translate', 'ui.router']);
 
-export { Monad };
+Monad.run(['$http', function($http) {
+    delete $http.defaults.headers.common['X-Requested-With'];
+    $http.defaults.withCredentials = true;
+    $http.defaults.headers.post["Content-Type"] = 'application/x-www-form-urlencoded;charset=utf-8';
+    
+    // http://victorblog.com/2012/12/20/make-angularjs-http-service-behave-like-jquery-ajax/
+    function param(obj) {
+        var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
+        for (name in obj) {
+            value = obj[name];
+            if (value instanceof Array) {
+                for (i = 0; i < value.length; ++i) {
+                    subValue = value[i];
+                    fullSubName = name + '[' + i + ']';
+                    innerObj = {};
+                    innerObj[fullSubName] = subValue;
+                    query += param(innerObj) + '&';
+                }
+            } else if (value instanceof Object) {
+                for (subName in value) {
+                    subValue = value[subName];
+                    fullSubName = name + '[' + subName + ']';
+                    innerObj = {};
+                    innerObj[fullSubName] = subValue;
+                    query += param(innerObj) + '&';
+                }
+            } else if (value !== undefined && value !== null) {
+                query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
+            }
+        }
+        return query.length ? query.substr(0, query.length - 1) : query;
+    };
+    // Override $http service's default transformRequest
+    $http.defaults.transformRequest = [function(data) {
+        return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
+    }];
+}]);
+Monad.config(['$stateProvider', '$translateProvider', function($stateProvider, $translateProvider) {
+    $translateProvider.preferredLanguage('en');
+    $stateProvider.
+        state('home', {
+            url: '/',
+            controller: HomeController,
+            controllerAs: 'home',
+            templateUrl: 'assets/html/home/view.html'
+        }).
+        state('login', {
+            url: '/login/',
+            controller: LoginController,
+            controllerAs: 'login',
+            templateUrl: 'assets/html/login/view.html'
+        });
+}]);
+
+export { Monad as default };
 
 /*
 import {HomeController} from './home/Controller';
@@ -22,58 +76,6 @@ class Monad
             'pascalprecht.translate'
         ]);
         var that = this;
-        this._angular.run(['$http', '$rootScope', function($http, $rootScope) {
-            delete $http.defaults.headers.common['X-Requested-With'];
-            $http.defaults.withCredentials = true;
-            $http.defaults.headers.post["Content-Type"] = 'application/x-www-form-urlencoded;charset=utf-8';
-            
-            // http://victorblog.com/2012/12/20/make-angularjs-http-service-behave-like-jquery-ajax/
-            function param(obj) {
-                var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
-                for (name in obj) {
-                    value = obj[name];
-                    if (value instanceof Array) {
-                        for (i = 0; i < value.length; ++i) {
-                            subValue = value[i];
-                            fullSubName = name + '[' + i + ']';
-                            innerObj = {};
-                            innerObj[fullSubName] = subValue;
-                            query += param(innerObj) + '&';
-                        }
-                    } else if (value instanceof Object) {
-                        for (subName in value) {
-                            subValue = value[subName];
-                            fullSubName = name + '[' + subName + ']';
-                            innerObj = {};
-                            innerObj[fullSubName] = subValue;
-                            query += param(innerObj) + '&';
-                        }
-                    } else if (value !== undefined && value !== null) {
-                        query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
-                    }
-                }
-                return query.length ? query.substr(0, query.length - 1) : query;
-            };
-            // Override $http service's default transformRequest
-            $http.defaults.transformRequest = [function(data) {
-                return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
-            }];
-            $rootScope.monad = {modules: that.modules};
-        }]);
-        this._angular.config(['$routeProvider', '$translateProvider', function($routeProvider, $translateProvider) {
-            $translateProvider.preferredLanguage('en');
-            $routeProvider.
-                when('/', {
-                    controller: HomeController,
-                    controllerAs: 'home',
-                    templateUrl: 'assets/html/home/view.html'
-                }).
-                when('/login', {
-                    controller: LoginController,
-                    controllerAs: 'login',
-                    templateUrl: 'assets/html/login/view.html'
-                });
-        }]);
         this._modules = [];
     }
     get angular() {
