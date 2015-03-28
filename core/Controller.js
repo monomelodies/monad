@@ -3,6 +3,7 @@ class Controller
 {
     constructor($rootScope)
     {
+        this.title = 'Default generic administrator';
     }
 }
 
