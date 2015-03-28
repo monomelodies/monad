@@ -1,23 +1,26 @@
 {
   "name": "monad",
   "version": "0.26.2",
-  "moduleType": [
-    "es6"
+  "authors": [
+    "Marijn Ophorst <marijn@sensimedia.nl>"
   ],
   "license": "MIT",
+  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
+    "vendor/",
     "test",
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "~3.3.2",
-    "ng-ckeditor": "~0.2.1",
+    "bootstrap": ">=3.0",
+    "jquery": "1.*",
     "angular": ">=1.3",
-    "angular-ui-router": "~0.2.13",
-    "angular-translate": "~2.6.1"
+    "ng-ckeditor": ">=0.2",
+    "angular-ui-router": ">=0.2",
+    "angular-translate": ">=2.6"
   },
   "resolutions": {
     "angular": ">=1.3"

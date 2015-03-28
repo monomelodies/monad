@@ -1,4 +1,9 @@
 
+import jquery from 'jquery';
+import angular from 'angular';
+console.log(angular.version);
+
+/*
 import {HomeController} from './home/Controller';
 import {LoginController} from './login/Controller';
 
@@ -89,4 +94,5 @@ class Module
 
 var monad = new Monad;
 export {monad as Monad, Module};
+*/
 
