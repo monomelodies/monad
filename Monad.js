@@ -52,6 +52,12 @@ Monad.config(['$stateProvider', '$translateProvider', function($stateProvider, $
             controller: Home.Controller,
             controllerAs: 'home',
             templateUrl: './Home/view.html'
+        });
+}]);
+
+export { Monad as default };
+
+/*
             /*
         }).
         state('login', {
@@ -59,13 +65,6 @@ Monad.config(['$stateProvider', '$translateProvider', function($stateProvider, $
             controller: LoginController,
             controllerAs: 'login',
             templateUrl: 'assets/html/login/view.html'
-            */
-        });
-}]);
-
-export { Monad as default };
-
-/*
 import {HomeController} from './home/Controller';
 import {LoginController} from './login/Controller';
 
