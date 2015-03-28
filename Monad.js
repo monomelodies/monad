@@ -3,6 +3,7 @@ import jquery from 'jquery';
 import angular from 'angular';
 import * as router from 'angular-ui-router';
 import * as translate from 'angular-translate';
+import * as Home from './Home/app';
 
 var Monad = angular.module('monad', ['pascalprecht.translate', 'ui.router']);
 
@@ -48,15 +49,17 @@ Monad.config(['$stateProvider', '$translateProvider', function($stateProvider, $
     $stateProvider.
         state('home', {
             url: '/',
-            controller: HomeController,
+            controller: Home.Controller,
             controllerAs: 'home',
-            templateUrl: 'assets/html/home/view.html'
+            templateUrl: './Home/view.html'
+            /*
         }).
         state('login', {
             url: '/login/',
             controller: LoginController,
             controllerAs: 'login',
             templateUrl: 'assets/html/login/view.html'
+            */
         });
 }]);
 
