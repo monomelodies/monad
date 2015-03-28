@@ -2,12 +2,19 @@
 import angular from 'angular';
 import * as router from 'angular-ui-router';
 import * as translate from 'angular-translate';
+import * as bootstrap from './core/bootstrap';
+import * as Home from './Home/app';
 
 var Monad = angular.module('monad', ['pascalprecht.translate', 'ui.router']);
 
-import * as Home from './Home/app';
+Monad.run(['$http', bootstrap.NormalizePost]);
+Monad.config(['$translateProvider', function($translateProvider) {
+    $translateProvider.preferredLanguage('en');
+}]);
+Monad.config(['$stateProvider', Home.Config]);
+Monad.controller('RootController', bootstrap.Controller);
 
-export { Monad as default, Home };
+export { Monad as default };
 
 /*
             /*
