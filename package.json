@@ -1,8 +1,8 @@
 {
   "name": "monad",
-  "version": "0.0.0",
+  "version": "0.26.2",
   "description": "Generic AngularJS-based CMS framework",
-  "main": "gulpfile.js",
+  "main": "Monad.js",
   "directories": {
     "doc": "docs",
     "test": "tests"
