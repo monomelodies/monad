@@ -1,8 +1,6 @@
 
 "use strict";
 
-import angular from 'angular';
-import '../core/bootstrap';
 import {Controller} from './Controller';
 
 function ngConfig($stateProvider)
