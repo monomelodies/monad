@@ -6,7 +6,7 @@ class Controller
     }
 }
 
-Controller.$inject(['$rootScope']);
+Controller.$inject = ['$rootScope'];
 
 export {Controller};
 
