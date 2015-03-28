@@ -1,6 +1,4 @@
 
-import {Controller} from './Controller';
-
 function NormalizePost($http)
 {
     delete $http.defaults.headers.common['X-Requested-With'];
@@ -40,7 +38,7 @@ function NormalizePost($http)
     }];
 }
 
-function register(app, items)
+function Module(app, items)
 {
     for (var name in items) {
         ['Controller', 'Service'].map(function(type) {
@@ -58,7 +56,7 @@ function register(app, items)
     }
 }
 
-export {NormalizePost, Controller, register};
+export {NormalizePost, Module};
 
 /*
             /*
