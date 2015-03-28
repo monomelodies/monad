@@ -1,7 +1,12 @@
 
 import jquery from 'jquery';
 import angular from 'angular';
-console.log(angular.version);
+import translate from 'angular-translate';
+import router from 'angular-ui-router';
+
+var Monad = angular.module('monad', [translate, router]);
+
+export { Monad };
 
 /*
 import {HomeController} from './home/Controller';
