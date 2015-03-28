@@ -1,5 +1,5 @@
 
-import {Controller} from 'Controller';
+import {Controller} from './Controller';
 
 function NormalizePost($http)
 {
