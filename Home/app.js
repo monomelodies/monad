@@ -1,18 +1,20 @@
 
 "use strict";
 
-import {Monad} from '../Monad';
+import angular from 'angular';
+import '../core/bootstrap';
 import {Controller} from './Controller';
 
-Monad.config(['$stateProvider', function($stateProvider) {
-    $stateProvider.
-        state('home', {
-            url: '/',
-            controller: Controller,
-            controllerAs: 'home',
-            templateUrl: './Home/view.html'
-        });
-}]);
+function Config($stateProvider)
+    {
+        $stateProvider.
+            state('home', {
+                url: '/',
+                controller: Controller,
+                controllerAs: 'home',
+                templateUrl: './Home/view.html'
+            });
+    }
 
-export { Controller };
+export { Config, Controller };
 
