@@ -2,19 +2,21 @@
 import angular from 'angular';
 import * as router from 'angular-ui-router';
 import * as translate from 'angular-translate';
-import * as bootstrap from './core/bootstrap';
+import {NormalizePost} from './core/NormalizePost';
+import {Controller} from './core/Controller';
+import {Module} from './core/Module';
 import * as Home from './Home/module';
 
-var Monad = angular.module('monad', ['pascalprecht.translate', 'ui.router']);
+var app = angular.module('monad', ['pascalprecht.translate', 'ui.router']);
 
-Monad.run(['$http', bootstrap.NormalizePost]);
-Monad.config(['$translateProvider', function($translateProvider) {
+app.run(['$http', NormalizePost]);
+app.config(['$translateProvider', '$stateProvider', function($translateProvider, $stateProvider) {
     $translateProvider.preferredLanguage('en');
+    Home.ngConfig($stateProvider);
 }]);
-Monad.config(['$stateProvider', Home.ngConfig]);
-Monad.controller('RootController', bootstrap.Controller);
+app.controller('RootController', Controller);
 
-export {Monad as default, bootstrap};
+export {Controller, Module};
 
 /*
             /*
