@@ -32,7 +32,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li ng-repeat="item in monad.navigation.top" ng-class="{active: item.selected, dropdown: item.items}">
+                        <li ng-repeat="item in monad.navigation.main" ng-class="{active: item.selected, dropdown: item.items}">
                             <a ng-if="!item.items" ng-href="{{item.url}}">{{item.title}}</a>
                         </li>
                     </ul>
