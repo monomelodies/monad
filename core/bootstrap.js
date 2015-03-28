@@ -1,10 +1,5 @@
 
-import jquery from 'jquery';
-import angular from 'angular';
-import * as router from 'angular-ui-router';
-import * as translate from 'angular-translate';
-
-var Monad = angular.module('monad', ['pascalprecht.translate', 'ui.router']);
+import Monad from '../Monad';
 
 Monad.run(['$http', function($http) {
     delete $http.defaults.headers.common['X-Requested-With'];

@@ -1,5 +1,10 @@
 
-import * as Monad from './core/bootstrap';
+import angular from 'angular';
+import * as router from 'angular-ui-router';
+import * as translate from 'angular-translate';
+
+var Monad = angular.module('monad', ['pascalprecht.translate', 'ui.router']);
+
 import * as Home from './Home/app';
 
 export { Monad as default, Home };
