@@ -1,4 +1,6 @@
 
+import {Controller} from 'Controller';
+
 function NormalizePost($http)
 {
     delete $http.defaults.headers.common['X-Requested-With'];
