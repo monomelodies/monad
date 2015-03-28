@@ -1,7 +1,6 @@
 
-import Monad from '../Monad';
-
-Monad.run(['$http', function($http) {
+function NormalizePost($http)
+{
     delete $http.defaults.headers.common['X-Requested-With'];
     $http.defaults.withCredentials = true;
     $http.defaults.headers.post["Content-Type"] = 'application/x-www-form-urlencoded;charset=utf-8';
@@ -37,12 +36,9 @@ Monad.run(['$http', function($http) {
     $http.defaults.transformRequest = [function(data) {
         return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
     }];
-}]);
-Monad.config(['$translateProvider', function($translateProvider) {
-    $translateProvider.preferredLanguage('en');
-}]);
+}
 
-export { Monad as default };
+export { NormalizePost, Controller };
 
 /*
             /*

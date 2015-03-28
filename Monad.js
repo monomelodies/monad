@@ -14,7 +14,7 @@ Monad.config(['$translateProvider', function($translateProvider) {
 Monad.config(['$stateProvider', Home.Config]);
 Monad.controller('RootController', bootstrap.Controller);
 
-export { Monad as default };
+export {Monad as default, bootstrap};
 
 /*
             /*
