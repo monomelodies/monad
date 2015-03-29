@@ -1,9 +1,14 @@
 
 export function Module(app, items)
 {
+    console.log(items);
+    return;
     for (var name in items) {
         ['Controller', 'Service'].map(function(type) {
-            app[type.toLowerCase()](name + '.' + type, items[name][type]);
+            if (type in items[name]) {
+                app[type.toLowerCase()](name + '.' + type, items[name][type]);
+            } else {
+            }
         });
         app.config(['$stateProvider', function($stateProvider) {
             $stateProvider.
