@@ -6,6 +6,8 @@ import {NormalizePost} from './core/NormalizePost';
 import {Controller} from './core/Controller';
 import {Module} from './core/Module';
 import * as Home from './Home/module';
+import * as Auth from './Auth/module';
+import * as Module from './Module/module';
 
 var app = angular.module('monad', ['pascalprecht.translate', 'ui.router']);
 
@@ -13,6 +15,8 @@ app.run(['$http', NormalizePost]);
 app.config(['$translateProvider', '$stateProvider', function($translateProvider, $stateProvider) {
     $translateProvider.preferredLanguage('en');
     Home.ngConfig($stateProvider);
+    Auth.ngConfig($stateProvider);
+    Module.ngConfig($stateProvider);
 }]);
 app.controller('RootController', Controller);
 
