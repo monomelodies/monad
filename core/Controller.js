@@ -1,9 +1,11 @@
 
 class Controller
 {
-    constructor()
+    constructor(Authentication, $state)
     {
+        this.Authentication = Authentication;
         this.title = 'Default generic administrator';
+        this.loginRequired = this.loginRequired || true;
         this.paths = {
             root: '/monad/',
             bootstrap: '/vendor/github/twbs/bootstrap@3.3.4',
@@ -15,6 +17,9 @@ class Controller
                 {url: '/', title: 'Site'}
             ]
         };
+        if (this.loginRequired) {
+            $state.go('login');
+        }
     }
     addToNavigation(module, menu = 'main')
     {
@@ -24,6 +29,8 @@ class Controller
         });
     }
 }
+
+Controller.$inject = ['Authentication', '$state'];
 
 export {Controller};
 
