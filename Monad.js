@@ -4,10 +4,10 @@ import * as router from 'angular-ui-router';
 import * as translate from 'angular-translate';
 import {NormalizePost} from './core/NormalizePost';
 import {Controller} from './core/Controller';
-import {Module} from './core/Module';
+//import {Module} from './core/Module';
 import * as Home from './Home/module';
 import * as Auth from './Auth/module';
-import * as Module from './Module/module';
+//import * as Module from './Module/module';
 
 var app = angular.module('monad', ['pascalprecht.translate', 'ui.router']);
 
@@ -20,7 +20,8 @@ app.config(['$translateProvider', '$stateProvider', function($translateProvider,
 }]);
 app.controller('RootController', Controller);
 
-export {Controller, Module};
+//export {Controller, Module};
+export {Controller};
 
 /*
             /*
