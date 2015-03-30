@@ -24,3 +24,6 @@ backend, communicating with your site via APIs.
 That's it! Your ready to start piecing together your backend.
 
 ## Setup
+Monad supplies an admin framework, but you'll need to do some additional setup
+for it to work with your project-specific code. The full documentation explains
+this in detail, complete with real-world examples.
