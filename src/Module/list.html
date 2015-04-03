@@ -1,0 +1,17 @@
+<table class="table table-striped" ng-if="module.items">
+    <thead>
+        <tr>
+            <th ng-repeat="col in module.columns">
+                {{col.header}}
+            </th>
+    </thead>
+    <tbody>
+        <tr ng-repeat="item in module.items">
+            <td ng-repeat="col in module.columns">
+                <a ng-href="{{module.url(item)}}">{{item[col.field]}}</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p ng-if="!module.items">Sorry, nothing found.</p>
+
