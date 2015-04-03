@@ -22,7 +22,7 @@ class Controller {
                 $location.path('/login/');
             }
         });
-        this.customize();
+        this.config();
     }
 
     /**
