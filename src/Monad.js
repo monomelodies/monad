@@ -23,6 +23,7 @@ app.config(['$translateProvider', '$routeProvider', '$locationProvider', functio
             controller: Authentication.LoginController,
             controllerAs: 'login',
             templateUrl: 'monad/src/Authentication/login.html'
+        /*
         }).
         when('/module/:module/', {
             controller: Module.ListController,
@@ -33,6 +34,7 @@ app.config(['$translateProvider', '$routeProvider', '$locationProvider', functio
             controller: Module.ItemController,
             controllerAs: 'item',
             templateUrl: 'monad/src/Module/item.html'
+        */
         });
 }]);
 app.controller('RootController', Core.Controller);
