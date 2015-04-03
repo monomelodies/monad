@@ -17,7 +17,7 @@ app.config(['$translateProvider', '$routeProvider', '$locationProvider', functio
         when('/', {
             controller: Home.Controller,
             controllerAs: 'home',
-            templateUrl: 'monad/src/Home/dashboard.html'
+            templateUrl: 'monad/src/Home/view.html'
         }).
         when('/login/', {
             controller: Authentication.LoginController,
