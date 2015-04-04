@@ -1,10 +1,11 @@
-<header>
-    <a class="btn btn-link pull-right" ng-href="{{item.list}}">Back</a>
+<header class="container">
+    <a class="btn btn-link pull-right" ng-href="{{item.$back()}}">Back</a>
+    <h1>{{item.module + '.__meta.singular' | translate:item.data}}</h1>
     <br style="clear: right">
 </header>
-<form ng-submit="item.save(item.data)">
-    <fieldset ng-repeat="fieldset in item.fields">
-        <legend ng-if="fieldset.title">{{fieldset.title}}</legend>
+<form ng-submit="item.data.$update()" class="container">
+    <fieldset ng-repeat="fieldset in item.fieldsets" ng-class="{{fieldset.className}}">
+        <legend ng-if="fieldset.title">{{fieldset.title | translate}}</legend>
         <div ng-repeat="field in fieldset.fields" class="form-group">
             <label for="frm-{{field.field}}">{{field.label}}</label>
             <input id="frm-{{field.field}}" type="text" class="form-control" ng-model="item.data[field.field]">
@@ -13,7 +14,7 @@
     <button type="submit" class="btn btn-default pull-right">Submit</button>
     <button type="button" class="btn btn-danger">Delete</button>
 </form>
-<div ng-repeat="link in item.links">
+<div ng-repeat="link in item.links" class="container">
     <table class="table table-striped">
         <thead>
             <tr>
