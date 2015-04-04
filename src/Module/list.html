@@ -1,16 +1,16 @@
-<div ng-if="list.items">
+<div ng-if="list.items" class="container">
+    <h1>{{list.module + '.__meta.plural' | translate}}</h1>
     <table class="table table-striped">
         <thead>
             <tr>
-                <th ng-repeat="col in list.Model.__list()">
+                <th ng-repeat="col in list.Model.$list()">
                     {{list.module + '.' + col | translate}}
                 </th>
         </thead>
         <tbody>
             <tr ng-repeat="item in list.items">
-                <td ng-repeat="col in list.Model.__list()">
+                <td ng-repeat="col in list.Model.$list()">
                     <a ng-href="{{list.url(item)}}">{{item[col]}}</a>
-                {{item}}
                 </td>
             </tr>
         </tbody>
@@ -29,5 +29,5 @@
         </ul>
     </nav>
 </div>
-<p ng-if="!list.items" class="alert alert-warning" role="alert">Sorry, nothing found.</p>
+<p ng-if="!list.items" class="container alert alert-warning" role="alert">Sorry, nothing found.</p>
 
