@@ -1,0 +1,33 @@
+<header>
+    <a class="btn btn-link pull-right" ng-href="{{item.list}}">Back</a>
+    <br style="clear: right">
+</header>
+<form ng-submit="item.save(item.data)">
+    <fieldset ng-repeat="fieldset in item.fields">
+        <legend ng-if="fieldset.title">{{fieldset.title}}</legend>
+        <div ng-repeat="field in fieldset.fields" class="form-group">
+            <label for="frm-{{field.field}}">{{field.label}}</label>
+            <input id="frm-{{field.field}}" type="text" class="form-control" ng-model="item.data[field.field]">
+        </div>
+    </fieldset>
+    <button type="submit" class="btn btn-default pull-right">Submit</button>
+    <button type="button" class="btn btn-danger">Delete</button>
+</form>
+<div ng-repeat="link in item.links">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th ng-repeat="col in link.columns">
+                    {{col.header}}
+                </th>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in link.items">
+                <td ng-repeat="col in link.columns">
+                    <a ng-href="{{link.url(item)}}">{{item[col.field]}}</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
