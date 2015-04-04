@@ -8,10 +8,8 @@ class Controller {
         this.loginRequired = this.loginRequired || true;
         this.paths = {
             root: '/monad/',
-            bootstrap: '/vendor/github/twbs/bootstrap@3.3.4',
-            monad: '/vendor/github/monomelodies/monad@nextgen'
+            theme: 'monad/css/default.css'
         };
-        this.paths.theme = this.paths.monad + '/css/default.css';
         this.navigation = {
             main: [
                 {url: '/', title: 'Site'}
@@ -32,6 +30,12 @@ class Controller {
      */
     config() {
     }
+
+    select(menu, item = {}) {
+        this.navigation[menu].map(item => item.selected = false);
+        item.selected = true;
+    }
+
 };
 
 Controller.$inject = ['AuthenticationService', '$location', 'ModuleService'];
