@@ -4,17 +4,12 @@
 class Model {
 
     constructor(data = {}) {
-        this._data = new Map();
+        this._data = {};
         for (let key in data) {
-            this._data.set(key, data[key]);
-            Object.defineProperty(this, key, {
-                get: function() {
-                    return this._data[key];
-                },
-                set: function(value) {
-                    this._data[key] = value;
-                }
-            });
+            this._data[key] = data[key];
+            if (!this.hasOwnProperty(key)) {
+                this[key] = data[key];
+            }
         }
     }
 
