@@ -12,6 +12,15 @@ var app = angular.module('monad', ['pascalprecht.translate', require('angular-ro
 app.run(['$http', Core.normalizePost]);
 app.config(['$translateProvider', '$routeProvider', '$locationProvider', function($translateProvider, $routeProvider, $locationProvider) {
     $translateProvider.preferredLanguage('en');
+    $translateProvider.translations('en', {
+        monad: {
+            id: 'ID',
+            title: 'Title',
+            slug: 'Slug',
+            keywords: 'Keywords',
+            description: 'Description'
+        }
+    });
     $locationProvider.html5Mode(false);
     $routeProvider.
         when('/', {
