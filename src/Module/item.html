@@ -1,19 +1,18 @@
-<header class="container">
-    <a class="btn btn-link pull-right" ng-href="{{item.$back()}}">Back</a>
-    <h1>{{item.module + '.__meta.singular' | translate:item.data}}</h1>
-    <br style="clear: right">
-</header>
-<form ng-submit="item.data.$update()" class="container">
-    <fieldset ng-repeat="fieldset in item.fieldsets" ng-class="{{fieldset.className}}">
-        <legend ng-if="fieldset.title">{{fieldset.title | translate}}</legend>
-        <div ng-repeat="field in fieldset.fields" class="form-group">
-            <label for="frm-{{field.field}}">{{field.label}}</label>
-            <input id="frm-{{field.field}}" type="text" class="form-control" ng-model="item.data[field.field]">
-        </div>
-    </fieldset>
-    <button type="submit" class="btn btn-default pull-right">Submit</button>
-    <button type="button" class="btn btn-danger">Delete</button>
-</form>
+<h1 class="container">
+    <a class="btn btn-default btn-xs pull-right" ng-href="{{item.$back()}}">Back</a>
+    {{item.module + '.$meta.singular' | translate:item.data}}
+</h1>
+<div class="container" style="clear: right">
+    <form ng-submit="item.data.$new() ? item.data.$create() : item.data.$update()" class="row">
+        <fieldset ng-repeat="fieldset in item.Model.$fieldsets" ng-class="fieldset.className">
+            <legend ng-if="fieldset.title">{{fieldset.title | translate}}</legend>
+            <div ng-repeat="field in fieldset.fields" class="form-group" ng-include="item.Model.$widgets[field]"></div>
+        </fieldset>
+        <br style="clear: both">
+        <button type="submit" class="btn btn-default pull-right">Submit</button>
+        <button type="button" class="btn btn-danger">Delete</button>
+    </form>
+</div>
 <div ng-repeat="link in item.links" class="container">
     <table class="table table-striped">
         <thead>
