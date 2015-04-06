@@ -19,7 +19,11 @@ app.config(['$translateProvider', '$routeProvider', '$locationProvider', functio
             title: 'Title',
             slug: 'Slug',
             keywords: 'Keywords',
-            description: 'Description'
+            description: 'Description',
+            login: {
+                username: 'Username',
+                password: 'Password'
+            }
         }
     });
     $locationProvider.html5Mode(false);
