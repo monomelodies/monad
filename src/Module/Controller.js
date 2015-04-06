@@ -7,12 +7,16 @@
 
 class Controller
 {
-    constructor($http)
+    constructor(module, Model, Service, $routeParams)
     {
+        this.module = module;
+        this.Model = Model;
+        this.Service = Service;
+        this.data = Service.find($routeParams);
     }
 }
 
-Controller.$inject = ['$http'];
+Controller.$inject = ['module', 'Model', 'Service', '$routeParams'];
 
 export { Controller };
 
