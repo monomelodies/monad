@@ -3,10 +3,15 @@
 
 class ListController {
 
-    constructor(module, Service, Model, $routeParams) {
-        this.module = module;
-        this.Service = Service;
-        this.Model = Model;
+    constructor(app, Module, $routeParams) {
+        this.app = app;
+        var elements = Module.retrieve(app);
+        console.log(elements);
+        for (let name in elements) {
+            console.log(name, elements[name]);
+            this[name] = elements[name];
+        }
+        console.log(this);
         this.page($routeParams);
     }
 
@@ -15,7 +20,7 @@ class ListController {
     }
 };
 
-ListController.$inject = ['module', 'Service', 'Model', '$routeParams'];
+ListController.$inject = ['app', 'Module.Service', '$routeParams'];
 
 export {ListController};
 
