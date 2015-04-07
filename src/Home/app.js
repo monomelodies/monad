@@ -3,5 +3,10 @@
 
 import {Controller} from './Controller';
 
-export {Controller};
+let ngModule = 'monad.Home';
+
+angular.module(ngModule, [])
+    .controller('Home.Controller', Controller);
+
+export default ngModule;
 
