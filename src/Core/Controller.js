@@ -25,7 +25,7 @@ class Controller {
         });
         route = $route;
         this.config();
-        this.navigation.main.map(item => item.selected = item.url == '#' + $location.path());
+        this.navigation.main.map(item => item.selected = ('#' + $location.path()).indexOf(item.url) == 0);
     }
 
     /**
