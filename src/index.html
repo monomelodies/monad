@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app="monad" ng-controller="RootController as monad">
+<html lang="en" ng-app="monad" ng-controller="Core.Controller as monad">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -41,6 +41,9 @@
 
         <div class="theme-showcase" role="main" ng-view></div>
         
+        <script src="monad/vendor/angular/angular.min.js"></script>
+        <script src="monad/vendor/angular-route/angular-route.min.js"></script>
+        <script src="monad/vendor/angular-translate/angular-translate.min.js"></script>
         <script src="bundle.js"></script>
     </body>
 </html>
