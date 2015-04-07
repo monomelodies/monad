@@ -1,9 +1,9 @@
 
 class Controller {
 
-    constructor(AuthenticationService, $location, ModuleService) {
-        this.Authentication = AuthenticationService;
-        this.modules = ModuleService;
+    constructor(Authentication, $location, Module) {
+        this.Authentication = Authentication;
+        this.modules = Module;
         this.title = 'Default generic administrator';
         this.loginRequired = this.loginRequired || true;
         this.paths = {
@@ -38,7 +38,7 @@ class Controller {
 
 };
 
-Controller.$inject = ['AuthenticationService', '$location', 'ModuleService'];
+Controller.$inject = ['Authentication.Service', '$location', 'Module.Service'];
 
 export {Controller};
 
