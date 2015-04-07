@@ -1,9 +1,12 @@
 
+"use strict";
+
+let route;
+
 class Controller {
 
-    constructor(Authentication, $location, Module) {
+    constructor(Authentication, $location, $rootScope, $route) {
         this.Authentication = Authentication;
-        this.modules = Module;
         this.title = 'Default generic administrator';
         this.loginRequired = this.loginRequired || true;
         this.paths = {
@@ -20,7 +23,9 @@ class Controller {
                 $location.path('/login/');
             }
         });
+        route = $route;
         this.config();
+        this.navigation.main.map(item => item.selected = item.url == '#' + $location.path());
     }
 
     /**
@@ -36,9 +41,27 @@ class Controller {
         item.selected = true;
     }
 
+    path(controller, params = {}) {
+        for (let path in route.routes) {
+            let pathController = route.routes[path].controller;
+            if (pathController == controller) {
+                let result = path;
+                for (let param in params) {
+                    result = result.replace(':' + param, params[param]);
+                }
+                return '#' + result.replace(/^#/, '');
+            }
+        }
+        let result = controller;
+        for (let param in params) {
+            result = result.replace(':' + param, params[param]);
+        }
+        return '#' + result.replace(/^#/, '');
+    }
+
 };
 
-Controller.$inject = ['Authentication.Service', '$location', 'Module.Service'];
+Controller.$inject = ['Authentication.Service', '$location', '$rootScope', '$route'];
 
 export {Controller};
 
