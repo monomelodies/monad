@@ -1,10 +1,27 @@
 
 "use strict";
 
-export class Service {
+let injector;
 
-    constructor() {
+class Service {
+
+    constructor($injector) {
+        injector = $injector;
     }
+
+    static register(name, components) {
+        for (let service in components) {
+            angular.module('monad').service(name + '.' + service, components[service]);
+        }
+    }
+
+    retrieve(name) {
+        return {
+            Service: injector.get(name + '.Service'),
+            Model: injector.get(name + '.Model')
+        };
+    }
+
     /*
     for (var name in items) {
         ['Controller', 'Service'].map(function(type) {
@@ -26,4 +43,8 @@ export class Service {
     */
 
 };
+
+Service.$inject = ['$injector'];
+
+export {Service};
 
