@@ -8,7 +8,7 @@ var concat = require('gulp-concat');
 gulp.task('styles', function() {
     gulp.src('./_sass/default.scss').
          pipe(compass({
-            css: 'css',
+            css: 'dist',
             sass: '_sass'
          })).
          pipe(minifyCss()).
