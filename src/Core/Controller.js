@@ -11,7 +11,7 @@ class Controller {
         this.loginRequired = this.loginRequired || true;
         this.paths = {
             root: '/monad/',
-            theme: 'monad/css/default.css'
+            theme: 'monad/dist/default.css'
         };
         this.navigation = {
             main: [
