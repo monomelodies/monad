@@ -8,8 +8,9 @@ class Model {
 
     $load(data = {}) {
         this.$data = {};
+        this.$initial = data;
         this.$fields = [];
-        let hasFieldsets = '$fieldsets' in this;
+        this.$dirty = false;
         for (let key in data) {
             var props = {};
             if (!this.hasOwnProperty(key)) {
@@ -18,6 +19,12 @@ class Model {
                 };
                 props.set = value => {
                     this.$data[key] = value;
+                    this.$dirty = false;
+                    for (let key in this.$data) {
+                        if (this.$data[key] != this.$initial[key]) {
+                            this.$dirty = true;
+                        }
+                    }
                 };
                 Object.defineProperty(this, key, props);
             }
