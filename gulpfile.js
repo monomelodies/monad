@@ -22,7 +22,8 @@ var scripts = [
     './vendor/angular-route/angular-route.min.js',
     './vendor/angular-translate/angular-translate.min.js',
     './vendor/ng-ckeditor/ng-ckeditor.min.js',
-    './vendor/ng-file-upload/ng-file-upload-all.min.js'
+    './vendor/ng-file-upload/ng-file-upload-all.min.js',
+    './vendor/angular-dragdrop/src/angular-dragdrop.min.js'
 ];
 gulp.task('scripts', function() {
     gulp.src(scripts).
