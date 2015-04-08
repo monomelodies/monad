@@ -30,6 +30,11 @@ class Model {
         return !('id' in this.$data && this.$data.id);
     }
 
+    $pluralize(field) {
+        field = field.replace(/y$/, 'ie');
+        return this[field + 's'];
+    }
+
 };
 
 export {Model};
