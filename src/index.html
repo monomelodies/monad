@@ -33,7 +33,7 @@
                     <ul class="nav navbar-nav">
                         <li ng-repeat="item in monad.navigation.main"
                             ng-class="{active: item.selected, dropdown: item.items}"
-                            ng-if="monad.Authentication.isAuthenticated() || item.url.substring(0 ,1) != '#'">
+                            ng-if="monad.Authentication.isAuthenticated() || item.url == '/'">
                             <a ng-if="!item.items"
                                 ng-href="{{item.url.substring(0, 1) == '/' ? item.url : '#/' + monad.language + '/' + item.url}}"
                                 ng-click="monad.select('main', item)">{{item.title | translate}}</a>
