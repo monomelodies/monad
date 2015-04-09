@@ -1,22 +1,25 @@
 
 "use strict";
 
+let service;
+let loc;
+
 class LoginController {
 
     constructor(AuthenticationService, $location) {
-        this.service = AuthenticationService;
-        this.location = $location;
+        service = AuthenticationService;
+        loc = $location;
     }
 
     attempt() {
-        this.service.login(this.username, this.password).success(result => {
-            this.location.path('/');
+        service.login(this.username, this.password).success(result => {
+            loc.path('/' + this.language + '/');
         });
     }
 
 };
 
-LoginController.$inject = ['AuthenticationService', '$location'];
+LoginController.$inject = ['Authentication.Service', '$location'];
 
 export {LoginController};
 
