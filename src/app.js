@@ -15,7 +15,8 @@ angular.module(Core)
                 login: {
                     username: 'Username',
                     password: 'Password'
-                }
+                },
+                logout: 'Logout'
             }
         });
         $locationProvider.html5Mode(false);
