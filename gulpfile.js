@@ -6,10 +6,10 @@ var minifyCss = require('gulp-minify-css');
 var concat = require('gulp-concat');
 
 gulp.task('styles', function() {
-    gulp.src('./_sass/default.scss').
+    gulp.src('./src/_sass/default.scss').
          pipe(compass({
             css: 'dist',
-            sass: '_sass'
+            sass: 'src/_sass'
          })).
          pipe(minifyCss()).
          pipe(gulp.dest('dist'));
