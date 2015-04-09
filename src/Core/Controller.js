@@ -32,7 +32,6 @@ class Controller {
                 loc.path('/en/');
             }
             $translate.use(this.language);
-            console.log('using ' + this.language);
         });
         route = $route;
         this.config();
@@ -61,6 +60,7 @@ class Controller {
     }
 
     path(controller, params = {}) {
+        params.language = params.language || this.language;
         for (let path in route.routes) {
             let pathController = route.routes[path].controller;
             if (pathController == controller) {
