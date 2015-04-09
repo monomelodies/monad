@@ -22,7 +22,7 @@ class Module {
         app.config(['$routeProvider', '$translateProvider', function($routeProvider, $translateProvider) {
             if ('list' in definition) {
                 registeredModules[name].listUrl = definition.list.url;
-                $routeProvider.when(definition.list.url, {
+                $routeProvider.when('/:language/' + definition.list.url, {
                     controller: definition.list.controller || 'Data.ListController',
                     controllerAs: 'list',
                     templateUrl: definition.list.template || 'monad/src/Data/list.html',
@@ -31,7 +31,7 @@ class Module {
             }
             if ('item' in definition) {
                 registeredModules[name].itemUrl = definition.item.url;
-                $routeProvider.when(definition.item.url, {
+                $routeProvider.when('/:language/' + definition.item.url, {
                     controller: definition.item.controller || 'Data.ItemController',
                     controllerAs: 'item',
                     templateUrl: definition.item.template || 'monad/src/Data/item.html',
