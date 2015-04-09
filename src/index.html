@@ -25,14 +25,18 @@
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" ng-href="#/" ng-click="monad.select('main')">
+                    <a class="navbar-brand" ng-href="#/{{monad.language}}/" ng-click="monad.select('main')">
                         <img ng-src="monad/src/assets/logo.png" width="20" height="20" alt="Monad">
                     </a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li ng-repeat="item in monad.navigation.main" ng-class="{active: item.selected, dropdown: item.items}">
-                            <a ng-if="!item.items" ng-href="{{item.url}}" ng-click="monad.select('main', item)">{{item.title}}</a>
+                        <li ng-repeat="item in monad.navigation.main"
+                            ng-class="{active: item.selected, dropdown: item.items}"
+                            ng-if="monad.Authentication.isAuthenticated() || item.url.substring(0 ,1) != '#'">
+                            <a ng-if="!item.items"
+                                ng-href="{{item.url.substring(0, 1) == '/' ? item.url : '#/' + monad.language + '/' + item.url}}"
+                                ng-click="monad.select('main', item)">{{item.title | translate}}</a>
                         </li>
                     </ul>
                 </div>
@@ -51,9 +55,17 @@
                                 2008, 2009, 2010, 2011, 20212, 2013, 2014, 2015 &bull;
                                 MIT
                             </p></li>
-                            <li id="menu-logout"><a title="{{'monad.logout' | translate}}" ng-click="monad.logout()" href>
-                                <span class="glyphicon glyphicon-off text-danger"></span>
-                            </a></li>
+                            <li id="menu-logout" ng-if="monad.Authentication.isAuthenticated()">
+                                <a title="{{'monad.logout' | translate}}" ng-click="monad.logout()" href>
+                                    <span class="glyphicon glyphicon-off text-danger"></span>
+                                </a>
+                            </li>
+                            <li ng-class="{active: monad.language == 'en'}">
+                                <a title="English" href="#/en/"><img src="monad/src/assets/i18n/en.png" alt="en"></a>
+                            </li>
+                            <li ng-class="{active: monad.language == 'nl'}">
+                                <a title="Nederlands" href="#/nl/"><img src="monad/src/assets/i18n/nl.png" alt="nl"></a>
+                            </li>
                         </ul>
                     </div>
                 </div>
