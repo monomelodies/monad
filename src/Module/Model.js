@@ -10,7 +10,6 @@ class Model {
         this.$data = {};
         this.$initial = data;
         this.$fields = [];
-        this.$dirty = false;
         for (let key in data) {
             var props = {};
             if (!this.hasOwnProperty(key)) {
@@ -19,12 +18,6 @@ class Model {
                 };
                 props.set = value => {
                     this.$data[key] = value;
-                    this.$dirty = false;
-                    for (let key in this.$data) {
-                        if (this.$data[key] != this.$initial[key]) {
-                            this.$dirty = true;
-                        }
-                    }
                 };
                 Object.defineProperty(this, key, props);
             }
@@ -33,8 +26,17 @@ class Model {
         }
     }
 
-    $new() {
+    get $new() {
         return !('id' in this.$data && this.$data.id);
+    }
+
+    get $dirty() {
+        for (let key in this.$data) {
+            if (this.$data[key] != this.$initial[key]) {
+                return true;
+            }
+        }
+        return false;
     }
 
     $pluralize(field) {
