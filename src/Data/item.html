@@ -1,9 +1,9 @@
 <h1 class="container-fluid">
-    <a class="btn btn-default btn-xs pull-right" ng-href="{{monad.path(item.listUrl)}}">Back</a>
+    <small><a class="glyphicon glyphicon-arrow-up pull-right text-success" ng-href="{{monad.path(item.listUrl)}}"></a></small>
     {{item.app + '.$meta.singular' | translate:item.Model}}
 </h1>
 <div class="container-fluid clearfix">
-    <form ng-submit="item.data.$new ? item.Meta.$create(item.Model) : item.Model.$update()" class="row">
+    <form ng-submit="item.Model.$new ? item.Meta.$create(item.Model) : item.Model.$update()" class="row">
         <fieldset ng-repeat="fieldset in item.Meta.$fieldsets" ng-class="fieldset.className">
             <legend ng-if="fieldset.title">{{fieldset.title | translate}}</legend>
             <div ng-repeat="field in fieldset.fields" class="form-group" ng-include="item.Meta.$widgets[field].template || item.Meta.$widgets[field]"></div>
