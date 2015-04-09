@@ -2,7 +2,7 @@
     <a class="btn btn-default btn-xs pull-right" ng-href="{{monad.path(item.listUrl)}}">Back</a>
     {{item.app + '.$meta.singular' | translate:item.Model}}
 </h1>
-<div class="container-fluid" style="clear: right">
+<div class="container-fluid clearfix">
     <form ng-submit="item.data.$new ? item.Meta.$create(item.Model) : item.Model.$update()" class="row">
         <fieldset ng-repeat="fieldset in item.Meta.$fieldsets" ng-class="fieldset.className">
             <legend ng-if="fieldset.title">{{fieldset.title | translate}}</legend>
