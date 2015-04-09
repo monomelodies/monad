@@ -12,6 +12,7 @@ class Controller {
         loc = $location;
         this.title = 'Default generic administrator';
         this.loginRequired = this.loginRequired || true;
+        this.language = 'en';
         this.paths = {
             root: '/monad/',
             theme: 'monad/dist/default.css'
@@ -35,7 +36,7 @@ class Controller {
         });
         route = $route;
         this.config();
-        this.navigation.main.map(item => item.selected = ('#' + $location.path()).indexOf(item.url) == 0);
+        this.navigation.main.map(item => item.selected = item.url != '/' && ('#' + $location.path()).indexOf(item.url) != -1);
     }
 
     get Authentication() {
@@ -51,7 +52,7 @@ class Controller {
     }
 
     logout() {
-        this.Authentication.logout().success(() => loc.path('/login/'));
+        this.Authentication.logout().success(() => loc.path('/' + this.language + '/login/'));
     }        
 
     select(menu, item = {}) {
