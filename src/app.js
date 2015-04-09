@@ -19,14 +19,29 @@ angular.module(Core)
                 logout: 'Logout'
             }
         });
+        $translateProvider.translations('nl', {
+            monad: {
+                data: 'Data',
+                id: 'ID',
+                title: 'Titel',
+                slug: 'Slug',
+                keywords: 'Steekwoorden',
+                description: 'Omschrijving',
+                login: {
+                    username: 'Gebruikersnaam',
+                    password: 'Wachtwoord'
+                },
+                logout: 'Uitloggen'
+            }
+        });
         $locationProvider.html5Mode(false);
         $routeProvider.
-            when('/', {
+            when('/:language/', {
                 controller: 'Home.Controller',
                 controllerAs: 'home',
                 templateUrl: 'monad/src/Home/view.html'
             }).
-            when('/login/', {
+            when('/:language/login/', {
                 controller: 'Authentication.LoginController',
                 controllerAs: 'login',
                 templateUrl: 'monad/src/Authentication/login.html'
