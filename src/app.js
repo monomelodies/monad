@@ -13,8 +13,10 @@ angular.module(Core)
                 keywords: 'Keywords',
                 description: 'Description',
                 login: {
+                    login: 'Please login',
                     username: 'Username',
-                    password: 'Password'
+                    password: 'Password',
+                    go: 'Login'
                 },
                 logout: 'Logout'
             }
@@ -28,8 +30,10 @@ angular.module(Core)
                 keywords: 'Steekwoorden',
                 description: 'Omschrijving',
                 login: {
+                    login: 'Log in a.u.b.',
                     username: 'Gebruikersnaam',
-                    password: 'Wachtwoord'
+                    password: 'Wachtwoord',
+                    go: 'Inloggen'
                 },
                 logout: 'Uitloggen'
             }
