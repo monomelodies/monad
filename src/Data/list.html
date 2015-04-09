@@ -1,4 +1,4 @@
-<div ng-if="list.items" class="container">
+<div ng-if="list.items" class="container-fluid">
     <h1>{{list.app + '.$meta.plural' | translate}}</h1>
     <table class="table table-striped">
         <thead>
@@ -29,5 +29,5 @@
         </ul>
     </nav>
 </div>
-<p ng-if="!list.items" class="container alert alert-warning" role="alert">Sorry, nothing found.</p>
+<p ng-if="!list.items" class="container-fluid alert alert-warning" role="alert">Sorry, nothing found.</p>
 
