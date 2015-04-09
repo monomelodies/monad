@@ -11,7 +11,7 @@ class Model {
         this.$initial = data;
         this.$fields = [];
         for (let key in data) {
-            var props = {};
+            var props = {enumerable: true, configurable: true};
             if (!this.hasOwnProperty(key)) {
                 props.get = () => {
                     return this.$data[key];
@@ -19,8 +19,8 @@ class Model {
                 props.set = value => {
                     this.$data[key] = value;
                 };
-                Object.defineProperty(this, key, props);
             }
+            Object.defineProperty(this, key, props);
             this.$data[key] = data[key];
             this.$fields.push(key);
         }
