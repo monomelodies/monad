@@ -11,9 +11,9 @@ class LoginController {
         loc = $location;
     }
 
-    attempt() {
+    attempt(language) {
         service.login(this.username, this.password).success(result => {
-            loc.path('/' + this.language + '/');
+            loc.path('/' + language + '/');
         });
     }
 
