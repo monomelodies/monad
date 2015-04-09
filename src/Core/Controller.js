@@ -3,11 +3,13 @@
 
 let route;
 let auth;
+let loc;
 
 class Controller {
 
-    constructor(Authentication, $location, $rootScope, $route) {
+    constructor(Authentication, $location, $rootScope, $route, $translate) {
         auth = Authentication;
+        loc = $location;
         this.title = 'Default generic administrator';
         this.loginRequired = this.loginRequired || true;
         this.paths = {
@@ -21,9 +23,17 @@ class Controller {
         };
         $rootScope.$on('$routeChangeStart', () => this.Authentication.read().success(result => {
             if (!this.Authentication.isAuthenticated() && this.loginRequired) {
-                $location.path('/login/');
+                loc.path('/' + this.language + '/login/');
             }
         }));
+        $rootScope.$on('$routeChangeSuccess', (event, target) => {
+            this.language = target.params.language;
+            if (!this.language) {
+                loc.path('/en/');
+            }
+            $translate.use(this.language);
+            console.log('using ' + this.language);
+        });
         route = $route;
         this.config();
         this.navigation.main.map(item => item.selected = ('#' + $location.path()).indexOf(item.url) == 0);
@@ -40,6 +50,10 @@ class Controller {
      */
     config() {
     }
+
+    logout() {
+        this.Authentication.logout().success(() => loc.path('/login/'));
+    }        
 
     select(menu, item = {}) {
         this.navigation[menu].map(item => item.selected = false);
@@ -66,7 +80,7 @@ class Controller {
 
 };
 
-Controller.$inject = ['Authentication.Service', '$location', '$rootScope', '$route'];
+Controller.$inject = ['Authentication.Service', '$location', '$rootScope', '$route', '$translate'];
 
 export {Controller};
 
