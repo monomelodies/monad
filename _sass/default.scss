@@ -1,5 +1,32 @@
 
+@import 'variables';
+
 body {
-    padding: 50px 0 30px;
+    padding: 52px 0 32px;
+    background: $body_bg;
+    }
+.navbar {
+    background: $nav_bg;
+    border-bottom: 2px solid $nav_border;
+    }
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    background: $nav_bg;
+    border-top: 2px solid $nav_border;
+    }
+.theme-showcase {
+    .container {
+        background: $container_bg;
+        }
+    h1.container {
+        border: 2px solid $header_border1 $header_border2;
+        border-radius: 0 8px 0 0;
+        color: $header_fg;
+        background: $header_bg;
+        }
     }
 
