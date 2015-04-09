@@ -2,8 +2,7 @@
 @import 'variables';
 
 body {
-    padding: 62px 0 42px;
-    background: $body_bg;
+    padding: 52px 0 32px;
     }
 .navbar {
     background: $nav_bg;
@@ -24,6 +23,7 @@ body {
         }
     a {
         padding: 4px 15px;
+        line-height: 16px;
         }
     .navbar-text {
         margin: 4px 15px;
@@ -52,16 +52,11 @@ body {
         border-left: 2px solid $nav_border;
         }
     }
-.theme-showcase {
-    .container-fluid {
-        background: $container_bg;
-        margin: 0 10px;
-        }
-    h1.container-fluid {
-        border: 2px solid $header_border1 $header_border2;
-        border-radius: 0 8px 0 0;
-        color: $header_fg;
-        background: $header_bg;
-        }
+#auth {
+    max-width: 400px;
+    margin: 0 auto;
+    background: $container_bg;
+    padding: 1em;
+    border-radius: 8px;
     }
 
