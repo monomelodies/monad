@@ -7,7 +7,7 @@ class ItemController extends ListController {
 
     constructor(app, Module, $routeParams) {
         super(app, Module, $routeParams);
-        this.Service.find($routeParams).success(item => this.item = item);
+        this.Service.find($routeParams).success(item => this.Model = item);
     }
 
     page() {
