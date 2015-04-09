@@ -2,11 +2,12 @@
 "use strict";
 
 let route;
+let auth;
 
 class Controller {
 
     constructor(Authentication, $location, $rootScope, $route) {
-        this.Authentication = Authentication;
+        auth = Authentication;
         this.title = 'Default generic administrator';
         this.loginRequired = this.loginRequired || true;
         this.paths = {
@@ -18,14 +19,18 @@ class Controller {
                 {url: '/', title: 'Site'}
             ]
         };
-        this.Authentication.read().success(result => {
+        $rootScope.$on('$routeChangeStart', () => this.Authentication.read().success(result => {
             if (!this.Authentication.isAuthenticated() && this.loginRequired) {
                 $location.path('/login/');
             }
-        });
+        }));
         route = $route;
         this.config();
         this.navigation.main.map(item => item.selected = ('#' + $location.path()).indexOf(item.url) == 0);
+    }
+
+    get Authentication() {
+        return auth;
     }
 
     /**
