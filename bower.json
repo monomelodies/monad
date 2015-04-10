@@ -27,6 +27,6 @@
     "ng-ckeditor": ">=0.2",
     "angular-translate": ">=2.6.1",
     "ng-file-upload": "*",
-    "angular-dragdrop": "~1.0.11"
+    "angular-sanitize": "*"
   }
 }
