@@ -10,6 +10,7 @@ class Model {
         this.$data = {};
         this.$initial = data;
         this.$fields = [];
+        this.$deleted = false;
         for (let key in data) {
             var props = {enumerable: true, configurable: true};
             if (!this.hasOwnProperty(key)) {
@@ -25,6 +26,22 @@ class Model {
             this.$fields.push(key);
         }
         return this;
+    }
+
+    $update() {
+        for (let field in this) {
+            if (typeof this[field] == 'object') {
+                if ('$update' in this[field] && this[field].$dirty) {
+                    this[field].$update();
+                } else if ('map' in this[field]) {
+                    this[field].map(item => {
+                        if (typeof item == 'object' && '$update' in item && item.$dirty) {
+                            item.$update();
+                        }
+                    });
+                }
+            }
+        }
     }
 
     get $new() {
