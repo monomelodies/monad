@@ -30,7 +30,7 @@ class Model {
 
     $update() {
         for (let field in this) {
-            if (typeof this[field] == 'object') {
+            if (typeof this[field] == 'object' && this[field] != null) {
                 if ('$update' in this[field] && this[field].$dirty) {
                     this[field].$update();
                 } else if ('$delete' in this[field] && this[field].$deleted) {
@@ -55,12 +55,26 @@ class Model {
     }
 
     get $dirty() {
-        for (let key in this.$data) {
-            if (this.$data[key] != this.$initial[key]) {
+        let dirty = false;
+        for (let key in this) {
+            if (key.substring(0, 1) == '$') {
+                continue;
+            }
+            if (key in this.$data && this.$data[key] != this.$initial[key]) {
                 return true;
+            } else if (typeof this[key] == 'object' && this[key] != null) {
+                if ('map' in this[key]) {
+                    this[key].map(elem => {
+                        if (typeof elem == 'object' && elem.$dirty) {
+                            dirty = true;
+                        }
+                    });
+                } else if (this[key].$dirty) {
+                    return true;
+                }
             }
         }
-        return false;
+        return dirty;
     }
 
     $pluralize(field) {
