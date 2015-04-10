@@ -57,9 +57,11 @@ class Drag {
             scope.$apply(() => {
                 let idxsource = Drag.instance.items.indexOf(draggedElement.$dragConfig.item);
                 let idxtarget = Drag.instance.items.indexOf(this.$dragConfig.item);
-                let old = Drag.instance.items[idxsource][this.$dragConfig.track];
-                Drag.instance.items[idxsource][this.$dragConfig.track] = Drag.instance.items[idxtarget][this.$dragConfig.track];
-                Drag.instance.items[idxtarget][this.$dragConfig.track] = old;
+                (angular.isArray(this.$dragConfig.track) ? this.$dragConfig.track : [this.$dragConfig.track]).map(track => {
+                    let old = Drag.instance.items[idxsource][track];
+                    Drag.instance.items[idxsource][track] = Drag.instance.items[idxtarget][track];
+                    Drag.instance.items[idxtarget][track] = old;
+                });
                 Drag.instance.items.splice(idxtarget, 0, Drag.instance.items.splice(idxsource, 1).shift());
                 /*
                 let idx;
