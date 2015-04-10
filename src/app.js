@@ -6,7 +6,11 @@ angular.module(Core)
         $translateProvider.preferredLanguage('en');
         $translateProvider.translations('en', {
             monad: {
-                data: 'Data',
+                data: {
+                    data: 'Data',
+                    submit: 'Submit',
+                    'delete': 'Delete'
+                },
                 id: 'ID',
                 title: 'Title',
                 slug: 'Slug',
@@ -23,7 +27,11 @@ angular.module(Core)
         });
         $translateProvider.translations('nl', {
             monad: {
-                data: 'Data',
+                data: {
+                    data: 'Gegevens',
+                    submit: 'Verzenden',
+                    'delete': 'Verwijderen'
+                },
                 id: 'ID',
                 title: 'Titel',
                 slug: 'Slug',
