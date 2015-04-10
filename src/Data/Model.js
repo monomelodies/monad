@@ -33,10 +33,16 @@ class Model {
             if (typeof this[field] == 'object') {
                 if ('$update' in this[field] && this[field].$dirty) {
                     this[field].$update();
+                } else if ('$delete' in this[field] && this[field].$deleted) {
+                    this[field].$delete();
                 } else if ('map' in this[field]) {
                     this[field].map(item => {
-                        if (typeof item == 'object' && '$update' in item && item.$dirty) {
-                            item.$update();
+                        if (typeof item == 'object') {
+                            if ('$update' in item && item.$dirty) {
+                                item.$update();
+                            } else if ('$delete' in item && item.$deleted) {
+                                item.$delete();
+                            }
                         }
                     });
                 }
