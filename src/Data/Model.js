@@ -9,7 +9,7 @@ class Model {
         this.$deleted = false;
     }
 
-    $load(data = {}) {
+    $load(data = {}, recursive = true) {
         this.$initial = data;
         for (let key in data) {
             var props = {enumerable: true, configurable: true};
