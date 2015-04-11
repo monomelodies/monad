@@ -50,6 +50,9 @@ angular.module(Core)
         });
         $locationProvider.html5Mode(false);
         $routeProvider.
+            when('/', {
+                controller: 'Core.Controller'
+            }).
             when('/:language/', {
                 controller: 'Home.Controller',
                 controllerAs: 'home',
