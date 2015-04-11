@@ -4,13 +4,13 @@
 class Model {
 
     constructor() {
+        this.$data = {};
+        this.$fields = [];
+        this.$deleted = false;
     }
 
     $load(data = {}) {
-        this.$data = {};
         this.$initial = data;
-        this.$fields = [];
-        this.$deleted = false;
         for (let key in data) {
             var props = {enumerable: true, configurable: true};
             if (!this.hasOwnProperty(key)) {
