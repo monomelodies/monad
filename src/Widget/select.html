@@ -1,6 +1,6 @@
-<label for="frm-{{field}}">{{item.app + '.' + field | translate}}</label>
+<label for="frm-{{field}}">{{data.app + '.' + field | translate}}</label>
 <select class="form-control"
     id="frm-{{field}}"
-    ng-options="option[item.Meta.$widgets[field].label] for option in item.Model.$pluralize(field)"
-    ng-model="item.Model[field]"></select>
+    ng-options="option[data.Meta.widgets[field].label] for option in data.Model.$pluralize(field)"
+    ng-model="data.Model[field]"></select>
 
