@@ -24,7 +24,7 @@ class Module {
                 registeredModules[name].listUrl = '/:language' + definition.list.url;
                 $routeProvider.when('/:language' + definition.list.url, {
                     controller: definition.list.controller || 'Data.ListController',
-                    controllerAs: 'list',
+                    controllerAs: 'data',
                     templateUrl: definition.list.template || 'monad/src/Data/list.html',
                     resolve: {app: () => name}
                 });
@@ -33,7 +33,7 @@ class Module {
                 registeredModules[name].itemUrl = '/:language' + definition.item.url;
                 $routeProvider.when('/:language' + definition.item.url, {
                     controller: definition.item.controller || 'Data.ItemController',
-                    controllerAs: 'item',
+                    controllerAs: 'data',
                     templateUrl: definition.item.template || 'monad/src/Data/item.html',
                     resolve: {app: () => name}
                 });
