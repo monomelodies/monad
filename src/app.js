@@ -9,7 +9,8 @@ angular.module(Core)
                 data: {
                     data: 'Data',
                     submit: 'Submit',
-                    'delete': 'Delete'
+                    'delete': 'Delete',
+                    create: 'Create'
                 },
                 id: 'ID',
                 title: 'Title',
@@ -30,7 +31,8 @@ angular.module(Core)
                 data: {
                     data: 'Gegevens',
                     submit: 'Verzenden',
-                    'delete': 'Verwijderen'
+                    'delete': 'Verwijderen',
+                    create: 'Toevoegen'
                 },
                 id: 'ID',
                 title: 'Titel',
