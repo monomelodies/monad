@@ -2,12 +2,14 @@
 "use strict";
 
 let route;
+let injector;
 
 class ListController {
 
-    constructor(app, Module, $routeParams, $route) {
+    constructor(app, Module, $routeParams, $route, $injector) {
         this.app = app;
         route = $route;
+        injector = $injector;
         var elements = Module.retrieve(app);
         for (let name in elements) {
             this[name] = elements[name];
@@ -24,7 +26,10 @@ class ListController {
     }
 
     page(params) {
-        this.Service.list(params).success(items => this.items = items);
+        while (this.items.length) {
+            this.items.pop();
+        }
+        this.Service.list(params).success(items => items.map(item => this.items.push(injector.instantiate(this.Meta).$load(item, false))));
     }
 
     create() {
@@ -39,7 +44,7 @@ class ListController {
     }
 };
 
-ListController.$inject = ['app', 'Module', '$routeParams', '$route'];
+ListController.$inject = ['app', 'Module', '$routeParams', '$route', '$injector'];
 
 export {ListController};
 
