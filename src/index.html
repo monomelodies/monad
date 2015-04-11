@@ -25,7 +25,10 @@
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" ng-href="#/{{monad.language}}/" ng-click="monad.select('main')">
+                    <a class="navbar-brand"
+                        ng-href="#/{{monad.language}}/"
+                        ng-click="monad.select('main')"
+                        ng-class="{active: monad.url() == '/' + monad.language + '/'}">
                         <img ng-src="monad/src/assets/logo.png" width="20" height="20" alt="Monad">
                     </a>
                 </div>
@@ -71,6 +74,8 @@
                 </div>
             </nav>
         </footer>
+
+        <div id="modal" ng-if="monad.modal"></div>
         
         <script src="monad/vendor/ckeditor/ckeditor.js"></script>
         <script src="monad/dist/libraries.js"></script>
