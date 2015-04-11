@@ -79,6 +79,10 @@ class Controller {
         return '#' + result.replace(/^#/, '');
     }
 
+    url() {
+        return loc.path();
+    }
+
 };
 
 Controller.$inject = ['Authentication.Service', '$location', '$rootScope', '$route', '$translate'];
