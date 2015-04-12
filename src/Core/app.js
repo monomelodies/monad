@@ -8,7 +8,7 @@ import {default as Home} from '../Home/app';
 import {default as Data} from '../Data/app';
 
 let ngModule = 'monad.Core';
-angular.module(ngModule, ['pascalprecht.translate', 'ngRoute', Authentication, Home, Data, 'ngCkeditor', 'ngSanitize'])
+angular.module(ngModule, ['pascalprecht.translate', 'ngRoute', Authentication, Home, Data, 'ngCkeditor', 'ngSanitize', 'angularFileUpload'])
     .run(['$http', normalizePost])
     .controller('monad.Core.Controller', Controller);
 
