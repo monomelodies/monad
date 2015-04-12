@@ -54,12 +54,12 @@ angular.module(Core)
                 controller: 'Core.Controller'
             }).
             when('/:language/', {
-                controller: 'Home.Controller',
+                controller: 'monad.Home.Controller',
                 controllerAs: 'home',
                 templateUrl: 'monad/src/Home/view.html'
             }).
             when('/:language/login/', {
-                controller: 'Authentication.LoginController',
+                controller: 'monad.Authentication.LoginController',
                 controllerAs: 'login',
                 templateUrl: 'monad/src/Authentication/login.html'
             });
