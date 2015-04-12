@@ -13,7 +13,6 @@ class Module {
         for (let key in defs) {
             this[key] = defs[key];
         }
-        console.log(this);
     }
 
     static register(name, definition) {
