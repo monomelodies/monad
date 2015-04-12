@@ -59,7 +59,7 @@ class Drag {
                 let idxtarget = Drag.instance.items.indexOf(this.$dragConfig.item);
                 if (this.$dragConfig.track) {
                     (angular.isArray(this.$dragConfig.track) ? this.$dragConfig.track : [this.$dragConfig.track]).map(track => {
-                        Drag.instance.items[idxtarget][track] = Drag.instance.items[idxsource][track];
+                        Drag.instance.items[idxsource][track] = Drag.instance.items[idxtarget][track];
                     });
                 }
                 Drag.instance.items.splice(idxtarget, 0, Drag.instance.items.splice(idxsource, 1).shift());
@@ -83,8 +83,6 @@ class Drag {
         return Drag.instance;
     }
 };
-
-Drag.factory.$inject = ['$rootScope'];
 
 export {Drag};
 
