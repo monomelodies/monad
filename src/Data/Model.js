@@ -34,17 +34,17 @@ class Model {
                 continue;
             }
             if (typeof this[field] == 'object' && this[field] != null) {
-                if ('$update' in this[field] && this[field].$dirty) {
-                    this[field].$update();
-                } else if ('$delete' in this[field] && this[field].$deleted) {
+                if ('$delete' in this[field] && this[field].$deleted) {
                     this[field].$delete();
+                } else if ('$update' in this[field] && this[field].$dirty) {
+                    this[field].$update();
                 } else if ('map' in this[field]) {
                     this[field].map(item => {
                         if (typeof item == 'object') {
-                            if ('$update' in item && item.$dirty) {
-                                item.$update();
-                            } else if ('$delete' in item && item.$deleted) {
+                            if ('$delete' in item && item.$deleted) {
                                 item.$delete();
+                            } else if ('$update' in item && item.$dirty) {
+                                item.$update();
                             }
                         }
                     });
@@ -61,7 +61,9 @@ class Model {
     }
 
     get $dirty() {
-        let dirty = false;
+        if (this.$deleted) {
+            return true;
+        }
         for (let key in this) {
             if (key.substring(0, 1) == '$') {
                 continue;
@@ -70,22 +72,37 @@ class Model {
                 return true;
             } else if (typeof this[key] == 'object' && this[key] != null) {
                 if ('map' in this[key]) {
+                    let dirty = false;
                     this[key].map(elem => {
-                        if (typeof elem == 'object' && elem.$dirty) {
+                        if (typeof elem == 'object' && elem.$dirty || elem.$deleted) {
                             dirty = true;
                         }
                     });
-                } else if (this[key].$dirty) {
+                    if (dirty) {
+                        return true;
+                    }
+                } else if (this[key].$dirty || this[key].$deleted) {
                     return true;
                 }
             }
         }
-        return dirty;
+        return false;
     }
 
     $pluralize(field) {
         field = field.replace(/y$/, 'ie');
         return this[field + 's'];
+    }
+
+    $export() {
+        let data = {};
+        for (let prop in this) {
+            if (prop.substring(0, 1) == '$') {
+                continue;
+            }
+            data[prop] = this[prop];
+        }
+        return data;
     }
 
 };
