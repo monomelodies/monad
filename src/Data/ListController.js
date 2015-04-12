@@ -7,7 +7,6 @@ let injector;
 class ListController {
 
     constructor(Module, Model, Service, $routeParams, $route, $injector) {
-        console.log(Service);
         route = $route;
         injector = $injector;
         this.Model = Model;
