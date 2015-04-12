@@ -85,7 +85,7 @@ class Controller {
 
 };
 
-Controller.$inject = ['Authentication.Service', '$location', '$rootScope', '$route', '$translate'];
+Controller.$inject = ['monad.Authentication.Service', '$location', '$rootScope', '$route', '$translate'];
 
 export {Controller};
 

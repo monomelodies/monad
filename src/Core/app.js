@@ -10,7 +10,7 @@ import {default as Data} from '../Data/app';
 let ngModule = 'monad.Core';
 angular.module(ngModule, ['pascalprecht.translate', 'ngRoute', Authentication, Home, Data, 'ngCkeditor', 'ngSanitize'])
     .run(['$http', normalizePost])
-    .controller('Core.Controller', Controller);
+    .controller('monad.Core.Controller', Controller);
 
 export default ngModule;
 
