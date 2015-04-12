@@ -19,7 +19,7 @@
             <tbody>
                 <tr ng-repeat="item in data.items" ng-if="!item.$deleted">
                     <td ng-repeat="col in data.Meta.list">
-                        <a ng-href="{{monad.path(data.itemUrl, item)}}">{{item[col]}}</a>
+                        <a ng-href="{{monad.path(data.itemUrl, item)}}" ng-bind-html="item[col]"></a>
                     </td>
                     <td ng-if="item.$delete">
                         <a class="glyphicon glyphicon-remove text-danger" href ng-click="item.$delete()"></a>
