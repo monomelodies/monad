@@ -30,6 +30,9 @@ class Model {
 
     $update() {
         for (let field in this) {
+            if (field.substring(0, 1) == '$') {
+                continue;
+            }
             if (typeof this[field] == 'object' && this[field] != null) {
                 if ('$update' in this[field] && this[field].$dirty) {
                     this[field].$update();
@@ -46,6 +49,9 @@ class Model {
                         }
                     });
                 }
+            }
+            if (this.$initial[field]) {
+                this.$initial[field] = this.$data[field];
             }
         }
     }
