@@ -6,8 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{monad.title}} - MonAd</title>
         
-        <link href="monad/src/assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="monad/src/assets/css/bootstrap-theme.min.css" rel="stylesheet">
+        <link href="monad/assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="monad/assets/css/bootstrap-theme.min.css" rel="stylesheet">
         <link ng-if="monad.paths.theme" ng-href="{{monad.paths.theme}}" rel="stylesheet">
         
         <!--[if lt IE 9]>
@@ -29,7 +29,7 @@
                         ng-href="#/{{monad.language}}/"
                         ng-click="monad.select('main')"
                         ng-class="{active: monad.url() == '/' + monad.language + '/'}">
-                        <img ng-src="monad/src/assets/logo.png" width="20" height="20" alt="Monad">
+                        <img ng-src="monad/assets/logo.png" width="20" height="20" alt="Monad">
                     </a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
@@ -64,10 +64,10 @@
                                 </a>
                             </li>
                             <li ng-class="{active: monad.language == 'en'}">
-                                <a title="English" href="#/en/"><img src="monad/src/assets/i18n/en.png" alt="en"></a>
+                                <a title="English" href="#/en/"><img src="monad/assets/i18n/en.png" alt="en"></a>
                             </li>
                             <li ng-class="{active: monad.language == 'nl'}">
-                                <a title="Nederlands" href="#/nl/"><img src="monad/src/assets/i18n/nl.png" alt="nl"></a>
+                                <a title="Nederlands" href="#/nl/"><img src="monad/assets/i18n/nl.png" alt="nl"></a>
                             </li>
                         </ul>
                     </div>
