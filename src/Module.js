@@ -1,41 +1,48 @@
 
 "use strict";
 
+import {ListController} from './Data/ListController';
+import {ItemController} from './Data/ItemController';
+
 let registeredModules = {};
 
 class Module {
 
-    constructor(...args) {
-        args.map((arg, i) => {
-            let name = Module.$inject[i];
-            let parts = name.split('.');
-            let module = parts.shift();
-            let param = parts.join('.');
-            registeredModules[module][param] = arg;
-        });
+    constructor(name, defs) {
+        this.app = name;
+        for (let key in defs) {
+            this[key] = defs[key];
+        }
+        console.log(this);
     }
 
     static register(name, definition) {
-        var dependencies = definition.depends || [];
-        var app = angular.module(name, dependencies);
+        let dependencies = definition.depends || [];
+        let app = angular.module(name, dependencies);
+        let m = () => Module.retrieve(name);
+        let resolve = {
+            Module: m,
+            Model: [name + '.Model', Model => Model],
+            Service: [name + '.Service', Service => Service]
+        };
         registeredModules[name] = registeredModules[name] || {};
         app.config(['$routeProvider', '$translateProvider', function($routeProvider, $translateProvider) {
             if ('list' in definition) {
                 registeredModules[name].listUrl = '/:language' + definition.list.url;
                 $routeProvider.when('/:language' + definition.list.url, {
-                    controller: definition.list.controller || 'Data.ListController',
+                    controller: definition.list.controller || ListController,
                     controllerAs: 'data',
                     templateUrl: definition.list.template || 'monad/src/Data/list.html',
-                    resolve: {app: () => name}
+                    resolve
                 });
             }
             if ('item' in definition) {
                 registeredModules[name].itemUrl = '/:language' + definition.item.url;
                 $routeProvider.when('/:language' + definition.item.url, {
-                    controller: definition.item.controller || 'Data.ItemController',
+                    controller: definition.item.controller || ItemController,
                     controllerAs: 'data',
                     templateUrl: definition.item.template || 'monad/src/Data/item.html',
-                    resolve: {app: () => name}
+                    resolve
                 });
             }
             if ('texts' in definition) {
@@ -46,20 +53,14 @@ class Module {
                 }
             }
         }]);
-        if ('service' in definition) {
-            Module.$inject.push(name + '.Service');
-            app.service(name + '.Service', definition.service);
-        }
-        if ('model' in definition) {
-            Module.$inject.push(name + '.Model');
-            app.service(name + '.Model', definition.model);
-            registeredModules[name].Meta = definition.model;
-        }
+        app.service(name + '.Service', definition.service);
+        app.service(name + '.Model', definition.model);
+        registeredModules[name].Meta = definition.model;
         return name;
     }
 
-    retrieve(name) {
-        return registeredModules[name] || {};
+    static retrieve(name) {
+        return new Module(name, registeredModules[name] || {});
     }
 
 };
