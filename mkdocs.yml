@@ -1,1 +1,15 @@
-site_name: My Docs
+site_name: Monad CMS
+
+pages:
+- [index.md, Overview, Home]
+- [overview/entry.md, Overview, Defining an entry point]
+- [overview/authentication.md, Overview, Authentication]
+
+- [modules/index.md, Modules, Introduction]
+- [modules/basic.md, Modules, Create a basic module]
+- [modules/advanced.md, Modules, Advanced module options]
+- [modules/linking.md, Modules, Linking modules together]
+
+- [samples/index.md, Samples, Wordpress plugin]
+
+theme: readthedocs
