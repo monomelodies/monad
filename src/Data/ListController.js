@@ -6,13 +6,14 @@ let injector;
 
 class ListController {
 
-    constructor(app, Module, $routeParams, $route, $injector) {
-        this.app = app;
+    constructor(Module, Model, Service, $routeParams, $route, $injector) {
+        console.log(Service);
         route = $route;
         injector = $injector;
-        var elements = Module.retrieve(app);
-        for (let name in elements) {
-            this[name] = elements[name];
+        this.Model = Model;
+        this.Service = Service;
+        for (let key in Module) {
+            this[key] = Module[key];
         }
         var setup = {};
         this.Meta.fieldsets.map(fieldset => {
@@ -44,7 +45,7 @@ class ListController {
     }
 };
 
-ListController.$inject = ['app', 'Module', '$routeParams', '$route', '$injector'];
+ListController.$inject = ['Module', 'Model', 'Service', '$routeParams', '$route', '$injector'];
 
 export {ListController};
 
