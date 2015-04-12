@@ -1,1 +1,8 @@
-site_name: My Docs
+site_name: Monad CMS
+
+pages:
+- [index.md, Overview, Home]
+
+- [sample/index.md, Sample, Wordpress plugin]
+
+theme: readthedocs
