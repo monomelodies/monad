@@ -51,7 +51,7 @@ angular.module(Core)
         $locationProvider.html5Mode(false);
         $routeProvider.
             when('/', {
-                controller: 'Core.Controller'
+                controller: 'monad.Core.Controller'
             }).
             when('/:language/', {
                 controller: 'monad.Home.Controller',
