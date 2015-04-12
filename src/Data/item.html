@@ -3,7 +3,7 @@
     {{data.app + '.$meta.singular' | translate:data.Model}}
 </h1>
 <div class="container-fluid clearfix">
-    <form ng-submit="data.Model.$new ? data.Meta.$create(data.Model) : data.Model.$update()" class="row">
+    <form ng-submit="data.update()" class="row">
         <fieldset ng-repeat="fieldset in data.Meta.fieldsets" ng-class="fieldset.className">
             <legend ng-if="fieldset.title">
                 <a ng-if="fieldset.adder" class="glyphicon glyphicon-plus-sign pull-right" href ng-click="monad[fieldset.adder]()"></a>
