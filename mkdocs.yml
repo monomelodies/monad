@@ -10,6 +10,8 @@ pages:
 - [modules/advanced.md, Modules, Advanced module options]
 - [modules/linking.md, Modules, Linking modules together]
 
+- [recipes/files.md, Common recipes, File uploads]
+
 - [samples/index.md, Samples, Wordpress plugin]
 
 theme: readthedocs
