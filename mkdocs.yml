@@ -10,6 +10,6 @@ pages:
 - [modules/advanced.md, Modules, Advanced module options]
 - [modules/linking.md, Modules, Linking modules together]
 
-- [sample/index.md, Sample, Wordpress plugin]
+- [samples/index.md, Samples, Wordpress plugin]
 
 theme: readthedocs
