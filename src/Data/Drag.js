@@ -57,29 +57,17 @@ class Drag {
             scope.$apply(() => {
                 let idxsource = Drag.instance.items.indexOf(draggedElement.$dragConfig.item);
                 let idxtarget = Drag.instance.items.indexOf(this.$dragConfig.item);
-                (angular.isArray(this.$dragConfig.track) ? this.$dragConfig.track : [this.$dragConfig.track]).map(track => {
-                    let old = Drag.instance.items[idxsource][track];
-                    Drag.instance.items[idxsource][track] = Drag.instance.items[idxtarget][track];
-                    Drag.instance.items[idxtarget][track] = old;
-                });
+                if (this.$dragConfig.track) {
+                    (angular.isArray(this.$dragConfig.track) ? this.$dragConfig.track : [this.$dragConfig.track]).map(track => {
+                        Drag.instance.items[idxtarget][track] = Drag.instance.items[idxsource][track];
+                    });
+                }
                 Drag.instance.items.splice(idxtarget, 0, Drag.instance.items.splice(idxsource, 1).shift());
-                /*
-                let idx;
-                let old;
-                Drag.instance.items.map((elem, i) => {
-                    if (elem == this.$dragConfig.item) {
-                        idx = i;
-                        old = elem[this.$dragConfig.track];
-                        elem[this.$dragConfig.track] = draggedElement.$dragConfig.item[this.$dragConfig.track];
-                        draggedElement.$dragConfig.item[this.$dragConfig.track] = old;
-                    }
-                    if (elem == draggedElement.$dragConfig.item) {
-                        Drag.instance.items.splice(i, 1);
+                Drag.instance.items.map((item, idx) => {
+                    if (item.$order) {
+                        item.$order(idx);
                     }
                 });
-                console.log(idx);
-                Drag.instance.items.splice(idx, 0, draggedElement.$dragConfig.item);
-                */
             });
                 
         }
