@@ -88,6 +88,10 @@ class Controller {
         return loc.path();
     }
 
+    reload() {
+        route.reload();
+    }
+
 };
 
 Controller.$inject = ['monad.Authentication.Service', '$location', '$rootScope', '$route', '$translate'];
