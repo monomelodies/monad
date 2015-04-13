@@ -19,7 +19,7 @@ class LoginController {
 
 };
 
-LoginController.$inject = ['Authentication.Service', '$location'];
+LoginController.$inject = ['monad.Authentication.Service', '$location'];
 
 export {LoginController};
 
