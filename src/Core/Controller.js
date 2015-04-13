@@ -11,6 +11,11 @@ class Controller {
         auth = Authentication;
         loc = $location;
         this.title = 'Default generic administrator';
+        let reload = $route.reload;
+        $route.reload = () => {
+            this.modal = false;
+            reload();
+        };
         this.loginRequired = this.loginRequired || true;
         this.language = 'en';
         this.paths = {
