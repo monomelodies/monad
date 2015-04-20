@@ -2,7 +2,7 @@
 "use strict";
 
 import {Controller as ListController} from './Data/List/Controller';
-import {ItemController} from './Data/ItemController';
+import {ItemController} from './Data/Item/Controller';
 
 let registeredModules = {};
 
@@ -32,7 +32,7 @@ class Module {
                 $routeProvider.when('/:language' + definition.list.url, {
                     controller: definition.list.controller || ListController,
                     controllerAs: 'data',
-                    templateUrl: definition.list.template || 'monad/src/Data/list.html',
+                    templateUrl: definition.list.template || 'monad/src/Data/List/rows.html',
                     resolve
                 });
             }
@@ -41,7 +41,7 @@ class Module {
                 $routeProvider.when('/:language' + definition.item.url, {
                     controller: definition.item.controller || ItemController,
                     controllerAs: 'data',
-                    templateUrl: definition.item.template || 'monad/src/Data/item.html',
+                    templateUrl: definition.item.template || 'monad/src/Data/Item/update.html',
                     resolve
                 });
             }
