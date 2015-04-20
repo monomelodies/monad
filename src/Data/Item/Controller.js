@@ -1,11 +1,11 @@
 
 "use strict";
 
-import {ListController} from './ListController';
+import {Controller as List} from '../List/Controller';
 
 let route;
 
-class ItemController extends ListController {
+class Controller extends List {
 
     constructor(Module, Model, Service, $routeParams, $route, $injector) {
         super(Module, Model, Service, $routeParams, $route, $injector);
@@ -22,5 +22,5 @@ class ItemController extends ListController {
 
 };
 
-export {ItemController};
+export {Controller};
 
