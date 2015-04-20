@@ -69,7 +69,5 @@ class Module {
 
 Module.$inject = [];
 
-angular.module('monad.Core').service('Module', Module);
-
 export {Module};
 
