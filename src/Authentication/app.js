@@ -3,9 +3,9 @@ import {Service} from './Service';
 import {LoginController} from './LoginController';
 
 let ngModule = 'monad.Authentication';
-angular.module(ngModule, [])
-    .service('monad.Authentication.Service', Service)
-    .controller('monad.Authentication.LoginController', LoginController);
+angular.module(ngModule, ['ng'])
+    .service('Service', Service)
+    .controller('LoginController', LoginController);
 
 export default ngModule;
 
