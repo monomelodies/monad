@@ -1,6 +1,6 @@
 <tr>
-    <td ng-repeat="col in row.Meta.list">
-        <a ng-href="{{monad.path(row.itemUrl, row.item)}}" ng-bind-html="row.item[col]"></a>
+    <td ng-repeat="col in item.schema.fields" ng-if="col.list">
+        <a monad-path="item.url" monad-path-arguments="item.data" ng-bind-html="item.data[col.key]"></a>
     </td>
 </tr>
 
