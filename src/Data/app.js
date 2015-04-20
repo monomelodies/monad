@@ -4,7 +4,7 @@
 import {UploadController} from './UploadController';
 import {ItemController} from './List/ItemController';
 import {Drag} from './Drag';
-import {Item} from './Item/directive';
+import {Item} from './List/Item';
 
 let ngModule = 'monad.Data';
 angular.module(ngModule, ['ng'])
