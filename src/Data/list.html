@@ -17,11 +17,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in data.items" ng-if="!item.$deleted">
-                    <td ng-repeat="col in data.Meta.list">
-                        <a ng-href="{{monad.path(data.itemUrl, item)}}" ng-bind-html="item[col]"></a>
-                    </td>
-                </tr>
+                <monad-data-list-item ng-repeat="item in data.items" ng-if="!item.$deleted" item="item" meta="data.Meta"></monad-list-item>
             </tbody>
         </table>
         <nav ng-if="data.total > data.pageSize">
