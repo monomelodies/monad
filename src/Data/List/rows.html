@@ -11,13 +11,13 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th ng-repeat="col in data.Meta.list">
-                        {{data.app + '.' + col | translate}}
+                    <th ng-repeat="col in data.Schema.fields" ng-if="col.list">
+                        {{data.app + '.' + col.key | translate}}
                     </th>
                 </tr>
             </thead>
             <tbody>
-                <monad-data-list-item ng-repeat="item in data.items" ng-if="!item.$deleted" item="item" meta="data.Meta"></monad-list-item>
+                <tr monad-data-item ng-repeat="item in data.items" ng-if="!item.$deleted" schema="data.Schema" data="item" url="data.itemUrl"></tr>
             </tbody>
         </table>
         <nav ng-if="data.total > data.pageSize">
