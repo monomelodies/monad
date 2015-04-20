@@ -25,7 +25,7 @@ bunch of `import` statements every time we want to use the module.
     // Change this to reflect your own path to Monad:
     import * as Module from '/path/to/monad/src/Module/app';
 
-    angular.app('monad').config(['$routeProvider', function($routerProvider) {
+    angular.app('monad').config(['$routeProvider', function($routeProvider) {
         var module = 'proglang';
         $routeProvider.
             when('/proglang/', {
@@ -45,10 +45,10 @@ bunch of `import` statements every time we want to use the module.
     export {Service};
     export {Model};
 
-A Monad module contains, at the very least a `Service` and a `Model`. The
+A Monad module contains, at the very least a `Service` and a `Controller`. The
 service is predictably used by Angular to retrieve (lists of) items, whereas the
-model is a representation of a single item with CRUD functionality. The model,
-service and the module name are injected into their respective controllers, in
+controller is a representation of a single item with CRUD functionality. The
+controller, service and the module name are injected into their respective controllers, in
 this example the default `ListController` and `ItemController` from Monad (more
 on these later).
 
