@@ -1,7 +1,13 @@
 
 import {default as Core} from './Core/app';
+import {default as Home} from './Home/app';
+import {Controller as HomeController} from './Home/Controller';
+import {LoginController} from './Authentication/LoginController';
+import {default as Authentication} from './Authentication/app';
 
-angular.module(Core)
+let ngModule = 'monad.bootstrap';
+
+angular.module(ngModule, [Core])
     .config(['$translateProvider', '$routeProvider', '$locationProvider', function($translateProvider, $routeProvider, $locationProvider) {
         $translateProvider.preferredLanguage('en');
         $translateProvider.translations('en', {
@@ -51,19 +57,19 @@ angular.module(Core)
         $locationProvider.html5Mode(false);
         $routeProvider.
             when('/', {
-                controller: 'monad.Core.Controller'
+                controller: 'RootController'
             }).
             when('/:language/', {
-                controller: 'monad.Home.Controller',
+                controller: HomeController,
                 controllerAs: 'home',
                 templateUrl: 'monad/src/Home/view.html'
             }).
             when('/:language/login/', {
-                controller: 'monad.Authentication.LoginController',
+                controller: LoginController,
                 controllerAs: 'login',
                 templateUrl: 'monad/src/Authentication/login.html'
             });
     }]);
 
-export default Core;
+export default ngModule;
 
