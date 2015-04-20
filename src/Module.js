@@ -1,7 +1,7 @@
 
 "use strict";
 
-import {ListController} from './Data/ListController';
+import {Controller as ListController} from './Data/List/Controller';
 import {ItemController} from './Data/ItemController';
 
 let registeredModules = {};
@@ -18,12 +18,13 @@ class Module {
     static register(name, definition) {
         let dependencies = definition.depends || [];
         let app = angular.module(name, dependencies);
-        let m = () => Module.retrieve(name);
-        let resolve = {
+        let resolve = {Module: () => Module.retrieve(name)};
+        /*
             Module: m,
-            Model: [name + '.Model', Model => Model],
-            Service: [name + '.Service', Service => Service]
+            Model: () => angular.injector([app]).get('Model'),
+            Service: () => angular.injector([app]).get('Service')
         };
+        */
         registeredModules[name] = registeredModules[name] || {};
         app.config(['$routeProvider', '$translateProvider', function($routeProvider, $translateProvider) {
             if ('list' in definition) {
@@ -52,9 +53,11 @@ class Module {
                 }
             }
         }]);
-        app.service(name + '.Service', definition.service);
-        app.service(name + '.Model', definition.model);
-        registeredModules[name].Meta = definition.model;
+        ['Repository', 'Schema', 'Model', 'Controller'].map(key => {
+            if (key in definition) {
+                registeredModules[name][key] = definition[key];
+            }
+        });
         return name;
     }
 
