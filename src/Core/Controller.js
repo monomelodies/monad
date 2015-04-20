@@ -7,8 +7,8 @@ let loc;
 
 class Controller {
 
-    constructor(Authentication, $location, $rootScope, $route, $translate) {
-        auth = Authentication;
+    constructor($location, $rootScope, $route, $translate) {
+        auth = angular.injector(['monad.Authentication']).get('Service');
         loc = $location;
         this.title = 'Default generic administrator';
         let reload = $route.reload;
@@ -94,7 +94,7 @@ class Controller {
 
 };
 
-Controller.$inject = ['monad.Authentication.Service', '$location', '$rootScope', '$route', '$translate'];
+Controller.$inject = ['$location', '$rootScope', '$route', '$translate'];
 
 export {Controller};
 
