@@ -28,18 +28,18 @@ class Repository {
         return this;
     }
 
-    $update() {
-        for (let field in this) {
+    update(model) {
+        for (let field in model) {
             if (field.substring(0, 1) == '$') {
                 continue;
             }
-            if (typeof this[field] == 'object' && this[field] != null) {
-                if ('$delete' in this[field] && this[field].$deleted) {
-                    this[field].$delete();
-                } else if ('$update' in this[field] && this[field].$dirty) {
-                    this[field].$update();
-                } else if ('map' in this[field]) {
-                    this[field].map(item => {
+            if (typeof model[field] == 'object' && model[field] != null) {
+                if ('$delete' in model[field] && model[field].$deleted) {
+                    model[field].$delete();
+                } else if ('$update' in model[field] && model[field].$dirty) {
+                    model[field].$update();
+                } else if ('map' in model[field]) {
+                    model[field].map(item => {
                         if (typeof item == 'object') {
                             if ('$delete' in item && item.$deleted) {
                                 item.$delete();
@@ -50,8 +50,8 @@ class Repository {
                     });
                 }
             }
-            if (this.$initial[field]) {
-                this.$initial[field] = this.$data[field];
+            if (model.$initial[field]) {
+                model.$initial[field] = model.$data[field];
             }
         }
     }
