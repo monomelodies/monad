@@ -1,45 +1,30 @@
 
 "use strict";
 
+import {Controller as Base} from '../Controller';
+
 let route;
 let injector;
 
-class Controller {
+class Controller extends Base {
 
-    constructor(Module, $routeParams, $route, $injector) {
-        route = $route;
-//        injector = $injector;
-//        this.Model = Model;
-//        this.Service = Service;
-        for (let key in Module) {
-            if (['Controller', 'Repository'].indexOf(key) != -1) {
-                this[key] = $injector.instantiate(Module[key]);
-            } else {
-                this[key] = Module[key];
-            }
-        }
-        var setup = {};
-//        this.Meta.fieldsets.map(fieldset => {
-//            if (fieldset.primary) {
-//                fieldset.fields.map(field => setup[field] = undefined);
-//            }
-//        });
-//        this.Model.$load(setup);
+    constructor(...args) {
+        super(...args);
         this.items = [];
-        this.page($routeParams);
+        this.page(args[1]);
     }
 
     page(params) {
         while (this.items.length) {
             this.items.pop();
         }
-        this.Repository.list(params).success(items => items.map(item => this.items.push(item)));
+        this.Repository.list(params).success(items => items.map(item => this.items.push(this.instantiate(this.Model).$load(item))));
     }
 
     create() {
 //        this.Meta.$create(this.Model).success(() => {
             this.form = false;
-            route.reload();
+            this.reload();
 //        });
     }
 
@@ -47,8 +32,6 @@ class Controller {
 //        this.Model.$load({});
 //    }
 };
-
-Controller.$inject = ['Module', '$routeParams', '$route', '$injector'];
 
 export {Controller};
 
