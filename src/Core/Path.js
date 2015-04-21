@@ -12,7 +12,7 @@ class Path {
     }
 
     link(scope, elem) {
-        let p = scope.monadPathArguments;
+        let p = scope.monadPathArguments || {};
         p.language = p.language || params.language;
         for (let path in route.routes) {
             let pathController = route.routes[path].controller;
