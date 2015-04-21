@@ -12,8 +12,10 @@ class Controller extends Base {
         });
     }
 
-    update() {
-        this.Repository.update(this.item).success(this.reload);
+    update(item) {
+        if (let result = this.Repository.update(item)) {
+            result.success(this.reload);
+        }
     }
 
     templateFor(field) {
