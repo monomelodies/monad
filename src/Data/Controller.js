@@ -8,9 +8,9 @@ class Controller {
 
     constructor(Module, $routeParams, $route, $injector) {
         for (let key in Module) {
-            try {
+            if (['Repository'].indexOf(key) != -1) {
                 this[key] = $injector.instantiate(Module[key]);
-            } catch (e) {
+            } else {
                 this[key] = Module[key];
             }
         }
