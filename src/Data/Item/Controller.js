@@ -1,23 +1,19 @@
 
 "use strict";
 
-import {Controller as List} from '../List/Controller';
+import {Controller as Base} from '../Controller';
 
-let route;
+class Controller extends Base {
 
-class Controller extends List {
-
-    constructor(Module, Model, Service, $routeParams, $route, $injector) {
-        super(Module, Model, Service, $routeParams, $route, $injector);
-        this.Service.find($routeParams).success(item => this.Model = $injector.instantiate(this.Meta).$load(item));
-        route = $route;
-    }
-
-    page() {
+    constructor(...args) {
+        super(...args);
+//        this.Repository.find(args[1]).success(item => {
+//            this.item = this.instantiate(this.Model).$load(item);
+//        });
     }
 
     update() {
-        this.Model.$update().success(() => route.reload());
+        this.Repository.update(this.item).success(this.reload);
     }
 
 };
