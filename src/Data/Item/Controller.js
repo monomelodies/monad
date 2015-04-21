@@ -19,6 +19,11 @@ class Controller extends Base {
         }
     }
 
+    ['delete'](item) {
+        // TODO: confirm?
+        return this.Repository['delete'](item);
+    }
+
     templateFor(field) {
         let t;
         this.Schema.fields.map(f => {
