@@ -13,7 +13,8 @@ class Controller extends Base {
     }
 
     update(item) {
-        if (let result = this.Repository.update(item)) {
+        let result;
+        if (result = this.Repository.update(item)) {
             result.success(this.reload);
         }
     }
