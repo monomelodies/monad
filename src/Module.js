@@ -2,7 +2,7 @@
 "use strict";
 
 import {Controller as ListController} from './Data/List/Controller';
-import {ItemController} from './Data/Item/Controller';
+import {Controller as ItemController} from './Data/Item/Controller';
 
 let registeredModules = {};
 
