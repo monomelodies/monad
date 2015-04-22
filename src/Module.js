@@ -50,6 +50,9 @@ class Module {
         ['Repository', 'Schema', 'Model', 'Controller'].map(key => {
             if (key in definition) {
                 registeredModules[name][key] = definition[key];
+                if (['Repository'].indexOf(key) != -1) {
+                    app.service(key, definition[key]);
+                }
             }
         });
         return name;
