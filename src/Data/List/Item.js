@@ -19,7 +19,7 @@ class Item {
     }
 
     get controller() {
-        return $scope => {
+        return ['$scope', $scope => {
             let mod = Module.retrieve($scope.item.app);
             let ctrl = injector.instantiate(mod.list && mod.list.ItemController || ItemController);
             for (let key in $scope.item) {
@@ -28,7 +28,7 @@ class Item {
                 }
             }
             return ctrl;
-        };
+        }];
     }
 
     static factory($injector) {
