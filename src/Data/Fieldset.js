@@ -11,7 +11,7 @@ class Fieldset {
         this.scope = {fieldset: '=', schema: '=', app: '=', model: '='};
         this.templateUrl = 'monad/src/Data/fieldset.html';
         this.controllerAs = 'ctrl';
-        this.controller = function($scope) {
+        this.controller = ['$scope', function($scope) {
             this.templateFor = field => {
                 let t;
                 this.schema.fields.map(f => {
@@ -30,7 +30,7 @@ class Fieldset {
                 });
                 return t;
             };
-        };
+        }];
         this.bindToController = true;
     }
 
