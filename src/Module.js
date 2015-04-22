@@ -16,15 +16,9 @@ class Module {
     }
 
     static register(name, definition) {
-        let dependencies = definition.depends || [];
+        let dependencies = [].concat(definition.depends || [], ['monad.Core']);
         let app = angular.module(name, dependencies);
         let resolve = {Module: () => Module.retrieve(name)};
-        /*
-            Module: m,
-            Model: () => angular.injector([app]).get('Model'),
-            Service: () => angular.injector([app]).get('Service')
-        };
-        */
         registeredModules[name] = registeredModules[name] || {};
         app.config(['$routeProvider', '$translateProvider', function($routeProvider, $translateProvider) {
             if ('list' in definition) {
