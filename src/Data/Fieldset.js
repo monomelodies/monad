@@ -8,7 +8,8 @@ class Fieldset {
     constructor() {
         this.restrict = 'E';
         this.replace = true;
-        this.scope = {fieldset: '=', schema: '=', app: '=', model: '='};
+        this.scope = {fieldset: '=', schema: '=', app: '=', model: '=', 'class': '=className'};
+        this.transclude = true;
         this.templateUrl = 'monad/src/Data/fieldset.html';
         this.controllerAs = 'ctrl';
         this.controller = ['$scope', function($scope) {
