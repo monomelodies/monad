@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <h1 class="clearfix">
-        <a ng-if="data.Meta.$create"
+        <a ng-if="data.Repository.create"
             class="glyphicon glyphicon-plus-sign pull-right"
             title="{{'monad.data.create' | translate}}"
             href
@@ -38,10 +38,18 @@
 </div>
 <div ng-if="data.form" class="float-on-modal vert-wrapper">
     <div class="vert-wrapper-inner">
-        <form ng-submit="monad.modal = false; data.create()" class="floater col-md-4 clearfix">
+        <form ng-submit="monad.modal = false; data.form = false; data.create(data.item)" class="floater col-md-4 clearfix">
+            <monad-data-fieldset ng-repeat="fieldset in data.Schema.sets"
+                fieldset="fieldset"
+                schema="data.Schema"
+                app="data.app"
+                model="data.item"
+                ng-if="fieldset.primary"
+                class="clearfix">
+                <a href class="glyphicon glyphicon-remove pull-right" ng-click="monad.modal = false; data.form = false"></a>
+            </monad-data-fieldset>
             <fieldset ng-repeat="fieldset in data.Meta.fieldsets" ng-if="fieldset.primary" class="clearfix">
                 <legend ng-if="fieldset.title">
-                    <a href class="glyphicon glyphicon-remove pull-right" ng-click="monad.modal = false; data.form = false"></a>
                     {{fieldset.title | translate}}
                 </legend>
                 <div ng-repeat="field in fieldset.fields"
