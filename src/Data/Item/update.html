@@ -4,7 +4,16 @@
 </h1>
 <div class="container-fluid clearfix">
     <form ng-submit="data.update(data.item)" class="row">
-        <monad-data-fieldset ng-repeat="fieldset in data.Schema.sets" fieldset="fieldset" schema="data.Schema" app="data.app" model="data.item">
+        <monad-data-fieldset ng-repeat="fieldset in data.Schema.sets"
+            fieldset="fieldset"
+            schema="data.Schema"
+            app="data.app"
+            model="data.item"
+            class="{{fieldset.className}}">
+            <a ng-if="ctrl.fieldset.adder"
+                class="glyphicon glyphicon-plus-sign pull-right"
+                href
+                ng-click="monad.modal = true; data.form[fieldset.adder] = true"></a>
         </monad-data-fieldset>
         <br style="clear: both">
         <div class="clearfix col-md-12">
