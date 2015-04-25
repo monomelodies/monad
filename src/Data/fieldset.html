@@ -3,6 +3,6 @@
         <span ng-transclude></span>
         {{ctrl.fieldset.title | translate}}
     </legend>
-    <div ng-repeat="field in ctrl.fieldset.fields" class="form-group" ng-include="ctrl.templateFor(field)"></div>
+    <div ng-transclude/>
 </fieldset>
 
