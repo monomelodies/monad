@@ -14,7 +14,7 @@ angular.module(ngModule, [Core])
             monad: {
                 data: {
                     data: 'Data',
-                    submit: 'Submit',
+                    submit: 'Save changes',
                     'delete': 'Delete',
                     create: 'Create'
                 },
@@ -36,7 +36,7 @@ angular.module(ngModule, [Core])
             monad: {
                 data: {
                     data: 'Gegevens',
-                    submit: 'Verzenden',
+                    submit: 'Wijzigingen opslaan',
                     'delete': 'Verwijderen',
                     create: 'Toevoegen'
                 },
