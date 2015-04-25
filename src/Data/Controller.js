@@ -20,7 +20,6 @@ class Controller {
 
     create(item) {
         let result;
-        console.log(item);
         if (result = this.Repository.create(item)) {
             item.$load({});
             result.success(this.reload);
