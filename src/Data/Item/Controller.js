@@ -21,6 +21,7 @@ class Controller extends Base {
 
     ['delete'](item) {
         // TODO: confirm?
+        item.$deleted = true;
         return this.Repository['delete'](item);
     }
 
