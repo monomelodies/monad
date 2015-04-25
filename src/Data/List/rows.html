@@ -39,15 +39,10 @@
 <div ng-if="data.form" class="float-on-modal vert-wrapper">
     <div class="vert-wrapper-inner">
         <form ng-submit="monad.modal = false; data.form = false; data.create(data.item)" class="floater col-md-4 clearfix">
-            <monad-data-fieldset ng-repeat="fieldset in data.Schema.sets"
-                fieldset="fieldset"
-                schema="data.Schema"
-                app="data.app"
-                model="data.item"
-                ng-if="fieldset.primary"
-                class="clearfix">
+            <fieldset class="md-col-6 show-grid">
                 <a href class="glyphicon glyphicon-remove pull-right" ng-click="monad.modal = false; data.form = false"></a>
-            </monad-data-fieldset>
+                <div ng-include="data.app + '/primary.html'"></div>
+            </fieldset>
             <fieldset ng-repeat="fieldset in data.Meta.fieldsets" ng-if="fieldset.primary" class="clearfix">
                 <legend ng-if="fieldset.title">
                     {{fieldset.title | translate}}
