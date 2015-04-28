@@ -1,8 +1,10 @@
-<fieldset ng-class="ctrl.className">
-    <legend ng-if="ctrl.fieldset.title">
-        <span ng-transclude></span>
-        {{ctrl.fieldset.title | translate}}
-    </legend>
-    <div ng-transclude/>
-</fieldset>
+<legend ng-if="fieldset.legend">
+    <a ng-if="fieldset.adder"
+        class="glyphicon glyphicon-plus-sign pull-right"
+        title="{{'monad.data.create' | translate}}"
+        href
+        ng-click="monad.modal = true; fieldset.adder = true"></a>
+    {{fieldset.legend | translate}}
+</legend>
+<div ng-transclude/>
 
