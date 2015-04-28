@@ -48,14 +48,6 @@ class Controller {
         return auth;
     }
 
-    /**
-     * This is for overriding in an extending root controller, so we don't
-     * have to remember to re-inject all dependencies which would suck
-     * pretty badly.
-     */
-    config() {
-    }
-
     logout() {
         this.Authentication.logout().success(() => loc.path('/' + this.language + '/login/'));
     }        
