@@ -16,14 +16,14 @@ let ngModule = 'monad.Data';
 angular.module(ngModule, ['ng'])
     .controller('monad.Data.UploadController', UploadController)
     .controller('ListItemController', ItemController)
-    .directive('monadDataItem', Item.factory)
-    .directive('monadDataFieldset', Fieldset.factory)
-    .directive('monadDataPk', () => new Pk())
-    .directive('monadDataText', () => new Text())
-    .directive('monadDataSlug', () => new Slug())
-    .directive('monadDataTextarea', () => new Textarea())
-    .directive('monadDataHtml', () => new Html())
-    .directive('monadDrag', Drag.factory);
+    .directive('mdItem', Item.factory)
+    .directive('mdFieldset', () => new Fieldset())
+    .directive('mdPk', () => new Pk())
+    .directive('mdText', () => new Text())
+    .directive('mdSlug', () => new Slug())
+    .directive('mdTextarea', () => new Textarea())
+    .directive('mdHtml', () => new Html())
+    .directive('mdDrag', Drag.factory);
 
 export default ngModule;
 
