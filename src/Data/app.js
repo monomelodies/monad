@@ -5,7 +5,7 @@ import {UploadController} from './UploadController';
 import {ItemController} from './List/ItemController';
 import {Drag} from './Drag';
 import {Item} from './List/Item';
-import {Fieldset} from './Fieldset';
+import {Fieldset} from '../Fieldset';
 import {Pk} from './Pk';
 import {Text} from './Text';
 import {Slug} from './Slug';
