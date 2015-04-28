@@ -5,14 +5,17 @@ class Widget {
 
     constructor() {
         this.restrict = 'E';
-        this.scope = {app: '=', model: '=', field: '='};
         this.transclude = true;
         this.controllerAs = 'widget';
         this.bindToController = true;
     }
 
     get controller() {
-        return ['$scope', $scope => {}];
+        return ['$attrs', '$scope', ($attrs, $scope) => {
+            this.model = $scope.$eval($attrs.model);
+            $scope.app = $scope.$parent.data.app;
+            $scope.model = $scope.$parent.data.model;
+        }];
     }
 
 };
