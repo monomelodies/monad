@@ -40,7 +40,9 @@ class Controller {
             $translate.use(this.language);
         });
         route = $route;
-        this.config();
+    }
+
+    setSelected() {
         this.navigation.main.map(item => item.selected = item.url != '/' && ('#' + $location.path()).indexOf(item.url) != -1);
     }
 
