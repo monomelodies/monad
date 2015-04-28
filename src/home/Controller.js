@@ -9,7 +9,7 @@ class Controller
 {
     constructor($http)
     {
-        this.dashboard = 'monad/src/Home/dashboard.html';
+        this.dashboard = 'monad/template/dashboard.html';
     }
 }
 
