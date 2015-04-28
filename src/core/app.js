@@ -1,7 +1,7 @@
 
 "use strict";
 
-import {normalizePost} from './normalizePost';
+import {default as normalizePost} from './normalizePost';
 import {Controller} from './Controller';
 //import {default as Authentication} from '../Authentication/app';
 //import {default as Home} from '../Home/app';
@@ -14,8 +14,8 @@ let ngModule = 'monad.Core';
 angular.module(ngModule, ['ng', 'pascalprecht.translate', 'ngRoute', Data, 'ngCkeditor', 'ngSanitize', 'angularFileUpload'])
     .run(['$http', normalizePost])
     .service('Module', Module)
-    .directive('monadPath', Path.factory)
-    .controller('RootController', Controller);
+    .directive('mdPath', Path.factory)
+    .controller('mdController', Controller);
 
 export default ngModule;
 
