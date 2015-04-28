@@ -4,7 +4,7 @@ regarding your authentication scheme, so this is something you'll *have* to
 configure and implement yourself.
 
 Monad expects the required service to be registered in Angular as
-`monad.Authentication.Service`. So, let's set up our own implementation. The
+`moAuthentication`. So, let's set up our own implementation. The
 service needs to implement the following interface:
 
     class AuthenticationService {
@@ -35,8 +35,47 @@ service needs to implement the following interface:
 Import this in your entry point file (or simply define it there, whichever you
 prefer) and override it in Angular:
 
-    angular.module('monad', [Core])
-           .service('Authentication.Service', AuthenticationService);
+    angular.module('monad', [Monad])
+           .service('moAuthentication', AuthenticationService);
 
-Usually you'll inject Angular's `$http` service and use that for authentication.
-Now, you can try and log in!
+Usually you'll inject Angular's `$http` service to make the required calls. A
+very basic real-world implementation could look like this:
+
+    class AuthenticationService {
+
+        constructor($http) {
+            this.http = $http;
+            this._session = undefined;
+        }
+        
+        read() {
+            return this.http.get('/session/').success(result => {
+                this._session = result;
+            });
+        }
+        
+        login(username, password) {
+            let action = 'login';
+            return this.http.post('/session/', {action, username, password});
+        }
+        
+        logout() {
+            let action = 'logout';
+            return this.http.post('/session/', {action});
+        }
+        
+        isAuthenticated() {
+            return this._session && 'User' in this._session && this._session.User == 'admin';
+        }
+    
+    }
+    
+    AuthenticationService.$inject = ['$http'];
+
+Obviously, you'll need to write server side code to actually handle the calls to
+the `/session/*` endpoints. In more complicated admin environments you'll
+probably also want to implement something like user roles or access control
+lists. This is all outside the scope of this tutorial.
+
+Monad's built-in `moLoginController` will call these methods, and as long as
+your implementation honours the required interface authentication will work!

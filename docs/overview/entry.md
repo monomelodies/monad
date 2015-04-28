@@ -1,73 +1,35 @@
 Your admin application will need an entry point. This is the main script that
-Browserify will use to bundle all modules from.
+Browserify will use to bundle all modules from. To be ready for ES6-capable
+browsers, we recommend to make your entire `admin` source code (including
+Monad itself) publicly available.
 
-    $ cd /path/to/your/project
-    $ mkdir admin
+    > Since Monad is just a bunch of Javascript, this shouldn't matter; if your
+    > Javascript contains something super-secret you're Doing It Wrong(tm)
+    > anyway.
 
-    > Note: generally you should place source code in a separate directory (e.g.
-    > `./src`)  to differentiate from other directories  like `./vendor`,
-    > `./node_packages`, `./httpdocs`, `./tests` etc.
+The _entry point_ loads everything you need - Monad, your project-specific
+modules and any external plugin modules you might want to use.
 
-At the most basic level, your entry point should contain the following:
+Let's assume our project is called `FooBar`, so `./httpdocs/admin/foobar.js`
+would make a good entry point.
 
-    // ./admin/myproject.js
+    > The name is irrelevant; it's just the starter file the Browserify call in
+    > your build script needs to know about.
 
-    // Not required, but generally a good idea.
+    // ./httpdocs/admin/foobar.js
+    // Note: in all subsequent examples `./httpdocs/admin` will be implied.
     "use strict";
+    import {default as Monad} from './monad/monad';
+    var admin = angular.module('monad', [Monad]);
+    // Now, register stuff on `admin`
 
-    // Import core Monad module:
-    import {default as Core} from './path/to/monad/src/Core/app'
+Monad assumes it lives in an _AngularJS_ module called `monad`. The default
+prefix used is `mo`, e.g. `mo-a-directive` or `moActionController`. It is good
+practice to also prefix your custom components; for the `FooBar` demo we might
+use `foobar` or `fb`.
 
-    angular.module('monad', [Core]);
-
-By convention, the _Angular_ module name is `monad`. This is the name used for
-`ng-app` in the default `index.html` (`monad/src/index.html`). It's up to you
-to make the necessary changes if you need to or want to use a custom module
-name. The main admin module _must_ have a dependency on the `Core` app.
-
-The default export for 'app' style entry points is an AngularJS module name.
-The exact name is essentially a random-but-unique string. Monad itself uses
-`monad.Modulename`-style naming.
-
-Now, setup your build process (e.g. Gulp) to transpile and browserify your
-entry point (`./admin/myproject.js`) and write it to something publicly
-accessible under the name `bundle.js`. In our examples we'll assume we want our
-admin to live under `admin` (e.g. `./httpdocs/admin`).
-
-An example Gulp task could look like this:
-
-    // Make sure these are all installed via `npm install`:
-    var babel = require('gulp-babel');
-    var browserify = require('browserify');
-    var transform = require('vinyl-transform');
-    var uglify = require('gulp-uglify');
-    var babelify = require('babelify');
-    var source = require('vinyl-source-stream');
-    var buffer = require('vinyl-buffer');
-
-    gulp.task('bundle-admin', function() {
-        // 1. Browserify our entry point
-        browserify({
-            entries: './src/admin/myproject.js',
-            debug: true
-        }).
-        // 2. Babelify (transpile) and bundle. Other transpilers (e.g. Traceur)
-        // will use a similar syntax.
-        transform(babelify).
-        bundle().
-        // 3. Pipe the transpiled javascript to `bundle.js`.
-        pipe(source('bundle.js')).
-        pipe(buffer()).
-        // 4. Optionally uglify the result (might be impractical during
-        // debugging, although transpiled code isn't extremely debuggable to
-        // begin with).
-        pipe(uglify()).
-        // 5. Write to a public place.
-        pipe(gulp.dest('./httpdocs/admin'));
-    });
-
-You'll probably also want a Gulp watch to automatically rebuild this whenever
-any of the files change.
-
-That's it! Run the task, navigate to `http://your.project/admin/` and you can
-start filling in the details.
+The dependency on `Monad` is required, since that's the module Monad uses
+internally to register stuff against. You should extend this with your custom
+modules, as we'll see in the `Modules` section. The import is really just a
+string with the module name (`monad.core`, if you must know) but this way you
+won't need to remember it.
