@@ -1,9 +1,9 @@
 
-import {default as Core} from './Core/app';
-import {default as Home} from './Home/app';
-import {Controller as HomeController} from './Home/Controller';
-import {LoginController} from './Authentication/LoginController';
-import {default as Authentication} from './Authentication/app';
+import {default as Core} from './core/app';
+import {default as Home} from './home/app';
+import {Controller as HomeController} from './home/Controller';
+import {LoginController} from './authentication/LoginController';
+import {default as Authentication} from './authentication/app';
 
 let ngModule = 'monad.bootstrap';
 
@@ -62,12 +62,12 @@ angular.module(ngModule, [Core])
             when('/:language/', {
                 controller: HomeController,
                 controllerAs: 'home',
-                templateUrl: 'monad/src/Home/view.html'
+                templateUrl: 'monad/template/home.html'
             }).
             when('/:language/login/', {
                 controller: LoginController,
                 controllerAs: 'login',
-                templateUrl: 'monad/src/Authentication/login.html'
+                templateUrl: 'monad/template/login.html'
             });
     }]);
 
