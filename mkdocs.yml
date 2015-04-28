@@ -1,1 +1,8 @@
-site_name: My Docs
+site_name: Monad
+
+pages:
+- [index.md, Introduction, Quickstart]
+
+- [modules/index.md, Introduction, Modules]
+
+theme: readthedocs
