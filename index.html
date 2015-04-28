@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="en" ng-app="monad" ng-strict-di ng-controller="RootController as monad">
+<html lang="en" ng-app="monad" ng-strict-di ng-controller="mdController as monad">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{monad.title}} - MonAd</title>
         
-        <link href="monad/assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="monad/assets/css/bootstrap-theme.min.css" rel="stylesheet">
+        <link href="monad/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="monad/vendor/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
         <link ng-if="monad.paths.theme" ng-href="{{monad.paths.theme}}" rel="stylesheet">
         
         <!--[if lt IE 9]>
