@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" ng-app="monad" ng-strict-di ng-controller="mdController as monad">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{monad.title}} - MonAd</title>
+        
+        <link href="monad/vendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="monad/vendor/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+        <link ng-if="monad.paths.theme" ng-href="{{monad.paths.theme}}" rel="stylesheet">
+        
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <base ng-href="{{monad.paths.root}}">
+    </head>
+    <body role="document">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button class="navbar-toggle collapsed" aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" type="button">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand"
+                        ng-href="#/{{monad.language}}/"
+                        ng-click="monad.select('main')"
+                        ng-class="{active: monad.url() == '/' + monad.language + '/'}">
+                        <img ng-src="monad/assets/logo.png" width="20" height="20" alt="Monad">
+                    </a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li ng-repeat="item in monad.navigation.main"
+                            ng-class="{active: item.selected, dropdown: item.items}"
+                            ng-if="monad.Authentication.isAuthenticated() || item.url == '/'">
+                            <a ng-if="!item.items"
+                                ng-href="{{item.url.substring(0, 1) == '/' ? item.url : '#/' + monad.language + '/' + item.url}}"
+                                ng-click="monad.select('main', item)">{{item.title | translate}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="theme-showcase" role="main" ng-view></div>
+
+        <footer id="footer">
+            <nav class="navbar navbar-default navbar-fixed-bottom">
+                <div class="container-fluid">
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li id="copyright" class="pull-right"><p class="navbar-text">
+                                &copy; <a href="http://www.monomelodies.nl/" target="_blank" class="navbar-link">MonoMelodies</a>
+                                2008, 2009, 2010, 2011, 20212, 2013, 2014, 2015 &bull;
+                                MIT
+                            </p></li>
+                            <li id="menu-logout" ng-if="monad.Authentication.isAuthenticated()">
+                                <a title="{{'monad.logout' | translate}}" ng-click="monad.logout()" href>
+                                    <span class="glyphicon glyphicon-log-out text-danger"></span>
+                                </a>
+                            </li>
+                            <li ng-class="{active: monad.language == 'en'}">
+                                <a title="English" href="#/en/"><img src="monad/assets/i18n/en.png" alt="en"></a>
+                            </li>
+                            <li ng-class="{active: monad.language == 'nl'}">
+                                <a title="Nederlands" href="#/nl/"><img src="monad/assets/i18n/nl.png" alt="nl"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </footer>
+
+        <div id="modal" ng-if="monad.modal"></div>
+        
+        <script src="monad/vendor/ckeditor/ckeditor.js"></script>
+        <script src="monad/dist/libraries.js"></script>
+        <script src="bundle.js"></script>
+    </body>
+</html>
+

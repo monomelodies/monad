@@ -1,77 +1,40 @@
 
 var gulp = require('gulp');
 var watch = require('gulp-watch');
-var uglify = require('gulp-uglify');
-var concat = require('gulp-concat');
 var compass = require('gulp-compass');
-var traceur = require('gulp-traceur');
+var minifyCss = require('gulp-minify-css');
+var concat = require('gulp-concat');
 
-gulp.task('default', function() {
+gulp.task('styles', function() {
+    gulp.src('./src/_sass/default.scss').
+         pipe(compass({
+            css: 'dist',
+            sass: 'src/_sass'
+         })).
+         pipe(minifyCss()).
+         pipe(gulp.dest('dist'));
 });
 
-var watch = {};
-
-;(function(scripts) {
-    gulp.task('scripts', function() {
-        gulp.src(scripts).
-             pipe(gulp.dest('build/assets/js'));
-             /*
-        gulp.src(scripts).
-             pipe(concat('monad.min.js')).
-             pipe(uglify()).
-             pipe(gulp.dest('build/assets/js'));
-        gulp.src(scripts).
-             pipe(concat('monad.es5.js')).
-             pipe(traceur()).
-             pipe(gulp.dest('build/assets/js'));
-        gulp.src(scripts).
-             pipe(concat('monad.es5.min.js')).
-             pipe(traceur()).
-             pipe(uglify()).
-             pipe(gulp.dest('build/assets/js'));
-             */
-    });
-    watch.scripts = scripts;
-})([
-    'vendor/angular-translate/angular-translate.js',
-    'src/monad.js',
-    'src/**/*.js'
-]);
-
-;(function(styles) {
-    gulp.task('styles-project', function() {
-        gulp.src('./src/_sass/project.scss').
-             pipe(concat('project.scss')).
-             pipe(compass({
-                css: 'httpdocs/css',
-                sass: 'src/_sass',
-                import_path: [
-                    'vendor/sensi/sensi/src',
-                    'httpdocs/css/formalize/assets/css'
-                ]
-             })).
-             pipe(gulp.dest('httpdocs/css'));
-    });
-    watch.project_styles = styles;
-})([
-    'src/_sass/**/*.scss',
-    'vendor/sensi/sensi/src/**/*.scss',
-    'httpdocs/css/formalize/assest/css/**/*.scss'
-]);
-
-;(function(assets) {
-    gulp.task('assets-html', function() {
-        gulp.src(assets).
-             pipe(gulp.dest('build/assets/html'));
-    });
-    watch.assets_html = assets;
-})(['src/**/*.html']);
+var scripts = [
+    './vendor/jquery/dist/jquery.min.js',
+    './vendor/bootstrap/dist/js/bootstrap.min.js',
+    './vendor/angular/angular.min.js',
+    './vendor/angular-route/angular-route.min.js',
+    './vendor/angular-translate/angular-translate.min.js',
+    './vendor/ng-ckeditor/ng-ckeditor.min.js',
+    './vendor/ng-file-upload/angular-file-upload-all.min.js',
+    './vendor/angular-sanitize/angular-sanitize.min.js'
+];
+gulp.task('scripts', function() {
+    gulp.src(scripts).
+         pipe(concat('libraries.js')).
+         pipe(gulp.dest('dist'));
+});
 
 gulp.task('watch', function() {
-//    gulp.watch(watch['3rdparty'], ['scripts-3rdparty']);
-//    gulp.watch(watch.libraries, ['scripts-libraries']);
-    gulp.watch(watch.scripts, ['scripts']);
-    gulp.watch(watch.assets_html, ['assets-html']);
-//    gulp.watch(watch.project_styles, ['styles-project']);
+    gulp.watch('src/_sass/**/*.scss', ['styles']);
+    gulp.watch(scripts, ['scripts']);
 });
+
+gulp.task('default', ['styles', 'scripts', 'watch']);
 

@@ -1,32 +1,121 @@
-# Introduction
-Monad is organized around the concept of `modules`, not to be confused with
-Angular modules (at least, not entirely). In Monad, a `module` is defined as
-a coherent set of data getters/setters which corresponds to a unit of
-business logic in your domain. For example, when using Monad as a frontend to
-Wordpress, you would have a module `wordpress` which takes care of all
-Wordpress-related stuff, but maybe also a module `foo` handling something else
-altogether.
+Monad works with the concept of 'modules', but in the ES6-sense, not the
+Angular-sense. Each module in essence exposes two views: a data list and a
+data form (for editing a single item). As an example, let's show how to make a
+module where we manage our favourite programming languages.
 
-Within each module, you will have one or more 'groups' of functionality.
-Expanding on Wordpress as an example, the `wordpress` module could contain
-groups for `posts`, `comments` and `pages` (Wordpress can do more of course, but
-let's keep it simple for now).
+> No controversy intended; these aren't necessarily _our_ favourite languages!
 
-# Defining a module
-> You will likely want to use a build system (e.g. Gulp) to glue all of this
-> together and run your code through a transpiler like Babel (the default).
-> Setting up a build system is outside the scope of this tutorial, but example
-> files for Gulp are included in the distribution.
+## Setup
+First, create a folder somewhere that will contain all your module's files. This
+isn't strictly required by Monad, but it makes your code more reusable since a
+module's folder can be picked up and placed in another project easily.
 
-First, choose a logical place in your code to store all modules (e.g.
-`/src/monad/modules/`). It's good practice - but not required - to store all
-files for a module in their own subdirectory, e.g.
-`/src/monad/modules/wordpress/`.
+    $ mkdir Proglang && cd Proglang
 
-    import Module from '/monad/core/module/Module';
+For easy importing, we'll also define a single entry point called `app.js`.
+Again, this isn't strictly required but it prevents us from having to write a
+bunch of `import` statements every time we want to use the module.
 
-    class Wordpress {
-    }
+    // Proglang/app.js
+    "use strict";
 
-    Module.register('wordpress');
+
+    import {Service} from './Service';
+    import {Model} from './Model';
+    // Change this to reflect your own path to Monad:
+    import * as Module from '/path/to/monad/src/Module/app';
+
+    angular.app('monad').config(['$routeProvider', function($routeProvider) {
+        var module = 'proglang';
+        $routeProvider.
+            when('/proglang/', {
+                controller: Module.ListController,
+                controllerAs: 'list',
+                templateUrl: 'monad/src/Module/list.html',
+                resolve: {Service, Model, module}
+            }).
+            when('/proglang/:id/', {
+                controller: Module.ItemController,
+                controllerAs: 'item',
+                templateUrl: 'monad/src/Module/item.html',
+                resolve: {Service, Model, module}
+            });
+    }]);
+
+    export {Service};
+    export {Model};
+
+A Monad module contains, at the very least a `Service` and a `Controller`. The
+service is predictably used by Angular to retrieve (lists of) items, whereas the
+controller is a representation of a single item with CRUD functionality. The
+controller, service and the module name are injected into their respective controllers, in
+this example the default `ListController` and `ItemController` from Monad (more
+on these later).
+
+## Models
+Now, let's start with defining our model:
+
+    // Proglang/Model.js
+    "use strict";
+
+    import {Model as Base} from '/path/to/monad/src/Module/Model';
+
+    class Model extends Base {
+        
+        $create() {
+        }
+        
+        $update() {
+        }
+        
+        $delete() {
+        }
+
+    };
+
+    export {Model};
+
+For now, we're merely setting up some skeletons. Later, we'll see how Monad uses
+the existence or absence of methods to determine what functionality is offered
+by a module.
+
+> Lots of methods and other properties are prefixed with `$`, especially in
+> models. This to a avoid naming clashes when we'll be adding getters and
+> setters later on.
+
+There are three interesting static properties we can set on a Model:
+
+    Model.$list = [];
+    Model.$widgets = {};
+    Model.$fieldsets = [];
+
+`$list` is an array of fields to expose in the list view (in this example,
+imagine each programming language also has some sample code. We'd only want
+that in the detail view, obviously).
+
+`$widgets` is a key/value map of fieldnames and the widget to be used to edit
+the data. Monad provides a bunch of defaults (e.g.
+`'monad/src/Widget/text.html'` for a simple text input) and of course you can
+define your own as long as the URL resolves.
+
+`$fieldsets` in an array of hashmaps allowing you some quick and dirty control
+over what gets displayed how. Below is an explanation:
+
+    Model.$fieldsets = [
+        {title: 'text.for.translation', fields: [], className: 'some-class'}
+    ];
+
+These speak for themselves; fields is an array of field names to be included
+in this particular fieldset, and the `className` gets added to the HTML (since
+Monad's HTML/CSS is Bootstrap-based, stuff like `col-md-4` is what you'll use
+most often, but of course you are free to define your own wild classes).
+
+## Services
+Next up is our service, since Monad needs a generic interface to whatever API
+you're using. For this example, let's assume we can make calls to
+`/api/proglang/` (listing all languages) and `/api/proglang/:id/` (detailing
+a single language).
+
+    // Proglang/Service.js
+
 

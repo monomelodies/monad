@@ -1,0 +1,6 @@
+<tr>
+    <td ng-repeat="col in item.schema.fields" ng-if="col.list">
+        <a monad-path="item.url" monad-path-arguments="item.data" ng-bind-html="item.data[col.key]"></a>
+    </td>
+</tr>
+

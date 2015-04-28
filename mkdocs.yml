@@ -1,8 +1,17 @@
-site_name: Monad
+site_name: Monad CMS
 
 pages:
-- [index.md, Introduction, Quickstart]
+- [index.md, Overview, Home]
+- [overview/entry.md, Overview, Defining an entry point]
+- [overview/authentication.md, Overview, Authentication]
 
-- [modules/index.md, Introduction, Modules]
+- [modules/index.md, Modules, Introduction]
+- [modules/basic.md, Modules, Create a basic module]
+- [modules/advanced.md, Modules, Advanced module options]
+- [modules/linking.md, Modules, Linking modules together]
+
+- [recipes/files.md, Common recipes, File uploads]
+
+- [samples/index.md, Samples, Wordpress plugin]
 
 theme: readthedocs

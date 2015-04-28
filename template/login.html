@@ -1,0 +1,25 @@
+<div class="vert-wrapper">
+    <div class="vert-wrapper-inner">
+        <form ng-submit="login.attempt(monad.language)" id="auth" name="auth" novalidate method="post">
+            <fieldset>
+                <legend>{{'monad.login' | translate}}</legend>
+                <div class="form-group">
+                    <input type="text"
+                        name="username"
+                        ng-model="login.username"
+                        class="form-control"
+                        placeholder="{{'monad.login.username' | translate}}">
+                </div>
+                <div class="form-group">
+                    <input type="password"
+                        name="password"
+                        ng-model="login.password"
+                        class="form-control"
+                        placeholder="{{'monad.login.password' | translate}}">
+                </div>
+                <button type="submit" class="btn btn-default pull-right">{{'monad.login.go' | translate}}</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
