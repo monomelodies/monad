@@ -29,6 +29,7 @@
     "ng-ckeditor": ">=0.2",
     "angular-translate": ">=2.6.1",
     "ng-file-upload": "*",
-    "angular-sanitize": "*"
+    "angular-sanitize": "*",
+    "angular-translate-loader-partial": "~2.6.1"
   }
 }
