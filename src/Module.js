@@ -6,8 +6,15 @@ import {Controller as ItemController} from './Data/Item/Controller';
 
 let registeredModules = {};
 
-class Module {
+export function Module(name, dependencies = [], config = {} {
 
+    dependencies.push('ng');
+    let app = angular.module(name, dependencies);
+    ['list', 'create', 'update', 'delete'].map(prop => {
+    });
+    return app;
+
+    /*
     constructor(name, defs) {
         this.app = name;
         for (let key in defs) {
@@ -61,10 +68,7 @@ class Module {
     static retrieve(name) {
         return new Module(name, registeredModules[name] || {});
     }
+    */
 
 };
-
-Module.$inject = [];
-
-export {Module};
 
