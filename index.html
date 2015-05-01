@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app="monad" ng-strict-di ng-controller="mdController as monad">
+<html lang="en" ng-app="monad" ng-strict-di ng-controller="moController as monad">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,19 +27,19 @@
                     </button>
                     <a class="navbar-brand"
                         ng-href="#/{{monad.language}}/"
-                        ng-click="monad.select('main')"
+                        ng-click="monad.Navigation.select('main')"
                         ng-class="{active: monad.url() == '/' + monad.language + '/'}">
                         <img ng-src="monad/assets/logo.png" width="20" height="20" alt="Monad">
                     </a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li ng-repeat="item in monad.navigation.main"
+                        <li ng-repeat="item in monad.Navigation.main"
                             ng-class="{active: item.selected, dropdown: item.items}"
                             ng-if="monad.Authentication.isAuthenticated() || item.url == '/'">
                             <a ng-if="!item.items"
                                 ng-href="{{item.url.substring(0, 1) == '/' ? item.url : '#/' + monad.language + '/' + item.url}}"
-                                ng-click="monad.select('main', item)">{{item.title | translate}}</a>
+                                ng-click="monad.Navigation.select(item)">{{item.label | translate}}</a>
                         </li>
                     </ul>
                 </div>
@@ -56,7 +56,7 @@
                             <li id="copyright" class="pull-right"><p class="navbar-text">
                                 &copy; <a href="http://www.monomelodies.nl/" target="_blank" class="navbar-link">MonoMelodies</a>
                                 2008, 2009, 2010, 2011, 20212, 2013, 2014, 2015 &bull;
-                                MIT
+                                <a href ng-click="monad.license()">MIT</a>
                             </p></li>
                             <li id="menu-logout" ng-if="monad.Authentication.isAuthenticated()">
                                 <a title="{{'monad.logout' | translate}}" ng-click="monad.logout()" href>
