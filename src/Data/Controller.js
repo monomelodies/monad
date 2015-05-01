@@ -3,24 +3,20 @@
 
 let route;
 let injector;
+let manager;
 
 class Controller {
 
-    constructor(Module, $routeParams, $route, $injector) {
-        for (let key in Module) {
-            if (['Repository'].indexOf(key) != -1) {
-                this[key] = $injector.instantiate(Module[key]);
-            } else {
-                this[key] = Module[key];
-            }
-        }
+    constructor(Module, Manager, $routeParams, $route, $injector) {
+        manager = Manager;
         route = $route;
         injector = $injector;
+        this.Module = Module;
     }
 
     create(item) {
         let result;
-        if (result = this.Repository.create(item)) {
+        if (result = manager.create(item)) {
             item.$load({});
             result.success(this.reload);
         }
@@ -34,9 +30,13 @@ class Controller {
         return injector.instantiate(something);
     }
 
+    get manager() {
+        return manager;
+    }
+
 };
 
-Controller.$inject = ['Module', '$routeParams', '$route', '$injector'];
+Controller.$inject = ['module', 'Manager', '$routeParams', '$route', '$injector'];
 
 export {Controller};
 
