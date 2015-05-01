@@ -6,7 +6,7 @@ import {Controller} from './Controller';
 let ngModule = 'monad.home';
 
 angular.module(ngModule, [])
-    .controller('mdHomeController', Controller);
+    .controller('moHomeController', Controller);
 
 export default ngModule;
 
