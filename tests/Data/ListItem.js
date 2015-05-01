@@ -1,7 +1,7 @@
 
 "use strict";
 
-import {default as Monad} from './../../src/app';
+import {default as Monad} from './../../angular';
 
 describe("Data-list-item directive", () => {
 
@@ -19,7 +19,7 @@ describe("Data-list-item directive", () => {
         scope.item = {id: 1};
         scope.$digest();
         console.log(element.html());
-        expect(Monad).toBe('monad.bootstrap');
+        expect(Monad).toBe('monad.core');
     });
 
 });
