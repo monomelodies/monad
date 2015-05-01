@@ -16,11 +16,14 @@ gulp.task('styles', function() {
 });
 
 var scripts = [
+    './node_modules/gulp-babel/node_modules/babel-core/browser-polyfill.js',
     './vendor/jquery/dist/jquery.min.js',
-    './vendor/bootstrap/dist/js/bootstrap.min.js',
     './vendor/angular/angular.min.js',
+    './vendor/angular-bootstrap/ui-bootstrap.min.js',
+    './vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
     './vendor/angular-route/angular-route.min.js',
     './vendor/angular-translate/angular-translate.min.js',
+    './vendor/angular-translate-loader-partial/angular-translate-loader-partial.js',
     './vendor/ng-ckeditor/ng-ckeditor.min.js',
     './vendor/ng-file-upload/angular-file-upload-all.min.js',
     './vendor/angular-sanitize/angular-sanitize.min.js'
