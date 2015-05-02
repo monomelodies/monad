@@ -19,6 +19,7 @@
             "password": "Password",
             "go": "Login"
         },
-        "logout": "Logout"
+        "logout": "Logout",
+        "nothing": "Sorry, nothing found."
     }
 }
