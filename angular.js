@@ -1,14 +1,14 @@
 
 "use strict";
 
-import {Controller} from './src/Controller';
-import {Navigation} from './src/Navigation';
+import {RootController} from './src/controllers/RootController';
+import {Navigation} from './src/services/Navigation';
 import {default as Home} from './src/home/angular';
-import {LoginController} from './src/authentication/LoginController';
-import {default as normalizePost} from './src/core/normalizePost';
-import {default as listHeader} from './src/List/Header';
-import {default as listTable} from './src/List/Table';
-import {default as listRow} from './src/List/Row';
+import {LoginController} from './src/controllers/LoginController';
+import {default as normalizePost} from './src/helpers/post';
+import {default as listHeader} from './src/directives/list/header/directive';
+import {default as listTable} from './src/directives/list/table/directive';
+import {default as listRow} from './src/directives/list/row/directive';
 
 let ngModule = 'monad.core';
 
