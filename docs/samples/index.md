@@ -1,45 +1,78 @@
-# Wordpress plugin sample app
-
-Code is best explained by examples, so let's get out hands dirty and setup a
+Code is best explained by examples, so let's get our hands dirty and setup a
 Monad plugin for the popular Wordpress blog system.
 
-When plugging into Monad, there's a number of important concepts to wrap your
-head around:
+## Prerequisite: WP REST API
+This is a popular but far-from-perfect plugin that exposes the WP database
+through a common API. We could bitch about it for hours, but it's the de facto
+standard so we're going to use it. You can find the plugin here:
+`https://wordpress.org/plugins/json-rest-api/`. Install it in your Wordpress
+site via the normal plugin system.
 
-- The API interface
+For this tutorial, we'll assume the API is available under `/wp/`. Similarly,
+we'll put our admin stuff in `/admin/wp/` with an entry point
+`/admin/wp/angular.js`. We'll also focus on managing _posts_. (By the time we've
+finished, building managers for categories, comments etc. should be obvious to
+you.)
 
-## Connecting to the API
+## Entry points
+We'll fill in the details later:
 
-First and foremost, we have to tell our plugin how to communicate with the
-backend. We're going to use the more-or-less official WP JSON API for this. The
-following assumtions are made in this tutorial with respect to paths:
+    // /admin/wp/post/angular.js
+    "use strict";
 
-- Monad is publicly available under `/monad/`;
-- Wordpress is installed under `/wordpress/` and the JSON API plugin is setup;
-- Our module is available under `/modules/wordpress/`.
+    import {Module} from '../../monad/src/Module';
 
-Let's start by defining our base module class in `/modules/wordpress/wp.js`:
+    export default Module('wp/post', [], {
+    });
 
-    import {Module} from "/monad/assets/js/monad";
+Also, a main Wordpress entry point with a dependency on the `wp/post` module:
 
-    export class WP extends Module
-    {
-        constructor() {
-            this._api = '/wordpress/wp-json';
-            this._name = 'wordpress';
+    // /admin/wp/angular.js
+    "use strict";
+
+    import {Module} from '../monad/src/Module';
+    import {default as post} from './post/angular';
+
+    export default Module('wp', [post], {
+    });
+
+And a generic entry point for the entire administrator:
+
+    // /admin/tutorial.js
+    "use strict";
+
+    import {Monad} from './monad/src/angular';
+    import {default as wp} from './wp/angular';
+
+    angular.module('monad', [Monad, wp]);
+
+## Authentication
+Wordpress has its own authentication system, so we need to tell Monad how to
+work with that.
+
+## Manager
+    // /admin/wp/post/manager.js
+    "use strict";
+
+    let http;
+
+    class Manager {
+
+        constructor($http) {
+            http = $http;
         }
+
+        list(params = {}) {
+            return http.get('/wp/posts?paged=' + (params.page || 1));
+        }
+
+        find(params = {}) {
+            return http.get('/wp/posts/' + params.id);
+        }
+
     }
 
-## Registering the plugin
+    Manager.$inject = ['$http'];
 
-We need a central file that tells Monad what plugins we have. Monad assumes this
-can be imported from `/js/monad`. Let's create it:
-
-    import {Monad} from "/monad/assets/js/monad";
-    import {WP} from "/modules/wordpress/wp";
-
-    Monad.registerModule(new WP());
-
-## Setting up post actions
-
+    export {Manager};
 

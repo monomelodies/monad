@@ -1,122 +1,164 @@
-# Modules
-Monad works with the concept of 'modules', but in the ES6-sense, not the
-Angular-sense. Each module in essence exposes two views: a data list and a
-data form (for editing a single item). As an example, let's show how to make a
-module where we manage our favourite programming languages.
+## Entry point
+In the previous section, we already advised you to use `./mymodule/angular.js`
+as an entry point for your custom modules. Now, we'll see how we can hook
+everything together and turn this into a Monad module.
 
-> No controversy intended; these aren't necessarily _our_ favourite languages!
+    // ./foobar/angular.js
+    import {Repository} from './Repository';
 
-## Setup
-First, create a folder somewhere that will contain all your module's files. This
-isn't strictly required by Monad, but it makes your code more reusable since a
-module's folder can be picked up and placed in another project easily.
+    angular.module('foobar', ['ng'])
+        .service('foobarRepository', Repository)
+        // etc.
+        ;
 
-    $ mkdir Proglang && cd Proglang
+Okay, that's simple enough; just register everything your module needs on the
+Angular module, using `modulename` as a prefix.
 
-For easy importing, we'll also define a single entry point called `app.js`.
-Again, this isn't strictly required but it prevents us from having to write a
-bunch of `import` statements every time we want to use the module.
+> Angular modules are kind of sucky - they only have a global namespace.
+> Prefixing names is the best way to avoid accidental collisions. There are some
+> other techniques (like calling `angular.injector([...module(s)]).get`
+> manually), but they have significant drawbacks.
 
-    // Proglang/app.js
-    "use strict";
+## Hooking into the administrator
+Now, at this point we have a basic module, but when we point our browser
+towards `http://localhost/admin/` (or whatever your URL is), we don't see it.
+Well, of course not - Monad can't read your mind. There are at least two things
+that need to be done: tell `ngRoute` how to access the module, and add its entry
+point to the main navigation.
 
+First things first: let's define the routes we want:
 
-    import {Service} from './Service';
-    import {Model} from './Model';
-    // Change this to reflect your own path to Monad:
-    import * as Module from '/path/to/monad/src/Module/app';
+    // ./foobar/angular.js
+    angular.module('foobar', ['ng', 'ngRoute'])
+        .config(['$routeProvider', $routeProvider => {
+            $routeProvider
+                .when('/:language/foobar/', {
+                    controller: 'FoobarController',
+                    controllerAs: 'list',
+                    templateUrl: 'foobar/list.html'
+                })
+                .when('/:language/foobar/:id/', {
+                    controller: 'FoobarItemController',
+                    controllerAs: 'item',
+                    templateUrl: 'foobar/update.html'
+                });
+        }]);
 
-    angular.app('monad').config(['$routeProvider', function($routerProvider) {
-        var module = 'proglang';
-        $routeProvider.
-            when('/proglang/', {
-                controller: Module.ListController,
-                controllerAs: 'list',
-                templateUrl: 'monad/src/Module/list.html',
-                resolve: {Service, Model, module}
-            }).
-            when('/proglang/:id/', {
-                controller: Module.ItemController,
-                controllerAs: 'item',
-                templateUrl: 'monad/src/Module/item.html',
-                resolve: {Service, Model, module}
-            });
-    }]);
+Okay, that's straightforward enough... now, we also need to call Monad's
+`moNavigation` service to register the menu item:
 
-    export {Service};
-    export {Model};
+    import {Monad} from '../monad/src/angular';
+    angular.module('foobar', [Monad])
+        .config(['$routeProvider', 'moNavigation', ($routeProvider, moNavigation) => {
+            // ...as before...
+            moNavigation.register('main', '/:language/foobar/');
+        }]);
 
-A Monad module contains, at the very least a `Service` and a `Model`. The
-service is predictably used by Angular to retrieve (lists of) items, whereas the
-model is a representation of a single item with CRUD functionality. The model,
-service and the module name are injected into their respective controllers, in
-this example the default `ListController` and `ItemController` from Monad (more
-on these later).
+"Augh" I can hear you scream internally, "so much typing!" *Indeed!* So instead
+of `Angular.module`, let's use the provided `Module` call from Monad instead.
+Like `angular.module`, this lets you define the name and dependencies of a
+module, but also accepts a third argument: a config object. This lets you define
+_all_ options, but will fill it with sensible defaults when any is omitted. So,
+if you're building a super-default module - you can just leave it out!
 
-## Models
-Now, let's start with defining our model:
+    import {Module} from '../monad/src/Module';
+    // Note that monad.core is assumed as a dependency.
+    Module('foobar', [], {
+        list: { ...config... },
+        create: { ...config... },
+        update: { ...config... },
+        'delete': { ...config... }
+    });
 
-    // Proglang/Model.js
-    "use strict";
+> You can add keys other than the CRUD defaults, but these won't be picked up
+> automatically anywhere. You can still link to them using the `mo-path`
+> directive manually, though.
 
-    import {Model as Base} from '/path/to/monad/src/Module/Model';
+The config object accepts all the parameters you'd usually pass to
+`$routeProvider.when`, and a few extras. Anything you leave out will be
+inferred; to disable a default option, pass `false`:
 
-    class Model extends Base {
-        
-        $create() {
+    Module('foobar', [], {
+        list: {
+            controller: 'FoobarController'
+        },
+        // Update and delete are inferred, but create is disabled:
+        create: false
+    });
+
+> Pass `false`, not `undefined`; the latter would have the same effect as
+> omitting the option, causing the default to be used!
+
+To add a module option to the navigation, pass a key `menu` with the name of
+the navigation you want it added to (`main` for the top menu, or whatever other
+navigations you have):
+
+    Module('foobar', [], {
+        list: {
+            //...as before...
+            menu: 'main'
         }
-        
-        $update() {
-        }
-        
-        $delete() {
-        }
+    });
 
-    };
+The inferred defaults are as follows (note that `url` _must_ be supplied for
+`menu` to be a valid key; we can't guesstimate your URLs for you!). (Also note
+that a `menu` property with a URL with a parameter makes no sense.) `$MODULE`
+will be replaced with the normalized name of your module (e.g. for `foobar` it
+will become `Foobar`):
 
-    export {Model};
+    {
+        list: {
+            controller: 'moListController',
+            controllerAs: 'list',
+            model: 'moModel',
+            repository: '$MODULERepository',
+            templateUrl: 'template/$MODULE/list.html',
+            menu: 'main'
+        },
+        create: {
+            controller: 'moCreateController',
+            controllerAs: 'item',
+            model: 'moModel',
+            respository: '$MODULERepository',
+            templateUrl: 'template/$MODULE/create.html',
+        },
+        update: {
+            controller: 'moUpdateController',
+            controllerAs: 'item',
+            model: 'moModel',
+            respository: '$MODULERepository',
+            templateUrl: 'template/$MODULE/update.html',
+        },
+        'delete': {
+            controller: 'moDeleteController',
+            controllerAs: 'item',
+            model: 'moModel',
+            respository: '$MODULERepository',
+            templateUrl: 'template/$MODULE/delete.html',
+        },
+    }
 
-For now, we're merely setting up some skeletons. Later, we'll see how Monad uses
-the existence or absence of methods to determine what functionality is offered
-by a module.
+There's still some duplication here; since it's not very probable you'll need to
+define a custom model or repository seperately for each action (but more likely
+for your entire module), the `model` and `repository` keys can also be defined
+once alongside the actions, and will be 'hoisted'.
 
-> Lots of methods and other properties are prefixed with `$`, especially in
-> models. This to a avoid naming clashes when we'll be adding getters and
-> setters later on.
+> Note: though you can and may override the `controllerAs` property, this does
+> mean you'll also have to define your own templates and/or controller, as the
+> defaults make certain assumptions in regard to naming.
 
-There are three interesting static properties we can set on a Model:
+## List view
+When clicking on a menu item, we'll generally need a list of items of that type
+to be displayed to choose from. That's easy: add the `list.html` file under the
+module directory in `template` and add something like the following:
 
-    Model.$list = [];
-    Model.$widgets = {};
-    Model.$fieldsets = [];
+    <mo-list items="list.items" fields="['id', 'foo', 'bar']">
+        <mo-list-item ng-repeat="item in list.items">
+            <mo-list-item-data ng-repeat="field in item.fields"
+                ng-bind-html="item.data[field]"></mo-list-item-data>
+        </mo-list-item>
+    </mo-list-items>
 
-`$list` is an array of fields to expose in the list view (in this example,
-imagine each programming language also has some sample code. We'd only want
-that in the detail view, obviously).
-
-`$widgets` is a key/value map of fieldnames and the widget to be used to edit
-the data. Monad provides a bunch of defaults (e.g.
-`'monad/src/Widget/text.html'` for a simple text input) and of course you can
-define your own as long as the URL resolves.
-
-`$fieldsets` in an array of hashmaps allowing you some quick and dirty control
-over what gets displayed how. Below is an explanation:
-
-    Model.$fieldsets = [
-        {title: 'text.for.translation', fields: [], className: 'some-class'}
-    ];
-
-These speak for themselves; fields is an array of field names to be included
-in this particular fieldset, and the `className` gets added to the HTML (since
-Monad's HTML/CSS is Bootstrap-based, stuff like `col-md-4` is what you'll use
-most often, but of course you are free to define your own wild classes).
-
-## Services
-Next up is our service, since Monad needs a generic interface to whatever API
-you're using. For this example, let's assume we can make calls to
-`/api/proglang/` (listing all languages) and `/api/proglang/:id/` (detailing
-a single language).
-
-    // Proglang/Service.js
-
-
+The `mo-list-items` directive gives us a nice bootstrap-table with pagination.
+Every `mo-list-item` is a row with an item, and `mo-list-item-data` is a cell in
+the table.

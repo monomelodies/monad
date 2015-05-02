@@ -1,121 +1,155 @@
-Monad works with the concept of 'modules', but in the ES6-sense, not the
-Angular-sense. Each module in essence exposes two views: a data list and a
-data form (for editing a single item). As an example, let's show how to make a
-module where we manage our favourite programming languages.
-
-> No controversy intended; these aren't necessarily _our_ favourite languages!
+Monad works with the concept of 'modules', both in the ES6-sense as well as the
+Angular-sense. You can think of a module as 'an option that shows up in the
+(main) menu', although technically it is not required to actually expose modules
+in any menu.
 
 ## Setup
 First, create a folder somewhere that will contain all your module's files. This
 isn't strictly required by Monad, but it makes your code more reusable since a
 module's folder can be picked up and placed in another project easily.
 
-    $ mkdir Proglang && cd Proglang
+So, for our fictional module `FooBar` we make a folder `foobar` under `admin`
+to place all our files in. By convention, we create an entry point called
+`angular.js` here which hooks everything up to our Angular module:
 
-For easy importing, we'll also define a single entry point called `app.js`.
-Again, this isn't strictly required but it prevents us from having to write a
-bunch of `import` statements every time we want to use the module.
-
-    // Proglang/app.js
+    // foobar/angular.js
     "use strict";
+    angular.module('foobar', ['ng']); // <- define custom stuff here
 
+The dependency on `ng` is 'to be on the safe side'. It should be automatic,
+but in our experience isn't always injected by Angular. Since it can't hurt to
+explicitly depend on it, just do it already. It might save you some head
+scratching.
 
-    import {Service} from './Service';
-    import {Model} from './Model';
-    // Change this to reflect your own path to Monad:
-    import * as Module from '/path/to/monad/src/Module/app';
-
-    angular.app('monad').config(['$routeProvider', function($routeProvider) {
-        var module = 'proglang';
-        $routeProvider.
-            when('/proglang/', {
-                controller: Module.ListController,
-                controllerAs: 'list',
-                templateUrl: 'monad/src/Module/list.html',
-                resolve: {Service, Model, module}
-            }).
-            when('/proglang/:id/', {
-                controller: Module.ItemController,
-                controllerAs: 'item',
-                templateUrl: 'monad/src/Module/item.html',
-                resolve: {Service, Model, module}
-            });
-    }]);
-
-    export {Service};
-    export {Model};
-
-A Monad module contains, at the very least a `Service` and a `Controller`. The
-service is predictably used by Angular to retrieve (lists of) items, whereas the
-controller is a representation of a single item with CRUD functionality. The
-controller, service and the module name are injected into their respective controllers, in
-this example the default `ListController` and `ItemController` from Monad (more
-on these later).
+On your module, define services (models and repositories), controllers and
+perhaps directives or filters or whatever you'll need.
 
 ## Models
-Now, let's start with defining our model:
+Each 'entity' of data in a module is generally represented by a 'model'. Monad
+offers a base model class with some dirty checking and other goodies you can use
+directly or extend for your own custom functionality. To simplify things, you
+can see a model object as a representation of a single database row.
 
-    // Proglang/Model.js
+> Of course, we don't care if you get your data from a relational database,
+> a NoSQL database, an Excel file, flat JSON or a random Google query. The
+> point is, each 'item' is represented by a single model.
+
+Since Angular services are _singletons_, a model should define a static factory
+method to create instances for every row in a set:
+
+    "use strict";
+    import {Model as Base} from './monad/src/Model';
+
+    class FooModel extends Base {
+        
+        static factory() {
+            return new FooModel();
+        }
+    }
+
+Any Angular dependencies needed must then be injected into the constructor,
+for example:
+
+    class FooModel extends Base {
+        constructor($http) {
+            this.http = $http;
+        }
+        static factory($http) {
+            return new FooModel($http);
+        }
+    }
+    FooModel.$inject = ['$http'];
+
+Then, register the factory method instead of the object:
+
+    angular.module('foobar').service('FooModel', FooModel.factory);
+
+A model is a pretty dumb entity, so unless you have some very specific needs you
+can usually get away with simply populating the base Monad model:
+
+    import {Model} from './monad/src/Model';
+    angular.module('foobar').service('FooModel', Model.factory);
+
+This provides the default getters and setters you'll need to do most of your
+work (dirty checking, propagation etc.).
+
+## Repositories
+A more interesting entity in the Monad toolkit are 'Repositories'. You should
+think of a Repository as 'a getter/setter for groups of data' (i.e., models).
+There are where most of your custom logic should go. Generally speaking, a
+Repository will expose one or more of the following methods:
+
+    list(urlparams); // Return a promise returning an array of models.
+    find(urlparams); // Return a promise querying a single model.
+    create(Model); // Save a new instance of Model.
+    update(Model); // Update an existing instance of Model.
+    delete(Model); // Delete an existing Model.
+
+In many cases, Repositories will return promises generated by Angular's `$http`
+service, but you are of course free to implement your own using `$q`.
+
+Since the implementation of repositories really is what makes your custom admin
+tick, we can't really give an example, but for FooBar it could look like this:
+
+    // foobar/Repository.js
     "use strict";
 
-    import {Model as Base} from '/path/to/monad/src/Module/Model';
+    // We'll store the $http service locally.
+    let http;
 
-    class Model extends Base {
-        
-        $create() {
-        }
-        
-        $update() {
-        }
-        
-        $delete() {
+    class Repository {
+
+        constructor($http) {
+            http = $http;
         }
 
-    };
+        list(params) {
+            return http.get('/api/foobar/?' + angular.toJson(params));
+        }
 
-    export {Model};
+        find(params) {
+            return http.get('/api/foobar/' + params.id + '/');
+        }
 
-For now, we're merely setting up some skeletons. Later, we'll see how Monad uses
-the existence or absence of methods to determine what functionality is offered
-by a module.
+        create(model) {
+            return http.post('/api/foobar/', model.$export);
+        }
 
-> Lots of methods and other properties are prefixed with `$`, especially in
-> models. This to a avoid naming clashes when we'll be adding getters and
-> setters later on.
+        update(model) {
+            return http.post('/api/foobar/' + model.id + '/', model.$export);
+        }
 
-There are three interesting static properties we can set on a Model:
+        ['delete'](model) {
+            return http.post('/api/foobar/' + model.id + '/delete/');
+        }
 
-    Model.$list = [];
-    Model.$widgets = {};
-    Model.$fieldsets = [];
+    }
 
-`$list` is an array of fields to expose in the list view (in this example,
-imagine each programming language also has some sample code. We'd only want
-that in the detail view, obviously).
+This is just a simple example. The important thing here is that Monad _will_
+expect these utility methods to have certain names and accept certain
+parameters. As long as you stick to that interface, everything should get
+picked up automagically.
 
-`$widgets` is a key/value map of fieldnames and the widget to be used to edit
-the data. Monad provides a bunch of defaults (e.g.
-`'monad/src/Widget/text.html'` for a simple text input) and of course you can
-define your own as long as the URL resolves.
+## Controllers
+In most cases, you'll be fine with Monad's default controllers for List, Update,
+Create and Delete. But if you need extra functionality, your best bet is to
+_extend_ the default controllers and override whatever you need.
 
-`$fieldsets` in an array of hashmaps allowing you some quick and dirty control
-over what gets displayed how. Below is an explanation:
+> Tip: you don't want to remember to include all constructor arguments in
+> extended classes. Luckily, ES6 supports the `...args` syntax for a random
+> number of arguments. In an extended class, inject your class-specific
+> dependencies first.
 
-    Model.$fieldsets = [
-        {title: 'text.for.translation', fields: [], className: 'some-class'}
-    ];
+    class Bar extends Foo {
+        constructor(SomeService, ...args) {
+            super(...args);
+            //...other stuff...
+        }
+    }
 
-These speak for themselves; fields is an array of field names to be included
-in this particular fieldset, and the `className` gets added to the HTML (since
-Monad's HTML/CSS is Bootstrap-based, stuff like `col-md-4` is what you'll use
-most often, but of course you are free to define your own wild classes).
+    Bar.$inject = [].concat('SomeService', Foo.$inject || []);
 
-## Services
-Next up is our service, since Monad needs a generic interface to whatever API
-you're using. For this example, let's assume we can make calls to
-`/api/proglang/` (listing all languages) and `/api/proglang/:id/` (detailing
-a single language).
-
-    // Proglang/Service.js
-
+## Directives, filters and other stuff
+Go wild, define whatever you need. We'll see how this all ties together in the
+next section.
 
