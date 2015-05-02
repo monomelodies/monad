@@ -1,0 +1,24 @@
+{
+    "monad": {
+        "site": "Site",
+        "toggle": "Toggle navigation",
+        "data": {
+            "data": "Data",
+            "submit": "Save changes",
+            "delete": "Delete",
+            "create": "Create"
+        },
+        "id": "ID",
+        "title": "Title",
+        "slug": "Slug",
+        "keywords": "Keywords",
+        "description": "Description",
+        "login": {
+            "login": "Please login",
+            "username": "Username",
+            "password": "Password",
+            "go": "Login"
+        },
+        "logout": "Logout"
+    }
+}
