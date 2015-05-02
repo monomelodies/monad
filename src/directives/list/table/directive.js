@@ -1,12 +1,12 @@
 
-import {Controller} from './controller';
+import {Controller as controller} from './controller';
 
 export default () => {
     return {
         restrict: 'E',
         templateUrl: 'monad/src/directives/list/table/template.html',
         scope: {module: '=', items: '=', columns: '='},
-        controller: Controller,
+        controller,
         controllerAs: 'table',
         bindToController: true
     };
