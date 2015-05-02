@@ -1,0 +1,18 @@
+<div ng-if="table.items">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th ng-repeat="col in table.columns">
+                    {{table.module + '.' + col | translate}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr mo-list-row="item" column="table.columns" ng-repeat="item in table.items" ng-if="!item.$deleted" url="data.itemUrl"></tr>
+        </tbody>
+    </table>
+</div>
+<div ng-if="!table.items">
+    <alert type="warning">{{'monad.nothing' | translate}}</alert>
+</div>
+
