@@ -6,8 +6,8 @@ let loc;
 
 class LoginController {
 
-    constructor($location) {
-        service = angular.injector(['monad.Authentication']).get('Service');
+    constructor($location, Auth) {
+        service = Auth;
         loc = $location;
     }
 
@@ -19,7 +19,7 @@ class LoginController {
 
 };
 
-LoginController.$inject = ['$location'];
+LoginController.$inject = ['$location', 'moAuthentication'];
 
 export {LoginController};
 
