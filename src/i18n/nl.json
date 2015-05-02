@@ -1,0 +1,25 @@
+{
+    "monad": {
+        "site": "Site",
+        "toggle": "Navigatie aan/uit",
+        "data": {
+            "data": "Data",
+            "submit": "Wijzigingen opslaan",
+            "delete": "Verwijderen",
+            "create": "Toevoegen"
+        },
+        "id": "ID",
+        "title": "Titel",
+        "slug": "Slug",
+        "keywords": "Steekwoorden",
+        "description": "Omschrijving",
+        "login": {
+            "login": "Log in a.u.b.",
+            "username": "Gebruikersnaam",
+            "password": "Wachtwoord",
+            "go": "Inloggen"
+        },
+        "logout": "Uitloggen",
+        "nothing": "Helaas, niks gevonden."
+    }
+}
