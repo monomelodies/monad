@@ -1,0 +1,8 @@
+
+export default () => {
+    return {
+        restrict: 'E',
+        templateUrl: 'monad/src/directives/list/header/template.html'
+    };
+};
+
