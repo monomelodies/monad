@@ -1,8 +1,8 @@
 
 "use strict";
 
-class ItemController {
+class UpdateController {
 };
 
-export {ItemController};
+export {UpdateController};
 
