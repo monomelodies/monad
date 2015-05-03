@@ -3,7 +3,7 @@
 
 import {DataController} from './DataController';
 
-class Controller extends DataController {
+class ListController extends DataController {
 
     constructor(...args) {
         super(...args);
@@ -20,5 +20,5 @@ class Controller extends DataController {
 
 };
 
-export {Controller};
+export {ListController};
 
