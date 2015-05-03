@@ -1,45 +1,35 @@
 
 "use strict";
 
-let params;
-let route;
+export default ['$routeParams', '$route', ($routeParams, $route) => {
 
-class Path {
+    function found(element, path, args) {
+        for (let a in args) {
+            path = path.replace(':' + a, args[a]);
+        }
+        element.attr('href', '#' + path.replace(/^#/, ''));
+    };
 
-    constructor() {
-        this.scope = {monadPath: '=', monadPathArguments: '='};
-        this.restrict = 'A';
-    }
-
-    link(scope, elem) {
-        let p = scope.monadPathArguments || {};
-        p.language = p.language || params.language;
-        for (let path in route.routes) {
-            let pathController = route.routes[path].controller;
-            if (pathController == scope.monadPath) {
-                let result = path;
-                for (let param in p) {
-                    result = result.replace(':' + param, p[param]);
-                }
-                elem.attr('href', '#' + result.replace(/^#/, ''));
+    return {
+        restrict: 'A',
+        link: (scope, element, attrs) => {
+            if (!(attrs.moPath)) {
                 return;
             }
+            let path = scope.$eval(attrs.moPath);
+            if (!path) {
+                return;
+            }
+            let args = attrs['arguments'] ? scope.$eval(attrs['arguments']) : {};
+            args.language = args.language || $routeParams.language;
+            for (let _path in $route.routes) {
+                let _pC = ($route.routes[_path].controller || '') + '';
+                if (_pC.toLowerCase() == path.toLowerCase()) {
+                    return found(element, _path, args);
+                }
+            }
+            return found(element, path, args);
         }
-        let result = scope.monadPath;
-        for (let param in p) {
-            result = result.replace(':' + param, p[param]);
-        }
-        elem.attr('href', '#' + result.replace(/^#/, ''));
-    }
-
-    static factory($routeParams, $route) {
-        params = $routeParams;
-        route = $route;
-        return new Path();
-    }
-};
-
-Path.factory.$inject = ['$routeParams', '$route'];
-
-export {Path};
+    };
+}];
 
