@@ -1,14 +1,18 @@
-<div ng-if="table.items">
+<div ng-if="items">
     <table class="table table-striped">
         <thead>
             <tr>
-                <th ng-repeat="col in table.columns">
-                    {{table.module + '.' + col | translate}}
+                <th ng-repeat="column in columns">
+                    {{module + '.' + column | translate}}
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr mo-list-row="item" column="table.columns" ng-repeat="item in table.items" ng-if="!item.$deleted" url="data.itemUrl"></tr>
+            <tr m-list-row="item" ng-repeat="item in items" ng-if="!item.$deleted">
+                <td ng-repeat="column in columns">
+                    <a mo-path="path" arguments="item">{{item[column]}}</a>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
