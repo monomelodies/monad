@@ -102,7 +102,7 @@ class RootController {
 
 };
 
-Controller.$inject = ['$location', '$rootScope', '$route', '$translate', '$translatePartialLoader', 'moAuthentication', 'moNavigation', '$modal'];
+RootController.$inject = ['$location', '$rootScope', '$route', '$translate', '$translatePartialLoader', 'moAuthentication', 'moNavigation', '$modal'];
 
-export {Controller};
+export {RootController};
 
