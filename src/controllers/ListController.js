@@ -1,7 +1,7 @@
 
 "use strict";
 
-import {Controller as DataController} from '../Data/Controller';
+import {DataController} from './DataController';
 
 class Controller extends DataController {
 
