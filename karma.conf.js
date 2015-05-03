@@ -7,12 +7,18 @@ module.exports = function(config) {
         'dist/libraries.js',
         'vendor/ckeditor/ckeditor.js',
         'node_modules/angular-mocks/angular-mocks.js',
-        'tests/**/*.js'
+        'tests/**/*.js',
+        '**/*.html'
     ],
+    ngHtml2JsPreprocessor: {
+        moduleName: 'TEMPLATES',
+        prependPrefix: 'monad/'
+    },
     exclude: [
     ],
     preprocessors: {
-        'tests/**/*.js': ['browserify']
+        'tests/**/*.js': ['browserify'],
+        '**/*/*.html': ['ng-html2js']
     },
     browserify: {
         debug: true,
