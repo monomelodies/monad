@@ -25,7 +25,7 @@ var scripts = [
     './vendor/angular-translate/angular-translate.min.js',
     './vendor/angular-translate-loader-partial/angular-translate-loader-partial.js',
     './vendor/ng-ckeditor/ng-ckeditor.min.js',
-    './vendor/ng-file-upload/angular-file-upload-all.min.js',
+    './vendor/ng-file-upload/ng-file-upload-all.min.js',
     './vendor/angular-sanitize/angular-sanitize.min.js'
 ];
 gulp.task('scripts', function() {
