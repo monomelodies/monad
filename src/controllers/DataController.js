@@ -5,13 +5,15 @@ let route;
 let injector;
 let manager;
 
-class Controller {
+class DataController {
 
-    constructor(Module, Manager, $routeParams, $route, $injector) {
+    constructor(Module, Manager, $routeParams, $route, $injector, $translate, $translatePartialLoader) {
         manager = Manager;
         route = $route;
         injector = $injector;
         this.Module = Module;
+        $translatePartialLoader.addPart(Module);
+        $translate.refresh();
     }
 
     create(item) {
@@ -36,7 +38,7 @@ class Controller {
 
 };
 
-Controller.$inject = ['module', 'Manager', '$routeParams', '$route', '$injector'];
+DataController.$inject = ['module', 'Manager', '$routeParams', '$route', '$injector', '$translate', '$translatePartialLoader'];
 
-export {Controller};
+export {DataController};
 
