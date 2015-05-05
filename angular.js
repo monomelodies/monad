@@ -21,12 +21,12 @@ function config($translateProvider, $translatePartialLoaderProvider, $routeProvi
         when('/:language/', {
             controller: 'moHomeController',
             controllerAs: 'home',
-            templateUrl: 'monad/src/template/home.html'
+            templateUrl: 'monad/src/templates/home.html'
         }).
         when('/:language/login/', {
             controller: LoginController,
             controllerAs: 'login',
-            templateUrl: 'monad/src/template/login.html'
+            templateUrl: 'monad/src/templates/login.html'
         });
     $translateProvider.useLoader('$translatePartialLoader', {
         urlTemplate: '{part}/i18n/{lang}.json'
