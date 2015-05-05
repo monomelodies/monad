@@ -1,14 +1,14 @@
 <h1 class="container-fluid clearfix">
-    <small><a class="glyphicon glyphicon-arrow-up pull-right" monad-path="data.listUrl"></a></small>
-    {{data.app + '.$meta.singular' | translate:data.item}}
+    <small><a class="glyphicon glyphicon-arrow-up pull-right" mo-path="listUrl"></a></small>
+    {{module + '.$meta.singular' | translate:item}}
 </h1>
 <div class="container-fluid clearfix">
-    <form ng-submit="data.update(data.item)" class="row">
+    <form ng-submit="update({item: item})" class="row">
         <div ng-transclude></div>
         <br style="clear: both">
         <div class="clearfix col-md-12 spaceme">
-            <button type="submit" class="btn btn-default pull-right">{{'monad.data.submit' | translate}}</button>
-            <a href class="glyphicon glyphicon-trash text-danger" ng-click="data.delete(data.item)"></a>
+            <button ng-if="update" type="submit" class="btn btn-default pull-right">{{'monad.data.submit' | translate}}</button>
+            <a ng-if="delete" href class="glyphicon glyphicon-trash text-danger" ng-click="delete({item: item})"></a>
         </div>
     </form>
 </div>
