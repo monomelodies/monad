@@ -33,7 +33,10 @@ class RootController {
             }
         }));
         $rootScope.$on('$routeChangeSuccess', (event, target) => {
-            this.language = target.params.language;
+            if (target.params.language && target.params.language != this.language) {
+                this.language = target.params.language;
+                $translate.refresh();
+            }
             if (!this.language) {
                 loc.path('/en/');
             }
