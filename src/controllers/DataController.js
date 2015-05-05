@@ -7,7 +7,7 @@ let manager;
 
 class DataController {
 
-    constructor(Module, Manager, $routeParams, $route, $injector, $translate, $translatePartialLoader) {
+    constructor(Module, Manager, $route, $injector, $translate, $translatePartialLoader) {
         manager = Manager;
         route = $route;
         injector = $injector;
@@ -38,7 +38,7 @@ class DataController {
 
 };
 
-DataController.$inject = ['module', 'Manager', '$routeParams', '$route', '$injector', '$translate', '$translatePartialLoader'];
+DataController.$inject = ['module', 'Manager', '$route', '$injector', '$translate', '$translatePartialLoader'];
 
 export {DataController};
 
