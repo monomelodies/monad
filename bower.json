@@ -30,6 +30,7 @@
     "angular-translate": ">=2.6.1",
     "ng-file-upload": "*",
     "angular-sanitize": "*",
-    "angular-translate-loader-partial": "~2.6.1"
+    "angular-translate-loader-partial": "~2.6.1",
+    "autofill-event": "~1.0.0"
   }
 }
