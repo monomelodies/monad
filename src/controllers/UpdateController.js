@@ -12,7 +12,7 @@ class UpdateController extends DataController {
     
     update(item) {
         let result;
-        if (result = this.Repository.update(item)) {
+        if (result = this.manager.update(item)) {
             result.success(this.reload);
         }
     }
