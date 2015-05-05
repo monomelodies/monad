@@ -9,6 +9,7 @@ import {default as normalizePost} from './src/helpers/post';
 import {default as listHeader} from './src/directives/list/header/directive';
 import {default as listTable} from './src/directives/list/table/directive';
 import {default as Path} from './src/directives/path/directive';
+import {default as Field} from './src/directives/field/directive';
 
 let ngModule = 'monad.core';
 
@@ -34,7 +35,7 @@ function config($translateProvider, $translatePartialLoaderProvider, $routeProvi
     $translateProvider.preferredLanguage('en');
 };
 
-angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ngCkeditor', 'ngSanitize', 'ngFileUpload', 'ui.bootstrap',])
+angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ngCkeditor', 'ngSanitize', 'ngFileUpload', 'ui.bootstrap'])
     .config(['$translateProvider', '$translatePartialLoaderProvider', '$routeProvider', '$locationProvider', config])
     .run(['$http', normalizePost])
     .controller('moController', RootController)
@@ -43,6 +44,7 @@ angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ngCkeditor
     .directive('moListHeader', listHeader)
     .directive('moListTable', listTable)
     .directive('moPath', Path)
+    .directive('moField', Field)
 ;
 
 export default ngModule;
