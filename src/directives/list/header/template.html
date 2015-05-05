@@ -2,8 +2,7 @@
     <a ng-if="list.manager.create"
         class="glyphicon glyphicon-plus-sign pull-right"
         title="{{'monad.data.create' | translate}}"
-        href
-        ng-click="monad.modal = true; data.form = true"></a>
+        mo-path="'/:language/' + list.Module + '/create/'"></a>
     {{list.Module + '.$meta.plural' | translate}}
 </h1>
 
