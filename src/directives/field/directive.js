@@ -7,9 +7,9 @@ export default () => {
     <span ng-transclude></span>
 </div>`,
         link: (scope, elem, attrs) => {
-            scope.label = attrs.label;
             elem.find('input, textarea, select').addClass('form-control');
         },
+        scope: {label: '='},
         transclude: true
     };
 };
