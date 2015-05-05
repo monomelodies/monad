@@ -17,16 +17,17 @@ gulp.task('styles', function() {
 
 var scripts = [
     './node_modules/gulp-babel/node_modules/babel-core/browser-polyfill.js',
-    './vendor/jquery/dist/jquery.min.js',
-    './vendor/angular/angular.min.js',
-    './vendor/angular-bootstrap/ui-bootstrap.min.js',
-    './vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
-    './vendor/angular-route/angular-route.min.js',
-    './vendor/angular-translate/angular-translate.min.js',
-    './vendor/angular-translate-loader-partial/angular-translate-loader-partial.js',
-    './vendor/ng-ckeditor/ng-ckeditor.min.js',
-    './vendor/ng-file-upload/ng-file-upload-all.min.js',
-    './vendor/angular-sanitize/angular-sanitize.min.js'
+    './bower_components/jquery/dist/jquery.min.js',
+    './bower_components/angular/angular.min.js',
+    './bower_components/angular-bootstrap/ui-bootstrap.min.js',
+    './bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
+    './bower_components/angular-route/angular-route.min.js',
+    './bower_components/angular-translate/angular-translate.min.js',
+    './bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js',
+    './bower_components/ng-ckeditor/ng-ckeditor.min.js',
+    './bower_components/ng-file-upload/ng-file-upload-all.min.js',
+    './bower_components/angular-sanitize/angular-sanitize.min.js',
+    './bower_components/autofill-event/src/autofill-event.js'
 ];
 gulp.task('scripts', function() {
     gulp.src(scripts).
