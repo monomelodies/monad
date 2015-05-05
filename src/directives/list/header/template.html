@@ -1,8 +1,8 @@
 <h1 class="clearfix">
-    <a ng-if="list.manager.create"
+    <a ng-if="create"
         class="glyphicon glyphicon-plus-sign pull-right"
         title="{{'monad.data.create' | translate}}"
-        mo-path="'/:language/' + list.Module + '/create/'"></a>
-    {{list.Module + '.$meta.plural' | translate}}
+        mo-path="create"></a>
+    {{module + '.$meta.plural' | translate}}
 </h1>
 
