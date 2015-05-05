@@ -5,7 +5,7 @@ module.exports = function(config) {
     frameworks: ['browserify', 'jasmine'],
     files: [
         'dist/libraries.js',
-        'vendor/ckeditor/ckeditor.js',
+        'bower_components/ckeditor/ckeditor.js',
         'node_modules/angular-mocks/angular-mocks.js',
         'tests/**/*.js',
         '**/*.html'
