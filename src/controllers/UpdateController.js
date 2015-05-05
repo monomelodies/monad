@@ -20,17 +20,7 @@ class UpdateController extends DataController {
     ['delete'](item) {
         // TODO: confirm?
         item.$deleted = true;
-        return this.Repository['delete'](item);
-    }
-    
-    templateFor(field) {
-        let t;
-        this.Schema.fields.map(f => {
-            if (f.key == field) {
-                t = f.widget;
-            }
-        });
-        return t;
+        return this.manager['delete'](item);
     }
 
 };
