@@ -1,4 +1,3 @@
 {
-    "analytics": true,
-    "directory": "vendor/"
+    "analytics": true
 }
