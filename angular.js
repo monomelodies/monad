@@ -37,7 +37,7 @@ function config($translateProvider, $translatePartialLoaderProvider, $routeProvi
     $translateProvider.preferredLanguage('en');
 };
 
-angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ngCkeditor', 'ngSanitize', 'ngFileUpload', 'ui.bootstrap'])
+angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ckeditor', 'ngSanitize', 'ngFileUpload', 'ui.bootstrap'])
     .config(['$translateProvider', '$translatePartialLoaderProvider', '$routeProvider', '$locationProvider', config])
     .run(['$http', '$rootScope', '$translate', ($http, $rootScope, $translate) => {
         normalizePost($http);
