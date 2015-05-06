@@ -7,7 +7,7 @@ let target;
 export default () => {
     return {
         restrict: 'A',
-        scope: {item: '=moDraggable', list: '='},
+        scope: {item: '=moDraggable', list: '=', track: '='},
         link
     }
 
@@ -40,13 +40,11 @@ export default () => {
                     let idxsource = $scope.list.indexOf(target);
                     let idxtarget = $scope.list.indexOf($scope.item);
                     let attr = attrs.sort;
-                    /*
-                    if (this.$dragConfig.track) {
-                        (angular.isArray(this.$dragConfig.track) ? this.$dragConfig.track : [this.$dragConfig.track]).map(track => {
-                            Drag.instance.items[idxsource][track] = Drag.instance.items[idxtarget][track];
+                    if ($scope.track) {
+                        (angular.isArray($scope.track) ? $scope.track : [$scope.track]).map(track => {
+                            $scope.list[idxsource][track] = $scope.list[idxtarget][track];
                         });
                     }
-                    */
                     $scope.list.splice(idxtarget, 0, $scope.list.splice(idxsource, 1).shift());
                     $scope.list.map((item, idx) => {
                         item[attr] = idx;
