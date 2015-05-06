@@ -15,7 +15,7 @@ class ListController extends DataController {
         while (this.items.length) {
             this.items.pop();
         }
-        this.manager.list(params).success(items => items.map(item => this.items.push(item)));
+        this.Manager.list(params).success(items => items.map(item => this.items.push(item)));
     }
 
 };
