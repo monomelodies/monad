@@ -6,7 +6,7 @@ import {DataController} from './DataController';
 class CreateController extends DataController {
 
     constructor(...args) {
-        super(args);
+        super(...args);
         this.item = this.manager.constructor.Model;
     }
 
