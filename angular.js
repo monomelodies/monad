@@ -11,6 +11,7 @@ import {default as listTable} from './src/directives/list/table/directive';
 import {default as Path} from './src/directives/path/directive';
 import {default as Field} from './src/directives/field/directive';
 import {default as Update} from './src/directives/update/directive';
+import {default as Draggable} from './src/directives/draggable/directive';
 
 let ngModule = 'monad.core';
 
@@ -47,6 +48,7 @@ angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ngCkeditor
     .directive('moPath', Path)
     .directive('moField', Field)
     .directive('moUpdate', Update)
+    .directive('moDraggable', Draggable)
 ;
 
 export default ngModule;
