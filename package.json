@@ -14,6 +14,7 @@
     "gulp-compass": ">=2.0.3",
     "gulp-concat": "*",
     "gulp-minify-css": "*",
+    "gulp-uglify": "^1.2.0",
     "gulp-watch": ">=4.1.0",
     "jasmine-core": "^2.2.0",
     "karma": "^0.12.31",
