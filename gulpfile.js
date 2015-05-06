@@ -4,6 +4,7 @@ var watch = require('gulp-watch');
 var compass = require('gulp-compass');
 var minifyCss = require('gulp-minify-css');
 var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
 
 gulp.task('styles', function() {
     gulp.src('./src/_sass/default.scss').
@@ -17,21 +18,22 @@ gulp.task('styles', function() {
 
 var scripts = [
     './node_modules/gulp-babel/node_modules/babel-core/browser-polyfill.js',
-    './bower_components/jquery/dist/jquery.min.js',
-    './bower_components/angular/angular.min.js',
-    './bower_components/angular-bootstrap/ui-bootstrap.min.js',
-    './bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
-    './bower_components/angular-route/angular-route.min.js',
-    './bower_components/angular-translate/angular-translate.min.js',
+    './bower_components/jquery/dist/jquery.js',
+    './bower_components/angular/angular.js',
+    './bower_components/angular-bootstrap/ui-bootstrap.js',
+    './bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+    './bower_components/angular-route/angular-route.js',
+    './bower_components/angular-translate/angular-translate.js',
     './bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js',
-    './bower_components/ng-ckeditor/ng-ckeditor.min.js',
-    './bower_components/ng-file-upload/ng-file-upload-all.min.js',
-    './bower_components/angular-sanitize/angular-sanitize.min.js',
+    './bower_components/angular-ckeditor/angular-ckeditor.js',
+    './bower_components/ng-file-upload/ng-file-upload-all.js',
+    './bower_components/angular-sanitize/angular-sanitize.js',
     './bower_components/autofill-event/src/autofill-event.js'
 ];
 gulp.task('scripts', function() {
     gulp.src(scripts).
          pipe(concat('libraries.js')).
+         pipe(uglify()).
          pipe(gulp.dest('dist'));
 });
 
