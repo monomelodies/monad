@@ -42,10 +42,8 @@ class RootController {
             }
             $translate.use(this.language);
         });
-        $rootScope.$on('$translatePartialLoaderStructureChanged', () => $translate.refresh());
         route = $route;
         $translatePartialLoader.addPart('monad/src');
-        $translate.refresh();
     }
 
     get Authentication() {
