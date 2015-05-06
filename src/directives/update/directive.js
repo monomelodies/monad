@@ -5,8 +5,7 @@ export default () => {
         templateUrl: 'monad/src/directives/update/template.html',
         transclude: true,
         scope: {
-            update: '&onUpdate',
-            'delete': '&onDelete',
+            save: '&onSave',
             item: '=',
             module: '=',
             listUrl: '='
