@@ -1,4 +1,4 @@
-<div ng-if="items">
+<div ng-if="items && items.length">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -16,7 +16,7 @@
         </tbody>
     </table>
 </div>
-<div ng-if="!items">
+<div ng-if="!(items && items.length)">
     <alert type="warning">{{'monad.nothing' | translate}}</alert>
 </div>
 
