@@ -39,7 +39,10 @@ function config($translateProvider, $translatePartialLoaderProvider, $routeProvi
 
 angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ngCkeditor', 'ngSanitize', 'ngFileUpload', 'ui.bootstrap'])
     .config(['$translateProvider', '$translatePartialLoaderProvider', '$routeProvider', '$locationProvider', config])
-    .run(['$http', normalizePost])
+    .run(['$http', '$rootScope', '$translate', ($http, $rootScope, $translate) => {
+        normalizePost($http);
+        $rootScope.$on('$translatePartialLoaderStructureChanged', $translate.refresh);
+    }])
     .controller('moController', RootController)
     .controller('moHomeController', HomeController)
     .service('moNavigation', Navigation)
