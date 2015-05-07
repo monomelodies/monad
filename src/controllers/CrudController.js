@@ -5,7 +5,7 @@ let route;
 
 class CrudController {
 
-    constructor($route, $routeParams, $translate, $translatePartialLoader) {
+    constructor($route, $routeParams, $translatePartialLoader) {
         route = $route;
         if ($route.current && $route.current.locals) {
             for (let p in $route.current.locals) {
@@ -16,7 +16,6 @@ class CrudController {
             }
         }
         $translatePartialLoader.addPart(this.module);
-        $translate.refresh();
         switch ($routeParams.id) {
             case 'create':
                 this.item = new this.Manager.model();
@@ -46,7 +45,7 @@ class CrudController {
 
 };
 
-CrudController.$inject = ['$route', '$routeParams', '$translate', '$translatePartialLoader'];
+CrudController.$inject = ['$route', '$routeParams', '$translatePartialLoader'];
 
 export {CrudController};
 
