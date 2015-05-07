@@ -1,7 +1,7 @@
 
 "use strict";
 
-export default ['$routeParams', '$route', ($routeParams, $route) => {
+export default ['$route', ($route) => {
 
     function found(element, path, args) {
         for (let a in args) {
@@ -21,7 +21,7 @@ export default ['$routeParams', '$route', ($routeParams, $route) => {
                 return;
             }
             let args = attrs['arguments'] ? scope.$eval(attrs['arguments']) : {};
-            args.language = args.language || $routeParams.language;
+            args.language = args.language || $route.current.params.language;
             for (let _path in $route.routes) {
                 let _pC = ($route.routes[_path].controller || '') + '';
                 if (_pC.toLowerCase() == path.toLowerCase()) {
