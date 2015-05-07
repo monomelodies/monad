@@ -41,7 +41,7 @@ angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ckeditor',
     .config(['$translateProvider', '$translatePartialLoaderProvider', '$routeProvider', '$locationProvider', config])
     .run(['$http', '$rootScope', '$translate', ($http, $rootScope, $translate) => {
         normalizePost($http);
-        $rootScope.$on('$translatePartialLoaderStructureChanged', $translate.refresh);
+        $rootScope.$on('$translatePartialLoaderStructureChanged', () => $translate.refresh());
     }])
     .controller('moController', RootController)
     .controller('moHomeController', HomeController)
