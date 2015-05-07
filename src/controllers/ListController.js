@@ -1,9 +1,9 @@
 
 "use strict";
 
-import {DataController} from './DataController';
+import {CrudController} from './CrudController';
 
-class ListController extends DataController {
+class ListController extends CrudController {
 
     constructor(...args) {
         super(...args);
