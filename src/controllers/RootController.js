@@ -58,25 +58,6 @@ class RootController {
         this.Authentication.logout().success(() => loc.path('/' + this.language + '/login/'));
     }        
 
-    path(controller, params = {}) {
-        params.language = params.language || this.language;
-        for (let path in route.routes) {
-            let pathController = route.routes[path].controller;
-            if (pathController == controller) {
-                let result = path;
-                for (let param in params) {
-                    result = result.replace(':' + param, params[param]);
-                }
-                return '#' + result.replace(/^#/, '');
-            }
-        }
-        let result = controller;
-        for (let param in params) {
-            result = result.replace(':' + param, params[param]);
-        }
-        return '#' + result.replace(/^#/, '');
-    }
-
     url() {
         return loc.path();
     }
@@ -91,7 +72,7 @@ class RootController {
 <div class="modal-header">
     <h3 class="modal-title">{{'monad.license' | translate}}</h3>
 </div>
-<div class="modal-body" ng-include="'monad/LICENSE'"></div>
+<div class="modal-body" ng-include="'monad/src/license.html'"></div>
 <div class="modal-footer">
     <button class="btn btn-primary" ng-click="ok()">OK</button>
 </div>`,
