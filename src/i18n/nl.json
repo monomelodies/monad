@@ -20,6 +20,7 @@
             "go": "Inloggen"
         },
         "logout": "Uitloggen",
-        "nothing": "Helaas, niks gevonden."
+        "nothing": "Helaas, niks gevonden.",
+        "license": "Licentie"
     }
 }

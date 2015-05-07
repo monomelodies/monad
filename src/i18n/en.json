@@ -20,6 +20,7 @@
             "go": "Login"
         },
         "logout": "Logout",
-        "nothing": "Sorry, nothing found."
+        "nothing": "Sorry, nothing found.",
+        "license": "License"
     }
 }
