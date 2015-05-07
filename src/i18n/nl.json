@@ -21,6 +21,12 @@
         },
         "logout": "Uitloggen",
         "nothing": "Helaas, niks gevonden.",
-        "license": "Licentie"
+        "license": "Licentie",
+        "delete": {
+            "title": "Wilt u dit verwijderen?",
+            "body": "Dit kan niet ongedaan gemaakt worden, dus even bevestigen graag...",
+            "ok": "Ja, ik weet het zeker",
+            "cancel": "Oei, nee..."
+        }
     }
 }
