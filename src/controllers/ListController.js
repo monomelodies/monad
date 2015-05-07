@@ -26,7 +26,6 @@ class ListController {
     }
 
     set page(page) {
-        console.log(page);
         this._page = page;
         while (this.items.length) {
             this.items.pop();
