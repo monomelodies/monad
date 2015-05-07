@@ -8,7 +8,7 @@ describe('directive: mo-list-table', () => {
     let scope;
     let compile;
     let items = [{id: 1, txt: 'foo'}, {id: 2, txt: 'bar'}];
-    let tpl = angular.element(`<mo-list-table module="'test'" items="items" columns="['id', 'txt']"></mo-list-table>`);
+    let tpl = angular.element(`<mo-list-table list="{module: 'test', items: items}" columns="['id', 'txt']"></mo-list-table>`);
 
     beforeEach(angular.mock.module('TEMPLATES'));
     beforeEach(angular.mock.module(Monad));
