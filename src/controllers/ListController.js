@@ -25,6 +25,10 @@ class ListController {
         this.page = params.page || 1;
     }
 
+    reload() {
+        route.reload();
+    }
+
     get page() {
         return this._page;
     }
