@@ -7,7 +7,7 @@ module.exports = function(config) {
         'dist/libraries.js',
         'bower_components/ckeditor/ckeditor.js',
         'node_modules/angular-mocks/angular-mocks.js',
-        'tests/**/*.js',
+        'tests/**/*.spec.js',
         '**/*.html'
     ],
     ngHtml2JsPreprocessor: {
