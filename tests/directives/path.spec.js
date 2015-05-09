@@ -1,7 +1,7 @@
 
 "use strict";
 
-import {default as Monad} from '../../angular';
+import {default as setup} from '../setup';
 
 describe('directive: mo-path', () => {
     let element;
@@ -10,8 +10,6 @@ describe('directive: mo-path', () => {
     let items = [{id: 1, txt: 'foo'}, {id: 2, txt: 'bar'}];
     let tpl = angular.element(`<a mo-path="path" arguments="{foo: 'bar'}">{{txt}}</a>`);
 
-    beforeEach(angular.mock.module('TEMPLATES'));
-    beforeEach(angular.mock.module(Monad));
     beforeEach(inject(($rootScope, $compile, $routeParams) => {
         $routeParams.language = 'en';
         scope = $rootScope;
