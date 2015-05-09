@@ -35,6 +35,7 @@ function config($translateProvider, $translatePartialLoaderProvider, $routeProvi
         urlTemplate: '{part}/i18n/{lang}.json'
     });
     $translateProvider.preferredLanguage('en');
+    $translatePartialLoaderProvider.addPart('monad/src');
 };
 
 angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ckeditor', 'ngSanitize', 'ngFileUpload', 'ui.bootstrap'])
