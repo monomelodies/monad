@@ -9,7 +9,7 @@ let modal;
 
 class RootController {
 
-    constructor($location, $rootScope, $route, $translate, $translatePartialLoader, Authentication, Navigation, $modal) {
+    constructor($location, $rootScope, $route, $translate, Authentication, Navigation, $modal) {
         loc = $location;
         auth = Authentication;
         nav = Navigation;
@@ -43,7 +43,6 @@ class RootController {
             $translate.use(this.language);
         });
         route = $route;
-        $translatePartialLoader.addPart('monad/src');
     }
 
     get Authentication() {
@@ -84,7 +83,7 @@ class RootController {
 
 };
 
-RootController.$inject = ['$location', '$rootScope', '$route', '$translate', '$translatePartialLoader', 'moAuthentication', 'moNavigation', '$modal'];
+RootController.$inject = ['$location', '$rootScope', '$route', '$translate', 'moAuthentication', 'moNavigation', '$modal'];
 
 export {RootController};
 
