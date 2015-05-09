@@ -1,14 +1,12 @@
 
 "use strict";
 
-import {default as Monad} from './../angular';
+import {default as setup} from './setup';
 
 describe("Main entry point for Monad", () => {
 
-    beforeEach(angular.mock.module(Monad));
-
     it("Loads", () => {
-        expect(Monad).toBe('monad.core');
+        expect(setup.Monad).toBe('monad.core');
     });
 
     /*
