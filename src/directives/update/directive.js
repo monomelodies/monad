@@ -8,8 +8,7 @@ export default () => {
             save: '&onSave',
             item: '=',
             module: '=',
-            list: '=',
-            action: '='
+            list: '='
         }
     };
 };
