@@ -25,14 +25,14 @@ class CrudController {
         }
     }
 
-    save(item) {
+    save() {
         let result;
-        if (item.$new) {
-            result = this.Manager.create(item);
-        } else if (item.$deleted) {
-            result = this.Manager['delete'](item);
-        } else if (item.$dirty) {
-            result = this.Manager.update(item);
+        if (this.item.$new) {
+            result = this.Manager.create(this.item);
+        } else if (this.item.$deleted) {
+            result = this.Manager['delete'](this.item);
+        } else if (this.item.$dirty) {
+            result = this.Manager.update(this.item);
         }
         if (result) {
             result.success(this.reload);
