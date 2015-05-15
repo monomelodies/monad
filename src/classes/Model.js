@@ -7,10 +7,18 @@ class Model {
         this.$data = {};
         this.$fields = [];
         this.$deleted = false;
+        this.$new = true;
+    }
+
+    $create(data = {}, recursive = true) {
+        let result = (new this.constructor()).$load(data, recursive);
+        result.$new = true;
+        return result;
     }
 
     $load(data = {}, recursive = true) {
         this.$initial = data;
+        this.$new = false;
         for (let key in data) {
             var props = {enumerable: true, configurable: true};
             if (!this.hasOwnProperty(key)) {
@@ -54,10 +62,6 @@ class Model {
                 this.$initial[field] = this.$data[field];
             }
         }
-    }
-
-    get $new() {
-        return !('id' in this.$data && this.$data.id);
     }
 
     get $dirty() {
