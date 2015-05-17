@@ -6,14 +6,24 @@ var minifyCss = require('gulp-minify-css');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 
+var bootstrap = [
+    './bower_components/bootstrap/dist/css/bootstrap.min.css',
+    './bower_components/bootstrap/dist/css/bootstrap-theme.min.css'
+];
 gulp.task('styles', function() {
-    gulp.src('./src/_sass/default.scss').
-         pipe(compass({
+
+    gulp.src(bootstrap)
+        .pipe(concat('bootstrap.css'))
+        .pipe(gulp.dest('dist'));
+
+    gulp.src('./src/_sass/default.scss')
+        .pipe(compass({
             css: 'dist',
             sass: 'src/_sass'
-         })).
-         pipe(minifyCss()).
-         pipe(gulp.dest('dist'));
+        }))
+        .pipe(minifyCss())
+        .pipe(gulp.dest('dist'));
+
 });
 
 var scripts = [
@@ -31,15 +41,19 @@ var scripts = [
     './bower_components/autofill-event/src/autofill-event.js'
 ];
 gulp.task('scripts', function() {
-    gulp.src(scripts).
-         pipe(concat('libraries.js')).
-         pipe(uglify()).
-         pipe(gulp.dest('dist'));
+
+    gulp.src(scripts)
+        .pipe(concat('libraries.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('dist'));
+
 });
 
 gulp.task('watch', function() {
-    gulp.watch('src/_sass/**/*.scss', ['styles']);
+
+    gulp.watch(bootstrap.concat(['./src/_sass/**/*.scss'], ['styles']));
     gulp.watch(scripts, ['scripts']);
+
 });
 
 gulp.task('default', ['styles', 'scripts', 'watch']);
