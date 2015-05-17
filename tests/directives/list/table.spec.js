@@ -8,7 +8,7 @@ describe('directive: mo-list-table', () => {
     let scope;
     let compile;
     let items = [{id: 1, txt: 'foo'}, {id: 2, txt: 'bar'}];
-    let tpl = angular.element(`<mo-list-table list="{module: 'test', items: items}" columns="['id', 'txt']"></mo-list-table>`);
+    let tpl = angular.element(`<mo-list-table total="1" page="page" rows="items" columns="['id', 'txt']"></mo-list-table>`);
 
     beforeEach(inject(($rootScope, $compile) => {
         scope = $rootScope;
@@ -18,8 +18,7 @@ describe('directive: mo-list-table', () => {
     it('should insert the table into the element', () => {
         scope.$apply(() => {
             scope.items = items;
-            scope.erm = 'bla';
-            scope.table = {items};
+            scope.page = 1;
         });
         element = compile(tpl)(scope);
         scope.$digest();
