@@ -7,6 +7,9 @@ export default $http => {
     $http.defaults.headers.post["Content-Type"] = 'application/x-www-form-urlencoded;charset=utf-8';
     
     // http://victorblog.com/2012/12/20/make-angularjs-http-service-behave-like-jquery-ajax/
+    // Note that the original function as referenced above silently drops empty
+    // values (null or undefined). We actually want those to be posted, but as
+    // an empty value, so lines 35 to 37 handle that.
     function param(obj) {
         var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
         for (name in obj) {
