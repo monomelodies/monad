@@ -16,13 +16,42 @@ to place all our files in. By convention, we create an entry point called
     "use strict";
     angular.module('foobar', ['ng']); // <- define custom stuff here
 
-The dependency on `ng` is 'to be on the safe side'. It should be automatic,
-but in our experience isn't always injected by Angular. Since it can't hurt to
-explicitly depend on it, just do it already. It might save you some head
-scratching.
+> The dependency on `ng` is 'to be on the safe side'. It should be automatic,
+> but in our experience isn't always injected by Angular. Since it can't hurt to
+> explicitly depend on it, just do it already. It might save you some head
+> scratching.
 
-On your module, define services (models and repositories), controllers and
-perhaps directives or filters or whatever you'll need.
+## Managers
+A core concept in a Monad admin is the `Manager`. A "manager" is like a super
+object handling all module-specific retreiving and storing of data. You can
+think of it as an interface between Monad and whatever backend you're using.
+
+ECMAScript lacks interfaces, but Monad assumes a manager adheres to the
+following specifications:
+
+    class Manager {
+    
+        list(options = {}) {
+            // Returns array of models
+        }
+
+        find(params) {
+            // Returns promise yielding models found using params (taken
+            // from $routeParams)
+        }
+
+        create(item) {
+            // Create item (which is a Model), return promise.
+        }
+
+        update(item) {
+            // Update existing item Model, return promise.
+        }
+
+        delete(item) {
+            // Delete existing item Model, return promise.
+        }
+
 
 ## Models
 Each 'entity' of data in a module is generally represented by a 'model'. Monad
@@ -34,6 +63,18 @@ can see a model object as a representation of a single database row.
 > a NoSQL database, an Excel file, flat JSON or a random Google query. The
 > point is, each 'item' is represented by a single model.
 
+The model itself is _not_ an object in the Angular-sense; it is pure EcmaScript.
+Apart from advantages induced by Angular itself (services are singletons,
+whereas models by definition aren't) this also forces you to keep any logic out
+of the models. They are data containers and should not be concerned with any
+`$http`-like operations or any other external service.
+
+> In rare cases, of course, this might be necassary. That's fine; either just
+>> write vanilla Javascript, or update your manager to handle it.
+
+## Linking managers and models
+Monad assumes a manager has a `model` property, that contains the model
+_prototype_. This is utilised for CRUD creation.
 Since Angular services are _singletons_, a model should define a static factory
 method to create instances for every row in a set:
 
