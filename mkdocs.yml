@@ -3,6 +3,7 @@ site_name: Monad CMS
 pages:
 - [index.md, Overview, Home]
 - [overview/entry.md, Overview, Defining an entry point]
+- [overview/index.md, Overview, Exposing index.html and assets]
 - [overview/authentication.md, Overview, Authentication]
 
 - [modules/index.md, Modules, Introduction]
