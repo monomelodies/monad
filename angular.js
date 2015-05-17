@@ -6,12 +6,13 @@ import {HomeController} from './src/controllers/HomeController';
 import {LoginController} from './src/controllers/LoginController';
 import {Navigation} from './src/services/Navigation';
 import {default as normalizePost} from './src/helpers/post';
-import {default as listHeader} from './src/directives/list/header/directive';
-import {default as listTable} from './src/directives/list/table/directive';
+import {default as ListHeader} from './src/directives/list/header/directive';
+import {default as ListTable} from './src/directives/list/table/directive';
 import {default as Path} from './src/directives/path/directive';
 import {default as Field} from './src/directives/field/directive';
 import {default as Update} from './src/directives/update/directive';
 import {default as Draggable} from './src/directives/draggable/directive';
+import {default as List} from './src/directives/list';
 
 let ngModule = 'monad.core';
 
@@ -47,8 +48,9 @@ angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ckeditor',
     .controller('moController', RootController)
     .controller('moHomeController', HomeController)
     .service('moNavigation', Navigation)
-    .directive('moListHeader', listHeader)
-    .directive('moListTable', listTable)
+    .directive('moList', List)
+    .directive('moListHeader', ListHeader)
+    .directive('moListTable', ListTable)
     .directive('moPath', Path)
     .directive('moField', Field)
     .directive('moUpdate', Update)
