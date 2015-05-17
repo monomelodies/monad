@@ -7,8 +7,8 @@ export default () => {
         scope: {
             save: '&onSave',
             item: '=',
-            module: '=',
-            list: '='
+            module: '@',
+            list: '@'
         }
     };
 };
