@@ -42,6 +42,9 @@ var scripts = [
 ];
 gulp.task('scripts', function() {
 
+    gulp.src('./bower_components/ckeditor/**/*.*', {base: './bower_components'})
+        .pipe(gulp.dest('./dist/'));
+
     gulp.src(scripts)
         .pipe(concat('libraries.js'))
         .pipe(uglify())
@@ -51,8 +54,8 @@ gulp.task('scripts', function() {
 
 gulp.task('watch', function() {
 
-    gulp.watch(bootstrap.concat(['./src/_sass/**/*.scss'], ['styles']));
-    gulp.watch(scripts, ['scripts']);
+    gulp.watch(bootstrap.concat(['./src/_sass/**/*.scss']), ['styles']);
+    gulp.watch(scripts.concat(['./bower_components/ckeditor/**/*.*']), ['scripts']);
 
 });
 
