@@ -3,9 +3,9 @@ Browserify will use to bundle all modules from. To be ready for ES6-capable
 browsers, we recommend to make your entire `admin` source code (including
 Monad itself) publicly available.
 
-    > Since Monad is just a bunch of Javascript, this shouldn't matter; if your
-    > Javascript contains something super-secret you're Doing It Wrong(tm)
-    > anyway.
+> Since Monad is just a bunch of Javascript, this shouldn't matter; if your
+> Javascript contains something super-secret you're Doing It Wrong(tm)
+> anyway.
 
 The _entry point_ loads everything you need - Monad, your project-specific
 modules and any external plugin modules you might want to use.
@@ -13,13 +13,15 @@ modules and any external plugin modules you might want to use.
 Let's assume our project is called `FooBar`, so `./httpdocs/admin/foobar.js`
 would make a good entry point.
 
-    > The name is irrelevant; it's just the starter file the Browserify call in
-    > your build script needs to know about.
+> The name is irrelevant; it's just the starter file the Browserify call in
+> your build script needs to know about.
 
     // ./httpdocs/admin/foobar.js
     // Note: in all subsequent examples `./httpdocs/admin` will be implied.
     "use strict";
-    import {default as Monad} from './monad/monad';
+    // Note: this should point to Monad's installation path, relative to your
+    // entry point. Change accordingly if your structure is different.
+    import {default as Monad} from './monad/angular';
     var admin = angular.module('monad', [Monad]);
     // Now, register stuff on `admin`
 
