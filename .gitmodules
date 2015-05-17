@@ -1,6 +1,0 @@
-[submodule "vendor/formalize"]
-	path = vendor/formalize
-	url = https://github.com/nathansmith/formalize.git
-[submodule "vendor/ckeditor"]
-	path = vendor/ckeditor
-	url = https://github.com/ckeditor/ckeditor-dev.git
