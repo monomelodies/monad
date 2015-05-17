@@ -8,7 +8,7 @@ export default () => {
         scope: {list: '=', columns: '@', path: '@'},
         controller,
         link: (scope, elem, attrs) => {
-            scope.columns = scope.eval(attrs.columns);
+            scope.columns = scope.$eval(attrs.columns);
         },
         bindToController: true
     };
