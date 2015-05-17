@@ -29,6 +29,8 @@ export default $http => {
                 }
             } else if (value !== undefined && value !== null) {
                 query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
+            } else {
+                query += encodeURIComponent(name) + '=&';
             }
         }
         return query.length ? query.substr(0, query.length - 1) : query;
