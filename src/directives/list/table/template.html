@@ -1,4 +1,4 @@
-<div ng-if="list.items && list.items.length">
+<div ng-if="rows && rows.length">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -8,7 +8,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr m-list-row="item" ng-repeat="item in list.items" ng-if="!item.$deleted">
+            <tr m-list-row="item" ng-repeat="item in rows" ng-if="!item.$deleted">
                 <td ng-repeat="column in columns">
                     <a mo-path="path" arguments="item">{{item[column]}}</a>
                 </td>
@@ -16,10 +16,10 @@
         </tbody>
     </table>
     <div class="text-center">
-        <pagination total-items="list.Manager.count" ng-model="list.page" boundary-links="true" max-size="10"></pagination>
+        <pagination total-rows="total" ng-model="page" boundary-links="true" max-size="10"></pagination>
     </div>
 </div>
-<div ng-if="!(list.items && list.items.length)">
+<div ng-if="!(rows && rows.length)">
     <alert type="warning">{{'monad.nothing' | translate}}</alert>
 </div>
 
