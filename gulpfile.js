@@ -16,6 +16,9 @@ gulp.task('styles', function() {
         .pipe(concat('bootstrap.css'))
         .pipe(gulp.dest('dist'));
 
+    gulp.src('./bower_components/bootstrap/dist/fonts/**/*.*', {base: './bower_components/bootstrap/dist'})
+        .pipe(gulp.dest('./'));
+
     gulp.src('./src/_sass/default.scss')
         .pipe(compass({
             css: 'dist',
