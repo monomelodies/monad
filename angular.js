@@ -6,13 +6,7 @@ import {HomeController} from './src/controllers/HomeController';
 import {LoginController} from './src/controllers/LoginController';
 import {Navigation} from './src/services/Navigation';
 import {default as normalizePost} from './src/helpers/post';
-import {default as ListHeader} from './src/directives/list/header/directive';
-import {default as ListTable} from './src/directives/list/table/directive';
-import {default as Path} from './src/directives/path/directive';
-import {default as Field} from './src/directives/field/directive';
-import {default as Update} from './src/directives/update/directive';
-import {default as Draggable} from './src/directives/draggable/directive';
-import {default as List} from './src/directives/list';
+import {default as Directives} from './src/directives/angular';
 
 let ngModule = 'monad.core';
 
@@ -39,7 +33,7 @@ function config($translateProvider, $translatePartialLoaderProvider, $routeProvi
     $translatePartialLoaderProvider.addPart('monad/src');
 };
 
-angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ckeditor', 'ngSanitize', 'ngFileUpload', 'ui.bootstrap'])
+angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ckeditor', 'ngSanitize', 'ngFileUpload', 'ui.bootstrap', Directives])
     .config(['$translateProvider', '$translatePartialLoaderProvider', '$routeProvider', '$locationProvider', config])
     .run(['$http', '$rootScope', '$translate', ($http, $rootScope, $translate) => {
         normalizePost($http);
@@ -48,13 +42,6 @@ angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ckeditor',
     .controller('moController', RootController)
     .controller('moHomeController', HomeController)
     .service('moNavigation', Navigation)
-    .directive('moList', List)
-    .directive('moListHeader', ListHeader)
-    .directive('moListTable', ListTable)
-    .directive('moPath', Path)
-    .directive('moField', Field)
-    .directive('moUpdate', Update)
-    .directive('moDraggable', Draggable)
 ;
 
 export default ngModule;
