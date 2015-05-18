@@ -28,14 +28,6 @@ class Module {
         return this;
     }
 
-    create(url, options = {}, resolve = {}) {
-        // This is basically the same, but with a different URL and possible
-        // (usually) perhaps less resolves (i.e. because we don't have a foreign
-        // key yet to link stuff to).
-        this.update(url, options, resolve);
-        return this;
-    }
-
     update(url, options = {}, resolve = {}) {
         // Defaults for options:
         options.controller = options.controller || CrudController;
@@ -131,7 +123,6 @@ function normalize(prefix, name) {
     return prefix + name.substring(0, 1).toUpperCase() + name.substring(1);
 };
 /** }}} */
-console.log('exporting?');
 
 export {Module};
 
