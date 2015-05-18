@@ -71,7 +71,7 @@ class RootController {
 <div class="modal-header">
     <h3 class="modal-title">{{'monad.license' | translate}}</h3>
 </div>
-<div class="modal-body" ng-include="'monad/src/license.html'"></div>
+<div class="modal-body" ng-include="'../monad/license.html'"></div>
 <div class="modal-footer">
     <button class="btn btn-primary" ng-click="ok()">OK</button>
 </div>`,

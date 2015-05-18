@@ -5,7 +5,7 @@ class HomeController
 {
     constructor($http)
     {
-        this.dashboard = 'monad/src/templates/dashboard.html';
+        this.dashboard = '../monad/templates/dashboard.html';
     }
 }
 

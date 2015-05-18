@@ -5,7 +5,7 @@ export default () => {
     return {
         require: '^moList',
         restrict: 'E',
-        templateUrl: 'monad/src/directives/list/table/template.html',
+        templateUrl: '../monad/directives/list/table/template.html',
         scope: {rows: '=', path: '@', total: '@', page: '='},
         controller,
         link: (scope, elem, attrs, ctrl) => {

@@ -10,7 +10,7 @@ class Fieldset {
         this.controllerAs = 'fieldset';
         this.bindToController = true;
         this.transclude = true;
-        this.templateUrl = 'monad/src/fieldset.html';
+        this.templateUrl = '../monad/fieldset.html';
     }
 
     get controller() {
