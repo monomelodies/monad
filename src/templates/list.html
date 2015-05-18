@@ -1,6 +1,6 @@
 <div class="container-fluid" mo-list module="{{list.module}}">
     <mo-list-header create="/:language/project/create/"></mo-list-header>
-    <mo-list-table rows="list.items" page="list.page" columns="['id', 'title', 'location']" path="/:language/project/:id/"></mo-list-table>
+    <mo-list-table rows="list.items" page="list.page" columns="columns" path="/:language/project/:id/"></mo-list-table>
     <div class="text-center" ng-if="list.Manager.count > 10">
         <pagination total-items="list.Manager.count" ng-model="list.page" boundary-links="true" max-size="10"></pagination>
     </div>
