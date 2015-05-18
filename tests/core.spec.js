@@ -1,13 +1,7 @@
 
 "use strict";
 
-import {default as setup} from './setup';
-
 describe("Main entry point for Monad", () => {
-
-    it("Loads", () => {
-        expect(setup.Monad).toBe('monad.core');
-    });
 
     /*
     describe("Monad module handling", () => {
