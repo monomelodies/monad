@@ -1,6 +1,7 @@
 
 "use strict";
 
+import {Monad} from './Monad';
 import {RootController} from './controllers/RootController';
 import {HomeController} from './controllers/HomeController';
 import {LoginController} from './controllers/LoginController';
@@ -43,6 +44,8 @@ angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ckeditor',
     .controller('moHomeController', HomeController)
     .service('moNavigation', Navigation)
 ;
+
+window.monad = new Monad();
 
 export default ngModule;
 
