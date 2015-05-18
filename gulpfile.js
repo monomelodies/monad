@@ -93,8 +93,8 @@ gulp.task('expose', function() {
         .pipe(watch('./assets/**/*.png', {base: './assets'}))
         .pipe(gulp.dest('./dist'));
 
-    gulp.src('./src/**/*.(html|json)', {base: './src'})
-        .pipe(watch('./src/**/*.(html|json)', {base: './src'}))
+    gulp.src('./src/**/*.{html,json}', {base: './src'})
+        .pipe(watch('./src/**/*.{html,json}', {base: './src'}))
         .pipe(gulp.dest('./dist'));
 
 });
