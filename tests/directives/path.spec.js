@@ -1,8 +1,6 @@
 
 "use strict";
 
-import {default as setup} from '../setup';
-
 describe('directive: mo-path', () => {
     let element;
     let scope;

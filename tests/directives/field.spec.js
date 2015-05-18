@@ -1,8 +1,6 @@
 
 "use strict";
 
-import {default as setup} from '../setup';
-
 describe('directive: mo-field', () => {
     let element;
     let scope;
