@@ -77,7 +77,7 @@ b.on('log', gutil.log);
 gulp.task('expose', function() {
 
     gulp.src(scripts)
-        .pipe(concat('libraries'))
+        .pipe(concat('libraries.js'))
         .pipe(uglify())
         .pipe(gulp.dest('./dist'));
 
