@@ -24,7 +24,7 @@ class RootController {
         this.language = 'en';
         this.paths = {
             root: '/monad/',
-            theme: 'monad/dist/default.css'
+            theme: '../monad/default.css'
         };
         this.Navigation.register('main', '/', 'Site');
         $rootScope.$on('$routeChangeStart', () => this.Authentication.read().success(result => {
