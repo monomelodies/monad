@@ -1,37 +1,66 @@
 Your admin application will need an entry point. This is the main script that
-Browserify will use to bundle all modules from. To be ready for ES6-capable
-browsers, we recommend to make your entire `admin` source code (including
-Monad itself) publicly available.
+Monad loads by default, after including libraries and its own bundle.
 
-> Since Monad is just a bunch of Javascript, this shouldn't matter; if your
-> Javascript contains something super-secret you're Doing It Wrong(tm)
-> anyway.
+It's simple, really: assuming your admin lives in `/admin`, put your code in
+`/admin/bundle.js` (or generate that file, see the section on build scripts).
 
-The _entry point_ loads everything you need - Monad, your project-specific
-modules and any external plugin modules you might want to use.
+## Main entry point
+Monad assumes an Angular module called (unsurprisingly) `monad`. There is a
+global object `monad` which "extends" the global `angular` object. Hence, to
+define your main application's entry point (e.g. in `./src/admin/foobar.js`, the
+actual filename is irrelevant as long as it transpiles to
+`./httpdocs/admin/bundle.js`) you would simply do the following:
 
-Let's assume our project is called `FooBar`, so `./httpdocs/admin/foobar.js`
-would make a good entry point.
+    monad.application(app, [...optionalDependencies], configFn).config(configFn);
 
-> The name is irrelevant; it's just the starter file the Browserify call in
-> your build script needs to know about.
+> `Monad.application` works as `Monad.module`, except the module name is implied
+> to be `monad`.
 
-    // ./httpdocs/admin/foobar.js
-    // Note: in all subsequent examples `./httpdocs/admin` will be implied.
-    "use strict";
-    // Note: this should point to Monad's installation path, relative to your
-    // entry point. Change accordingly if your structure is different.
-    import {default as Monad} from './monad/angular';
-    var admin = angular.module('monad', [Monad]);
-    // Now, register stuff on `admin`
+The 'app' is a random name for your application; in this manual we'll use
+'foobar'. It's sort of a namespace, as far as ECMAScript and Angular allow that.
 
-Monad assumes it lives in an _AngularJS_ module called `monad`. The default
-prefix used is `mo`, e.g. `mo-a-directive` or `moActionController`. It is good
-practice to also prefix your custom components; for the `FooBar` demo we might
-use `foobar` or `fb`.
+> In a real-world application, of course you'd configurate a module either with
+> the third argument, or by manually calling `config`. Both are allowed.
 
-The dependency on `Monad` is required, since that's the module Monad uses
-internally to register stuff against. You should extend this with your custom
-modules, as we'll see in the `Modules` section. The import is really just a
-string with the module name (`monad.core`, if you must know) but this way you
-won't need to remember it.
+## Adding modules
+Of course, you'll want to separate your admin code into modules (in the Angular,
+ES6 and Monad sense). For this, use `monad.module`, which takes an app name plus
+the same arguments as `angular.module`, but returns a `Module` object instead:
+
+    monad.module('foobar', 'foo', [...optionalDependencies], configFn).config(configFn);
+    monad.module('foobar', 'bar', [...optionalDependencies], configFn).config(configFn);
+    // etc.
+
+Note that when using modules, the call to `monad.application` must list them as
+dependencies. The order in which you do this, like with `angular.module`, is
+unimportant.
+
+## Getting stuff done
+Obviously you'll also need your modules to _do_ something. Monad extends the
+default Angular module with some handy methods for that:
+
+    monad.module('foobar', 'foo')
+        .manager(Manager)
+        .list(url, options, resolve)
+        .update(url, options, resolve);
+
+These utility methods are explained in more depth in subsequent chapters, but
+the important parts are:
+
+- A "manager" is your custom class that handles actual data operations (usually
+  via an API);
+- The `list` method registers code to list items;
+- The `update` method registers code to create or update items.
+
+"No `delete`", I hear you think? Nope; that's an API operation and does not
+require any special handling (your Manager of course must handle it).
+
+The `options` and `resolve` objects are passed - augmented with defaults - to
+Angular's `$routeProvider.when` method. The `url` parameter is prefixed with
+`/:language` for convenience.
+
+The Manager is registered under `prefixModulenameManager` for future reference.
+Capitalization is handled in a basic manner, i.e. you don't have to capitalize
+your module. Ergo, a prefix `foobar` with module name `baz` will result in a
+`foobarBazManager`.
+
