@@ -54,7 +54,7 @@ var scripts = [
 ];
 
 var customopts = {
-    entries: scripts.concat(['./angular.js']),
+    entries: './src/angular.js',
     debug: true
 };
 var opts = assign({}, watchify.args, customopts);
@@ -75,12 +75,21 @@ b.on('update', bundle);
 b.on('log', gutil.log);
 
 gulp.task('expose', function() {
+
+    gulp.src(scripts)
+        .pipe(concat('libraries'))
+        .pipe(uglify())
+        .pipe(gulp.dest('./dist'));
+
     gulp.src('./bower_components/ckeditor/**/*.*', {base: './bower_components'})
         .pipe(gulp.dest('./dist'));
+
     gulp.src('./assets/**/*.png', {base: './assets'})
         .pipe(gulp.dest('./dist'));
-    gulp.src('./src/**/*.html', {base: './src'})
+
+    gulp.src(['./src/**/*.html', './src/**/*.json'], {base: './src'})
         .pipe(gulp.dest('./dist'));
+
 });
 
 /*
@@ -117,7 +126,7 @@ gulp.task('bundle', function() {
 gulp.task('watch', function() {
 
     gulp.watch(bootstrap.concat(['./src/_sass/**/*.scss']), ['styles']);
-    gulp.watch(scripts.concat(['./bower_components/ckeditor/**/*.*', './src/**/*.html', './assets/**/*.png']), ['expose']);
+    gulp.watch(scripts.concat(['./bower_components/ckeditor/**/*.*', './src/**/*.html', './src/**/*.json', './assets/**/*.png']), ['expose']);
 
 });
 
