@@ -122,7 +122,7 @@ class Module {
  * {{{
  */
 function addTarget(name, url, options = {}, resolve = {}) {
-    resolve.module = resolve.module || () => this.name;
+    resolve.module = resolve.module || function() { return this.name; };
     let then = {options, resolve};
     registeredModules[name].config(['$routeProvider', $routeProvider => $routeProvider.when('/:language' + url, then)]);
 };
