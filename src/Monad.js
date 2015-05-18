@@ -1,7 +1,6 @@
 
 "use strict";
 
-console.log('importing?');
 import {Module} from './classes/Module';
 
 let ngmod;
