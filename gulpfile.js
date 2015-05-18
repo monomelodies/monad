@@ -1,10 +1,16 @@
 
 var gulp = require('gulp');
+var concat = require('gulp-concat');
 var watch = require('gulp-watch');
+var babel = require('gulp-babel');
+var browserify = require('browserify');
+var transform = require('vinyl-transform');
+var uglify = require('gulp-uglify');
 var compass = require('gulp-compass');
 var minifyCss = require('gulp-minify-css');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
+var babelify = require('babelify');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 
 var bootstrap = [
     './bower_components/bootstrap/dist/css/bootstrap.min.css',
@@ -43,7 +49,7 @@ var scripts = [
     './bower_components/angular-sanitize/angular-sanitize.js',
     './bower_components/autofill-event/src/autofill-event.js'
 ];
-gulp.task('scripts', function() {
+gulp.task('libraries', function() {
 
     gulp.src('./bower_components/ckeditor/**/*.*', {base: './bower_components'})
         .pipe(gulp.dest('./dist/'));
@@ -51,16 +57,35 @@ gulp.task('scripts', function() {
     gulp.src(scripts)
         .pipe(concat('libraries.js'))
         .pipe(uglify())
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('./dist'));
 
+});
+
+gulp.task('bundle', function() {
+
+    browserify({
+        entries: './angular.js',
+        debug: true
+    })
+    .transform(babelify)
+    .bundle()
+    .pipe(source('monad.js'))
+    .pipe(buffer())
+    .pipe(uglify())
+    .pipe(gulp.dest('./dist'))
+    .on('error', function(err) {
+        console.error('' + err);
+    });
+    
 });
 
 gulp.task('watch', function() {
 
     gulp.watch(bootstrap.concat(['./src/_sass/**/*.scss']), ['styles']);
     gulp.watch(scripts.concat(['./bower_components/ckeditor/**/*.*']), ['scripts']);
+    gulp.watch('./src/**/*.js', ['bundle']);
 
 });
 
-gulp.task('default', ['styles', 'scripts', 'watch']);
+gulp.task('default', ['styles', 'libraries', 'bundle', 'watch']);
 
