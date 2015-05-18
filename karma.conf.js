@@ -4,25 +4,26 @@ module.exports = function(config) {
     basePath: '',
     frameworks: ['browserify', 'jasmine'],
     files: [
+        'dist/ckeditor/ckeditor.js',
+        'dist/libraries.js',
         'dist/bundle.js',
-        'bower_components/ckeditor/ckeditor.js',
         'node_modules/angular-mocks/angular-mocks.js',
+        'tests/setup.js',
         'tests/**/*.spec.js',
-        '**/*.html'
+        'src/**/*.html'
     ],
     ngHtml2JsPreprocessor: {
         moduleName: 'TEMPLATES',
-        prependPrefix: 'monad/'
+        stripPrefix: 'src\/',
+        prependPrefix: '../monad/'
     },
     exclude: [
     ],
     preprocessors: {
-        'tests/**/*.js': ['browserify'],
-        '**/*/*.html': ['ng-html2js']
+        'tests/**/*.js': ['babel'],
+        'src/**/*.html': ['ng-html2js']
     },
-    browserify: {
-        debug: true,
-        transform: ['babelify']
+    babelPreprocessor: {
     },
     reporters: ['progress'],
     port: 9876,
@@ -33,3 +34,4 @@ module.exports = function(config) {
     singleRun: true
   });
 };
+
