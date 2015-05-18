@@ -76,6 +76,9 @@ gulp.task('bundle', function() {
     .on('error', function(err) {
         console.error('' + err);
     });
+
+    gulp.src('./src/**/*.html', {base: './src'})
+        .pipe(gulp.dest('./dist'));
     
 });
 
