@@ -92,37 +92,6 @@ gulp.task('expose', function() {
 
 });
 
-/*
-gulp.task('bundle', function() {
-    
-
-
-    gulp.src(scripts)
-        .pipe(concat('libraries.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest('./dist'));
-
-});
-
-gulp.task('bundle', function() {
-
-    browserify({
-        entries: './angular.js',
-        debug: true
-    })
-    .transform(babelify)
-    .bundle()
-    .pipe(source('monad.js'))
-    .pipe(buffer())
-    .pipe(uglify())
-    .pipe(gulp.dest('./dist'))
-    .on('error', function(err) {
-        console.error('' + err);
-    });
-    
-});
-*/
-
 gulp.task('watch', function() {
 
     gulp.watch(bootstrap.concat(['./src/_sass/**/*.scss']), ['styles']);
