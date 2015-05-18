@@ -24,6 +24,14 @@ class Module {
 
         // Defaults for resolve:
         resolve.Manager = resolve.Manager || [normalize(this.prefix, name) + 'Manager', Manager => Manager];
+
+        // It's easier if we can specify 'columns' on the options:
+        if ('columns' in options) {
+            let columns = options.columns;
+            resolve.columns = () => columns;
+            delete options.columns;
+        }
+
         addTarget(this.name, url, options, resolve);
         return this;
     }
