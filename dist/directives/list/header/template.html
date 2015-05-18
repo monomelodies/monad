@@ -1,0 +1,9 @@
+<h1 class="clearfix">
+    <a ng-if="create"
+        class="glyphicon glyphicon-plus-sign pull-right"
+        title="{{'monad.data.create' | translate}}"
+        mo-path="create"></a>
+    <span ng-transclude></span>
+    {{module + '.$list' | translate}}
+</h1>
+

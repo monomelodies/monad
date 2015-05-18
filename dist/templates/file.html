@@ -1,0 +1,12 @@
+<div ng-controller="monad.Data.UploadController as upload" ng-switch="upload.state">
+    <div ng-switch-when="select">
+        <label for="frm-{{field}}">{{data.app + '.' + field | translate}}</label>
+        <input id="frm-{{field}}" type="file" ng-file-select ng-file-change="upload.state = 'progress'; data.Model[field] = $files">
+    </div>
+    <div ng-switch-when="progress" class="progress">
+        <progress max="100" value="{{progress}}" class="progress-bar">
+            <span class="sr-only">{{progress}}%</span>
+        </progress>
+    </div>
+</div>
+

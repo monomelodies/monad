@@ -1,0 +1,61 @@
+<div class="container-fluid">
+    <h1 class="clearfix">
+        <a ng-if="data.Repository.create"
+            class="glyphicon glyphicon-plus-sign pull-right"
+            title="{{'monad.data.create' | translate}}"
+            href
+            ng-click="monad.modal = true; data.form = true"></a>
+        {{data.app + '.$meta.plural' | translate}}
+    </h1>
+    <div ng-if="data.items">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th ng-repeat="col in data.Schema.fields" ng-if="col.list">
+                        {{data.app + '.' + col.key | translate}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr monad-data-item ng-repeat="item in data.items" ng-if="!item.$deleted" schema="data.Schema" data="item" url="data.itemUrl"></tr>
+            </tbody>
+        </table>
+        <nav ng-if="data.total > data.pageSize">
+            <ul class="pagination">
+                <li ng-class="{disabled: data.page == 1}">
+                    <a ng-href="?page={{data.page - 1}}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li ng-class="{disabled: data.page > (data.total / data.pageSize) + 1}">
+                    <a ng-href="?page={{data.page + 1}}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+            </ul>
+        </nav>
+    </div>
+    <p ng-if="!data.items" class="container-fluid alert alert-warning" role="alert">Sorry, nothing found.</p>
+</div>
+<div ng-if="data.form" class="float-on-modal vert-wrapper">
+    <div class="vert-wrapper-inner">
+        <form ng-submit="monad.modal = false; data.form = false; data.create(data.item)" class="floater col-md-4 clearfix">
+            <fieldset class="md-col-6 show-grid">
+                <a href class="glyphicon glyphicon-remove pull-right" ng-click="monad.modal = false; data.form = false"></a>
+                <div ng-include="data.app + '/primary.html'"></div>
+            </fieldset>
+            <fieldset ng-repeat="fieldset in data.Meta.fieldsets" ng-if="fieldset.primary" class="clearfix">
+                <legend ng-if="fieldset.title">
+                    {{fieldset.title | translate}}
+                </legend>
+                <div ng-repeat="field in fieldset.fields"
+                    class="form-group"
+                    ng-include="data.Meta.widgets[field].template || data.Meta.widgets[field]"
+                    ng-init="item = list"></div>
+            </fieldset>
+            <div class="clearfix col-md-12">
+                <button type="submit" class="btn btn-default pull-right">{{'monad.data.submit' | translate}}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
