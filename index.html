@@ -28,7 +28,7 @@
                         ng-href="#/{{monad.language}}/"
                         ng-click="monad.Navigation.select('main')"
                         ng-class="{active: monad.url() == '/' + monad.language + '/'}">
-                        <img ng-src="monad/assets/logo.png" width="20" height="20" alt="Monad">
+                        <img src="../monad/assets/logo.png" width="20" height="20" alt="Monad">
                     </a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
@@ -63,10 +63,10 @@
                                 </a>
                             </li>
                             <li ng-class="{active: monad.language == 'en'}">
-                                <a title="English" href="#/en/"><img src="monad/assets/i18n/en.png" alt="en"></a>
+                                <a title="English" href="#/en/"><img src="../monad/assets/i18n/en.png" alt="en"></a>
                             </li>
                             <li ng-class="{active: monad.language == 'nl'}">
-                                <a title="Nederlands" href="#/nl/"><img src="monad/assets/i18n/nl.png" alt="nl"></a>
+                                <a title="Nederlands" href="#/nl/"><img src="../monad/assets/i18n/nl.png" alt="nl"></a>
                             </li>
                         </ul>
                     </div>
