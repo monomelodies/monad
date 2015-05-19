@@ -64,7 +64,7 @@ class Manager {
         }
     }
 
-    static $http() {
+    get http() {
         return http;
     }
 
