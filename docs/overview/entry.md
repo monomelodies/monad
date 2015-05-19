@@ -22,24 +22,27 @@ The 'app' is a random name for your application; in this manual we'll use
 > In a real-world application, of course you'd configurate a module either with
 > the third argument, or by manually calling `config`. Both are allowed.
 
-## Adding modules
+## Adding components
 Of course, you'll want to separate your admin code into modules (in the Angular,
-ES6 and Monad sense). For this, use `monad.module`, which takes an app name plus
-the same arguments as `angular.module`, but returns a `Module` object instead:
+ES6 and Monad sense). For this, use `monad.component`, which takes an app name
+plus the same arguments as `angular.module`, but returns a `Component` object
+instead:
 
-    monad.module('foobar', 'foo', [...optionalDependencies], configFn).config(configFn);
-    monad.module('foobar', 'bar', [...optionalDependencies], configFn).config(configFn);
+    monad.component('foobar', 'foo', [...optionalDependencies], configFn)
+        .config(configFn);
+    monad.component('foobar', 'bar', [...optionalDependencies], configFn)
+        .config(configFn);
     // etc.
 
-Note that when using modules, the call to `monad.application` must list them as
-dependencies. The order in which you do this, like with `angular.module`, is
+Note that when using modules, the call to `monad.application` _must_ list them
+as dependencies. The order in which you do this, like with `angular.module`, is
 unimportant.
 
 ## Getting stuff done
 Obviously you'll also need your modules to _do_ something. Monad extends the
 default Angular module with some handy methods for that:
 
-    monad.module('foobar', 'foo')
+    monad.component('foobar', 'foo')
         .manager(Manager)
         .list(url, options, resolve)
         .update(url, options, resolve);
@@ -47,7 +50,7 @@ default Angular module with some handy methods for that:
 These utility methods are explained in more depth in subsequent chapters, but
 the important parts are:
 
-- A "manager" is your custom class that handles actual data operations (usually
+- A "Manager" is your custom class that handles actual data operations (usually
   via an API);
 - The `list` method registers code to list items;
 - The `update` method registers code to create or update items.
@@ -59,8 +62,8 @@ The `options` and `resolve` objects are passed - augmented with defaults - to
 Angular's `$routeProvider.when` method. The `url` parameter is prefixed with
 `/:language` for convenience.
 
-The Manager is registered under `prefixModulenameManager` for future reference.
+The Manager is registered under `appComponentnameManager` for future reference.
 Capitalization is handled in a basic manner, i.e. you don't have to capitalize
-your module. Ergo, a prefix `foobar` with module name `baz` will result in a
+your component. Ergo, for an app `foobar` the component `baz` will have a
 `foobarBazManager`.
 
