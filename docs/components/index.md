@@ -91,6 +91,9 @@ So, the following is a common pattern:
     class Manager extends Base {
 
         constructor(...args) {
+            // Calling `super()` is required, even if the constructor doesn't do
+            // anything. If we don't, other methods won't have access to
+            // `super` either.
             super(...args);
             this.model = Model;
         }
