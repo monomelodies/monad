@@ -37,7 +37,7 @@
                             ng-class="{active: item.selected, dropdown: item.items}"
                             ng-if="monad.Authentication.isAuthenticated() || item.url == '/'">
                             <a ng-if="!item.items"
-                                mo-path="item.url"
+                                mo-path="{{item.url}}"
                                 ng-click="monad.Navigation.select(item)">{{item.label | translate}}</a>
                         </li>
                     </ul>
