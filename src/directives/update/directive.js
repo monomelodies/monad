@@ -6,6 +6,7 @@ export default () => {
         transclude: true,
         scope: {
             save: '&onSave',
+            'delete': '&onDelete',
             item: '=',
             module: '@',
             list: '@'
