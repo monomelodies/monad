@@ -59,3 +59,6 @@ too), so we'd think it's generally a good idea. We'll give you an example in
 Gulp (our preferred tool) in the next chapter, but something similar would work
 for other systems (e.g. Grunt).
 
+An alternative would be to place Monad in a public path directly and use e.g.
+Apache aliases to point the browser to the right location.
+
