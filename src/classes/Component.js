@@ -12,6 +12,7 @@ class Component {
 
     constructor(prefix, ngmod) {
         registeredComponents[ngmod.name] = ngmod;
+        registeredComponents[ngmod.name].paths = {};
         this.name = ngmod.name;
         this.prefix = prefix;
     }
@@ -40,6 +41,7 @@ class Component {
         delete(options.menu);
 
         addTarget(this.name, url, options, resolve);
+        registeredComponents[this.name].paths.list = '/:language' + url;
         return this;
     }
 
@@ -55,12 +57,17 @@ class Component {
         resolve.Manager = resolve.Manager || [normalize(this.prefix, this.name) + 'Manager', Manager => Manager];
 
         addTarget(this.name, url, options, resolve);
+        registeredComponents[this.name].paths.update = '/:language' + url;
         return this;
     }
 
     manager(Manager) {
         this.service(normalize(this.prefix, this.name) + 'Manager', Manager);
         return this;
+    }
+
+    static get(name) {
+        return registeredComponents[name];
     }
 
     /**
