@@ -1,6 +1,8 @@
 
 "use strict";
 
+import {Component} from '../classes/Component';
+
 let params;
 let route;
 let modal;
@@ -23,6 +25,8 @@ class ListController {
         modal = $modal;
         route = $route;
         this.page = params.page || 1;
+        let module = Component.get(this.module);
+        this.path = module.paths.update;
     }
 
     reload() {
