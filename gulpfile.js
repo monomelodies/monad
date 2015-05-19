@@ -24,15 +24,16 @@ gulp.task('styles', function() {
 
     gulp.src(bootstrap)
         .pipe(concat('bootstrap.css'))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('./dist'));
 
-    gulp.src('./bower_components/bootstrap/dist/fonts/**/*.*', {base: './bower_components/bootstrap/dist'})
-        .pipe(gulp.dest('./'));
+    gulp.src('./bower_components/bootstrap-sass/assets/{fonts,images}/**/*.*', {base: './bower_components/bootstrap-sass/assets'})
+        .pipe(gulp.dest('./dist/bootstrap'));
 
     gulp.src('./src/_sass/default.scss')
         .pipe(compass({
             css: 'dist',
-            sass: 'src/_sass'
+            sass: 'src/_sass',
+            import_path: ['./bower_components/bootstrap-sass/assets/stylesheets']
         }))
         .pipe(minifyCss())
         .pipe(gulp.dest('dist'));
@@ -102,7 +103,6 @@ gulp.task('expose', function() {
 gulp.task('watch', function() {
 
     gulp.watch(bootstrap.concat(['./src/_sass/**/*.scss']), ['styles']);
-//    gulp.watch(scripts.concat(['./bower_components/ckeditor/**/*.*', './src/**/*.html', './src/**/*.json', './assets/**/*.png']), ['expose']);
 
 });
 
