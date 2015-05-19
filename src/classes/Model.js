@@ -1,6 +1,8 @@
 
 "use strict";
 
+let isDate = new RegExp('(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})');
+
 class Model {
 
     constructor() {
@@ -20,6 +22,10 @@ class Model {
         this.$initial = data;
         this.$new = false;
         for (let key in data) {
+            let date = data[key].match(isDate);
+            if (date) {
+                data[key] = new Date(date[1]);
+            }
             var props = {enumerable: true, configurable: true};
             if (!this.hasOwnProperty(key)) {
                 props.get = () => {
