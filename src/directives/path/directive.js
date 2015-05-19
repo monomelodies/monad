@@ -1,7 +1,7 @@
 
 "use strict";
 
-export default ['$route', $route => {
+export default ['$route', '$location', 'languages', ($route, $location, languages) => {
 
     function found(element, path, args) {
         for (let a in args) {
@@ -13,18 +13,17 @@ export default ['$route', $route => {
     return {
         restrict: 'A',
         link: (scope, element, attrs) => {
-            if (!(attrs.moPath)) {
-                return;
-            }
-            let path = scope.$eval(attrs.moPath);
+            let params = $route.current ? $route.current.params : {};
+            let original = $route.current ? $route.current.originalPath : $location.path().replace(/^\/[a-z]{2}\//, '/:language/');
+            let path = attrs.moPath || original;
             if (!path) {
                 return;
             }
             let args = attrs['arguments'] ? scope.$eval(attrs['arguments']) : {};
-            if ($route.current && $route.current.params && $route.current.params.language) {
-                args.language = args.language || $route.current.params.language;
+            if (params.language) {
+                args.language = args.language || params.language;
             } else {
-                args.language = args.language || 'en';
+                args.language = args.language || languages[0];
             }
             for (let _path in $route.routes) {
                 let _pC = ($route.routes[_path].controller || '') + '';
