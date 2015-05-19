@@ -26,6 +26,7 @@ class ListController {
         this.page = params.page || 1;
         let module = Component.get(this.module);
         this.path = module.paths.update;
+        this.create = language => module.paths.update.replace(/:language/, language).replace(/:id/, 'create');
     }
 
     reload() {
