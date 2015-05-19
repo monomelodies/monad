@@ -34,14 +34,14 @@ but the most important one for now is the `dist` directory. This is the compiled
 etc. version of Monad ready for use. So, you'll need to make sure your web
 server of choice can access it. Let's assume your site lives under `./httpdocs`
 and your admin should be available under `./httpdocs/admin`. Monad will then
-assume it lives under `./httpdocs/admin/monad`. Your best option is to just add
-a symlink to the `dist` folder under that alias:
+assume it lives under `./httpdocs/monad` (i.e., `/path/to/admin/../monad/`).
+Your best option is to just add a symlink to the `dist` folder under that alias:
 
-    $ cd /path/to/httpdocs/admin
+    $ cd /path/to/httpdocs/admin/../
     $ ln -s /path/to/monad/dist ./monad
 
 If you want to name your `admin` folder `slartibarfast` or whatever, that's fine
-by us (see further down on how to set the base path).
+by us. Monad doesn't by design care where it lives; all paths are relative.
 
 In the `dist` folder, you'll notice an `index.html`. You could write your own,
 but this is Monad's default and generally works like a charm. The `/admin/` path
