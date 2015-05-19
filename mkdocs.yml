@@ -2,14 +2,14 @@ site_name: Monad CMS
 
 pages:
 - [index.md, Overview, Home]
-- [overview/entry.md, Overview, Defining an entry point]
-- [overview/index.md, Overview, Exposing index.html and assets]
+- [overview/build.md, Overview, Setting up a build script]
+- [overview/minimal.md, Overview, Basic concepts]
 - [overview/authentication.md, Overview, Authentication]
 
-- [modules/index.md, Modules, Introduction]
-- [modules/basic.md, Modules, Create a basic module]
-- [modules/advanced.md, Modules, Advanced module options]
-- [modules/linking.md, Modules, Linking modules together]
+- [components/index.md, Components, Introduction]
+- [components/basic.md, Components, Create a basic component]
+- [components/advanced.md, Components, Advanced component options]
+- [components/linking.md, Components, Linking components together]
 
 - [directives/lists.md, Directives, Lists]
 - [directives/forms.md, Directives, Forms]
