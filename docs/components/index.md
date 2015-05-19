@@ -18,9 +18,31 @@ to place all our files in. By convention, we create an entry point called
     // foobar/angular.js
     "use strict";
 
-    monad.module('foobar', 'foo'); // <- define custom stuff here
+    monad.module('foobar', 'foo')
+        // <- define custom stuff here
+        ;
 
-Note that we're still naming our application `foobar`.
+Note that we're still naming our application `foobar`. The 'custom stuff' will
+generally consist of one or more of the following:
+
+    monad.module('foobar', 'foo')
+        // Manager class, available as `foobarFooManager` in Angular:
+        .manager(Manager)
+        // API URL to show a list of items:
+        .list('/my/url/', {
+            // Omit or set to true (default) to have this show up in the main
+            // top menu. The text ID used is `monad.navigation.COMPONENT`, or
+            // `monad.navigation.foo` in this example:
+            menu: false,
+            // Array of column names to include in the list:
+            columns: ['col1', 'col2']
+        })
+        // API URL to create or update an item. `:id` contains whatever your
+        // unique identifier is (if that's two columns, you'll need to handle
+        // it seperately). For creating, `:id` is replaced with the word
+        // `:create`.
+        .update('/my/url/:id/')
+        ;
 
 ## Managers
 A core concept in a Monad admin is the `Manager`. A "manager" is like a super
@@ -32,11 +54,11 @@ following specifications:
 
     class Manager {
     
-        list(filter = {}, options = {}) {
+        list(...params) {
             // Returns array of Models
         }
 
-        find(params = {}) {
+        find(...params) {
             // Returns promise yielding Models found using params (usually
             // taken from $routeParams)
         }
@@ -53,9 +75,41 @@ following specifications:
             // Delete existing item Model, return promise.
         }
 
-You can think of the `filter` as "your `where`-clause", and of `options` as
-"anything after `WHERE` in your SQL". Of course, how exactly you convert this to
-an API call depends, but they are two seperate concepts.
+Which params you need to supply is dependant on your API and preferences. The
+default Manager in Monad offers `list` and `find` methods that simply accept a
+URL, call it using `$http.get` and transform the response using the `model`
+property on the Manager (which itself defaults to the base Model).
+
+So, the following is a common pattern:
+
+    "use strict";
+
+    import {Manager as Base} from '/path/to/monad/src/services/Manager';
+    // Assuming we require a custom Model:
+    import {Model} from './Model';
+
+    class Manager extends Base {
+
+        constructor(...args) {
+            super(...args);
+            this.model = Model;
+        }
+
+        list(param1, param2, param3) {
+            // However you build your url...
+            let url = `/some/${param1}/path/${param2}/with/${param3}/params/`;
+            return super.list(url);
+        }
+
+        find(param4) {
+            // Again, whatever...
+            let url = `/somewhere/${param4}/else/`;
+            return super.find(url);
+        }
+
+        // Implement create, update, delete as required.
+
+    }
 
 ## Models
 Each 'entity' of data in a module is generally represented by a 'model'. Monad
@@ -76,138 +130,108 @@ operations or any other external service.
 > In rare cases, of course, this might be necassary. That's fine; either just
 > write vanilla Javascript, or update your manager to handle it.
 
-## Linking Managers and Models
-In order to properly return Models from a Manager instead of vanilla JSON,
-you'll need to transform the `$http` response. Of course you could do this
-manually, but that would suck. If your Manager extends the Monad default
-Manager in `services/Manager`, you'll get this out of the box for `$http`
-tranforms:
-
-    import {Manager as Base} from '/path/to/monad/src/services/Manager';
-
-    class Manager extends Base {
-
-        
-    }
-
-Monad assumes a manager has a `model` property, that contains the model
-_prototype_. This is utilised for CRUD creation.
-Since Angular services are _singletons_, a model should define a static factory
-method to create instances for every row in a set:
-
-    "use strict";
-    import {Model as Base} from './monad/src/Model';
-
-    class FooModel extends Base {
-        
-        static factory() {
-            return new FooModel();
-        }
-    }
-
-Any Angular dependencies needed must then be injected into the constructor,
-for example:
-
-    class FooModel extends Base {
-        constructor($http) {
-            this.http = $http;
-        }
-        static factory($http) {
-            return new FooModel($http);
-        }
-    }
-    FooModel.$inject = ['$http'];
-
-Then, register the factory method instead of the object:
-
-    angular.module('foobar').service('FooModel', FooModel.factory);
-
-A model is a pretty dumb entity, so unless you have some very specific needs you
-can usually get away with simply populating the base Monad model:
-
-    import {Model} from './monad/src/Model';
-    angular.module('foobar').service('FooModel', Model.factory);
-
-This provides the default getters and setters you'll need to do most of your
-work (dirty checking, propagation etc.).
-
-## Repositories
-A more interesting entity in the Monad toolkit are 'Repositories'. You should
-think of a Repository as 'a getter/setter for groups of data' (i.e., models).
-There are where most of your custom logic should go. Generally speaking, a
-Repository will expose one or more of the following methods:
-
-    list(urlparams); // Return a promise returning an array of models.
-    find(urlparams); // Return a promise querying a single model.
-    create(Model); // Save a new instance of Model.
-    update(Model); // Update an existing instance of Model.
-    delete(Model); // Delete an existing Model.
-
-In many cases, Repositories will return promises generated by Angular's `$http`
-service, but you are of course free to implement your own using `$q`.
-
-Since the implementation of repositories really is what makes your custom admin
-tick, we can't really give an example, but for FooBar it could look like this:
-
-    // foobar/Repository.js
-    "use strict";
-
-    // We'll store the $http service locally.
-    let http;
-
-    class Repository {
-
-        constructor($http) {
-            http = $http;
-        }
-
-        list(params) {
-            return http.get('/api/foobar/?' + angular.toJson(params));
-        }
-
-        find(params) {
-            return http.get('/api/foobar/' + params.id + '/');
-        }
-
-        create(model) {
-            return http.post('/api/foobar/', model.$export);
-        }
-
-        update(model) {
-            return http.post('/api/foobar/' + model.id + '/', model.$export);
-        }
-
-        ['delete'](model) {
-            return http.post('/api/foobar/' + model.id + '/delete/');
-        }
-
-    }
-
-This is just a simple example. The important thing here is that Monad _will_
-expect these utility methods to have certain names and accept certain
-parameters. As long as you stick to that interface, everything should get
-picked up automagically.
+## Manually transforming the `$http` response
+This is really something Angular-y, so outside of the scope of this
+documentation. But, take a peek in `./services/Manager.js` to see how Monad
+handles it internally.
 
 ## Controllers
-In most cases, you'll be fine with Monad's default controllers for List, Update,
-Create and Delete. But if you need extra functionality, your best bet is to
-_extend_ the default controllers and override whatever you need.
+In most cases, you'll be fine with Monad's default controllers for List and Crud
+(Create or Update, Delete usually doesn't warrant a separate controller). But in
+some cases (manipulating an item with a number of linked managers/models is a
+common example) you'll want to roll your own. It's easiest to simply extend one
+of the existing controllers and override what you need to (usually the
+`update` method):
 
-> Tip: you don't want to remember to include all constructor arguments in
-> extended classes. Luckily, ES6 supports the `...args` syntax for a random
-> number of arguments. In an extended class, inject your class-specific
-> dependencies first.
+    import {CrudController} from '/path/to/monad/src/controllers/CrudController`;
 
-    class Bar extends Foo {
-        constructor(SomeService, ...args) {
-            super(...args);
-            //...other stuff...
+    class MyController extends CrudController {
+
+        update() {
+            // Custom update logic
         }
+
     }
 
-    Bar.$inject = [].concat('SomeService', Foo.$inject || []);
+Note that both the `CrudController` as well as the `ListController`
+automagically register all passed resolves whose names do not begin with `$`
+(since that's kind of an internal Angular-thing) on `this`, and are thus
+available both in the controller as in the view template.
 
-## Directives, filters and other stuff
-Go wild, define whatever you need. We'll see how this all ties together in the
-next section.
+Finally, during component definition instruct Monad to use the custom
+controller for this action:
+
+    import {MyController} from '/path/to/MyController';
+
+    monad.component('foobar', 'foo')
+        .update('/my/url/:id/', {controller: MyController});
+
+In the same vein you can also override stuff like `templateUrl` if the default
+doesn't suffice (e.g. you need to show a gallery of images instead of table with
+text).
+
+## Templates
+
+### Lists
+Monad provides a default table-based list in `./dist/templates/list.html`. In
+certain cases you'll need to roll your own, which is easy. Pass a `templateUrl`
+option to the `list` method with the path to your HTML file (relative from your
+admin location of course). The default list template looks like this:
+
+<div class="container-fluid" mo-list module="{{list.module}}" columns="list.columns" path="{{list.path}}">
+    <mo-list-header create="{{list.create(monad.language)}}"></mo-list-header>
+    <mo-list-table rows="list.items" page="list.page"></mo-list-table>
+    <div class="text-center" ng-if="list.Manager.count > 10">
+        <pagination total-items="list.Manager.count" ng-model="list.page" boundary-links="true" max-size="10"></pagination>
+    </div>
+</div>
+
+The `moList` directive makes it a list. `moListHeader` generates the header with
+optional create link, or you can add your own (the directive is transcluded).
+`moListTable` is the default table, and below that is default pagination.
+
+> Note that `moListHeader` and `moListTable` "require" `moList` on a parent.
+
+### Schemas
+Last but not least, Monad needs to know how you want to go about editing your
+model (the library, alas, is not clairvoyant). By default, the update and create
+actions (note that create is the same as update, only with the word `create`
+instead of an actual identifier) look for a `schema.html` template in your
+component's directory.
+
+> Of course, you're free to override this using a custom `templateUrl` option,
+> for instance when you have multiple object types with the same schema. It
+> happens.
+
+The HTML is stock Bootstrap mixed with some Monad directives. Here's simple
+example:
+
+    <mo-update on-save="crud.save()" on-delete="crud.delete()" item="crud.item" module="foo" list="/:language/foo/">
+        <fieldset class="col-md-12">
+            <legend>{{'monad.data' | translate}}</legend>
+            <mo-field label="'foo.id' | translate">
+                <input type="text" ng-model="crud.item.id" disabled>
+            </mo-field>
+            <mo-field label="'foo.title' | translate">
+                <input type="text" ng-model="crud.item.title">
+            </mo-field>
+            <mo-field label="'foo.slug' | translate">
+                <input type="text" ng-model="crud.item.slug" mo-slug="crud.item.title">
+            </mo-field>
+            <mo-field label="'foo.description' | translate">
+                <textarea ckeditor="{language: monad.language}" ng-model="crud.item.description"></textarea>
+            </mo-field>
+        </fieldset>
+    </mo-update>
+
+The `onSave` and `onDelete` calls must be passed to the `moUpdate` directive.
+This directive is transcluded, and adds headers and footers and stuff for you.
+(It contains no other functionality, so don't feel obliged to use it.) The
+`moField` directive automatically wraps a field with a label and sets required
+Bootstrap classes. `moSlug` defines a field to 'listen to' which automatically
+gets update with a valid URL slug. Finally, this includes an example of a
+CKEditor textarea.
+
+## Custom directives, filters and other stuff
+Go wild, define and use whatever you need.
 
