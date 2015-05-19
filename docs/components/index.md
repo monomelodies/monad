@@ -181,13 +181,13 @@ certain cases you'll need to roll your own, which is easy. Pass a `templateUrl`
 option to the `list` method with the path to your HTML file (relative from your
 admin location of course). The default list template looks like this:
 
-<div class="container-fluid" mo-list module="{{list.module}}" columns="list.columns" path="{{list.path}}">
-    <mo-list-header create="{{list.create(monad.language)}}"></mo-list-header>
-    <mo-list-table rows="list.items" page="list.page"></mo-list-table>
-    <div class="text-center" ng-if="list.Manager.count > 10">
-        <pagination total-items="list.Manager.count" ng-model="list.page" boundary-links="true" max-size="10"></pagination>
+    <div class="container-fluid" mo-list module="{{list.module}}" columns="list.columns" path="{{list.path}}">
+        <mo-list-header create="{{list.create(monad.language)}}"></mo-list-header>
+        <mo-list-table rows="list.items" page="list.page"></mo-list-table>
+        <div class="text-center" ng-if="list.Manager.count > 10">
+            <pagination total-items="list.Manager.count" ng-model="list.page" boundary-links="true" max-size="10"></pagination>
+        </div>
     </div>
-</div>
 
 The `moList` directive makes it a list. `moListHeader` generates the header with
 optional create link, or you can add your own (the directive is transcluded).
