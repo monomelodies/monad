@@ -43,7 +43,10 @@ angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ckeditor',
     .controller('moController', RootController)
     .controller('moHomeController', HomeController)
     .service('moNavigation', Navigation)
-;
+    .value('title', 'Default generic administrator')
+    .value('languages', ['en', 'nl'])
+    .value('theme', '../monad/default.css')
+    ;
 
 window.monad = new Monad();
 
