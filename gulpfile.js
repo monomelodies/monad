@@ -27,7 +27,7 @@ gulp.task('styles', function() {
         .pipe(gulp.dest('./dist'));
 
     gulp.src('./bower_components/bootstrap-sass/assets/{fonts,images}/**/*.*', {base: './bower_components/bootstrap-sass/assets'})
-        .pipe(gulp.dest('./dist/bootstrap'));
+        .pipe(gulp.dest('./dist'));
 
     gulp.src('./src/_sass/default.scss')
         .pipe(compass({
