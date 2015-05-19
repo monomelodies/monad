@@ -139,7 +139,10 @@ class Component {
 function addTarget(name, url, options = {}, resolve = {}) {
     resolve.module = () => name;
     options.resolve = resolve;
-    registeredComponents[name].config(['$routeProvider', $routeProvider => $routeProvider.when('/:language' + url, options)]);
+    registeredComponents[name].config(['$routeProvider', '$translatePartialLoaderProvider', ($routeProvider, $translatePartialLoaderProvider) => {
+        $routeProvider.when('/:language' + url, options);
+        $translatePartialLoaderProvider.addPart(name);
+    }]);
 };
 
 function normalize(prefix, name) {

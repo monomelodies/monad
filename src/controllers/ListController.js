@@ -9,7 +9,7 @@ let modal;
 
 class ListController {
 
-    constructor($route, $translatePartialLoader, $modal) {
+    constructor($route, $modal) {
         if ($route.current && $route.current.locals) {
             for (let p in $route.current.locals) {
                 if (p.substring(0, 1) == '$') {
@@ -18,7 +18,6 @@ class ListController {
                 this[p] = $route.current.locals[p];
             }
         }
-        $translatePartialLoader.addPart(this.module);
         this.$new = new this.Manager.model();
         this.items = [];
         params = $route.current.params;
@@ -73,7 +72,7 @@ class ListController {
 
 };
 
-ListController.$inject = ['$route', '$translatePartialLoader', '$modal'];
+ListController.$inject = ['$route', '$modal'];
 
 export {ListController};
 
