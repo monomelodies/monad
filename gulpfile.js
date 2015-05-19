@@ -14,6 +14,7 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var gutil = require('gulp-util');
 var assign = require('lodash.assign');
+var watch = require('gulp-watch');
 
 var bootstrap = [
     './bower_components/bootstrap/dist/css/bootstrap.min.css',
@@ -23,15 +24,16 @@ gulp.task('styles', function() {
 
     gulp.src(bootstrap)
         .pipe(concat('bootstrap.css'))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('./dist'));
 
-    gulp.src('./bower_components/bootstrap/dist/fonts/**/*.*', {base: './bower_components/bootstrap/dist'})
-        .pipe(gulp.dest('./'));
+    gulp.src('./bower_components/bootstrap-sass/assets/{fonts,images}/**/*.*', {base: './bower_components/bootstrap-sass/assets'})
+        .pipe(gulp.dest('./dist'));
 
     gulp.src('./src/_sass/default.scss')
         .pipe(compass({
             css: 'dist',
-            sass: 'src/_sass'
+            sass: 'src/_sass',
+            import_path: ['./bower_components/bootstrap-sass/assets/stylesheets']
         }))
         .pipe(minifyCss())
         .pipe(gulp.dest('dist'));
@@ -74,20 +76,26 @@ gulp.task('bundle', bundle);
 b.on('update', bundle);
 b.on('log', gutil.log);
 
-gulp.task('expose', function() {
+gulp.task('libraries', function() {
 
     gulp.src(scripts)
         .pipe(concat('libraries.js'))
         .pipe(uglify())
         .pipe(gulp.dest('./dist'));
+});
 
-    gulp.src('./bower_components/ckeditor/**/*.*', {base: './bower_components'})
+gulp.task('expose', function() {
+
+    gulp.src('./bower_components/ckeditor/**/*', {base: './bower_components'})
+        .pipe(watch('./bower_components/ckeditor', {base: './bower_components'}))
         .pipe(gulp.dest('./dist'));
 
     gulp.src('./assets/**/*.png', {base: './assets'})
+        .pipe(watch('./assets/**/*.png', {base: './assets'}))
         .pipe(gulp.dest('./dist'));
 
-    gulp.src(['./src/**/*.html', './src/**/*.json'], {base: './src'})
+    gulp.src('./src/**/*.{html,json}', {base: './src'})
+        .pipe(watch('./src/**/*.{html,json}', {base: './src'}))
         .pipe(gulp.dest('./dist'));
 
 });
@@ -95,7 +103,6 @@ gulp.task('expose', function() {
 gulp.task('watch', function() {
 
     gulp.watch(bootstrap.concat(['./src/_sass/**/*.scss']), ['styles']);
-    gulp.watch(scripts.concat(['./bower_components/ckeditor/**/*.*', './src/**/*.html', './src/**/*.json', './assets/**/*.png']), ['expose']);
 
 });
 

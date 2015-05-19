@@ -7,7 +7,7 @@ $lightest: #eee;
 $white: #fff;
 $yellow: #fea;
 
-$body_bg: $dark;
+$body_bg: $white;
 $nav_bg: $nav_dark;
 $container_bg: $white;
 $header_fg: $white;
@@ -16,4 +16,6 @@ $header_border2: $lightest;
 $header_bg: $lighter;
 $footer_fg: $white;
 $footer_anchor_fg: $yellow;
+
+$icon-font-path: '../monad/fonts/bootstrap/';
 

@@ -6,8 +6,10 @@ let loc;
 
 class Navigation {
 
-    constructor($location) {
-        loc = $location;
+    constructor($location = undefined) {
+        if ($location) {
+            loc = $location;
+        }
     }
 
     register(menu, url, label) {
@@ -30,6 +32,13 @@ class Navigation {
             paths[path].map(item => item.selected = false);
         }
         item.selected = true;
+    }
+
+    /**
+     * Main menu is (virtually) always defined anyway.
+     */
+    get main() {
+        return paths.main;
     }
 
 }

@@ -6,11 +6,12 @@ export default () => {
         require: '^moList',
         restrict: 'E',
         templateUrl: '../monad/directives/list/table/template.html',
-        scope: {rows: '=', path: '@', total: '@', page: '='},
+        scope: {rows: '=', total: '@', page: '='},
         controller,
         link: (scope, elem, attrs, ctrl) => {
-            scope.columns = scope.$eval(attrs.columns);
+            scope.columns = ctrl.columns;
             scope.module = ctrl.module;
+            scope.path = ctrl.path;
         },
         bindToController: true
     };

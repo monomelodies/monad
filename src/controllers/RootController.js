@@ -6,30 +6,29 @@ let auth;
 let nav;
 let route;
 let modal;
+let langs;
 
 class RootController {
 
-    constructor($location, $rootScope, $route, $translate, Authentication, Navigation, $modal) {
+    constructor($location, $rootScope, $route, $translate, Authentication, Navigation, $modal, title, languages, theme) {
         loc = $location;
         auth = Authentication;
         nav = Navigation;
         modal = $modal;
-        this.title = 'Default generic administrator';
+        this.title = title;
         let reload = $route.reload;
         $route.reload = () => {
             this.modal = false;
             reload();
         };
         this.loginRequired = this.loginRequired || true;
-        this.language = 'en';
-        this.paths = {
-            root: '/monad/',
-            theme: '../monad/default.css'
-        };
-        this.Navigation.register('main', '/', 'Site');
+        this.language = undefined;
+        langs = languages;
+        this.theme = theme;
+        Navigation.current();
         $rootScope.$on('$routeChangeStart', () => this.Authentication.read().success(result => {
             if (!this.Authentication.isAuthenticated() && this.loginRequired) {
-                loc.path('/' + this.language + '/login/');
+                loc.path('/' + (this.language || languages[0]) + '/login/');
             }
         }));
         $rootScope.$on('$routeChangeSuccess', (event, target) => {
@@ -38,7 +37,7 @@ class RootController {
                 $translate.refresh();
             }
             if (!this.language) {
-                loc.path('/en/');
+                loc.path('/' + languages[0] + '/');
             }
             $translate.use(this.language);
         });
@@ -51,6 +50,10 @@ class RootController {
 
     get Navigation() {
         return nav;
+    }
+
+    get languages() {
+        return langs;
     }
 
     logout() {
@@ -83,7 +86,7 @@ class RootController {
 
 };
 
-RootController.$inject = ['$location', '$rootScope', '$route', '$translate', 'moAuthentication', 'moNavigation', '$modal'];
+RootController.$inject = ['$location', '$rootScope', '$route', '$translate', 'moAuthentication', 'moNavigation', '$modal', 'title', 'languages', 'theme'];
 
 export {RootController};
 
