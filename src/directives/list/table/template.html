@@ -10,7 +10,7 @@
         <tbody>
             <tr m-list-row="item" ng-repeat="item in rows" ng-if="!item.$deleted">
                 <td ng-repeat="column in columns">
-                    <a mo-path="path" arguments="item">{{item[column]}}</a>
+                    <a mo-path="{{path}}" arguments="item">{{item[column]}}</a>
                 </td>
             </tr>
         </tbody>
