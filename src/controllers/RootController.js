@@ -25,6 +25,7 @@ class RootController {
         this.language = undefined;
         langs = languages;
         this.theme = theme;
+        Navigation.current();
         $rootScope.$on('$routeChangeStart', () => this.Authentication.read().success(result => {
             if (!this.Authentication.isAuthenticated() && this.loginRequired) {
                 loc.path('/' + (this.language || languages[0]) + '/login/');
