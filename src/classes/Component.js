@@ -130,9 +130,9 @@ class Component {
  * {{{
  */
 function addTarget(name, url, options = {}, resolve = {}) {
-    resolve.module = resolve.module || function() { return name; };
-    let then = {options, resolve};
-    registeredComponents[name].config(['$routeProvider', $routeProvider => $routeProvider.when('/:language' + url, then)]);
+    resolve.module = () => name;
+    options.resolve = resolve;
+    registeredComponents[name].config(['$routeProvider', $routeProvider => $routeProvider.when('/:language' + url, options)]);
 };
 
 function normalize(prefix, name) {
