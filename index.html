@@ -6,8 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{monad.title}} - MonAd</title>
         
-        <link href="../monad/bootstrap.css" rel="stylesheet">
-        <link ng-if="monad.paths.theme" ng-href="{{monad.paths.theme}}" rel="stylesheet">
+        <link ng-href="{{monad.theme}}" rel="stylesheet">
         
         <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -33,11 +32,12 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
+                        <li><a href="../" target="_blank">{{'monad.navigation.site' | translate}}</a></li>
                         <li ng-repeat="item in monad.Navigation.main"
                             ng-class="{active: item.selected, dropdown: item.items}"
                             ng-if="monad.Authentication.isAuthenticated() || item.url == '/'">
                             <a ng-if="!item.items"
-                                ng-href="{{item.url.substring(0, 1) == '/' ? item.url : '#/' + monad.language + '/' + item.url}}"
+                                mo-path="item.url"
                                 ng-click="monad.Navigation.select(item)">{{item.label | translate}}</a>
                         </li>
                     </ul>
@@ -62,11 +62,8 @@
                                     <span class="glyphicon glyphicon-log-out text-danger"></span>
                                 </a>
                             </li>
-                            <li ng-class="{active: monad.language == 'en'}">
-                                <a title="English" href="#/en/"><img src="../monad/i18n/en.png" alt="en"></a>
-                            </li>
-                            <li ng-class="{active: monad.language == 'nl'}">
-                                <a title="Nederlands" href="#/nl/"><img src="../monad/i18n/nl.png" alt="nl"></a>
+                            <li ng-repeat="language in monad.languages" ng-class="{active: monad.language == language}">
+                                <a mo-path arguments="{language: language}"><img ng-src="../monad/i18n/{{language}}.png" alt="{{language}}"></a>
                             </li>
                         </ul>
                     </div>
