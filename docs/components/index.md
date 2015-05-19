@@ -1,25 +1,26 @@
-Monad works with the concept of 'modules', both in the ES6-sense as well as the
-Angular-sense. You can think of a module as 'an option that shows up in the
-(main) menu', although technically it is not required to actually expose modules
-in any menu.
+We saw earlier how Monad works with the concept of 'modules', both in the
+ES6-sense as well as the Angular-sense. Let's dive into that a bit further.
+You can think of a module as 'an option that shows up in the (main) menu',
+although technically it is not required to actually expose modules in any menu.
+
+> To differentiate between AngularJS and ES6 modules, Monad refers to them as
+> "components" instead.
 
 ## Setup
 First, create a folder somewhere that will contain all your module's files. This
 isn't strictly required by Monad, but it makes your code more reusable since a
 module's folder can be picked up and placed in another project easily.
 
-So, for our fictional module `FooBar` we make a folder `foobar` under `admin`
+So, for our fictional module `Foo` we make a folder `foo` under `admin`
 to place all our files in. By convention, we create an entry point called
 `angular.js` here which hooks everything up to our Angular module:
 
     // foobar/angular.js
     "use strict";
-    angular.module('foobar', ['ng']); // <- define custom stuff here
 
-> The dependency on `ng` is 'to be on the safe side'. It should be automatic,
-> but in our experience isn't always injected by Angular. Since it can't hurt to
-> explicitly depend on it, just do it already. It might save you some head
-> scratching.
+    monad.module('foobar', 'foo'); // <- define custom stuff here
+
+Note that we're still naming our application `foobar`.
 
 ## Managers
 A core concept in a Monad admin is the `Manager`. A "manager" is like a super
@@ -31,13 +32,13 @@ following specifications:
 
     class Manager {
     
-        list(options = {}) {
-            // Returns array of models
+        list(filter = {}, options = {}) {
+            // Returns array of Models
         }
 
-        find(params) {
-            // Returns promise yielding models found using params (taken
-            // from $routeParams)
+        find(params = {}) {
+            // Returns promise yielding Models found using params (usually
+            // taken from $routeParams)
         }
 
         create(item) {
@@ -52,6 +53,9 @@ following specifications:
             // Delete existing item Model, return promise.
         }
 
+You can think of the `filter` as "your `where`-clause", and of `options` as
+"anything after `WHERE` in your SQL". Of course, how exactly you convert this to
+an API call depends, but they are two seperate concepts.
 
 ## Models
 Each 'entity' of data in a module is generally represented by a 'model'. Monad
@@ -64,15 +68,28 @@ can see a model object as a representation of a single database row.
 > point is, each 'item' is represented by a single model.
 
 The model itself is _not_ an object in the Angular-sense; it is pure EcmaScript.
-Apart from advantages induced by Angular itself (services are singletons,
-whereas models by definition aren't) this also forces you to keep any logic out
-of the models. They are data containers and should not be concerned with any
-`$http`-like operations or any other external service.
+Apart from advantages over Angular (services are singletons, whereas models by
+definition aren't) this also forces you to keep any logic out of the models.
+They are data containers and should not be concerned with any `$http`-like
+operations or any other external service.
 
 > In rare cases, of course, this might be necassary. That's fine; either just
->> write vanilla Javascript, or update your manager to handle it.
+> write vanilla Javascript, or update your manager to handle it.
 
-## Linking managers and models
+## Linking Managers and Models
+In order to properly return Models from a Manager instead of vanilla JSON,
+you'll need to transform the `$http` response. Of course you could do this
+manually, but that would suck. If your Manager extends the Monad default
+Manager in `services/Manager`, you'll get this out of the box for `$http`
+tranforms:
+
+    import {Manager as Base} from '/path/to/monad/src/services/Manager';
+
+    class Manager extends Base {
+
+        
+    }
+
 Monad assumes a manager has a `model` property, that contains the model
 _prototype_. This is utilised for CRUD creation.
 Since Angular services are _singletons_, a model should define a static factory
