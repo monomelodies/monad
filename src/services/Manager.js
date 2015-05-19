@@ -1,9 +1,39 @@
 
 "use strict";
 
+import {Model} from '../classes/Model';
+
+let http;
+
+function appendTransform(transform) {
+    let defaults = http.defaults.transformResponse;
+    defaults = angular.isArray(defaults) ? defaults : [defaults];
+    return defaults.concat(transform);
+};
+
 class Manager {
 
-    constructor() {
+    constructor($http) {
+        http = $http;
+        // Set this per-manager where needed:
+        this.model = Model;
+        this.$count = undefined;
+    }
+
+    list(url) {
+        return http({
+            url,
+            method: 'GET',
+            transformResponse: appendTransform(values => values.map(value => (new this.model()).$load(value)))
+        });
+    }
+
+    find(url) {
+        return http({
+            url,
+            method: 'GET',
+            transformResponse: appendTransform(item => (new this.model()).$load(item))
+        });
     }
 
     update(model) {
@@ -34,7 +64,13 @@ class Manager {
         }
     }
 
+    static $http() {
+        return http;
+    }
+
 };
+
+Manager.$inject = ['$http'];
 
 export {Manager};
 
