@@ -21,7 +21,11 @@
         },
         "logout": "Logout",
         "nothing": "Sorry, nothing found.",
-        "license": "License",
+        "license": {
+            "license": "License",
+            "note": "Note: this applies to the Monad CMS framework, not (necessarily) the site it is used for :)",
+            "ok": "Got it!"
+        },
         "delete": {
             "title": "Do you want to delete this?",
             "body": "No going back afterwards, so just verifying...",

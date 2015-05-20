@@ -21,7 +21,11 @@
         },
         "logout": "Uitloggen",
         "nothing": "Helaas, niks gevonden.",
-        "license": "Licentie",
+        "license": {
+            "license": "Licentie",
+            "note": "NB: dit geldt het Monad CMS framework, niet (noodzakelijk) de site waar het voor gebruikt wordt :)",
+            "ok": "Helder!"
+        },
         "delete": {
             "title": "Wilt u dit verwijderen?",
             "body": "Dit kan niet ongedaan gemaakt worden, dus even bevestigen graag...",
