@@ -6,16 +6,17 @@ let auth;
 let nav;
 let route;
 let modal;
-let langs;
+let Language;
 let editorOptions;
 
 class RootController {
 
-    constructor($location, $rootScope, $route, $translate, Authentication, Navigation, $modal, title, languages, theme, ckeditor) {
+    constructor($location, $rootScope, $route, $translate, $modal, Authentication, Navigation, moLanguage, title, theme, ckeditor) {
         loc = $location;
         auth = Authentication;
         nav = Navigation;
         modal = $modal;
+        Language = moLanguage;
         editorOptions = angular.extend({
             resize_enabled: false,
             bodyClass: 'editable',
@@ -33,25 +34,20 @@ class RootController {
             reload();
         };
         this.loginRequired = this.loginRequired || true;
-        this.language = undefined;
-        langs = languages;
         this.theme = theme;
         Navigation.current();
         $rootScope.$on('$routeChangeStart', () => this.Authentication.read().success(result => {
             if (!this.Authentication.isAuthenticated() && this.loginRequired) {
-                loc.path('/' + (this.language || languages[0]) + '/login/');
+                loc.path('/' + (Language.current || Language.list[0]) + '/login/');
             }
         }));
         $rootScope.$on('$routeChangeSuccess', (event, target) => {
-            if (target.params.language && target.params.language != this.language) {
-                this.language = target.params.language;
-                editorOptions.language = this.language;
-                $translate.refresh();
+            if (target.params.language) {
+                editorOptions.language = target.params.language;
             }
-            if (!this.language) {
-                loc.path('/' + languages[0] + '/');
+            if (!Language.current) {
+                loc.path('/' + Language.list[0] + '/');
             }
-            $translate.use(this.language);
         });
         route = $route;
     }
@@ -64,8 +60,12 @@ class RootController {
         return nav;
     }
 
+    get language() {
+        return Language.current;
+    }
+
     get languages() {
-        return langs;
+        return Language.list;
     }
 
     ckeditor(options = {}) {
@@ -113,11 +113,11 @@ RootController.$inject = [
     '$rootScope',
     '$route',
     '$translate',
+    '$modal',
     'moAuthentication',
     'moNavigation',
-    '$modal',
+    'moLanguage',
     'title',
-    'languages',
     'theme',
     'ckeditor'
 ];
