@@ -8,6 +8,7 @@ import {default as Field} from './field/directive';
 import {default as Update} from './update/directive';
 import {default as Draggable} from './draggable/directive';
 import {default as List} from './list';
+import {default as Slug} from './slug';
 
 angular.module('monad.directives', ['ng'])
     .directive('moList', List)
@@ -17,6 +18,7 @@ angular.module('monad.directives', ['ng'])
     .directive('moField', Field)
     .directive('moUpdate', Update)
     .directive('moDraggable', Draggable)
+    .directive('moSlug', Slug)
     ;
 
 export default 'monad.directives';
