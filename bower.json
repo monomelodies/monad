@@ -5,7 +5,7 @@
     "Marijn Ophorst <marijn@sensimedia.nl>"
   ],
   "license": "MIT",
-  "private": true,
+  "private": false,
   "ignore": [
     "**/.*",
     "node_modules",
