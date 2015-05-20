@@ -2,7 +2,7 @@
   "name": "monad",
   "version": "0.26.2",
   "authors": [
-    "Marijn Ophorst <marijn@sensimedia.nl>"
+    "Marijn Ophorst <marijn@monomelodies.nl>"
   ],
   "main": "./dist",
   "license": "MIT",
