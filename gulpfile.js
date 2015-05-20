@@ -98,6 +98,10 @@ gulp.task('expose', function() {
         .pipe(watch('./src/**/*.{html,json}', {base: './src'}))
         .pipe(gulp.dest('./dist'));
 
+    gulp.src('./LICENSE')
+        .pipe(concat('LICENSE.txt'))
+        .pipe(gulp.dest('./dist'));
+
 });
 
 gulp.task('watch', function() {
