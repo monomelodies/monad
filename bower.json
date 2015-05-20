@@ -4,6 +4,7 @@
   "authors": [
     "Marijn Ophorst <marijn@sensimedia.nl>"
   ],
+  "main": "./dist",
   "license": "MIT",
   "private": false,
   "ignore": [
