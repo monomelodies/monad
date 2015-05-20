@@ -6,13 +6,15 @@ import {Component} from '../classes/Component';
 let route;
 let modal;
 let loc;
+let Language;
 
 class CrudController {
 
-    constructor($route, $modal, $location) {
+    constructor($route, $modal, $location, moLanguage) {
         route = $route;
         modal = $modal;
         loc = $location;
+        Language = moLanguage;
         if ($route.current && $route.current.locals) {
             for (let p in $route.current.locals) {
                 if (p.substring(0, 1) == '$') {
@@ -53,7 +55,7 @@ class CrudController {
                 $scope.ok = language => {
                     this.Manager['delete'](this.item);
                     $modalInstance.close(this.item);
-                    loc.path(Component.get(this.module).paths.list.replace(/:language/, language));
+                    loc.path(Component.get(this.module).paths.list.replace(/:language/, Language.current));
                     route.reload();
                 };
                 $scope.cancel = () => {
@@ -69,7 +71,7 @@ class CrudController {
 
 };
 
-CrudController.$inject = ['$route', '$modal', '$location'];
+CrudController.$inject = ['$route', '$modal', '$location', 'moLanguage'];
 
 export {CrudController};
 
