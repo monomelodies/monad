@@ -6,6 +6,7 @@ import {RootController} from './controllers/RootController';
 import {HomeController} from './controllers/HomeController';
 import {LoginController} from './controllers/LoginController';
 import {Navigation} from './services/Navigation';
+import {Language} from './services/Language';
 import {default as normalizePost} from './helpers/post';
 import {default as Directives} from './directives/angular';
 
@@ -43,6 +44,7 @@ angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ckeditor',
     .controller('moController', RootController)
     .controller('moHomeController', HomeController)
     .service('moNavigation', Navigation)
+    .service('moLanguage', Language)
     .value('title', 'Default generic administrator')
     .value('languages', ['en', 'nl'])
     .value('theme', '../monad/default.css')
