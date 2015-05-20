@@ -7,14 +7,25 @@ let nav;
 let route;
 let modal;
 let langs;
+let editorOptions;
 
 class RootController {
 
-    constructor($location, $rootScope, $route, $translate, Authentication, Navigation, $modal, title, languages, theme) {
+    constructor($location, $rootScope, $route, $translate, Authentication, Navigation, $modal, title, languages, theme, ckeditor) {
         loc = $location;
         auth = Authentication;
         nav = Navigation;
         modal = $modal;
+        editorOptions = angular.extend({
+            resize_enabled: false,
+            bodyClass: 'editable',
+            forcePasteAsPlainText: true,
+            docType: '<!doctype html>',
+            entities: false,
+            entities_greek: false,
+            toolbar: 'Full',
+            disableNativeSpellChecker: true
+        }, ckeditor);
         this.title = title;
         let reload = $route.reload;
         $route.reload = () => {
@@ -34,6 +45,7 @@ class RootController {
         $rootScope.$on('$routeChangeSuccess', (event, target) => {
             if (target.params.language && target.params.language != this.language) {
                 this.language = target.params.language;
+                editorOptions.language = this.language;
                 $translate.refresh();
             }
             if (!this.language) {
@@ -54,6 +66,11 @@ class RootController {
 
     get languages() {
         return langs;
+    }
+
+    ckeditor(options = {}) {
+        console.log(angular.extend({}, editorOptions, options));
+        return angular.extend({}, editorOptions, options);
     }
 
     logout() {
@@ -93,7 +110,19 @@ class RootController {
 
 };
 
-RootController.$inject = ['$location', '$rootScope', '$route', '$translate', 'moAuthentication', 'moNavigation', '$modal', 'title', 'languages', 'theme'];
+RootController.$inject = [
+    '$location',
+    '$rootScope',
+    '$route',
+    '$translate',
+    'moAuthentication',
+    'moNavigation',
+    '$modal',
+    'title',
+    'languages',
+    'theme',
+    'ckeditor'
+];
 
 export {RootController};
 
