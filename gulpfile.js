@@ -98,7 +98,7 @@ gulp.task('expose', function() {
 
 gulp.task('watch', function() {
 
-    gulp.watch(bootstrap.concat(['./src/_sass/**/*.scss']), ['styles']);
+    gulp.watch(['./bower_components/bootstrap-sass/assets/stylesheets/**/*.scss', './src/_sass/**/*.scss'], ['styles']);
 
 });
 
