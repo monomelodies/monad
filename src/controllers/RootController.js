@@ -69,7 +69,6 @@ class RootController {
     }
 
     ckeditor(options = {}) {
-        console.log(angular.extend({}, editorOptions, options));
         return angular.extend({}, editorOptions, options);
     }
 
@@ -101,7 +100,6 @@ class RootController {
             controller: ['$scope', '$modalInstance', '$http', ($scope, $modalInstance, $http) => {
                 $http.get('../monad/LICENSE.txt').success(result => {
                     $scope.paragraphs = result.split('\n\n');
-                    console.log(result);
                 });
                 $scope.ok = $modalInstance.close;
             }]
