@@ -22,6 +22,9 @@ class Language {
     }
 
     set current(lang) {
+        if (langs.indexOf(lang) == -1) {
+            throw `Language "${lang}" is unavailable, sorry.`;
+        }
         current = lang;
     }
 
