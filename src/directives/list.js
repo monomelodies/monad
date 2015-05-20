@@ -1,4 +1,6 @@
 
+"use strict";
+
 export default () => {
     return {
         restrict: 'EA',
