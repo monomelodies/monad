@@ -4,9 +4,15 @@ pages:
 - [index.md, Overview, Home]
 - [overview/build.md, Overview, Setting up a build script]
 - [overview/minimal.md, Overview, Basic concepts]
+- [overview/customisation.md, Overview, Basic customisation]
 - [overview/authentication.md, Overview, Authentication]
 
-- [components/index.md, Components, Overview]
+- [components/setup.md, Components, Setup]
+- [components/managers.md, Components, Managers]
+- [components/models.md, Components, Models]
+- [components/controllers.md, Components, Controllers]
+- [components/templates.md, Components, Templates]
+- [components/custom.md, Components, "Custom directives, filters and other stuff"]
 
 - [directives/lists.md, Directives, Lists]
 - [directives/forms.md, Directives, Forms]
