@@ -2,6 +2,24 @@
 "use strict";
 
 let isDate = new RegExp(/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/);
+let mapper = {
+    Jan: 1,
+    Feb: 2,
+    Mar: 3,
+    Apr: 4,
+    May: 5,
+    Jun: 6,
+    Jul: 7,
+    Aug: 8,
+    Sep: 9,
+    Oct: 10,
+    Nov: 11,
+    Dec: 12
+};
+
+function map(month) {
+    return mapper[month];
+};
 
 class Model {
 
@@ -113,7 +131,7 @@ class Model {
             }
             if (typeof this[prop] == 'object' && 'getFullYear' in this[prop]) {
                 let d = (this[prop] + '').split(' ');
-                data[prop] = [d[3], d[1], d[2], d[4]].join(' ');
+                data[prop] = [d[3], map(d[1]), d[2]].join('-') + ' '+ d[4];
             } else {
                 data[prop] = this[prop];
             }
