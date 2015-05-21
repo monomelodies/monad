@@ -3,7 +3,9 @@ Monad offers an extensible and flexible service for file uploads, based on
 usage depends on your exact setup, but let's assume all file uploads are made
 to a central point in your API. We'll call it `/api/file/`.
 
-## Option 1: write a custom controller
+## Using Angular
+
+### Option 1: write a custom controller
 In your `schema.html` or `list.html` (or wherever you need the upload option),
 add a link to `angular-file-upload`:
 
@@ -71,7 +73,7 @@ the magic happens, so let's write a simple implementation:
 
     };
 
-## Option 2: write a custom directive
+### Option 2: write a custom directive
 In larger projects, it's typical for file uploads to be in multiple places. You
 should write your own directive in that case:
 
@@ -111,4 +113,46 @@ should write your own directive in that case:
 
 The `property` property will likely also vary, so you would extend your
 directive to take that from an attribute.
+
+## In CKEditor
+This is slightly outside of the scope of these docs, but since CKEditor can be
+a bit picky about this, we've included a short overview.
+
+> There are Angular modules that handle this in a pure Angular sense. To be
+> honest, we haven't tried them. Google is your friend.
+
+The basic idea is that you extend your CKEditor configuration with a few URLs
+that handle the file selection. Assuming you need it available globally, you
+would do this:
+
+    monad.application('foobar')
+        .value('ckeditor', {
+            filebrowserBrowseUrl: '/api/browse/file/',
+            filebrowserImageBrowseUrl: '/api/browse/image/',
+            filebrwoserFlashBrowseUrl: '/api/browse/flash/'
+        });
+
+(The exact URLs are random of course; use what you like.)
+
+Then in your backend, make sure those URLs serve an HTML page showing thumbnails
+or whatever. For each selectable file, on selection call a CKEditor function on
+the opening window with two parameters: a function number (pass through a `GET`
+parameter called `CKEditorFuncNum`) and the public URL of that file. E.g.:
+
+    <a href="/url/to/file/1"
+        onclick="window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, '/url/to/file/1')">
+        select file 1
+    </a>
+
+Exactly how you get to the value of `CKEditorFuncNum` is of course
+language-specific. In PHP for instance, it'd obviously be
+`$_GET['CKEditorFuncNum']`.
+
+You can then do fancy stuff like:
+- Auto-closing the popup after selection (`window.close()`);
+- Augmenting the popup with an insta-upload field (note that to use Angular for
+  that again, you need to set your popup up correctly; the popup won't "know"
+  about Monad natively);
+- Show different types of files based on the type (images, flash, others);
+- ...well, whatever you want to do with your files!
 
