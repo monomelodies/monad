@@ -111,7 +111,17 @@ class Model {
             if (prop.substring(0, 1) == '$') {
                 continue;
             }
-            data[prop] = this[prop];
+            if (typeof this[prop] == 'Date') {
+                let year = this[prop].getFullYear();
+                let month = this[prop].getMonth() + 1;
+                let day = this[prop].getDate();
+                let hours = this[prop].getHours();
+                let minutes = this[prop].getMinutes();
+                let seconds = this[prop].getSeconds();
+                data[prop] = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+            } else {
+                data[prop] = this[prop];
+            }
         }
         return data;
     }
