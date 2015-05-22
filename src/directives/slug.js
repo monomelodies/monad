@@ -22,6 +22,7 @@ export default () => {
         require: 'ngModel',
         scope: {source: '=moSlug', target: '=ngModel'},
         link: (scope, elem, attrs, ctrl) => {
+            elem.attr('pattern', "[a-z0-9-]{1,255}");
             scope.$watch('source', (newvalue, oldvalue) => {
                 scope.target = makeSlug(newvalue);
             });

@@ -1,7 +1,7 @@
 
 "use strict";
 
-export default ['$route', '$location', 'languages', ($route, $location, languages) => {
+export default ['$route', '$location', 'moLanguage', ($route, $location, Language) => {
 
     function found(element, path, args) {
         for (let a in args) {
@@ -23,7 +23,7 @@ export default ['$route', '$location', 'languages', ($route, $location, language
             if (params.language) {
                 args.language = args.language || params.language;
             } else {
-                args.language = args.language || languages[0];
+                args.language = args.language || Language.current;
             }
             for (let _path in $route.routes) {
                 let _pC = ($route.routes[_path].controller || '') + '';

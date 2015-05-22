@@ -10,7 +10,11 @@ class Monad {
 
     application(prefix, deps = [], configFn = undefined) {
         if (ngmod == undefined) {
-            ngmod = new Component(prefix, angular.module('monad', deps.concat(['monad.core']), configFn));
+            let extra = ['monad.core'];
+            for (let mod in defined) {
+                extra.push(mod);
+            }
+            ngmod = new Component(prefix, angular.module('monad', deps.concat(extra), configFn));
         } else {
             throw "Sorry, you can only call `monad.application` once!";
         }
