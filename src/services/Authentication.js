@@ -1,6 +1,19 @@
 
 "use strict";
 
-export class Service {
+export class Authentication {
+
+    read() {
+    }
+    
+    login(username, password) {
+    }
+    
+    logout() {
+    }
+    
+    isAuthenticated() {
+    }
+
 };
 
