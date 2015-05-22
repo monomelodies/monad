@@ -4,7 +4,6 @@ module.exports = function(config) {
     basePath: '',
     frameworks: ['browserify', 'jasmine'],
     files: [
-        'dist/ckeditor/ckeditor.js',
         'dist/libraries.js',
         'dist/bundle.js',
         'node_modules/angular-mocks/angular-mocks.js',
