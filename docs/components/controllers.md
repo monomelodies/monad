@@ -1,3 +1,4 @@
+# Controllers
 In most cases, you'll be fine with Monad's default controllers for List and Crud
 (Create or Update, Delete usually doesn't warrant a separate controller). But in
 some cases (manipulating an item with a number of linked managers/models is a
@@ -5,15 +6,17 @@ common example) you'll want to roll your own. It's easiest to simply extend one
 of the existing controllers and override what you need to (usually the
 `update` method):
 
-    import {CrudController} from '/path/to/monad/src/controllers/CrudController`;
+```javascript
+import {CrudController} from '/path/to/monad/src/controllers/CrudController`;
 
-    class MyController extends CrudController {
+class MyController extends CrudController {
 
-        update() {
-            // Custom update logic
-        }
-
+    update() {
+        // Custom update logic
     }
+
+}
+```
 
 Note that both the `CrudController` as well as the `ListController`
 automagically register all passed resolves whose names do not begin with `$`
@@ -23,10 +26,12 @@ available both in the controller as in the view template.
 Finally, during component definition instruct Monad to use the custom
 controller for this action:
 
-    import {MyController} from '/path/to/MyController';
+```javascript
+import {MyController} from '/path/to/MyController';
 
-    monad.component('foobar', 'foo')
-        .update('/my/url/:id/', {controller: MyController});
+monad.component('foobar', 'foo')
+    .update('/my/url/:id/', {controller: MyController});
+```
 
 In the same vein you can also override stuff like `templateUrl` if the default
 doesn't suffice (e.g. you need to show a gallery of images instead of table with

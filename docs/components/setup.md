@@ -1,3 +1,4 @@
+# Setup
 We saw earlier how Monad works with the concept of 'modules', both in the
 ES6-sense as well as the Angular-sense. Let's dive into that a bit further.
 You can think of a module as 'an option that shows up in the (main) menu',

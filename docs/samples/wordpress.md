@@ -1,3 +1,4 @@
+# Wordpress plugin
 Code is best explained by examples, so let's get our hands dirty and setup a
 Monad plugin for the popular Wordpress blog system.
 

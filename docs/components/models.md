@@ -1,3 +1,4 @@
+# Models
 Each 'entity' of data in a module is generally represented by a 'model'. Monad
 offers a base model class with some dirty checking and other goodies you can use
 directly or extend for your own custom functionality. To simplify things, you

@@ -1,3 +1,4 @@
+# A little history
 You might wonder why the copyright notice goes back to 2008 ("they didn't even
 have Angular back then!"). So, this is a short history of Monad to clarify
 things and let you know where we came from. It should also explain a bunch of

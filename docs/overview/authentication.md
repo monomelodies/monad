@@ -1,8 +1,10 @@
+# Authentication
 Since Monad is a client-side framework, we'll need some way of authenticating a
 user to see if she has access to our admin. We don't make any assumptions
 regarding your authentication scheme, so this is something you'll *have* to
 configure and implement yourself.
 
+## Interface
 Monad expects the required service to be registered in Angular as
 `moAuthentication`. So, let's set up our own implementation. The
 service needs to implement the following interface:
@@ -38,6 +40,8 @@ prefer) and override it in Angular:
     monad.application('foobar')
         .service('moAuthentication', AuthenticationService);
 
+
+## Example
 Usually you'll inject Angular's `$http` service to make the required calls. A
 very basic real-world implementation could look like this:
 
@@ -81,6 +85,6 @@ Monad's built-in `moLoginController` will call these methods, and as long as
 your implementation honours the required interface authentication will work!
 
 > The `moAuthentication` service handles only basic access to your admin; for
-> examples for more complex handling of multiple "sub-APIs" see the
-> corresponding section in this manual.
+> examples for more complex handling of multiple "sub-APIs" see 
+> [the corresponding section in this manual](../samples/subauthentication.md).
 
