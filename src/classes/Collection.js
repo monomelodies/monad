@@ -17,8 +17,16 @@ class Collection {
         this.storage = [];
     }
 
+    /**
+     * Overridable helper setting defaults for items in this collection.
+     */
+    defaults(obj) {
+        return obj;
+    }
+
     push(...args) {
         let idx = this.storage.length;
+        args = args.map(arg => this.defaults(arg));
         args = args.map(arg => isModel(arg) ? arg : (new this.model()).$create(arg));
         this.storage.push(...args);
         for (let i = idx; i < this.storage.length; i++) {
@@ -36,6 +44,7 @@ class Collection {
     }
 
     unshift(...args) {
+        args = args.map(arg => this.defaults(arg));
         args = args.map(arg => isModel(arg) ? arg : (new this.model()).$create(args));
         let work = new Array(this.storage);
         work.unshift(...args);
@@ -66,6 +75,7 @@ class Collection {
     }
 
     splice(start, deleteCount, ...args) {
+        args = args.map(arg => this.defaults(arg));
         args = args.map(arg => isModel(arg) ? arg : (new this.model()).$create(args));
         let work = new Array(this.storage);
         let retval = work.splice(start, deleteCount, ...args);
