@@ -1,3 +1,5 @@
+# Monad
+
 Generic AngularJS-based CMS framework
 
 Adding an amdministrative backend to a dynamic website is almost always
@@ -10,25 +12,33 @@ Full documentation: http://monad-cms.readthedocs.org/en/latest/
 ## Getting the code
 The quickest way is to use Monad's Bower package:
 
-    $ bower install --save-dev monad
+```bash
+$ bower install --save-dev monad
+```
 
 Alternatively, download the source from Github and unpack it somewhere to your
 liking, or add a Git submodule:
 
-    $ cd /path/to/where/you/keep/submodules
-    $ git submodule add https://github.com/monomelodies/monad.git
+```bash
+$ cd /path/to/where/you/keep/submodules
+$ git submodule add https://github.com/monomelodies/monad.git
+```
 
 ### Installing dependencies
 If you didn't install the Bower package, you'll need Bower to install the
 dependencies manually:
 
-    $ cd /path/to/monad
-    $ bower install
+```bash
+$ cd /path/to/monad
+$ bower install
+```
 
 If you also want to hack on Monad itself, you'll want the Node packages too:
 
-    $ cd /path/to/monad
-    $ npm install
+```bash
+$ cd /path/to/monad
+$ npm install
+```
 
 ## Making Monad publicly available
 In your `monad` directory, you'll notice bunch of other directories and files,
@@ -39,8 +49,10 @@ and your admin should be available under `./httpdocs/admin`. Monad will then
 assume it lives under `./httpdocs/monad` (i.e., `/path/to/admin/../monad/`).
 Your best option is to just add a symlink to the `dist` folder under that alias:
 
-    $ cd /path/to/httpdocs/admin/../
-    $ ln -s /path/to/monad/dist ./monad
+```bash
+$ cd /path/to/httpdocs/admin/../
+$ ln -s /path/to/monad/dist ./monad
+```
 
 If you want to name your `admin` folder `slartibarfast` or whatever, that's fine
 by us. Monad doesn't by design care where it lives; all paths are relative.
@@ -49,8 +61,10 @@ In the `dist` folder, you'll notice an `index.html`. You could write your own,
 but this is Monad's default and generally works like a charm. The `/admin/` path
 needs access to it, so again we can symlink:
 
-    $ cd /path/to/httpdocs/admin
-    $ ln -s ./monad/index.html .
+```bash
+$ cd /path/to/httpdocs/admin
+$ ln -s ./monad/index.html .
+```
 
 And that's it! You're ready to roll.
 
