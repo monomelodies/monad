@@ -96,5 +96,5 @@ gulp.task('watch', function() {
 
 });
 
-gulp.task('default', ['styles', 'expose', 'bundle', 'watch']);
+gulp.task('default', ['libraries', 'styles', 'expose', 'bundle', 'watch']);
 
