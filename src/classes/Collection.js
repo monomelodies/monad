@@ -17,11 +17,13 @@ class Collection {
         this.storage = [];
     }
 
-    push(value) {
+    push(...args) {
         let idx = this.storage.length;
-        value = isModel(value) ? value : (new this.model()).$create(value);
-        this.storage.push(value);
-        Object.defineProperty(this, idx, {get: () => this.storage[idx] || undefined, configurable: true});
+        args = args.map(arg => isModel(arg) ? arg : (new this.model()).$create(arg));
+        this.storage.push(...args);
+        for (let i = idx; i < this.storage.length; i++) {
+            Object.defineProperty(this, i, {get: () => this.storage[i] || undefined, configurable: true});
+        }
         return this.length;
     }
 
@@ -34,7 +36,7 @@ class Collection {
     }
 
     unshift(...args) {
-        args.map(arg => isModel(arg) ? arg : (new this.model()).$create(args));
+        args = args.map(arg => isModel(arg) ? arg : (new this.model()).$create(args));
         let work = new Array(this.storage);
         work.unshift(...args);
         this.storage = [];
@@ -64,12 +66,21 @@ class Collection {
     }
 
     splice(start, deleteCount, ...args) {
-        args.map(arg => isModel(arg) ? arg : (new this.model()).$create(args));
+        args = args.map(arg => isModel(arg) ? arg : (new this.model()).$create(args));
         let work = new Array(this.storage);
         let retval = work.splice(start, deleteCount, ...args);
         this.storage = [];
         work.map(item => this.push(item));
         return retval;
+    }
+
+    get $dirty() {
+        for (let i = 0; i < this.storage.length; i++) {
+            if (this.storage[i].$new || this.storage[i].$dirty) {
+                return true;
+            }
+        }
+        return false;
     }
 
 };
