@@ -41,7 +41,6 @@ var scripts = [
     './bower_components/angular-route/angular-route.js',
     './bower_components/angular-translate/angular-translate.js',
     './bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js',
-    './bower_components/ng-file-upload/ng-file-upload-all.js',
     './bower_components/angular-sanitize/angular-sanitize.js',
     './bower_components/autofill-event/src/autofill-event.js'
 ];
