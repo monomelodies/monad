@@ -5,7 +5,9 @@ function makeSlug(str) {
     if (!str) {
         return str;
     }
-    str = str.normalize('NFKD').replace(/[\u0300-\u036F]/g, "");
+    if ('normalize' in String) {
+        str = str.normalize('NFKD').replace(/[\u0300-\u036F]/g, "");
+    }
     str = str.toLowerCase().replace(/\s+/g, '-');
     str = str.replace(/[^a-z0-9-]+/g, '-');
     str = str.replace(/-{2,}/g, '-');

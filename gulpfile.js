@@ -16,15 +16,7 @@ var gutil = require('gulp-util');
 var assign = require('lodash.assign');
 var watch = require('gulp-watch');
 
-var bootstrap = [
-    './bower_components/bootstrap/dist/css/bootstrap.min.css',
-    './bower_components/bootstrap/dist/css/bootstrap-theme.min.css'
-];
 gulp.task('styles', function() {
-
-    gulp.src(bootstrap)
-        .pipe(concat('bootstrap.css'))
-        .pipe(gulp.dest('./dist'));
 
     gulp.src('./bower_components/bootstrap-sass/assets/{fonts,images}/**/*.*', {base: './bower_components/bootstrap-sass/assets'})
         .pipe(gulp.dest('./dist'));
@@ -106,7 +98,7 @@ gulp.task('expose', function() {
 
 gulp.task('watch', function() {
 
-    gulp.watch(bootstrap.concat(['./src/_sass/**/*.scss']), ['styles']);
+    gulp.watch(['./bower_components/bootstrap-sass/assets/stylesheets/**/*.scss', './src/_sass/**/*.scss'], ['styles']);
 
 });
 
