@@ -3,6 +3,13 @@
 
 import {Model} from './Model';
 
+/**
+ * Private method to do a simple check on the nature of an object.
+ */
+function isModel(obj) {
+    return '$data' in obj && '$fields' in obj && '$deleted' in obj && '$new' in obj;
+};
+
 class Collection {
 
     constructor() {
@@ -12,7 +19,8 @@ class Collection {
 
     push(value) {
         let idx = this.storage.length;
-        this.storage.push((new this.model()).$create(value));
+        value = isModel(value) ? value : (new this.model()).$create(value);
+        this.storage.push(value);
         Object.defineProperty(this, idx, {get: () => this.storage[idx] || undefined, configurable: true});
         return this.length;
     }
@@ -26,6 +34,7 @@ class Collection {
     }
 
     unshift(...args) {
+        args.map(arg => isModel(arg) ? arg : (new this.model()).$create(args));
         let work = new Array(this.storage);
         work.unshift(...args);
         this.storage = [];
@@ -54,9 +63,10 @@ class Collection {
         return this;
     }
 
-    splice(...args) {
+    splice(start, deleteCount, ...args) {
+        args.map(arg => isModel(arg) ? arg : (new this.model()).$create(args));
         let work = new Array(this.storage);
-        let retval = work.splice(...args);
+        let retval = work.splice(start, deleteCount, ...args);
         this.storage = [];
         work.map(item => this.push(item));
         return retval;
