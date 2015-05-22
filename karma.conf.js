@@ -20,8 +20,12 @@ module.exports = function(config) {
     exclude: [
     ],
     preprocessors: {
-        'tests/**/*.js': ['babel'],
+        'tests/**/*.js': ['browserify'],
         'src/**/*.html': ['ng-html2js']
+    },
+    browserify: {
+        debug: true,
+        transform: ['babelify']
     },
     babelPreprocessor: {
     },
