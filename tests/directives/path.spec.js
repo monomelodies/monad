@@ -5,11 +5,9 @@ describe('directive: mo-path', () => {
     let element;
     let scope;
     let compile;
-    let items = [{id: 1, txt: 'foo'}, {id: 2, txt: 'bar'}];
-    let tpl = angular.element(`<a mo-path="{{path}}" arguments="{foo: 'bar'}">{{txt}}</a>`);
+    let tpl = angular.element(`<a mo-path="{{path}}" arguments="{language: 'en', foo: 'bar'}">{{txt}}</a>`);
 
-    beforeEach(inject(($rootScope, $compile, $routeParams) => {
-        $routeParams.language = 'en';
+    beforeEach(inject(($rootScope, $compile) => {
         scope = $rootScope;
         compile = $compile;
     }));
