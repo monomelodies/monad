@@ -1,4 +1,6 @@
 site_name: Monad CMS
+site_url: http://monad-cms.readthedocs.org/en/latest/
+repo_url: https://github.com/monomelodies/monad
 
 pages:
 - [index.md, Overview, Home]
