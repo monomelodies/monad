@@ -2,6 +2,7 @@ site_name: Monad CMS
 
 pages:
 - [index.md, Overview, Home]
+- [overview/history.md, Overview, A little history]
 - [overview/build.md, Overview, Setting up a build script]
 - [overview/minimal.md, Overview, Basic concepts]
 - [overview/customisation.md, Overview, Basic customisation]
@@ -17,8 +18,7 @@ pages:
 - [directives/lists.md, Directives, Lists]
 - [directives/forms.md, Directives, Forms]
 
-- [recipes/files.md, Common recipes, File uploads]
-
-- [samples/index.md, Samples, Wordpress plugin]
+- [samples/files.md, Samples, File uploads]
+- [samples/wordpress.md, Samples, Wordpress plugin]
 
 theme: readthedocs
