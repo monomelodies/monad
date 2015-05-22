@@ -1,6 +1,7 @@
 site_name: Monad CMS
 site_url: http://monad-cms.readthedocs.org/en/latest/
 repo_url: https://github.com/monomelodies/monad
+theme: united
 
 pages:
 - [index.md, Overview, Home]
@@ -17,10 +18,17 @@ pages:
 - [components/templates.md, Components, Templates]
 - [components/custom.md, Components, "Custom directives, filters and other stuff"]
 
+- [services/authentication.md, Services, Authentication]
+- [services/language.md, Services, Language]
+
+- [directives/path.md, Directives, Path]
 - [directives/lists.md, Directives, Lists]
 - [directives/forms.md, Directives, Forms]
 
+- [samples/ckeditor.md, Samples, Integrating CKEditor]
 - [samples/files.md, Samples, File uploads]
+- [samples/subauthentication.md, Samples, Sub-authentication]
 - [samples/wordpress.md, Samples, Wordpress plugin]
 
-theme: readthedocs
+copyright: Copyright &copy; 2015, <a href="http://www.monomelodies.nl/">Marijn Ophorst</a>
+
