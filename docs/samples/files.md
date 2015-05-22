@@ -1,10 +1,21 @@
 # File uploads
-Monad offers an extensible and flexible service for file uploads, based on
-[angular-file-upload](https://github.com/danialfarid/angular-file-upload). Its
-usage depends on your exact setup, but let's assume all file uploads are made
-to a central point in your API. We'll call it `/api/file/`.
+Monad doesn't handle file uploads natively, since it's after all a client side
+framework. But, here is how _we_ would implement it in our admins. Let's assume
+all file uploads are made to a central point in your API. We'll call it
+`/api/file/` in these examples.
 
 ## Using Angular
+This assumes the [angular-file-upload](https://github.com/danialfarid/angular-file-upload)
+plugin. Install it in your project (example in Bower) and add it as a
+dependency:
+
+```bash
+$ bower install --save-dev ng-file-upload
+```
+
+```javascript
+monad.application('foobar', ['ng-file-upload']);
+```
 
 ### Option 1: write a custom controller
 In your `schema.html` or `list.html` (or wherever you need the upload option),
@@ -129,11 +140,9 @@ The `property` property will likely also vary, so you would extend your
 directive to take that from an attribute.
 
 ## In CKEditor
-This is slightly outside of the scope of these docs, but since CKEditor can be
-a bit picky about this, we've included a short overview.
-
 > There are Angular modules that handle this in a pure Angular sense. To be
-> honest, we haven't tried them. Google is your friend.
+> honest, we haven't tried them. Google is your friend. This is just a stock
+> CKEditor implementation.
 
 The basic idea is that you extend your CKEditor configuration with a few URLs
 that handle the file selection. Assuming you need it available globally, you
