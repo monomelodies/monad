@@ -84,6 +84,10 @@ class Collection {
         return retval;
     }
 
+    indexOf(item) {
+        return this.storage.indexOf(item);
+    }
+
     get $dirty() {
         for (let i = 0; i < this.storage.length; i++) {
             if (this.storage[i].$new || this.storage[i].$dirty) {
