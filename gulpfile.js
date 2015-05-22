@@ -78,10 +78,6 @@ gulp.task('libraries', function() {
 
 gulp.task('expose', function() {
 
-    gulp.src('./bower_components/ckeditor/**/*', {base: './bower_components'})
-        .pipe(watch('./bower_components/ckeditor', {base: './bower_components'}))
-        .pipe(gulp.dest('./dist'));
-
     gulp.src('./assets/**/*.png', {base: './assets'})
         .pipe(watch('./assets/**/*.png', {base: './assets'}))
         .pipe(gulp.dest('./dist'));
