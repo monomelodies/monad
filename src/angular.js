@@ -36,7 +36,7 @@ function config($translateProvider, $translatePartialLoaderProvider, $routeProvi
     $translatePartialLoaderProvider.addPart('../monad');
 };
 
-angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ckeditor', 'ngSanitize', 'ngFileUpload', 'ui.bootstrap', Directives])
+angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ngSanitize', 'ui.bootstrap', Directives])
     .config(['$translateProvider', '$translatePartialLoaderProvider', '$routeProvider', '$locationProvider', config])
     .run(['$http', '$rootScope', '$translate', ($http, $rootScope, $translate) => {
         normalizePost($http);

@@ -41,8 +41,6 @@ var scripts = [
     './bower_components/angular-route/angular-route.js',
     './bower_components/angular-translate/angular-translate.js',
     './bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js',
-    './bower_components/angular-ckeditor/angular-ckeditor.js',
-    './bower_components/ng-file-upload/ng-file-upload-all.js',
     './bower_components/angular-sanitize/angular-sanitize.js',
     './bower_components/autofill-event/src/autofill-event.js'
 ];
@@ -78,10 +76,6 @@ gulp.task('libraries', function() {
 
 gulp.task('expose', function() {
 
-    gulp.src('./bower_components/ckeditor/**/*', {base: './bower_components'})
-        .pipe(watch('./bower_components/ckeditor', {base: './bower_components'}))
-        .pipe(gulp.dest('./dist'));
-
     gulp.src('./assets/**/*.png', {base: './assets'})
         .pipe(watch('./assets/**/*.png', {base: './assets'}))
         .pipe(gulp.dest('./dist'));
@@ -102,5 +96,5 @@ gulp.task('watch', function() {
 
 });
 
-gulp.task('default', ['styles', 'expose', 'bundle', 'watch']);
+gulp.task('default', ['libraries', 'styles', 'expose', 'bundle', 'watch']);
 

@@ -50,7 +50,7 @@ example:
             <input type="text" ng-model="crud.item.slug" mo-slug="crud.item.title">
         </mo-field>
         <mo-field label="'foo.description' | translate">
-            <textarea ckeditor="monad.ckeditor()" ng-model="crud.item.description"></textarea>
+            <textarea ckeditor="options" ng-model="crud.item.description"></textarea>
         </mo-field>
     </fieldset>
 </mo-update>
@@ -61,12 +61,9 @@ This directive is transcluded, and adds headers and footers and stuff for you.
 (It contains no other functionality, so don't feel obliged to use it.) The
 `moField` directive automatically wraps a field with a label and sets required
 Bootstrap classes. `moSlug` defines a field to 'listen to' which automatically
-gets update with a valid URL slug. Finally, this includes an example of a
+gets updated with a valid URL slug. Finally, this includes an example of a
 CKEditor textarea.
 
-## Configuring CKEditor
-"What's that call to `monad.ckeditor`", I can almost hear you ask. Well, feel
-free _not_ to use it, but it contains the defaults (language etc.). You can pass
-an optional object as an argument containing overrides. You can set project-wide
-defaults as an Angular `value` with the name `ckeditor`.
+> You'll need a CKEditor Angular plugin to use WYSIWYG editing. See
+> [the section on CKEditor in "Samples"](../samples/ckeditor.md) for more info.
 
