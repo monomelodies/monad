@@ -1,7 +1,7 @@
 
 "use strict";
 
-import {Monad} from './Monad';
+import {Monad} from './classes/Monad';
 import {RootController} from './controllers/RootController';
 import {HomeController} from './controllers/HomeController';
 import {LoginController} from './controllers/LoginController';

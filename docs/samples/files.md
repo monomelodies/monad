@@ -13,6 +13,20 @@ dependency:
 $ bower install --save-dev ng-file-upload
 ```
 
+If you're using Gulp and Browserify, add it to your `files` entry:
+```javascript
+browserify([
+    './bower_components/ng-file-upload/ng-file-upload-all.js',
+    //...other dependencies...
+    './path/to/public/admin/foobar.js'
+]);
+```
+> If your build setup is different, modify accordingly. The important thing is
+> the custom Angular module needs to be included somewhere before
+> `angular.bootstrap` has kicked in. Adding it to your `bundle.js` is the
+> easiest way to accomplish that.
+
+Then add the module dependency to your Monad application:
 ```javascript
 monad.application('foobar', ['ng-file-upload']);
 ```

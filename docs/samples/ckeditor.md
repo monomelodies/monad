@@ -1,55 +1,65 @@
 # Integrating CKEditor
 Most web admins will at one point or another require a WYSIWYG text editor for
 HTML content. Luckily, using Monad and Angular makes integrating something like
-CKEditor (which is a bit of an industry standard) very easy.
+CKEditor (which is a bit of an industry standard) relatively easy.
 
 ## Install the plugin
 Assuming you're using Bower (and if you're not, you really should):
 
 ```bash
 $ bower install ckeditor angular-ckeditor --save
+```
+
+> There are other CKEditor plugins for angular; use the one you like best.
+
+CKEditor needs to live in a public place so it can load images, styles, plugins
+etc.
+
+```bash
 $ cd /my/public/dir
 $ ln -s /path/to/bower_components/ckeditor .
 ```
 
-## Get the template to actually load CKEditor
-CKEditor needs to live in a public path. Also, it needs to be included _before_
-any of the other libraries. This means we can no longer use the default Monad
-template and symlink or copy it into our admin directory. Bummer!
+## Prepend CKEditor to your bundle
+CKEditor needs to be included _before_ any of the other libraries. This requires
+a slight modification to our build script. In Gulp:
 
-Luckily, we thought of a solution that is trivial to implement in just about
-any server side language using basic string replacement. At the bottom of the
-default `index.html` you'll see the following:
-
-```html
-<!-- monad.libraries { --><script src="../monad/libraries.js"></script><!-- } monad.libraries -->
-<!-- monad.bundle { --><script src="../monad/bundle.js"></script><!-- } monad.bundle -->
-<!-- project.bundle { --><script src="bundle.js"></script><!-- } project.bundle -->
+```bash
+$ npm install gulp-add-src --save-dev
 ```
 
-Oh happy days! Each Javascript load is surrounded by meaningful HTML comments.
-This of course means we can augment them! Remove the symlink to `index.html`
-from you public admin directory and replace it with a index file in your
-language of choice, loading the original `index.html` as a string and ouput it
-replacing Javascript or whatnot when and where you need. Below is a simple
-example in PHP, assuming we have the `ckeditor` folder publicly available from
-the root:
+```javascript
+// gulpfile.js
+// along with other dependencies:
+var addsrc = 
+gulp.task('someTask', function() {
 
-```php
-<?php
+    gulp.src('/some/entry/point.js')
+        // [snip other operations]
+        pipe(addsrc.prepend(['/ckeditor/settings.js', '/path/to/ckeditor/ckeditor.js'])
+        pipe(concat('bundle.js'))
+        // output as normal
+        ;
 
-$index = file_get_contents('/path/to/monad/index.html');
-$index = str_replace(
-    '<!-- monad.libraries {',
-    // Leave the comment in so further replacements will also work:
-    '<script src="/ckeditor/ckeditor.js"></script>'."\n<!-- monad.libraries {",
-    $index
-);
-echo $index;
-
+});
 ```
+What this does is prepend the CKEditor library _and_ a settings file to your
+bundled admin scripts.
+
+## Local CKEditor settings
+What should be in that settings file? Not much:
+
+```javascript
+window.CKEDITOR_BASEPATH = '/public/path/to/ckeditor/';
+```
+This _must_ be defined _before_ CKEditor loads for it to work.
 
 > CKEditor is notoriously picky about loading order; ideally you'd do something
 > like `document.head.insertNode('<script/>')`, but that won't work. Other
-> external plugins could suffer the same fate, so this trick always works.
+> external plugins could suffer the same fate.
+
+If you use Browserify or the like you could probably also add CKEditor there,
+but since it's already minified and has no dependencies of its own simply
+dropping it in is usually faster and easier, and will work just as well. This is
+globally the same as manually adding a `<script>` tag to your `index.html`.
 
