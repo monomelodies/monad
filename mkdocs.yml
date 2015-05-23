@@ -18,6 +18,8 @@ pages:
 - [components/templates.md, Components, Templates]
 - [components/custom.md, Components, "Custom directives, filters and other stuff"]
 
+- [classes/collection.md, Classes, Collection]
+
 - [services/authentication.md, Services, Authentication]
 - [services/language.md, Services, Language]
 
