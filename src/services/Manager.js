@@ -5,6 +5,7 @@ import {Model} from '../classes/Model';
 import {Collection} from '../classes/Collection';
 
 let http;
+let cache;
 
 function appendTransform(transform) {
     let defaults = http.defaults.transformResponse;
@@ -14,12 +15,16 @@ function appendTransform(transform) {
 
 class Manager {
 
-    constructor($http) {
+    constructor($http, $cacheFactory) {
         http = $http;
+        cache = $cacheFactory('monad-managers');
         // Set this per-manager where needed:
         this.model = Model;
         this.collection = new Collection();
-        this.$count = undefined;
+    }
+
+    get count() {
+        return 0;
     }
 
     list(url) {
@@ -32,7 +37,8 @@ class Manager {
                 }
                 values.map(value => this.collection.push((new this.model()).$load(value)));
                 return this.collection;
-            })
+            }),
+            cache
         });
     }
 
@@ -40,7 +46,8 @@ class Manager {
         return http({
             url,
             method: 'GET',
-            transformResponse: appendTransform(item => (new this.model()).$load(item))
+            transformResponse: appendTransform(item => (new this.model()).$load(item)),
+            cache
         });
     }
 
@@ -78,7 +85,7 @@ class Manager {
 
 };
 
-Manager.$inject = ['$http'];
+Manager.$inject = ['$http', '$cacheFactory'];
 
 export {Manager};
 
