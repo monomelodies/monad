@@ -4,14 +4,13 @@
 let loc;
 let auth;
 let nav;
-let route;
 let modal;
 let Language;
 let editorOptions;
 
 class RootController {
 
-    constructor($location, $rootScope, $route, $translate, $modal, Authentication, Navigation, moLanguage, title, theme, ckeditor) {
+    constructor($location, $rootScope, $translate, $modal, Authentication, Navigation, moLanguage, title, theme, ckeditor) {
         loc = $location;
         auth = Authentication;
         nav = Navigation;
@@ -28,11 +27,6 @@ class RootController {
             disableNativeSpellChecker: true
         }, ckeditor);
         this.title = title;
-        let reload = $route.reload;
-        $route.reload = () => {
-            this.modal = false;
-            reload();
-        };
         this.loginRequired = this.loginRequired || true;
         this.theme = theme;
         Navigation.current();
@@ -49,7 +43,6 @@ class RootController {
                 loc.path('/' + Language.list[0] + '/');
             }
         });
-        route = $route;
     }
 
     get Authentication() {
@@ -80,10 +73,6 @@ class RootController {
         return loc.path();
     }
 
-    reload() {
-        route.reload();
-    }
-
     license() {
         let m = modal.open({
             template: `
@@ -111,7 +100,6 @@ class RootController {
 RootController.$inject = [
     '$location',
     '$rootScope',
-    '$route',
     '$translate',
     '$modal',
     'moAuthentication',
