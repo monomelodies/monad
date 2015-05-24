@@ -19,7 +19,6 @@ class ListController {
             }
         }
         this.$new = new this.Manager.model();
-        this.items = [];
         params = $route.current.params;
         modal = $modal;
         route = $route;
@@ -35,10 +34,7 @@ class ListController {
 
     set page(page) {
         this._page = page;
-        while (this.items.length) {
-            this.items.pop();
-        }
-        this.Manager.list(params, {offset: (page - 1) * 10}).success(items => items.map(item => this.items.push(item)));
+        this.Manager.paginate(page, params).success(items => this.items = items);
     };
 
     /**
