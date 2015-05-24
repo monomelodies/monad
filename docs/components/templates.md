@@ -65,5 +65,5 @@ gets updated with a valid URL slug. Finally, this includes an example of a
 CKEditor textarea.
 
 > You'll need a CKEditor Angular plugin to use WYSIWYG editing. See
-> [the section on CKEditor in "Samples"](../samples/ckeditor.md) for more info.
+> [the section on CKEditor in "Examples"](../samples/ckeditor.md) for more info.
 
