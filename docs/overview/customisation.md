@@ -32,11 +32,5 @@ monad.application('foobar')
     from scratch if you want, or extend the existing theme (all our CSS is written
     using SASS, so importing/overriding is easy).
 
-- #### ckeditor
-
-    Default config object for CKEditor. This actually extends a bunch of Monad
-    defaults, and you can in turn override values when you call `monad.ckeditor`
-    in your view templates (but see the section on Components > Templates).
-
 Of course, you can also add your own values here.
 

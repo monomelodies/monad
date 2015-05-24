@@ -9,8 +9,13 @@ following specifications:
 ```javascript
 class Manager {
 
+    get count() {
+        // Returns the total number of entries of this type
+        // (used for pagination)
+    }
+
     list(...params) {
-        // Returns array of Models
+        // Returns promise resolving to a Collection of Models
     }
 
     find(...params) {
@@ -26,7 +31,7 @@ class Manager {
         // Update existing item Model, return promise.
     }
 
-    delete(item) {
+    ['delete'](item) {
         // Delete existing item Model, return promise.
     }
 
