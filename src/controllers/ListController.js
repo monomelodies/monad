@@ -29,10 +29,6 @@ class ListController {
         this.create = language => module.paths.update.replace(/:language/, language).replace(/:id/, 'create');
     }
 
-    reload() {
-        route.reload();
-    }
-
     get page() {
         return this._page;
     }
@@ -62,6 +58,7 @@ class ListController {
                 $scope.ok = () => {
                     this.Manager['delete'](item);
                     $modalInstance.close(item);
+                    route.reset();
                     route.reload();
                 };
                 $scope.cancel = () => {
