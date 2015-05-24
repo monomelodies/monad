@@ -124,11 +124,6 @@ class Model {
         return false;
     }
 
-    $pluralize(field) {
-        field = field.replace(/y$/, 'ie');
-        return this[field + 's'];
-    }
-
     $export() {
         let data = {};
         for (let prop in this) {
