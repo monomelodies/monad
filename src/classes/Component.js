@@ -67,7 +67,14 @@ class Component {
     }
 
     static get(name) {
-        return registeredComponents[name];
+        if (name in registeredComponents) {
+            return registeredComponents[name];
+        }
+        throw `${name} is not a registered Component.`;
+    }
+
+    static all() {
+        return registeredComponents;
     }
 
     /**

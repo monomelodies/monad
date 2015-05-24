@@ -37,7 +37,7 @@ class CrudController {
         if (this.item.$new) {
             this.Manager.create(this.item).success(() => loc.path(loc.path().replace(/\/create\//, '/')));
         } else if (this.item.$dirty) {
-            this.Manager.update(this.item).success(this.reload);
+            this.Manager.update(this.item).success(route.reset);
         }
     }
 
@@ -55,18 +55,14 @@ class CrudController {
                 $scope.ok = language => {
                     this.Manager['delete'](this.item);
                     $modalInstance.close(this.item);
+                    route.reset();
                     loc.path(Component.get(this.module).paths.list.replace(/:language/, Language.current));
-                    route.reload();
                 };
                 $scope.cancel = () => {
                     $modalInstance.dismiss('cancel');
                 };
             }]
         });
-    }
-
-    reload() {
-        route.reload();
     }
 
 };

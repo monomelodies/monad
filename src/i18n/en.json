@@ -31,6 +31,16 @@
             "body": "No going back afterwards, so just verifying...",
             "ok": "Yes, I'm sure",
             "cancel": "Oopsie, no..."
+        },
+        "home": {
+            "home": "Home",
+            "intro": "Hi there, you've reached the administrator for {{title}}.",
+            "header": {
+                "header": "Information",
+                "credits": "Credits",
+                "version": "Version",
+                "author": "Marijn Ophorst <marijn@monomelodies.nl>"
+            }
         }
     }
 }

@@ -2,8 +2,10 @@
 "use strict";
 
 import {Model} from '../classes/Model';
+import {Collection} from '../classes/Collection';
 
 let http;
+let cache;
 
 function appendTransform(transform) {
     let defaults = http.defaults.transformResponse;
@@ -13,18 +15,32 @@ function appendTransform(transform) {
 
 class Manager {
 
-    constructor($http) {
+    constructor($http, $cacheFactory) {
         http = $http;
+        if (cache === undefined) {
+            cache = $cacheFactory('monad-managers');
+        }
         // Set this per-manager where needed:
         this.model = Model;
-        this.$count = undefined;
+        this.collection = new Collection();
+    }
+
+    get count() {
+        return 0;
     }
 
     list(url) {
         return http({
             url,
             method: 'GET',
-            transformResponse: appendTransform(values => values.map(value => (new this.model()).$load(value)))
+            transformResponse: appendTransform(values => {
+                while (this.collection.length) {
+                    this.collection.pop();
+                }
+                values.map(value => this.collection.push((new this.model()).$load(value)));
+                return this.collection;
+            }),
+            cache
         });
     }
 
@@ -32,36 +48,39 @@ class Manager {
         return http({
             url,
             method: 'GET',
-            transformResponse: appendTransform(item => (new this.model()).$load(item))
+            transformResponse: appendTransform(item => (new this.model()).$load(item)),
+            cache
         });
     }
 
-    update(model) {
-        for (let field in model) {
-            if (field.substring(0, 1) == '$') {
-                continue;
-            }
-            if (typeof model[field] == 'object' && model[field] != null) {
-                if ('$delete' in model[field] && model[field].$deleted) {
-                    model[field].$delete();
-                } else if ('$update' in model[field] && model[field].$dirty) {
-                    model[field].$update();
-                } else if ('map' in model[field]) {
-                    model[field].map(item => {
-                        if (typeof item == 'object') {
-                            if ('$delete' in item && item.$deleted) {
-                                item.$delete();
-                            } else if ('$update' in item && item.$dirty) {
-                                item.$update();
-                            }
-                        }
-                    });
-                }
-            }
-            if (model.$initial[field]) {
-                model.$initial[field] = model.$data[field];
-            }
+    save(model) {
+        if (model.$new) {
+            return this.create(model);
+        } else if (model.$deleted) {
+            return this['delete'](model);
+        } else if (model.$dirty) {
+            return this.update(model);
         }
+        return {};
+    }
+
+    /**
+     * API interface. These should be overridden by a custom implementation,
+     * since we have no way to guesstimate how your API works. Hence, these
+     * throw an error as a friendly reminder :)
+     *
+     * The actual implementations should return promises.
+     */
+    create(model) {
+        throw "Manager.create must use a custom implementation.";
+    }
+
+    update(model) {
+        throw "Manager.update must use a custom implementation.";
+    }
+
+    ['delete'](model) {
+        throw "Manager.delete must use a custom implementation.";
     }
 
     get http() {
@@ -70,7 +89,7 @@ class Manager {
 
 };
 
-Manager.$inject = ['$http'];
+Manager.$inject = ['$http', '$cacheFactory'];
 
 export {Manager};
 

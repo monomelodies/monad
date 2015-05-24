@@ -24,21 +24,21 @@ function map(month) {
 class Model {
 
     constructor() {
+        this.$initial = undefined;
         this.$data = {};
-        this.$fields = [];
         this.$deleted = false;
-        this.$new = true;
     }
 
-    $create(data = {}, recursive = true) {
-        let result = (new this.constructor()).$load(data, recursive);
-        result.$new = true;
-        return result;
+    static $create(data = {}, derivedClass = undefined) {
+        derivedClass = derivedClass || Model;
+        let instance = new derivedClass();
+        instance.$load(data);
+        instance.$initial = undefined;
+        return instance;
     }
 
-    $load(data = {}, recursive = true) {
+    $load(data = {}) {
         this.$initial = data;
-        this.$new = false;
         for (let key in data) {
             let checkDate = isDate.exec(data[key]);
             if (checkDate) {
@@ -56,7 +56,6 @@ class Model {
             }
             Object.defineProperty(this, key, props);
             this.$data[key] = data[key];
-            this.$fields.push(key);
         }
         return this;
     }
@@ -89,6 +88,10 @@ class Model {
         }
     }
 
+    get $new() {
+        return this.$initial === undefined;
+    }
+
     get $dirty() {
         if (this.$deleted) {
             return true;
@@ -119,11 +122,6 @@ class Model {
             }
         }
         return false;
-    }
-
-    $pluralize(field) {
-        field = field.replace(/y$/, 'ie');
-        return this[field + 's'];
     }
 
     $export() {
