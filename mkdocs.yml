@@ -18,19 +18,22 @@ pages:
 - [components/templates.md, Components, Templates]
 - [components/custom.md, Components, "Custom directives, filters and other stuff"]
 
+- [classes/model.md, Classes, Model]
 - [classes/collection.md, Classes, Collection]
 
 - [services/authentication.md, Services, Authentication]
 - [services/language.md, Services, Language]
+- [services/manager.md, Services, Manager]
 
 - [directives/path.md, Directives, Path]
 - [directives/lists.md, Directives, Lists]
 - [directives/forms.md, Directives, Forms]
 
-- [samples/ckeditor.md, Samples, Integrating CKEditor]
-- [samples/files.md, Samples, File uploads]
-- [samples/subauthentication.md, Samples, Sub-authentication]
-- [samples/wordpress.md, Samples, Wordpress plugin]
+- [samples/home.md, Examples, Adding a custom homepage or dashboard]
+- [samples/ckeditor.md, Examples, Integrating CKEditor]
+- [samples/files.md, Examples, File uploads]
+- [samples/subauthentication.md, Examples, Sub-authentication]
+- [samples/wordpress.md, Examples, Wordpress plugin]
 
 copyright: Copyright &copy; 2015, <a href="http://www.monomelodies.nl/">Marijn Ophorst</a>
 
