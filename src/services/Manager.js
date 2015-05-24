@@ -17,7 +17,9 @@ class Manager {
 
     constructor($http, $cacheFactory) {
         http = $http;
-        cache = $cacheFactory('monad-managers');
+        if (cache === undefined) {
+            cache = $cacheFactory('monad-managers');
+        }
         // Set this per-manager where needed:
         this.model = Model;
         this.collection = new Collection();
