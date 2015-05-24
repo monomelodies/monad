@@ -2,6 +2,7 @@
 "use strict";
 
 import {Model} from '../classes/Model';
+import {Collection} from '../classes/Collection';
 
 let http;
 
@@ -17,6 +18,7 @@ class Manager {
         http = $http;
         // Set this per-manager where needed:
         this.model = Model;
+        this.collection = new Collection();
         this.$count = undefined;
     }
 
@@ -24,7 +26,13 @@ class Manager {
         return http({
             url,
             method: 'GET',
-            transformResponse: appendTransform(values => values.map(value => (new this.model()).$load(value)))
+            transformResponse: appendTransform(values => {
+                while (this.collection.length) {
+                    this.collection.pop();
+                }
+                values.map(value => this.collection.push((new this.model()).$load(value)));
+                return this.collection;
+            })
         });
     }
 
