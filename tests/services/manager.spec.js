@@ -44,5 +44,18 @@ describe('service: Manager', () => {
         expect(model.$dirty).toBe(true);
     });
 
+    it('should not attempt to save pristine models', () => {
+        let m = new Model();
+        m.$load({foo: 'bar'});
+        mngr.save(m);
+    });
+
+    it('should throw an exception when saving', () => {
+        let m = new Model();
+        m.$load({foo: 'bar'});
+        m.foo = 'baz';
+        expect(() => mngr.save(m)).toThrow();
+    });
+
 });
 
