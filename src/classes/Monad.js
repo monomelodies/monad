@@ -1,7 +1,7 @@
 
 "use strict";
 
-import {Component} from './classes/Component';
+import {Component} from './Component';
 
 let ngmod;
 let defined = {};
@@ -9,15 +9,14 @@ let defined = {};
 class Monad {
 
     application(prefix, deps = [], configFn = undefined) {
-        if (ngmod == undefined) {
-            let extra = ['monad.core'];
-            for (let mod in defined) {
-                extra.push(mod);
-            }
-            ngmod = new Component(prefix, angular.module('monad', deps.concat(extra), configFn));
-        } else {
+        if (ngmod != undefined) {
             throw "Sorry, you can only call `monad.application` once!";
         }
+        let extra = ['monad.core'];
+        for (let mod in defined) {
+            extra.push(mod);
+        }
+        return (ngmod = new Component(prefix, angular.module('monad', deps.concat(extra), configFn)));
         return ngmod;
     }
 
