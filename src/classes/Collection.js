@@ -7,7 +7,7 @@ import {Model} from './Model';
  * Private method to do a simple check on the nature of an object.
  */
 function isModel(obj) {
-    return '$data' in obj && '$fields' in obj && '$deleted' in obj && '$new' in obj;
+    return typeof obj == 'object' && obj instanceof Model;
 };
 
 class Collection {
@@ -27,7 +27,7 @@ class Collection {
     push(...args) {
         let idx = this.storage.length;
         args = args.map(arg => this.defaults(arg));
-        args = args.map(arg => isModel(arg) ? arg : (new this.model()).$create(arg));
+        args = args.map(arg => isModel(arg) ? arg : Model.$create(arg, this.model));
         this.storage.push(...args);
         for (let i = idx; i < this.storage.length; i++) {
             Object.defineProperty(this, i, {get: () => this.storage[i] || undefined, configurable: true});
