@@ -88,6 +88,10 @@ class Collection {
         return this.storage.indexOf(item);
     }
 
+    map(...args) {
+        return this.storage.map(...args);
+    }
+
     get $dirty() {
         for (let i = 0; i < this.storage.length; i++) {
             if (this.storage[i].$new || this.storage[i].$dirty) {
