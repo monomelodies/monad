@@ -53,32 +53,34 @@ class Manager {
         });
     }
 
-    update(model) {
-        for (let field in model) {
-            if (field.substring(0, 1) == '$') {
-                continue;
-            }
-            if (typeof model[field] == 'object' && model[field] != null) {
-                if ('$delete' in model[field] && model[field].$deleted) {
-                    model[field].$delete();
-                } else if ('$update' in model[field] && model[field].$dirty) {
-                    model[field].$update();
-                } else if ('map' in model[field]) {
-                    model[field].map(item => {
-                        if (typeof item == 'object') {
-                            if ('$delete' in item && item.$deleted) {
-                                item.$delete();
-                            } else if ('$update' in item && item.$dirty) {
-                                item.$update();
-                            }
-                        }
-                    });
-                }
-            }
-            if (model.$initial[field]) {
-                model.$initial[field] = model.$data[field];
-            }
+    save(model) {
+        if (model.$new) {
+            return this.create(model);
+        } else if (model.$deleted) {
+            return this['delete'](model);
+        } else if (model.$dirty) {
+            return this.update(model);
         }
+        return {};
+    }
+
+    /**
+     * API interface. These should be overridden by a custom implementation,
+     * since we have no way to guesstimate how your API works. Hence, these
+     * throw an error as a friendly reminder :)
+     *
+     * The actual implementations should return promises.
+     */
+    create(model) {
+        throw "Manager.create must use a custom implementation.";
+    }
+
+    update(model) {
+        throw "Manager.update must use a custom implementation.";
+    }
+
+    ['delete'](model) {
+        throw "Manager.delete must use a custom implementation.";
     }
 
     get http() {
