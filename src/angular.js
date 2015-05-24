@@ -20,7 +20,7 @@ function config($translateProvider, $translatePartialLoaderProvider, $routeProvi
             controller: 'moController'
         }).
         when('/:language/', {
-            controller: 'moHomeController',
+            controller: HomeController,
             controllerAs: 'home',
             templateUrl: '../monad/templates/home.html'
         }).
@@ -43,7 +43,6 @@ angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ngSanitize
         $rootScope.$on('$translatePartialLoaderStructureChanged', () => $translate.refresh());
     }])
     .controller('moController', RootController)
-    .controller('moHomeController', HomeController)
     .service('moNavigation', Navigation)
     .service('moAuthentication', Authentication)
     .service('moLanguage', Language)
