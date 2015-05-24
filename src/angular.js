@@ -38,9 +38,18 @@ function config($translateProvider, $translatePartialLoaderProvider, $routeProvi
 
 angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ngSanitize', 'ui.bootstrap', Directives])
     .config(['$translateProvider', '$translatePartialLoaderProvider', '$routeProvider', '$locationProvider', config])
-    .run(['$http', '$rootScope', '$translate', ($http, $rootScope, $translate) => {
+    .run(['$http', '$rootScope', '$translate', '$route', '$cacheFactory', ($http, $rootScope, $translate, $route, $cacheFactory) => {
         normalizePost($http);
         $rootScope.$on('$translatePartialLoaderStructureChanged', () => $translate.refresh());
+        $route.reset = () => {
+            let caches = $cacheFactory.info();
+            for (let cache in caches) {
+                if (cache == 'templates') {
+                    continue;
+                }
+                $cacheFactory.get(cache).removeAll();
+            }
+        };
     }])
     .controller('moController', RootController)
     .service('moNavigation', Navigation)
