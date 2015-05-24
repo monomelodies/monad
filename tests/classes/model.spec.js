@@ -10,7 +10,7 @@ class Test extends Model {
 
 };
 
-let test1 = (new Test()).$create({foo: 'bar'});
+let test1 = Model.$create({foo: 'bar'}, Test);
 let test2 = (new Test()).$load({foo: 'baz'});
 
 describe("class: Model", () => {
