@@ -25,7 +25,6 @@ class Model {
 
     constructor() {
         this.$data = {};
-        this.$fields = [];
         this.$deleted = false;
         this.$new = true;
     }
@@ -56,7 +55,6 @@ class Model {
             }
             Object.defineProperty(this, key, props);
             this.$data[key] = data[key];
-            this.$fields.push(key);
         }
         return this;
     }
