@@ -36,6 +36,7 @@ class Component {
             if (typeof interfacer[prop] == 'function') {
                 this[prop] = (...args) => {
                     this.queued.push([prop].concat(args));
+                    return this;
                 };
             }
         }
