@@ -4,27 +4,26 @@
 import {Component} from './Component';
 
 let ngmod;
+let registeredComponents = {};
 
 class Monad {
 
-    application(prefix, deps = [], configFn = undefined) {
+    application(name, deps = [], configFn = undefined) {
         if (ngmod != undefined) {
             throw "Sorry, you can only call `monad.application` once!";
         }
         let extra = ['monad.core'];
-        for (let mod in Component.all()) {
+        for (let mod in registeredComponents) {
             extra.push(mod);
         }
-        return (ngmod = new Component(prefix, angular.module('monad', deps.concat(extra), configFn)));
+        return (ngmod = new Component(angular.module('monad', deps.concat(extra), configFn)));
     }
 
-    component(prefix, name, deps = [], configFn = undefined) {
-        try {
-            let existing = Component.get(name);
-            return existing;
-        } catch (e) {
+    component(name, deps = [], configFn = undefined) {
+        if (!(name in registeredComponents)) {
+            registeredComponents[name] = new Component(angular.module(name, deps.concat(['monad.core']), configFn));
         }
-        return new Component(prefix, angular.module(name, deps.concat(['monad.core']), configFn));
+        return registeredComponents[name];
     }
 };
 
