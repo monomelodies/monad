@@ -5,16 +5,14 @@ import {ListController} from '../controllers/ListController';
 import {CrudController} from '../controllers/CrudController';
 import {Navigation} from '../services/Navigation';
 
-let registeredComponents = {};
 let nav = new Navigation();
 
 class Component {
 
-    constructor(prefix, ngmod) {
-        registeredComponents[ngmod.name] = ngmod;
-        registeredComponents[ngmod.name].paths = {};
+    constructor(ngmod) {
+        this.paths = {};
+        this.ngmod = ngmod;
         this.name = ngmod.name;
-        this.prefix = prefix;
     }
 
     list(url, options = {}, resolve = {}) {
@@ -26,7 +24,7 @@ class Component {
         delete options.template; // Don't do this.
 
         // Defaults for resolve:
-        resolve.Manager = resolve.Manager || [normalize(this.prefix, this.name) + 'Manager', Manager => Manager];
+        resolve.Manager = resolve.Manager || [normalize(this.name) + 'Manager', Manager => Manager];
 
         // It's easier if we can specify 'columns' on the options:
         if ('columns' in options) {
@@ -36,12 +34,12 @@ class Component {
         }
 
         if (!('menu' in options) || options.menu) {
-            nav.register(options.menu || 'main', '/:language' + url, 'monad.navigation.' + this.name);
+            nav.register(options.menu || 'main', '/:language' + url, 'monad.navigation.' + normaliz(this.name, '.\\1'));
         }
         delete(options.menu);
 
-        addTarget(this.name, url, options, resolve);
-        registeredComponents[this.name].paths.list = '/:language' + url;
+        addTarget.call(this, url, options, resolve);
+        this.paths.list = '/:language' + url;
         return this;
     }
 
@@ -54,27 +52,16 @@ class Component {
         delete options.template; // Don't do this.
 
         // Defaults for resolve:
-        resolve.Manager = resolve.Manager || [normalize(this.prefix, this.name) + 'Manager', Manager => Manager];
+        resolve.Manager = resolve.Manager || [normalize(this.name) + 'Manager', Manager => Manager];
 
-        addTarget(this.name, url, options, resolve);
-        registeredComponents[this.name].paths.update = '/:language' + url;
+        addTarget.call(this, url, options, resolve);
+        this.paths.update = '/:language' + url;
         return this;
     }
 
     manager(Manager) {
-        this.service(normalize(this.prefix, this.name) + 'Manager', Manager);
+        this.service(this.name + 'Manager', Manager);
         return this;
-    }
-
-    static get(name) {
-        if (name in registeredComponents) {
-            return registeredComponents[name];
-        }
-        throw `${name} is not a registered Component.`;
-    }
-
-    static all() {
-        return registeredComponents;
     }
 
     /**
@@ -82,57 +69,57 @@ class Component {
      * {{{
      */
     provider(...args) {
-        registeredComponents[this.name].provider(...args);
+        this.ngmod.provider(...args);
         return this;
     }
 
     factory(...args) {
-        registeredComponents[this.name].factory(...args);
+        this.ngmod.factory(...args);
         return this;
     }
 
     service(...args) {
-        registeredComponents[this.name].service(...args);
+        this.ngmod.service(...args);
         return this;
     }
 
     value(...args) {
-        registeredComponents[this.name].value(...args);
+        this.ngmod.value(...args);
         return this;
     }
 
     constant(...args) {
-        registeredComponents[this.name].constant(...args);
+        this.ngmod.constant(...args);
         return this;
     }
 
     animation(...args) {
-        registeredComponents[this.name].animation(...args);
+        this.ngmod.animation(...args);
         return this;
     }
 
     filter(...args) {
-        registeredComponents[this.name].filter(...args);
+        this.ngmod.filter(...args);
         return this;
     }
 
     controller(...args) {
-        registeredComponents[this.name].controller(...args);
+        this.ngmod.controller(...args);
         return this;
     }
 
     directive(...args) {
-        registeredComponents[this.name].directive(...args);
+        this.ngmod.directive(...args);
         return this;
     }
 
     config(...args) {
-        registeredComponents[this.name].config(...args);
+        this.ngmod.config(...args);
         return this;
     }
 
     run(...args) {
-        registeredComponents[this.name].run(...args);
+        this.ngmod.run(...args);
         return this;
     }
     /** }}} */
@@ -143,17 +130,22 @@ class Component {
  * Private helper-functions:
  * {{{
  */
-function addTarget(name, url, options = {}, resolve = {}) {
-    resolve.module = () => name;
+function addTarget(url, options = {}, resolve = {}) {
+    resolve.module = () => this.name;
     options.resolve = resolve;
-    registeredComponents[name].config(['$routeProvider', '$translatePartialLoaderProvider', ($routeProvider, $translatePartialLoaderProvider) => {
+    this.ngmod.config(['$routeProvider', '$translatePartialLoaderProvider', ($routeProvider, $translatePartialLoaderProvider) => {
         $routeProvider.when('/:language' + url, options);
-        $translatePartialLoaderProvider.addPart(name);
+        $translatePartialLoaderProvider.addPart(this.name);
     }]);
 };
 
-function normalize(prefix, name) {
-    return prefix + name.substring(0, 1).toUpperCase() + name.substring(1);
+function normalize(name, replace = undefined) {
+    if (replace == undefined) {
+        replace = (match, ...matches) => {
+            console.log(matches);
+        };
+    }
+    return name.replace(/(\/\w)/g, replace);
 };
 /** }}} */
 
