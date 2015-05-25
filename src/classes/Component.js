@@ -135,7 +135,7 @@ class Component {
  * {{{
  */
 function addTarget(type) {
-    let settings = angular.extend({}, this.defaults[type], this.settings[type]);
+    let settings = merge(this.defaults[type], this.settings[type]);
     settings.resolve = settings.resolve || {};
     settings.resolve.module = () => this.name;
     settings.options.resolve = settings.resolve;
@@ -151,6 +151,41 @@ function normalize(name, replace = undefined) {
     }
     return name.replace(/\/(\w)/g, replace);
 };
+
+function merge(...args) {
+    let merged = {};
+    args.map(arg => {
+        for (let prop in arg) {
+            if (!(prop in merged)) {
+                merged[prop] = arg[prop];
+                continue;
+            }
+            if (typeof merged[prop] != typeof arg[prop]) {
+                merged[prop] = arg[prop];
+                continue;
+            }
+            if (angular.isArray(merged[prop]) != angular.isArray(arg[prop])) {
+                merged[prop] = arg[prop];
+                continue;
+            }
+            if (angular.isArray(merged[prop]) && angular.isArray(arg[prop])) {
+                arg[prop].map(elem => {
+                    if (merged[prop].indexOf(elem) == -1) {
+                        merged[prop].push(elem);
+                    }
+                });
+                continue;
+            }
+            if (typeof arg[prop] != 'object') {
+                merged[prop] = arg[prop];
+                continue;
+            }
+            merged[prop] = merge(merged[prop], arg[prop]);
+        }
+    });
+    return merged;
+};
+
 /** }}} */
 
 export {Component};
