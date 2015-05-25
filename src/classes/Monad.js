@@ -16,15 +16,23 @@ class Monad {
         for (let mod in registeredComponents) {
             extra.push(mod);
         }
-        return (ngmod = new Component(angular.module('monad', deps.concat(extra), configFn)));
+        return (ngmod = new Component('monad', deps.concat(extra), configFn));
     }
 
     component(name, deps = [], configFn = undefined) {
         if (!(name in registeredComponents)) {
-            registeredComponents[name] = new Component(angular.module(name, deps.concat(['monad.core']), configFn));
+            registeredComponents[name] = new Component(name, deps.concat(['monad.core']), configFn);
         }
         return registeredComponents[name];
     }
+
+    bootstrap() {
+        for (let name in registeredComponents) {
+            registeredComponents[name].bootstrap();
+        }
+        ngmod.bootstrap();
+    }
+
 };
 
 export {Monad};
