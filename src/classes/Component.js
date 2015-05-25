@@ -33,7 +33,7 @@ class Component {
         this.configFn = configFn;
         this.queued = [];
         this.$bootstrapped = false;
-        this.defaults = angular.copy({}, defaults);
+        this.defaults = angular.extend({}, defaults);
         this.settings = {};
 
         for (let prop in interfacer) {
@@ -82,7 +82,7 @@ class Component {
                 throw `Component ${component} is undefined and cannot be extended upon.`;
             }
         }
-        this.defaults = angular.merge({}, defaults, component.defaults, this.defaults)
+        this.defaults = angular.extend({}, defaults, component.defaults, this.defaults)
     }
 
     list(url, options = {}, resolve = {}) {
@@ -135,11 +135,12 @@ class Component {
  * {{{
  */
 function addTarget(type) {
-    let settings = angular.merge({}, this.defaults[type], this.settings[type]);
+    let settings = angular.extend({}, this.defaults[type], this.settings[type]);
+    settings.resolve = settings.resolve || {};
     settings.resolve.module = () => this.name;
     settings.options.resolve = settings.resolve;
     this.ngmod.config(['$routeProvider', '$translatePartialLoaderProvider', ($routeProvider, $translatePartialLoaderProvider) => {
-        $routeProvider.when('/:language' + settings.url, options);
+        $routeProvider.when('/:language' + settings.url, settings.options);
         $translatePartialLoaderProvider.addPart(this.name);
     }]);
 };
