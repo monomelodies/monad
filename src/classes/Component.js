@@ -51,6 +51,9 @@ class Component {
         this.$bootstrapped = true;
         let deps = [];
         this.dependencies.map(dep => {
+            if (typeof dep == 'string' && monad.exists(dep)) {
+                dep = monad.module(dep);
+            }
             if (typeof dep == 'object' && dep instanceof Component) {
                 dep.bootstrap();
                 deps.push(dep.name);
