@@ -40,6 +40,11 @@ class Manager extends Base {
         return super.list(url);
     }
 
+    paginate(page) {
+        // Insert the page into list wherever your parameter lives:
+        return super.list(some, list, page, params);
+    }
+
     find(another, param) {
         // Form your URL however you like:
         let url = `/${another}/${param}`;
@@ -102,26 +107,36 @@ class Manager {
     Virtual property that should return the total number of items available.
     This value is used for pagination.
 
-- #### list ####
+- #### list(url) ####
 
     Method returning a promise resolving to a
     [Collection](../classes/collection.md) of [Models](../classes/model.md).
 
-- #### find ####
+- #### paginate(page, params) ####
+
+    Method return a call to `list` with the correct page injected. $routeParams
+    are passed as the second argument.
+
+- #### find(url) ####
 
     Method returning a promise resolving to a [Model](../classes/model.md).
 
-- #### create ####
+- #### save(Model) ####
+
+    Convenience method accepting a Model, and returns create, update or delete
+    as appropriate. If the model is pristine, an empty object is returned.
+
+- #### create(Model) ####
 
     Method returning a promise that attempts to create the model passed as an
     argument.
 
-- #### update ####
+- #### update(Model) ####
 
     Method returning a promise that attempts to update the model passed as an
     argument.
 
-- #### delete ####
+- #### delete(Model) ####
 
     Method returning a promise that attempts to delete the model passed as an
     argument.

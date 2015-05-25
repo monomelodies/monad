@@ -15,7 +15,13 @@ class Manager {
     }
 
     list(...params) {
-        // Returns promise resolving to a Collection of Models
+        // Returns promise resolving to a Collection of Models. Note that
+        // this is also responsible for pagination.
+    }
+
+    paginate(page, params) {
+        // Return call to list with the correct page injected.
+        // Second argument are $routeParams, in case you need them.
     }
 
     find(...params) {
