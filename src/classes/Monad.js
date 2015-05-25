@@ -3,20 +3,20 @@
 
 import {Component} from './Component';
 
-let ngmod;
+let application;
 let registeredComponents = {};
 
 class Monad {
 
     application(name, deps = [], configFn = undefined) {
-        if (ngmod != undefined) {
+        if (application != undefined) {
             throw "Sorry, you can only call `monad.application` once!";
         }
         let extra = ['monad.core'];
         for (let mod in registeredComponents) {
             extra.push(mod);
         }
-        return (ngmod = new Component('monad', deps.concat(extra), configFn));
+        return (application = new Component('monad', deps.concat(extra), configFn));
     }
 
     component(name, deps = [], configFn = undefined) {
@@ -30,7 +30,7 @@ class Monad {
         for (let name in registeredComponents) {
             registeredComponents[name].bootstrap();
         }
-        ngmod.bootstrap();
+        application.bootstrap();
     }
 
 };
