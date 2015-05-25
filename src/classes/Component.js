@@ -29,8 +29,10 @@ class Component {
         this.paths = {};
         this.name = name;
         this.$manager = undefined;
-        this.settings = {dependencies, configFn};
+        this.dependencies = dependencies;
+        this.configFn = configFn;
         this.queued = [];
+        this.$bootstrapped = false;
 
         for (let prop in interfacer) {
             if (typeof interfacer[prop] == 'function') {
@@ -43,7 +45,23 @@ class Component {
     }
 
     bootstrap() {
-        this.ngmod = angular.module(this.name, this.settings.dependencies, this.settings.configFn);
+        if (this.$bootstrapped) {
+            return;
+        }
+        this.$bootstrapped = true;
+        let deps = [];
+        this.dependencies.map(dep => {
+            if (typeof dep == 'string' && monad.exists(dep)) {
+                dep = monad.module(dep);
+            }
+            if (typeof dep == 'object' && dep instanceof Component) {
+                dep.bootstrap();
+                deps.push(dep.name);
+            } else {
+                deps.push(dep);
+            }
+        });
+        this.ngmod = angular.module(this.name, deps, this.configFn);
         this.queued.map(proxy => {
             let fn = proxy.shift();
             if (typeof fn == 'string') {
