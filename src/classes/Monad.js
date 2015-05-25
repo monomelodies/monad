@@ -27,6 +27,9 @@ class Monad {
     }
 
     bootstrap() {
+        if (application == undefined) {
+            throw "Looks like you forget to call monad.application...";
+        }
         for (let name in registeredComponents) {
             registeredComponents[name].bootstrap();
         }
