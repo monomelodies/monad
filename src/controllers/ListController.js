@@ -23,9 +23,9 @@ class ListController {
         modal = $modal;
         route = $route;
         this.page = params.page || 1;
-        let module = Component.get(this.module);
-        this.path = module.paths.update;
-        this.create = language => module.paths.update.replace(/:language/, language).replace(/:id/, 'create');
+        let module = monad.component(this.module);
+        this.path = '/:language' + module.settings.update.url;
+        this.create = language => this.path.replace(/:language/, language).replace(/:id/, 'create');
     }
 
     get page() {
