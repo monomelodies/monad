@@ -54,7 +54,7 @@ class Component {
         let deps = [];
         this.dependencies.map(dep => {
             if (typeof dep == 'string' && monad.exists(dep)) {
-                dep = monad.module(dep);
+                dep = monad.component(dep);
             }
             if (typeof dep == 'object' && dep instanceof Component) {
                 dep.bootstrap();
@@ -87,7 +87,6 @@ class Component {
 
     list(url, options = {}, resolve = {}) {
         // Defaults for options:
-        options = angular.extend({}, defaults.list.options, options);
         delete options.template; // Don't do this.
 
         // Defaults for resolve:
@@ -107,13 +106,11 @@ class Component {
 
         this.settings.list = {url, options, resolve};
         this.queued.push(addTarget, 'list');
-        this.paths.list = '/:language' + url;
         return this;
     }
 
     update(url, options = {}, resolve = {}) {
         // Defaults for options:
-        options = angular.extend({}, defaults.crud.options, options);
         options.templateUrl = options.templateUrl || this.name + '/schema.html';
         delete options.template; // Don't do this.
 
@@ -122,7 +119,6 @@ class Component {
 
         this.settings.update = {url, options, resolve};
         this.queued.push(addTarget, 'update');
-        this.paths.update = '/:language' + url;
         return this;
     }
 
