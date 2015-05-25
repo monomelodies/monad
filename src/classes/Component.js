@@ -6,22 +6,59 @@ import {CrudController} from '../controllers/CrudController';
 import {Navigation} from '../services/Navigation';
 
 let nav = new Navigation();
+let defaults = {
+    list: {
+        options: {
+            controller: ListController,
+            controllerAs: 'list',
+            templateUrl: '../monad/templates/list.html'
+        }
+    },
+    crud: {
+        options: {
+            controller: CrudController,
+            controllerAs: 'crud'
+        }
+    }
+};
+let interfacer = angular.module('monad.interface', []);
 
 class Component {
 
-    constructor(ngmod) {
+    constructor(name, dependencies = [], configFn = undefined) {
         this.paths = {};
-        this.ngmod = ngmod;
-        this.name = ngmod.name;
+        this.name = name;
         this.$manager = undefined;
+        this.settings = {dependencies, configFn};
+        this.queued = [];
+
+        for (let prop in interfacer) {
+            if (typeof interfacer[prop] == 'function') {
+                this[prop] = (...args) => {
+                    this.queued.push([prop].concat(args));
+                };
+            }
+        }
+    }
+
+    bootstrap() {
+        this.ngmod = angular.module(this.name, this.settings.dependencies, this.settings.configFn);
+        this.queued.map(proxy => {
+            let fn = proxy.shift();
+            if (typeof fn == 'string') {
+                this.ngmod[fn](...proxy);
+            } else {
+                fn(...proxy);
+            }
+        });
+    }
+
+    extend(component) {
     }
 
     list(url, options = {}, resolve = {}) {
         // Defaults for options:
-        options.controller = options.controller || ListController;
-        // Overriding this is generally a bad idea...
-        options.controllerAs = options.controllerAs || 'list';
-        options.templateUrl = options.templateUrl || '../monad/templates/list.html';
+        options = angular.extend({}, defaults.list.options, options);
         delete options.template; // Don't do this.
 
         // Defaults for resolve:
@@ -39,6 +76,7 @@ class Component {
         }
         delete(options.menu);
 
+        this.settings.list = {url, options, resolve};
         addTarget.call(this, url, options, resolve);
         this.paths.list = '/:language' + url;
         return this;
@@ -46,15 +84,14 @@ class Component {
 
     update(url, options = {}, resolve = {}) {
         // Defaults for options:
-        options.controller = options.controller || CrudController;
-        // Overriding this is generally a bad idea...
-        options.controllerAs = options.controllerAs || 'crud';
+        options = angular.extend({}, defaults.crud.options, options);
         options.templateUrl = options.templateUrl || this.name + '/schema.html';
         delete options.template; // Don't do this.
 
         // Defaults for resolve:
         resolve.Manager = resolve.Manager || [normalize(this.name) + 'Manager', Manager => Manager];
 
+        this.settings.update = {url, options, resolve};
         addTarget.call(this, url, options, resolve);
         this.paths.update = '/:language' + url;
         return this;
@@ -66,66 +103,6 @@ class Component {
         return this;
     }
 
-    /**
-     * Interface to ngModule:
-     * {{{
-     */
-    provider(...args) {
-        this.ngmod.provider(...args);
-        return this;
-    }
-
-    factory(...args) {
-        this.ngmod.factory(...args);
-        return this;
-    }
-
-    service(...args) {
-        this.ngmod.service(...args);
-        return this;
-    }
-
-    value(...args) {
-        this.ngmod.value(...args);
-        return this;
-    }
-
-    constant(...args) {
-        this.ngmod.constant(...args);
-        return this;
-    }
-
-    animation(...args) {
-        this.ngmod.animation(...args);
-        return this;
-    }
-
-    filter(...args) {
-        this.ngmod.filter(...args);
-        return this;
-    }
-
-    controller(...args) {
-        this.ngmod.controller(...args);
-        return this;
-    }
-
-    directive(...args) {
-        this.ngmod.directive(...args);
-        return this;
-    }
-
-    config(...args) {
-        this.ngmod.config(...args);
-        return this;
-    }
-
-    run(...args) {
-        this.ngmod.run(...args);
-        return this;
-    }
-    /** }}} */
-
 };
 
 /**
@@ -135,10 +112,10 @@ class Component {
 function addTarget(url, options = {}, resolve = {}) {
     resolve.module = () => this.name;
     options.resolve = resolve;
-    this.ngmod.config(['$routeProvider', '$translatePartialLoaderProvider', ($routeProvider, $translatePartialLoaderProvider) => {
+    this.queued.push(['config', ['$routeProvider', '$translatePartialLoaderProvider', ($routeProvider, $translatePartialLoaderProvider) => {
         $routeProvider.when('/:language' + url, options);
         $translatePartialLoaderProvider.addPart(this.name);
-    }]);
+    }]]);
 };
 
 function normalize(name, replace = undefined) {
