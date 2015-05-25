@@ -13,6 +13,7 @@ class Component {
         this.paths = {};
         this.ngmod = ngmod;
         this.name = ngmod.name;
+        this.$manager = undefined;
     }
 
     list(url, options = {}, resolve = {}) {
@@ -60,7 +61,8 @@ class Component {
     }
 
     manager(Manager) {
-        this.service(this.name + 'Manager', Manager);
+        this.$manager = normalize(this.name) + 'Manager';
+        this.service(this.$manager, Manager);
         return this;
     }
 
