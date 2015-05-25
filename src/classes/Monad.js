@@ -23,7 +23,7 @@ class Monad {
         if (!(name in registeredComponents)) {
             registeredComponents[name] = new Component(name, deps.concat(['monad.core']), configFn);
         }
-        return registeredComponents[name];
+        return registeredComponents[name] || throw `Component ${name} is undefined.`;
     }
 
     bootstrap() {
