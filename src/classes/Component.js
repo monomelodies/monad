@@ -29,7 +29,8 @@ class Component {
         this.paths = {};
         this.name = name;
         this.$manager = undefined;
-        this.settings = {dependencies, configFn};
+        this.dependencies = dependencies;
+        this.configFn = configFn;
         this.queued = [];
 
         for (let prop in interfacer) {
@@ -43,7 +44,15 @@ class Component {
     }
 
     bootstrap() {
-        this.ngmod = angular.module(this.name, this.settings.dependencies, this.settings.configFn);
+        let deps = [];
+        this.dependencies.map(dep => {
+            if (typeof dep == 'object' && dep instanceof Component) {
+                deps.push(dep.name);
+            } else {
+                deps.push(dep);
+            }
+        });
+        this.ngmod = angular.module(this.name, deps, this.configFn);
         this.queued.map(proxy => {
             let fn = proxy.shift();
             if (typeof fn == 'string') {
