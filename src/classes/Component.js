@@ -105,7 +105,7 @@ class Component {
         delete(options.menu);
 
         this.settings.list = {url, options, resolve};
-        this.queued.push(addTarget, 'list');
+        this.queued.push([addTarget, 'list']);
         return this;
     }
 
@@ -118,7 +118,7 @@ class Component {
         resolve.Manager = resolve.Manager || [normalize(this.name) + 'Manager', Manager => Manager];
 
         this.settings.update = {url, options, resolve};
-        this.queued.push(addTarget, 'update');
+        this.queued.push([addTarget, 'update']);
         return this;
     }
 
