@@ -106,7 +106,7 @@ class Component {
         delete(options.menu);
 
         this.settings.list = {url, options, resolve};
-        this.queued.push(addTarget, 'list');
+        this.queued.push([addTarget, 'list']);
         this.paths.list = '/:language' + url;
         return this;
     }
@@ -121,7 +121,7 @@ class Component {
         resolve.Manager = resolve.Manager || [normalize(this.name) + 'Manager', Manager => Manager];
 
         this.settings.update = {url, options, resolve};
-        this.queued.push(addTarget, 'update');
+        this.queued.push([addTarget, 'update']);
         this.paths.update = '/:language' + url;
         return this;
     }
