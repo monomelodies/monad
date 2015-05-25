@@ -33,6 +33,8 @@ class Component {
         this.configFn = configFn;
         this.queued = [];
         this.$bootstrapped = false;
+        this.defaults = angular.copy({}, defaults);
+        this.settings = {};
 
         for (let prop in interfacer) {
             if (typeof interfacer[prop] == 'function') {
@@ -67,12 +69,20 @@ class Component {
             if (typeof fn == 'string') {
                 this.ngmod[fn](...proxy);
             } else {
-                fn(...proxy);
+                fn.apply(this, proxy);
             }
         });
     }
 
     extend(component) {
+        if (typeof component == 'string') {
+            if (monad.exists(component)) {
+                component = monad.component(component);
+            } else {
+                throw `Component ${component} is undefined and cannot be extended upon.`;
+            }
+        }
+        this.defaults = angular.merge({}, defaults, component.defaults, this.defaults)
     }
 
     list(url, options = {}, resolve = {}) {
@@ -96,7 +106,7 @@ class Component {
         delete(options.menu);
 
         this.settings.list = {url, options, resolve};
-        addTarget.call(this, url, options, resolve);
+        this.queued.push(addTarget, 'list');
         this.paths.list = '/:language' + url;
         return this;
     }
@@ -111,7 +121,7 @@ class Component {
         resolve.Manager = resolve.Manager || [normalize(this.name) + 'Manager', Manager => Manager];
 
         this.settings.update = {url, options, resolve};
-        addTarget.call(this, url, options, resolve);
+        this.queued.push(addTarget, 'update');
         this.paths.update = '/:language' + url;
         return this;
     }
@@ -128,13 +138,14 @@ class Component {
  * Private helper-functions:
  * {{{
  */
-function addTarget(url, options = {}, resolve = {}) {
-    resolve.module = () => this.name;
-    options.resolve = resolve;
-    this.queued.push(['config', ['$routeProvider', '$translatePartialLoaderProvider', ($routeProvider, $translatePartialLoaderProvider) => {
-        $routeProvider.when('/:language' + url, options);
+function addTarget(type) {
+    let settings = angular.merge({}, this.defaults[type], this.settings[type]);
+    settings.resolve.module = () => this.name;
+    settings.options.resolve = settings.resolve;
+    this.ngmod.config(['$routeProvider', '$translatePartialLoaderProvider', ($routeProvider, $translatePartialLoaderProvider) => {
+        $routeProvider.when('/:language' + settings.url, options);
         $translatePartialLoaderProvider.addPart(this.name);
-    }]]);
+    }]);
 };
 
 function normalize(name, replace = undefined) {
