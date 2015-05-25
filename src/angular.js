@@ -64,10 +64,10 @@ window.monad = new Monad();
 
 let bootstrap = angular.bootstrap;
 
-angular.bootstrap((...args) => {
+angular.bootstrap = (...args) => {
     window.monad.bootstrap();
     bootstrap(...args);
-});
+};
 
 export default ngModule;
 
