@@ -62,5 +62,12 @@ angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ngSanitize
 
 window.monad = new Monad();
 
+let bootstrap = angular.bootstrap;
+
+angular.bootstrap((...args) => {
+    window.monad.bootstrap();
+    bootstrap(...args);
+});
+
 export default ngModule;
 
