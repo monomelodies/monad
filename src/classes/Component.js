@@ -32,6 +32,7 @@ class Component {
         this.dependencies = dependencies;
         this.configFn = configFn;
         this.queued = [];
+        this.$bootstrapped = false;
 
         for (let prop in interfacer) {
             if (typeof interfacer[prop] == 'function') {
@@ -44,9 +45,14 @@ class Component {
     }
 
     bootstrap() {
+        if (this.$bootstrapped) {
+            return;
+        }
+        this.$bootstrapped = true;
         let deps = [];
         this.dependencies.map(dep => {
             if (typeof dep == 'object' && dep instanceof Component) {
+                dep.bootstrap();
                 deps.push(dep.name);
             } else {
                 deps.push(dep);
