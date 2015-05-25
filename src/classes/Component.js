@@ -34,7 +34,7 @@ class Component {
         }
 
         if (!('menu' in options) || options.menu) {
-            nav.register(options.menu || 'main', '/:language' + url, 'monad.navigation.' + normaliz(this.name, '.\\1'));
+            nav.register(options.menu || 'main', '/:language' + url, 'monad.navigation.' + normalize(this.name, '.$1'));
         }
         delete(options.menu);
 
@@ -141,11 +141,9 @@ function addTarget(url, options = {}, resolve = {}) {
 
 function normalize(name, replace = undefined) {
     if (replace == undefined) {
-        replace = (match, ...matches) => {
-            console.log(matches);
-        };
+        replace = match => match.substring(1).toUpperCase();
     }
-    return name.replace(/(\/\w)/g, replace);
+    return name.replace(/\/(\w)/g, replace);
 };
 /** }}} */
 
