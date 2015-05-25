@@ -74,15 +74,17 @@ class Component {
         });
     }
 
-    extend(component) {
-        if (typeof component == 'string') {
-            if (monad.exists(component)) {
-                component = monad.component(component);
-            } else {
-                throw `Component ${component} is undefined and cannot be extended upon.`;
+    extend(...components) {
+        components.map(component => {
+            if (typeof component == 'string') {
+                if (monad.exists(component)) {
+                    component = monad.component(component);
+                } else {
+                    throw `Component ${component} is undefined and cannot be extended upon.`;
+                }
             }
-        }
-        this.defaults = angular.extend({}, defaults, component.defaults, this.defaults)
+            this.defaults = merge(this.defaults, component.defaults);
+        });
     }
 
     list(url, options = {}, resolve = {}) {
