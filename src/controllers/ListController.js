@@ -9,7 +9,7 @@ let modal;
 
 class ListController {
 
-    constructor($route, $modal) {
+    constructor($route, $modal, $translatePartialLoader) {
         if ($route.current && $route.current.locals) {
             for (let p in $route.current.locals) {
                 if (p.substring(0, 1) == '$') {
@@ -23,9 +23,7 @@ class ListController {
         modal = $modal;
         route = $route;
         this.page = params.page || 1;
-        let module = monad.component(this.module);
-        this.path = '/:language' + module.settings.update.url;
-        this.create = language => this.path.replace(/:language/, language).replace(/:id/, 'create');
+        $translatePartialLoader.addPart(this.module.name);
     }
 
     get page() {
@@ -66,7 +64,7 @@ class ListController {
 
 };
 
-ListController.$inject = ['$route', '$modal'];
+ListController.$inject = ['$route', '$modal', '$translatePartialLoader'];
 
 export {ListController};
 
