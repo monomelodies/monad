@@ -7,7 +7,7 @@ describe("Monad global application and component handler", () => {
 
     describe("Monad global object", () => {
 
-        monad.component('test', 'component');
+        monad.component('testComponent');
         let app = monad.application('test');
 
         it("Registers the application", () => {

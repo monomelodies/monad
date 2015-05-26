@@ -58,10 +58,16 @@ angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ngSanitize
     .value('title', 'Default generic administrator')
     .value('languages', ['en', 'nl'])
     .value('theme', '../monad/default.css')
-    .value('ckeditor', {})
     ;
 
 window.monad = new Monad();
+
+let bootstrap = angular.bootstrap;
+
+angular.bootstrap = (...args) => {
+    window.monad.bootstrap();
+    bootstrap(...args);
+};
 
 export default ngModule;
 

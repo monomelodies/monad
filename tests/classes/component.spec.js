@@ -4,8 +4,10 @@
  */
 describe("class: Component", () => {
 
-    it("has a dummy test :)", () => {
-        expect(true).toEqual(true);
+    let test = monad.component('foo/bar/baz/buz').manager(() => {});
+
+    it("normalizes names correctly", () => {
+        expect(test.$manager).toEqual('fooBarBazBuzManager');
     });
 
 });
