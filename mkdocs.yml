@@ -7,7 +7,7 @@ pages:
 - [index.md, Overview, Home]
 - [overview/history.md, Overview, A little history]
 - [overview/build.md, Overview, Setting up a build script]
-- [overview/minimal.md, Overview, Basic concepts]
+- [overview/main.md, Overview, Main concepts]
 - [overview/customisation.md, Overview, Basic customisation]
 - [overview/authentication.md, Overview, Authentication]
 
@@ -18,6 +18,8 @@ pages:
 - [components/templates.md, Components, Templates]
 - [components/custom.md, Components, "Custom directives, filters and other stuff"]
 
+- [classes/monad.md, Classes, Monad global object]
+- [classes/component.md, Classes, Component]
 - [classes/model.md, Classes, Model]
 - [classes/collection.md, Classes, Collection]
 
@@ -25,14 +27,18 @@ pages:
 - [services/language.md, Services, Language]
 - [services/manager.md, Services, Manager]
 
+- [controllers/crud.md, Controllers, CrudController]
+
 - [directives/path.md, Directives, Path]
 - [directives/lists.md, Directives, Lists]
 - [directives/forms.md, Directives, Forms]
 
 - [samples/home.md, Examples, Adding a custom homepage or dashboard]
+- [samples/multi.md, Examples, CRUD with multiple models]
 - [samples/ckeditor.md, Examples, Integrating CKEditor]
 - [samples/files.md, Examples, File uploads]
 - [samples/subauthentication.md, Examples, Sub-authentication]
+- [samples/reusable.md, Examples, Building reusable components]
 - [samples/wordpress.md, Examples, Wordpress plugin]
 
 copyright: Copyright &copy; 2015, <a href="http://www.monomelodies.nl/">Marijn Ophorst</a>

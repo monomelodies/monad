@@ -1,6 +1,6 @@
-# Basic concepts
+# Main concepts
 
-## Main entry point
+## Central entry point
 Your admin application will need an entry point. This is the main script that
 Monad loads by default, after including libraries and its own bundle.
 
@@ -28,14 +28,13 @@ The 'app' is a random name for your application; in this manual we'll use
 
 ## Adding components
 Of course, you'll want to separate your admin code into modules (in the Angular,
-ES6 and Monad sense). For this, use `monad.component`, which takes an app name
-plus the same arguments as `angular.module`, but returns a `Component` object
-instead:
+ES6 and Monad sense). For this, use `monad.component`, which takes the same
+arguments as `angular.module`, but returns a `Component` object instead:
 
 ```javascript
-monad.component('foobar', 'foo', [...optionalDependencies], configFn)
+monad.component('foobarFoo', [...optionalDependencies], configFn)
     .config(configFn);
-monad.component('foobar', 'bar', [...optionalDependencies], configFn)
+monad.component('foobarBar', [...optionalDependencies], configFn)
     .config(configFn);
 // etc.
 ```
@@ -45,24 +44,38 @@ adds dependencies on previously registered components (as well as `monad.core`).
 Hence, this code:
 
 ```javascript
-monad.component('foobar', 'foo');
-monad.component('foobar', 'bar');
+monad.component('foobarFoo');
+monad.component('foobarBar');
 monad.application('foobar');
 ```
 
-...will result in a `monad` Angular module with dependencies on `foo`, `bar` and
-`monad.core`. It is also possible to register components _after_ the call to
-`monad.application`, but then you need to "predepend" your application:
+...will result in a `monad` Angular module with dependencies on `foobarFoo`,
+`foobarBar` and `monad.core`.
+
+> It is a good practice to prefix your custom component names with an app name,
+> but technically it's not required so you can also add external components.
+> If you're building a "plugin" component, it should never call
+> `monad.application` though - there can be only _one_ "application".
+
+It is also possible to register components _after_
+the call to `monad.application`, but then you need to "predepend" your
+application:
 
 ```javascript
 // This is slightly more verbose, but would work just as well:
-monad.application('foobar', ['foo', 'bar']);
-monad.component('foobar', 'foo');
-monad.component('foobar', 'bar');
+monad.application('foobar', ['foobarFoo', 'foobarBar']);
+monad.component('foobarFoo');
+monad.component('foobarBar');
 ```
 
+> Auto-injection will not work in this case since Monad nor Angular has a way
+> of knowing about future components. This is the less common pattern though,
+> since in ES6 you'll generally start with a bunch of `import` statements that
+> register components, and then hook them to your application. By then we can
+> auto-depend.
+
 And of course, a component depending on another component or Angular module
-_should_ list those dependencies for clarity.
+_should_ list those dependencies for clarity and reusability.
 
 ## Getting stuff done
 Obviously you'll also need your components to _do_ something. Monad extends the
@@ -72,6 +85,7 @@ default Angular module with some handy methods for that:
 monad.component('foobar', 'foo')
     .manager(Manager)
     .list(url, options, resolve)
+    .create(url, options, resolve)
     .update(url, options, resolve);
 ```
 
@@ -94,4 +108,7 @@ The Manager is registered under `appComponentnameManager` for future reference.
 Capitalization is handled in a basic manner, i.e. you don't have to capitalize
 your component. Ergo, for an app `foobar` the component `baz` will have a
 `foobarBazManager`.
+
+For detailed information on the various utility methods and their arguments,
+see [the section on Components](../classes/component.md).
 
