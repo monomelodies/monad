@@ -2,7 +2,7 @@
     <a ng-if="module.settings.create"
         class="glyphicon glyphicon-plus-sign pull-right"
         title="{{'monad.data.create' | translate}}"
-        mo-path="{{module.settings.create.url}}"></a>
+        mo-path="/:language{{module.settings.create.url}}"></a>
     <span ng-transclude></span>
     {{module.name + '.$list' | translate}}
 </h1>
