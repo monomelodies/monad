@@ -29,9 +29,12 @@ pages:
 
 - [controllers/crud.md, Controllers, CrudController]
 
-- [directives/path.md, Directives, Path]
-- [directives/lists.md, Directives, Lists]
-- [directives/forms.md, Directives, Forms]
+- [directives/path.md, Directives, moPath]
+- [directives/slug.md, Directives, moSlug]
+- [directives/list.md, Directives, moList]
+- [directives/list/header.md, Directives, moListHeader]
+- [directives/list/table.md, Directives, moListTable]
+- [directives/update.md, Directives, moUpdate]
 
 - [samples/home.md, Examples, Adding a custom homepage or dashboard]
 - [samples/multi.md, Examples, CRUD with multiple models]
