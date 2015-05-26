@@ -150,7 +150,8 @@ function addTarget(type) {
     settings.resolve.Manager = settings.resolve.Manager || [normalize(this.name) + 'Manager', Manager => Manager];
     settings.resolve.module = () => this;
     if ('$mapping' in settings.resolve) {
-        settings.resolve.$mapping = () => settings.resolve.$mapping;
+        let $mapping = angular.copy(settings.resolve.$mapping);
+        settings.resolve.$mapping = () => $mapping;
     }
     settings.options.resolve = settings.resolve;
     delete settings.options.template; // Don't do this.
