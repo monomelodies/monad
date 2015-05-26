@@ -14,11 +14,19 @@ let defaults = {
             templateUrl: '../monad/templates/list.html'
         }
     },
-    crud: {
+    create: {
         options: {
             controller: CrudController,
             controllerAs: 'crud'
-        }
+        },
+        resolve: {$mapping: {item: 'Manager'}}
+    },
+    update: {
+        options: {
+            controller: CrudController,
+            controllerAs: 'crud'
+        },
+        resolve: {'$mapping': {item: 'Manager'}}
     }
 };
 let interfacer = angular.module('monad.interface', []);
@@ -26,7 +34,6 @@ let interfacer = angular.module('monad.interface', []);
 class Component {
 
     constructor(name, dependencies = [], configFn = undefined) {
-        this.paths = {};
         this.name = name;
         this.$manager = undefined;
         this.dependencies = dependencies;
@@ -76,6 +83,7 @@ class Component {
 
     extend(...components) {
         components.map(component => {
+            this.dependencies.push(component);
             if (typeof component == 'string') {
                 if (monad.exists(component)) {
                     component = monad.component(component);
@@ -88,12 +96,6 @@ class Component {
     }
 
     list(url, options = {}, resolve = {}) {
-        // Defaults for options:
-        delete options.template; // Don't do this.
-
-        // Defaults for resolve:
-        resolve.Manager = resolve.Manager || [normalize(this.name) + 'Manager', Manager => Manager];
-
         // It's easier if we can specify 'columns' on the options:
         if ('columns' in options) {
             let columns = options.columns;
@@ -111,22 +113,28 @@ class Component {
         return this;
     }
 
-    update(url, options = {}, resolve = {}) {
-        // Defaults for options:
+    create(url, options = {}, resolve = {}) {
         options.templateUrl = options.templateUrl || this.name + '/schema.html';
-        delete options.template; // Don't do this.
+        delete options.create;
+        this.settings.create = {url, options, resolve};
+        this.queued.push([addTarget, 'create']);
+        return this;
+    }
 
-        // Defaults for resolve:
-        resolve.Manager = resolve.Manager || [normalize(this.name) + 'Manager', Manager => Manager];
-
+    update(url, options = {}, resolve = {}) {
+        options.templateUrl = options.templateUrl || this.name + '/schema.html';
+        if (options.create) {
+            this.create(options.create, options, resolve);
+            delete options.create;
+        }
         this.settings.update = {url, options, resolve};
         this.queued.push([addTarget, 'update']);
         return this;
     }
 
     manager(Manager) {
-        this.$manager = normalize(this.name) + 'Manager';
-        this.service(this.$manager, Manager);
+        this.$manager = {name: normalize(this.name) + 'Manager', obj: Manager};
+        this.service(this.$manager.name, this.$manager.obj);
         return this;
     }
 
@@ -139,8 +147,13 @@ class Component {
 function addTarget(type) {
     let settings = merge(this.defaults[type], this.settings[type]);
     settings.resolve = settings.resolve || {};
-    settings.resolve.module = () => this.name;
+    settings.resolve.Manager = settings.resolve.Manager || [normalize(this.name) + 'Manager', Manager => Manager];
+    settings.resolve.module = () => this;
+    if ('$mapping' in settings.resolve) {
+        settings.resolve.$mapping = () => settings.resolve.$mapping;
+    }
     settings.options.resolve = settings.resolve;
+    delete settings.options.template; // Don't do this.
     this.ngmod.config(['$routeProvider', '$translatePartialLoaderProvider', ($routeProvider, $translatePartialLoaderProvider) => {
         $routeProvider.when('/:language' + settings.url, settings.options);
         $translatePartialLoaderProvider.addPart(this.name);
@@ -157,6 +170,9 @@ function normalize(name, replace = undefined) {
 function merge(...args) {
     let merged = {};
     args.map(arg => {
+        if (arg == undefined || arg == null || typeof arg != 'object') {
+            return;
+        }
         for (let prop in arg) {
             if (!(prop in merged)) {
                 merged[prop] = arg[prop];
