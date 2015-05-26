@@ -4,7 +4,7 @@ export default () => {
         require: '^moList',
         restrict: 'E',
         templateUrl: '../monad/directives/list/header/template.html',
-        scope: {create: '@'},
+        scope: {},
         transclude: true,
         link: (scope, elem, attrs, ctrl) => {
             scope.module = ctrl.module;
