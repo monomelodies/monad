@@ -6,7 +6,7 @@ import {default as ListTable} from './list/table/directive';
 import {default as Path} from './path';
 import {default as Field} from './field/directive';
 import {default as Update} from './update/directive';
-import {default as Draggable} from './draggable/directive';
+import {default as DragDrop} from './dragDrop';
 import {default as List} from './list';
 import {default as Slug} from './slug';
 
@@ -17,7 +17,7 @@ angular.module('monad.directives', ['ng'])
     .directive('moPath', Path)
     .directive('moField', Field)
     .directive('moUpdate', Update)
-    .directive('moDraggable', Draggable)
+    .directive('moDragDrop', DragDrop)
     .directive('moSlug', Slug)
     ;
 
