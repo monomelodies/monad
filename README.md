@@ -7,7 +7,7 @@ necessary, but a lot of work by default. Monad aims to provide a platform
 agnostic toolkit which allows for easy and quick scaffolding of such a
 backend, communicating with your site via APIs.
 
-Full documentation: http://monad-cms.readthedocs.org/en/latest/
+Full documentation: [http://monad-cms.readthedocs.org/en/latest/](http://monad-cms.readthedocs.org/en/latest/)
 
 ## Getting the code
 The quickest way is to use Monad's Bower package:
@@ -71,10 +71,11 @@ And that's it! You're ready to roll.
 If for whatever reason you can't symlink, you'll need to copy some files around
 and preferably set up a build script to watch changes. Added bonus here is that
 a build script can transpile your ES6 code to ES5 (which is what Monad does
-too), so we'd think it's generally a good idea. We'll give you an example in
-Gulp (our preferred tool) in the next chapter, but something similar would work
-for other systems (e.g. Grunt).
+too), so we'd think it's generally a good idea (adding a build script, not
+copying files around!). We'll give you an example in Gulp (our preferred tool)
+in the next chapter, but something similar would work for other systems (e.g.
+Grunt).
 
-An alternative would be to place Monad in a public path directly and use e.g.
+An alternative could be to place Monad in a public path directly and use e.g.
 Apache aliases to point the browser to the right location.
 
