@@ -153,6 +153,9 @@ function addTarget(type) {
         let $mapping = angular.copy(settings.resolve.$mapping);
         settings.resolve.$mapping = () => $mapping;
     }
+    if (type == 'create') {
+        settings.resolve.item = [this.$manager.name, Manager => new Manager.model];
+    }
     settings.options.resolve = settings.resolve;
     delete settings.options.template; // Don't do this.
     this.ngmod.config(['$routeProvider', '$translatePartialLoaderProvider', ($routeProvider, $translatePartialLoaderProvider) => {
