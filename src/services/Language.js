@@ -3,17 +3,17 @@
 
 let current;
 let langs;
+let translate;
 
 class Language {
 
     constructor(languages, $translate, $rootScope) {
         langs = languages;
+        translate = $translate;
         $rootScope.$on('$routeChangeSuccess', (event, target) => {
             if (target.params.language && target.params.language != current) {
-                current = target.params.language;
-                $translate.refresh();
+                this.current = target.params.language;
             }
-            $translate.use(current);
         });
     }
 
@@ -26,6 +26,8 @@ class Language {
             throw `Language "${lang}" is unavailable, sorry.`;
         }
         current = lang;
+        translate.use(current);
+        translate.refresh();
     }
 
     get list() {
