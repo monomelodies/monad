@@ -23,9 +23,11 @@ export default () => {
         scope: {source: '=moSlug', target: '=ngModel'},
         link: (scope, elem, attrs, ctrl) => {
             elem.attr('pattern', "[a-z0-9-]{1,255}");
-            scope.$watch('source', (newvalue, oldvalue) => {
-                scope.target = makeSlug(newvalue);
-            });
+            if (attrs.moSlug.length) {
+                scope.$watch('source', (newvalue, oldvalue) => {
+                    scope.target = makeSlug(newvalue);
+                });
+            }
             ctrl.$parsers.unshift(value => {
                 value = makeSlug(value);
                 return value;
@@ -35,7 +37,11 @@ export default () => {
                 value = makeSlug(value);
                 return value;
             });
-            elem.on('blur keyup change', () => scope.target = makeSlug(elem.value()));
+            elem.bind('keyup', () => scope.target = makeSlug(elem.val()));
+            elem.bind('blur change', () => {
+                scope.target = makeSlug(elem.val());
+                elem.val(scope.target);
+            });
         }
     };
 };

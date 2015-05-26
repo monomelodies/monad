@@ -1,4 +1,13 @@
 
+"use strict";
+
+let defaults = {
+    onSave: 'crud.save()',
+    onDelete: 'crud.delete()',
+    item: 'crud.item',
+    module: 'crud.module'
+};
+
 export default () => {
     return {
         restrict: 'E',
@@ -8,8 +17,14 @@ export default () => {
             save: '&onSave',
             'delete': '&onDelete',
             item: '=',
-            module: '@',
-            list: '@'
+            module: '='
+        },
+        compile: (element, attrs) => {
+            for (let attr in defaults) {
+                if (!(attr in attrs)) {
+                    attrs[attr] = defaults[attr];
+                }
+            }
         }
     };
 };

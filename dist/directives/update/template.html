@@ -1,6 +1,6 @@
 <h1 class="container-fluid clearfix">
-    <small><a class="glyphicon glyphicon-arrow-up pull-right" mo-path="{{list}}"></a></small>
-    {{module + '.$' + (item.$new ? 'create' : 'update') | translate:item}}
+    <small><a class="glyphicon glyphicon-arrow-up pull-right" mo-path="/:language/{{module.settings.list.url}}"></a></small>
+    {{module.name + '.$' + (item.$new ? 'create' : 'update') | translate:item}}
 </h1>
 <div class="container-fluid clearfix">
     <form ng-submit="save()" class="row">
