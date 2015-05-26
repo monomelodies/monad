@@ -42,7 +42,14 @@ class CrudController {
                 continue;
             }
             if (this[model] instanceof Collection) {
-                this[model].map(item => this[this.$mapping[model]].save(item));
+                let remove = [];
+                this[model].map((item, index) => {
+                    if (item.$deleted) {
+                        remove.unshift(index);
+                    }
+                    this[this.$mapping[model]].save(item);
+                });
+                remove.map(index => this[model].splice(index, 1));
             } else if (this[model] instanceof Model) {
                 this[this.$mapping[model]].save(this[model]);
             }
