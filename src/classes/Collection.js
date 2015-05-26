@@ -76,10 +76,16 @@ class Collection {
 
     splice(start, deleteCount, ...args) {
         args = args.map(arg => this.defaults(arg));
+        let previousLength = this.length;
         let work = new Array(...this.storage);
         let retval = work.splice(start, deleteCount, ...args);
         this.storage = [];
         work.map(item => this.push(item));
+        if (this.length < previousLength) {
+            for (let i = this.length; i < previousLength; i++) {
+                delete this[i];
+            }
+        }
         return retval;
     }
 
