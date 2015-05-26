@@ -45,7 +45,7 @@ class Collection {
 
     unshift(...args) {
         args = args.map(arg => this.defaults(arg));
-        args = args.map(arg => isModel(arg) ? arg : (new this.model()).$create(args));
+        args = args.map(arg => isModel(arg) ? arg : Model.$create(arg, this.model));
         let work = new Array(this.storage);
         work.unshift(...args);
         this.storage = [];
@@ -76,8 +76,7 @@ class Collection {
 
     splice(start, deleteCount, ...args) {
         args = args.map(arg => this.defaults(arg));
-        args = args.map(arg => isModel(arg) ? arg : (new this.model()).$create(args));
-        let work = new Array(this.storage);
+        let work = new Array(...this.storage);
         let retval = work.splice(start, deleteCount, ...args);
         this.storage = [];
         work.map(item => this.push(item));
