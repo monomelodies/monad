@@ -23,6 +23,9 @@ function link($scope, elem, attrs) {
         }
     });
     elem.bind('dragenter', event => {
+        if (event.originalEvent && event.originalEvent.preventDefault) {
+            event.originalEvent.preventDefault();
+        }
         elem.addClass('over');
     });
     elem.bind('dragover', event => {
