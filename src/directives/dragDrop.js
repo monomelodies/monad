@@ -49,7 +49,8 @@ function link($scope, elem, attrs) {
                 if ($scope.track) {
                     $scope.track.split(/[^\w]+/g).map(track => $scope.list[idxsource][track] = $scope.list[idxtarget][track]);
                 }
-                $scope.list.splice(idxtarget, 0, $scope.list.splice(idxsource, 1).shift());
+                let tmp = $scope.list.splice(idxsource, 1);
+                $scope.list.splice(idxtarget, 0, ...tmp);
 
                 let attr = attrs.position;
                 if (attr) {
