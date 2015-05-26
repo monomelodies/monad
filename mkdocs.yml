@@ -24,9 +24,14 @@ pages:
 - [classes/collection.md, Classes, Collection]
 
 - [services/authentication.md, Services, Authentication]
+- [services/navigation.md, Services, Navigation]
 - [services/language.md, Services, Language]
 - [services/manager.md, Services, Manager]
 
+- [controllers/root.md, Controllers, RootController]
+- [controllers/login.md, Controllers, LoginController]
+- [controllers/home.md, Controllers, HomeController]
+- [controllers/list.md, Controllers, ListController]
 - [controllers/crud.md, Controllers, CrudController]
 
 - [directives/path.md, Directives, moPath]
