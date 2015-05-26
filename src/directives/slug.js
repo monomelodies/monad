@@ -37,7 +37,11 @@ export default () => {
                 value = makeSlug(value);
                 return value;
             });
-            elem.on('blur keyup change', () => scope.target = makeSlug(elem.value()));
+            elem.bind('keyup', () => scope.target = makeSlug(elem.val()));
+            elem.bind('blur change', () => {
+                scope.target = makeSlug(elem.val());
+                elem.val(scope.target);
+            });
         }
     };
 };
