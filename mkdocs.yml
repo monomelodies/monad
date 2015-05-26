@@ -35,6 +35,7 @@ pages:
 - [directives/list/header.md, Directives, moListHeader]
 - [directives/list/table.md, Directives, moListTable]
 - [directives/update.md, Directives, moUpdate]
+- [directives/dragdrop.md, Directives, moDragDrop]
 
 - [samples/home.md, Examples, Adding a custom homepage or dashboard]
 - [samples/multi.md, Examples, CRUD with multiple models]
