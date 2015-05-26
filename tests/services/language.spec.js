@@ -1,7 +1,7 @@
 
 "use strict";
 
-angular.module('tests').value('languages', ['en', 'nl', 'es']);
+angular.module('tests').constant('languages', ['en', 'nl', 'es']);
 
 describe('service: Language', () => {
     let Language;
