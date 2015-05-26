@@ -13,7 +13,7 @@ import {default as Directives} from './directives/angular';
 
 let ngModule = 'monad.core';
 
-function config($translateProvider, $translatePartialLoaderProvider, $routeProvider, $locationProvider) {
+function config($translateProvider, $translatePartialLoaderProvider, $routeProvider, $locationProvider, languages) {
     $locationProvider.html5Mode(false);
     $routeProvider.
         when('/', {
@@ -32,12 +32,12 @@ function config($translateProvider, $translatePartialLoaderProvider, $routeProvi
     $translateProvider.useLoader('$translatePartialLoader', {
         urlTemplate: '{part}/i18n/{lang}.json'
     });
-    $translateProvider.preferredLanguage('en');
+    $translateProvider.preferredLanguage(languages[0]);
     $translatePartialLoaderProvider.addPart('../monad');
 };
 
 angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ngSanitize', 'ui.bootstrap', Directives])
-    .config(['$translateProvider', '$translatePartialLoaderProvider', '$routeProvider', '$locationProvider', config])
+    .config(['$translateProvider', '$translatePartialLoaderProvider', '$routeProvider', '$locationProvider', 'languages', config])
     .run(['$http', '$rootScope', '$translate', '$route', '$cacheFactory', ($http, $rootScope, $translate, $route, $cacheFactory) => {
         normalizePost($http);
         $rootScope.$on('$translatePartialLoaderStructureChanged', () => $translate.refresh());
@@ -56,7 +56,7 @@ angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ngSanitize
     .service('moAuthentication', Authentication)
     .service('moLanguage', Language)
     .value('title', 'Default generic administrator')
-    .value('languages', ['en', 'nl'])
+    .constant('languages', ['en', 'nl'])
     .value('theme', '../monad/default.css')
     ;
 

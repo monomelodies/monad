@@ -7,8 +7,8 @@ describe('directive: mo-list-table', () => {
     let compile;
     let items = [{id: 1, txt: 'foo'}, {id: 2, txt: 'bar'}];
     let tpl = angular.element(`
-<mo-list module="test" columns="['id', 'txt']">
-    <mo-list-table total="1" page="page" rows="items"></mo-list-table>
+<mo-list module="test">
+    <mo-list-table columns="['id', 'txt']" total="1" page="page" rows="items"></mo-list-table>
 </mo-list>
     `);
 

@@ -6,26 +6,15 @@ let auth;
 let nav;
 let modal;
 let Language;
-let editorOptions;
 
 class RootController {
 
-    constructor($location, $rootScope, $translate, $modal, Authentication, Navigation, moLanguage, title, theme, ckeditor) {
+    constructor($location, $rootScope, $translate, $modal, Authentication, Navigation, moLanguage, title, theme) {
         loc = $location;
         auth = Authentication;
         nav = Navigation;
         modal = $modal;
         Language = moLanguage;
-        editorOptions = angular.extend({
-            resize_enabled: false,
-            bodyClass: 'editable',
-            forcePasteAsPlainText: true,
-            docType: '<!doctype html>',
-            entities: false,
-            entities_greek: false,
-            toolbar: 'Full',
-            disableNativeSpellChecker: true
-        }, ckeditor);
         this.title = title;
         this.loginRequired = this.loginRequired || true;
         this.theme = theme;
@@ -36,9 +25,6 @@ class RootController {
             }
         }));
         $rootScope.$on('$routeChangeSuccess', (event, target) => {
-            if (target.params.language) {
-                editorOptions.language = target.params.language;
-            }
             if (!Language.current) {
                 loc.path('/' + Language.list[0] + '/');
             }
@@ -59,10 +45,6 @@ class RootController {
 
     get languages() {
         return Language.list;
-    }
-
-    ckeditor(options = {}) {
-        return angular.extend({}, editorOptions, options);
     }
 
     logout() {
@@ -106,8 +88,7 @@ RootController.$inject = [
     'moNavigation',
     'moLanguage',
     'title',
-    'theme',
-    'ckeditor'
+    'theme'
 ];
 
 export {RootController};

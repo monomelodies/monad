@@ -14,11 +14,19 @@ let defaults = {
             templateUrl: '../monad/templates/list.html'
         }
     },
-    crud: {
+    create: {
         options: {
             controller: CrudController,
             controllerAs: 'crud'
-        }
+        },
+        resolve: {$mapping: {item: 'Manager'}}
+    },
+    update: {
+        options: {
+            controller: CrudController,
+            controllerAs: 'crud'
+        },
+        resolve: {'$mapping': {item: 'Manager'}}
     }
 };
 let interfacer = angular.module('monad.interface', []);
@@ -26,14 +34,13 @@ let interfacer = angular.module('monad.interface', []);
 class Component {
 
     constructor(name, dependencies = [], configFn = undefined) {
-        this.paths = {};
         this.name = name;
         this.$manager = undefined;
         this.dependencies = dependencies;
         this.configFn = configFn;
         this.queued = [];
         this.$bootstrapped = false;
-        this.defaults = angular.copy({}, defaults);
+        this.defaults = angular.extend({}, defaults);
         this.settings = {};
 
         for (let prop in interfacer) {
@@ -54,7 +61,7 @@ class Component {
         let deps = [];
         this.dependencies.map(dep => {
             if (typeof dep == 'string' && monad.exists(dep)) {
-                dep = monad.module(dep);
+                dep = monad.component(dep);
             }
             if (typeof dep == 'object' && dep instanceof Component) {
                 dep.bootstrap();
@@ -74,25 +81,21 @@ class Component {
         });
     }
 
-    extend(component) {
-        if (typeof component == 'string') {
-            if (monad.exists(component)) {
-                component = monad.component(component);
-            } else {
-                throw `Component ${component} is undefined and cannot be extended upon.`;
+    extend(...components) {
+        components.map(component => {
+            this.dependencies.push(component);
+            if (typeof component == 'string') {
+                if (monad.exists(component)) {
+                    component = monad.component(component);
+                } else {
+                    throw `Component ${component} is undefined and cannot be extended upon.`;
+                }
             }
-        }
-        this.defaults = angular.merge({}, defaults, component.defaults, this.defaults)
+            this.defaults = merge(this.defaults, component.defaults);
+        });
     }
 
     list(url, options = {}, resolve = {}) {
-        // Defaults for options:
-        options = angular.extend({}, defaults.list.options, options);
-        delete options.template; // Don't do this.
-
-        // Defaults for resolve:
-        resolve.Manager = resolve.Manager || [normalize(this.name) + 'Manager', Manager => Manager];
-
         // It's easier if we can specify 'columns' on the options:
         if ('columns' in options) {
             let columns = options.columns;
@@ -107,28 +110,31 @@ class Component {
 
         this.settings.list = {url, options, resolve};
         this.queued.push([addTarget, 'list']);
-        this.paths.list = '/:language' + url;
+        return this;
+    }
+
+    create(url, options = {}, resolve = {}) {
+        options.templateUrl = options.templateUrl || this.name + '/schema.html';
+        delete options.create;
+        this.settings.create = {url, options, resolve};
+        this.queued.push([addTarget, 'create']);
         return this;
     }
 
     update(url, options = {}, resolve = {}) {
-        // Defaults for options:
-        options = angular.extend({}, defaults.crud.options, options);
         options.templateUrl = options.templateUrl || this.name + '/schema.html';
-        delete options.template; // Don't do this.
-
-        // Defaults for resolve:
-        resolve.Manager = resolve.Manager || [normalize(this.name) + 'Manager', Manager => Manager];
-
+        if (options.create) {
+            this.create(options.create, options, resolve);
+            delete options.create;
+        }
         this.settings.update = {url, options, resolve};
         this.queued.push([addTarget, 'update']);
-        this.paths.update = '/:language' + url;
         return this;
     }
 
     manager(Manager) {
-        this.$manager = normalize(this.name) + 'Manager';
-        this.service(this.$manager, Manager);
+        this.$manager = {name: normalize(this.name) + 'Manager', obj: Manager};
+        this.service(this.$manager.name, this.$manager.obj);
         return this;
     }
 
@@ -139,11 +145,21 @@ class Component {
  * {{{
  */
 function addTarget(type) {
-    let settings = angular.merge({}, this.defaults[type], this.settings[type]);
-    settings.resolve.module = () => this.name;
+    let settings = merge(this.defaults[type], this.settings[type]);
+    settings.resolve = settings.resolve || {};
+    settings.resolve.Manager = settings.resolve.Manager || [normalize(this.name) + 'Manager', Manager => Manager];
+    settings.resolve.module = () => this;
+    if ('$mapping' in settings.resolve) {
+        let $mapping = angular.copy(settings.resolve.$mapping);
+        settings.resolve.$mapping = () => $mapping;
+    }
+    if (type == 'create') {
+        settings.resolve.item = [this.$manager.name, Manager => new Manager.model];
+    }
     settings.options.resolve = settings.resolve;
+    delete settings.options.template; // Don't do this.
     this.ngmod.config(['$routeProvider', '$translatePartialLoaderProvider', ($routeProvider, $translatePartialLoaderProvider) => {
-        $routeProvider.when('/:language' + settings.url, options);
+        $routeProvider.when('/:language' + settings.url, settings.options);
         $translatePartialLoaderProvider.addPart(this.name);
     }]);
 };
@@ -154,6 +170,44 @@ function normalize(name, replace = undefined) {
     }
     return name.replace(/\/(\w)/g, replace);
 };
+
+function merge(...args) {
+    let merged = {};
+    args.map(arg => {
+        if (arg == undefined || arg == null || typeof arg != 'object') {
+            return;
+        }
+        for (let prop in arg) {
+            if (!(prop in merged)) {
+                merged[prop] = arg[prop];
+                continue;
+            }
+            if (typeof merged[prop] != typeof arg[prop]) {
+                merged[prop] = arg[prop];
+                continue;
+            }
+            if (angular.isArray(merged[prop]) != angular.isArray(arg[prop])) {
+                merged[prop] = arg[prop];
+                continue;
+            }
+            if (angular.isArray(merged[prop]) && angular.isArray(arg[prop])) {
+                arg[prop].map(elem => {
+                    if (merged[prop].indexOf(elem) == -1) {
+                        merged[prop].push(elem);
+                    }
+                });
+                continue;
+            }
+            if (typeof arg[prop] != 'object') {
+                merged[prop] = arg[prop];
+                continue;
+            }
+            merged[prop] = merge(merged[prop], arg[prop]);
+        }
+    });
+    return merged;
+};
+
 /** }}} */
 
 export {Component};

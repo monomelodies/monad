@@ -4,7 +4,7 @@
 export default () => {
     return {
         restrict: 'EA',
-        scope: {module: '@', columns: '=', path: '@'},
+        scope: {module: '='},
         controller: ['$scope', $scope => {}],
         controllerAs: 'list',
         bindToController: true

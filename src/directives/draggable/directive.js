@@ -9,7 +9,7 @@ export default () => {
         restrict: 'A',
         scope: {item: '=moDraggable', list: '=', track: '='},
         link
-    }
+    };
 
     function link($scope, elem, attrs) {
         elem.attr('draggable', 'true');
