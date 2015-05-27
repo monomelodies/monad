@@ -26,7 +26,7 @@ let defaults = {
             controller: CrudController,
             controllerAs: 'crud'
         },
-        resolve: {'$mapping': {item: 'Manager'}}
+        resolve: {$mapping: {item: 'Manager'}}
     }
 };
 let interfacer = angular.module('monad.interface', []);
