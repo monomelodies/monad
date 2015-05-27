@@ -11,8 +11,6 @@ import {Language} from './services/Language';
 import {default as normalizePost} from './helpers/post';
 import {default as Directives} from './directives/angular';
 
-let ngModule = 'monad.core';
-
 function config($translateProvider, $translatePartialLoaderProvider, $routeProvider, $locationProvider, languages) {
     $locationProvider.html5Mode(false);
     $routeProvider.
@@ -36,7 +34,7 @@ function config($translateProvider, $translatePartialLoaderProvider, $routeProvi
     $translatePartialLoaderProvider.addPart('../monad');
 };
 
-angular.module(ngModule, ['ng', 'ngRoute', 'pascalprecht.translate', 'ngSanitize', 'ui.bootstrap', Directives])
+angular.module('monad.core', ['ng', 'ngRoute', 'pascalprecht.translate', 'ngSanitize', 'ui.bootstrap', Directives])
     .config(['$translateProvider', '$translatePartialLoaderProvider', '$routeProvider', '$locationProvider', 'languages', config])
     .run(['$http', '$rootScope', '$translate', '$route', '$cacheFactory', ($http, $rootScope, $translate, $route, $cacheFactory) => {
         normalizePost($http);
@@ -69,5 +67,5 @@ angular.bootstrap = (...args) => {
     bootstrap(...args);
 };
 
-export default ngModule;
+export {Monad};
 
