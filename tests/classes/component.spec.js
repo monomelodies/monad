@@ -1,7 +1,6 @@
 
-/**
- * TODO: think of a sane test implementation for this...
- */
+import {monad} from '../../src/angular';
+
 describe("class: Component", () => {
 
     let test = monad.component('foo/bar/baz/buz').manager(() => {});

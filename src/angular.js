@@ -58,7 +58,7 @@ angular.module('monad.core', ['ng', 'ngRoute', 'pascalprecht.translate', 'ngSani
     .value('theme', '../monad/default.css')
     ;
 
-window.monad = new Monad();
+let monad = new Monad();
 
 let bootstrap = angular.bootstrap;
 
@@ -67,5 +67,5 @@ angular.bootstrap = (...args) => {
     bootstrap(...args);
 };
 
-export {Monad};
+export {monad};
 
