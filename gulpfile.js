@@ -45,27 +45,6 @@ var scripts = [
     './bower_components/autofill-event/src/autofill-event.js'
 ];
 
-var customopts = {
-    entries: './src/angular.js',
-    debug: true
-};
-var opts = assign({}, watchify.args, customopts);
-var b = watchify(browserify(opts));
-b.transform(babelify);
-
-function bundle() {
-    return b.bundle()
-        .on('error', gutil.log.bind(gutil, 'Browserify error'))
-        .pipe(source('bundle.js'))
-        .pipe(buffer())
-        .pipe(uglify())
-        .pipe(gulp.dest('./dist'));
-};
-
-gulp.task('bundle', bundle);
-b.on('update', bundle);
-b.on('log', gutil.log);
-
 gulp.task('libraries', function() {
 
     gulp.src(scripts)
@@ -96,5 +75,5 @@ gulp.task('watch', function() {
 
 });
 
-gulp.task('default', ['libraries', 'styles', 'expose', 'bundle', 'watch']);
+gulp.task('default', ['libraries', 'styles', 'expose', 'watch']);
 
