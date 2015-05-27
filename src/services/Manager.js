@@ -55,11 +55,11 @@ class Manager {
 
     save(model) {
         if (model.$new) {
-            return this.create(model);
+            return this.create(model).success(() => model.$initial = model.$data);
         } else if (model.$deleted) {
             return this['delete'](model);
         } else if (model.$dirty) {
-            return this.update(model);
+            return this.update(model).success(() => model.$initial = model.$data);
         }
         return {};
     }
