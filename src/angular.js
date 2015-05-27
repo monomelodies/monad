@@ -59,6 +59,7 @@ angular.module('monad.core', ['ng', 'ngRoute', 'pascalprecht.translate', 'ngSani
     ;
 
 let monad = new Monad();
+window.monad = monad;
 
 let bootstrap = angular.bootstrap;
 
