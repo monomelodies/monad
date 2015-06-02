@@ -13,11 +13,15 @@ let Language;
 
 class CrudController {
 
-    constructor($route, $modal, $location, moLanguage, $translatePartialLoader) {
+    constructor($route, $modal, $location, moLanguage, $translatePartialLoader, Authentication) {
         route = $route;
         modal = $modal;
         loc = $location;
         Language = moLanguage;
+
+        if (!Authentication.check()) {
+            Authentication.missing();
+        }
 
         if ($route.current && $route.current.locals) {
             for (let p in $route.current.locals) {
@@ -86,7 +90,7 @@ class CrudController {
 
 };
 
-CrudController.$inject = ['$route', '$modal', '$location', 'moLanguage', '$translatePartialLoader'];
+CrudController.$inject = ['$route', '$modal', '$location', 'moLanguage', '$translatePartialLoader', 'Authentication'];
 
 export {CrudController};
 
