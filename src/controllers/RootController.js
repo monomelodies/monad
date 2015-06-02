@@ -84,7 +84,7 @@ RootController.$inject = [
     '$rootScope',
     '$translate',
     '$modal',
-    'moAuthentication',
+    'Authentication',
     'moNavigation',
     'moLanguage',
     'title',
