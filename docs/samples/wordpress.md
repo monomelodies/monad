@@ -2,9 +2,15 @@
 Code is best explained by examples, so let's get our hands dirty and setup a
 Monad plugin for the popular Wordpress blog system.
 
-> This section is a bit of work in progress still.
+> This section is a bit of work in progress still, but aims to provide a
+> complete and working example of integrating Monad with an external API.
 
-## Prerequisite: WP REST API
+## Prerequisite 1: a Wordpress installation
+[This goes without saying.](http://wordpress.org) The tutorial assumes most
+Wordpress defaults, e.g. the blog is available under `/`, the admin under
+`/wp-admin/` etc.
+
+## Prerequisite 2: WP REST API
 This is a popular but far-from-perfect plugin that exposes the WP database
 through a common API. We could bitch about it for hours, but it's the de facto
 standard so we're going to use it. You can find the plugin here:
@@ -15,7 +21,9 @@ For this tutorial, we'll assume the API is available under `/wp/`. Similarly,
 we'll put our admin stuff in `/admin/wp/` with an entry point
 `/admin/wp/angular.js`. We'll also focus on managing _posts_. (By the time we've
 finished, building managers for categories, comments etc. should be obvious to
-you.)
+you.
+
+
 
 ## Entry points
 We'll fill in the details later:
