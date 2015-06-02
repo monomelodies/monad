@@ -19,7 +19,7 @@ export class Authentication {
         throw "Authentication.revoke must be replaced by your custom implementation.";
     }
     
-    check() {
+    get check() {
         throw "Authentication.check must be replaced by your custom implementation.";
     }
 
