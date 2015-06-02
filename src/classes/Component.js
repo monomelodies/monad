@@ -93,6 +93,16 @@ class Component {
             }
             this.defaults = merge(this.defaults, component.defaults);
         });
+        return this;
+    }
+    
+    authentication(auth) {
+        this.defaults = merge(this.defaults, {
+            list: {resolve: {Authentication: auth}},
+            create: {resolve: {Authentication: auth}},
+            update: {resolve: {Authentication: auth}}
+        });
+        return this;
     }
 
     list(url, options = {}, resolve = {}) {
