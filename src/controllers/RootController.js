@@ -19,11 +19,7 @@ class RootController {
         this.loginRequired = this.loginRequired || true;
         this.theme = theme;
         Navigation.current();
-        $rootScope.$on('$routeChangeStart', () => this.Authentication['status']().success(result => {
-            if (!this.Authentication.check() && this.loginRequired) {
-                this.Authentication.missing();
-            }
-        }));
+        $rootScope.$on('$routeChangeStart', () => this.Authentication['status']());
         $rootScope.$on('$routeChangeSuccess', (event, target) => {
             if (!Language.current) {
                 loc.path('/' + Language.list[0] + '/');
