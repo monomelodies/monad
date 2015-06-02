@@ -12,21 +12,25 @@ service needs to implement the following interface:
 ```javascript
 class AuthenticationService {
 
-    read() {
-        // Return a promise reading the current session.
+    ['status']() {
+        // Return a promise reading the current authentication status.
     }
     
-    login(username, password) {
-        // Return a promise attempting a login. By default Monad uses
-        // username/password-based login. If you require something else,
-        // you'll have to further customize the Authentication module.
+    missing() {
+        // Called when authentication is missing. Could redirect, show a popup
+        // requiring authentication etc.
     }
     
-    logout() {
-        // Return a promise attempting a logout.
+    attempt(...args) {
+        // Returns a promise attempting authentication using supplied `args`.
     }
     
-    isAuthenticated() {
+    revoke() {
+        // Returns a promise attempting to revoke the current authentication
+        // status (i.e., "logout").
+    }
+    
+    check() {
         // Return true if the user is authenticated according to the
         // current session, false otherwise. If you login scheme involves
         // stuff like roles, this should check for the correct ones
@@ -59,23 +63,23 @@ class AuthenticationService {
         this._session = undefined;
     }
     
-    read() {
+    ['status']() {
         return this.http.get('/session/').success(result => {
             this._session = result;
         });
     }
     
-    login(username, password) {
+    attempt(username, password) {
         let action = 'login';
         return this.http.post('/session/', {action, username, password});
     }
     
-    logout() {
+    revoke() {
         let action = 'logout';
         return this.http.post('/session/', {action});
     }
     
-    isAuthenticated() {
+    check() {
         return this._session && 'User' in this._session && this._session.User == 'admin';
     }
 
