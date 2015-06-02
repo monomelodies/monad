@@ -5,7 +5,7 @@ class HomeController
 {
     constructor(Authentication)
     {
-        if (!Authentication.check()) {
+        if (!Authentication.check) {
             Authentication.missing();
         }
     }

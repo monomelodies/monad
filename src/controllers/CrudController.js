@@ -19,7 +19,7 @@ class CrudController {
         loc = $location;
         Language = moLanguage;
 
-        if (!Authentication.check()) {
+        if (!Authentication.check) {
             Authentication.missing();
         }
 
