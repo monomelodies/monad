@@ -12,12 +12,14 @@ needed and use the API.
 
 ## API
 
-- #### register(menu, url, label) ####
+- #### static register(component, menu, url, label) ####
 
-    Register a URL on the requested `menu` (a string) with the text `label`.
-    Note that labels are assumed to be translatable placeholders.
+    Register a URL for `component` on `menu` with the text `label`. Note that
+    labels are assumed to be translatable placeholders. Component and menu are
+    passed as string (i.e., component name and menu ID, e.g. `main`).
 
-    The value of `menu` is available as a property from thereon.
+    The value of `menu` is available as a property after construction (typically
+    when when injecting as an AngularJS service).
 
 - #### current() ####
 
