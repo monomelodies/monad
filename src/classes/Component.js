@@ -5,7 +5,6 @@ import {ListController} from '../controllers/ListController';
 import {CrudController} from '../controllers/CrudController';
 import {Navigation} from '../services/Navigation';
 
-let nav = new Navigation();
 let defaults = {
     list: {
         options: {
@@ -115,7 +114,7 @@ class Component {
         }
 
         if (!('menu' in options) || options.menu) {
-            nav.register(this.name, options.menu || 'main', '/:language' + url, 'monad.navigation.' + normalize(this.name, '.$1'));
+            Navigation.register(this.name, options.menu || 'main', '/:language' + url, 'monad.navigation.' + normalize(this.name, '.$1'));
         }
         delete(options.menu);
 
