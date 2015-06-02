@@ -19,9 +19,9 @@ class RootController {
         this.loginRequired = this.loginRequired || true;
         this.theme = theme;
         Navigation.current();
-        $rootScope.$on('$routeChangeStart', () => this.Authentication.read().success(result => {
-            if (!this.Authentication.isAuthenticated() && this.loginRequired) {
-                loc.path('/' + (Language.current || Language.list[0]) + '/login/');
+        $rootScope.$on('$routeChangeStart', () => this.Authentication['status']().success(result => {
+            if (!this.Authentication.check() && this.loginRequired) {
+                this.Authentication.missing();
             }
         }));
         $rootScope.$on('$routeChangeSuccess', (event, target) => {
@@ -48,7 +48,7 @@ class RootController {
     }
 
     logout() {
-        this.Authentication.logout().success(() => loc.path('/' + this.language + '/login/'));
+        this.Authentication.revoke().success(() => loc.path('/' + this.language + '/login/'));
     }        
 
     url() {
