@@ -9,7 +9,7 @@ let modal;
 
 class ListController {
 
-    constructor($route, $modal, $translatePartialLoader) {
+    constructor($route, $modal, $translatePartialLoader, Authentication) {
         if ($route.current && $route.current.locals) {
             for (let p in $route.current.locals) {
                 if (p.substring(0, 1) == '$') {
@@ -24,6 +24,10 @@ class ListController {
         route = $route;
         this.page = params.page || 1;
         $translatePartialLoader.addPart(this.module.name);
+
+        if (!Authentication.check()) {
+            Authentication.missing();
+        }
     }
 
     get page() {
