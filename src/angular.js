@@ -64,9 +64,9 @@ window.monad = monad;
 let bootstrap = angular.bootstrap;
 
 angular.bootstrap = (...args) => {
-    window.monad.bootstrap();
+    monad.bootstrap();
     bootstrap(...args);
 };
 
-export {monad};
+export default monad;
 
