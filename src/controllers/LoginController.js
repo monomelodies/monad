@@ -11,17 +11,18 @@ class LoginController {
         service = Auth;
         loc = $location;
         language = moLanguage;
+        this.credentials = [];
     }
 
     attempt() {
-        service.login(this.username, this.password).success(result => {
+        service.attempt(...this.credentials).success(result => {
             loc.path('/' + language.current + '/');
         });
     }
 
 };
 
-LoginController.$inject = ['$location', 'moAuthentication', 'moLanguage'];
+LoginController.$inject = ['$location', 'Authentication', 'moLanguage'];
 
 export {LoginController};
 
