@@ -68,7 +68,7 @@ class ListController {
 
 };
 
-ListController.$inject = ['$route', '$modal', '$translatePartialLoader'];
+ListController.$inject = ['$route', '$modal', '$translatePartialLoader', 'Authentication'];
 
 export {ListController};
 
