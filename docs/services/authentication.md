@@ -8,19 +8,23 @@ The interface is defined as follows:
 ```javascript
 class Authentication {
 
-    read() {
+    ['status']() {
         // Return promise reading current session.
     }
     
-    login(username, password) {
+    attempt(...credentials) {
         // Return promise attempting login with provided credentials.
     }
+
+    missing() {
+        // Do what is needed to alert user or elevate permissions.
+    }
     
-    logout() {
+    revoke() {
         // Return promise attempting logout from current session.
     }
     
-    isAuthenticated() {
+    get check() {
         // Return true if authenticated, else false.
     }   
     
