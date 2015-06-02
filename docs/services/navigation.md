@@ -2,10 +2,13 @@
 Service managing menus needed in your admin application. The default template
 `index.html` only supports a `main` menu at present.
 
+The navigation service automatically adds getters for each menu, e.g.
+`Navigation.main`, `Navigation.myCustomMenu` etc.
+
 ## Usage
 Normally entries will be added by `monad.component(...).list()` calls. If you
 need fine-grained control, you can inject the service or its provider where
-needed an use the API.
+needed and use the API.
 
 ## API
 
@@ -25,4 +28,11 @@ needed an use the API.
 - #### select(item) ####
 
     Select the passed menu item.
+
+## Authentication
+
+By default, the `Navigation` service uses a Component's `Authentication`
+service to determine whether the current user has access (if not, the menu item
+in question is skipped). If no component-specific authentication is supplied,
+the global [`Authentication` service](authentication.md) is used.
 
