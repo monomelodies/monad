@@ -33,9 +33,7 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="../" target="_blank">{{'monad.navigation.site' | translate}}</a></li>
-                        <li ng-repeat="item in monad.Navigation.main"
-                            ng-class="{active: item.selected, dropdown: item.items}"
-                            ng-if="monad.Authentication.isAuthenticated() || item.url == '/'">
+                        <li ng-repeat="item in monad.Navigation.main" ng-class="{active: item.selected, dropdown: item.items}">
                             <a ng-if="!item.items"
                                 mo-path="{{item.url}}"
                                 ng-click="monad.Navigation.select(item)">{{item.label | translate}}</a>
@@ -57,7 +55,7 @@
                                 2008, 2009, 2010, 2011, 20212, 2013, 2014, 2015 &bull;
                                 <a href ng-click="monad.license()">MIT</a>
                             </p></li>
-                            <li id="menu-logout" ng-if="monad.Authentication.check()">
+                            <li id="menu-logout" ng-if="monad.Authentication.check">
                                 <a title="{{'monad.logout' | translate}}" ng-click="monad.logout()" href>
                                     <span class="glyphicon glyphicon-log-out text-danger"></span>
                                 </a>

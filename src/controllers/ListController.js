@@ -25,7 +25,7 @@ class ListController {
         this.page = params.page || 1;
         $translatePartialLoader.addPart(this.module.name);
 
-        if (!Authentication.check()) {
+        if (!Authentication.check) {
             Authentication.missing();
         }
     }
@@ -68,7 +68,7 @@ class ListController {
 
 };
 
-ListController.$inject = ['$route', '$modal', '$translatePartialLoader'];
+ListController.$inject = ['$route', '$modal', '$translatePartialLoader', 'Authentication'];
 
 export {ListController};
 

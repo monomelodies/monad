@@ -3,22 +3,36 @@
 
 let paths = {};
 let loc;
+let auth;
 
 class Navigation {
 
-    constructor($location = undefined) {
-        if ($location) {
-            loc = $location;
+    constructor($location, Authentication) {
+        loc = $location;
+        auth = Authentication;
+        for (let menu in paths) {
+            Object.defineProperty(this, menu, {get: () => {
+                let items = [];
+                paths[menu].map(path => {
+                    if (path.url == '/') {
+                        items.push(path);
+                        return;
+                    }
+                    let component = monad.component(path.component);
+                    let authenticate = component.Authentication || auth;
+                    if (authenticate && authenticate.check) {
+                        items.push(path);
+                    }
+                });
+                return items;
+            }});
         }
     }
 
-    register(menu, url, label) {
+    static register(component, menu, url, label) {
         let selected = false;
         paths[menu] = paths[menu] || [];
-        paths[menu].push({url, label, selected});
-        if (!this.hasOwnProperty(menu)) {
-            Object.defineProperty(this, menu, {get: () => paths[menu]});
-        }
+        paths[menu].push({component, url, label, selected});
     }
 
     current() {
@@ -34,16 +48,9 @@ class Navigation {
         item.selected = true;
     }
 
-    /**
-     * Main menu is (virtually) always defined anyway.
-     */
-    get main() {
-        return paths.main;
-    }
-
 }
 
-Navigation.$inject = ['$location'];
+Navigation.$inject = ['$location', 'Authentication'];
 
 export {Navigation};
 
