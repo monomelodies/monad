@@ -102,6 +102,7 @@ class Component {
             create: {resolve: {Authentication: auth}},
             update: {resolve: {Authentication: auth}}
         });
+        this.Authentication = auth;
         return this;
     }
 
@@ -114,7 +115,7 @@ class Component {
         }
 
         if (!('menu' in options) || options.menu) {
-            nav.register(options.menu || 'main', '/:language' + url, 'monad.navigation.' + normalize(this.name, '.$1'));
+            nav.register(this.name, options.menu || 'main', '/:language' + url, 'monad.navigation.' + normalize(this.name, '.$1'));
         }
         delete(options.menu);
 
