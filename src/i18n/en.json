@@ -33,13 +33,9 @@
             "cancel": "Oopsie, no..."
         },
         "home": {
-            "home": "Home",
-            "intro": "Hi there, you've reached the administrator for {{title}}.",
-            "header": {
-                "header": "Information",
-                "credits": "Credits",
-                "version": "Version",
-                "author": "Marijn Ophorst <marijn@monomelodies.nl>"
+            "welcome": {
+                "welcome": "Welcome!",
+                "description": "Hi there, you've reached the administrator for this site. Your options are listed here. You can also use the main menu at the top to navigate."
             }
         }
     }
