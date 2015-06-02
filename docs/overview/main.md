@@ -8,13 +8,15 @@ It's simple, really: assuming your admin lives in `/admin`, put your code in
 `/admin/bundle.js` (or generate that file, see the section on build scripts).
 
 Monad assumes an Angular module called (unsurprisingly) `monad`. The central
-`angular.js` bootstrapper export a `monad` object which "extends" the global
-`angular` object. Hence, to define your main application's entry point (e.g. in
-`./src/admin/foobar.js`, the actual filename is irrelevant as long as it
-transpiles to `./httpdocs/admin/bundle.js`) you would simply do the following:
+`angular.js` bootstrapper defined a global `monad` object (`window.monad`)
+which "extends" the global `angular` object. Hence, to define your main
+application's entry point (e.g. in `./src/admin/foobar.js`, the actual filename
+is irrelevant as long as it transpiles to `./httpdocs/admin/bundle.js`) you
+would simply do the following:
 
 ```javascript
-import {monad} from 'monad/angular';
+// We need to 'import' Monad at least once:
+import bootstrap from 'monad/angular';
 monad.application(app, [...optionalDependencies], configFn).config(configFn);
 ```
 
@@ -26,9 +28,6 @@ The 'app' is a random name for your application; in this manual we'll use
 
 > In a real-world application, of course you'd configurate a module either with
 > the third argument, or by manually calling `config`. Both are allowed.
-
-Remember to import `monad` in every file you need it when using ES6-style
-modules! We won't explicitly mention it from now on.
 
 ## Adding components
 Of course, you'll want to separate your admin code into modules (in the Angular,

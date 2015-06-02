@@ -6,75 +6,83 @@ configure and implement yourself.
 
 ## Interface
 Monad expects the required service to be registered in Angular as
-`moAuthentication`. So, let's set up our own implementation. The
+`Authentication`. So, let's set up our own implementation. The
 service needs to implement the following interface:
 
-    class AuthenticationService {
+```javascript
+class AuthenticationService {
 
-        read() {
-            // Return a promise reading the current session.
-        }
-        
-        login(username, password) {
-            // Return a promise attempting a login. By default Monad uses
-            // username/password-based login. If you require something else,
-            // you'll have to further customize the Authentication module.
-        }
-        
-        logout() {
-            // Return a promise attempting a logout.
-        }
-        
-        isAuthenticated() {
-            // Return true if the user is authenticated according to the
-            // current session, false otherwise. If you login scheme involves
-            // stuff like roles, this should check for the correct ones
-            // accordingly.
-        }
-    
+    read() {
+        // Return a promise reading the current session.
     }
+    
+    login(username, password) {
+        // Return a promise attempting a login. By default Monad uses
+        // username/password-based login. If you require something else,
+        // you'll have to further customize the Authentication module.
+    }
+    
+    logout() {
+        // Return a promise attempting a logout.
+    }
+    
+    isAuthenticated() {
+        // Return true if the user is authenticated according to the
+        // current session, false otherwise. If you login scheme involves
+        // stuff like roles, this should check for the correct ones
+        // accordingly.
+    }
+
+}
+```
 
 Import this in your entry point file (or simply define it there, whichever you
 prefer) and override it in Angular:
 
-    monad.application('foobar')
-        .service('moAuthentication', AuthenticationService);
+```javascript
+monad.application('foobar')
+    .service('Authentication', AuthenticationService);
+```
 
+> Note that this is the global authentication for your entire application, as
+> reference by the `RootController`.
 
 ## Example
 Usually you'll inject Angular's `$http` service to make the required calls. A
 very basic real-world implementation could look like this:
 
-    class AuthenticationService {
+```javascript
+class AuthenticationService {
 
-        constructor($http) {
-            this.http = $http;
-            this._session = undefined;
-        }
-        
-        read() {
-            return this.http.get('/session/').success(result => {
-                this._session = result;
-            });
-        }
-        
-        login(username, password) {
-            let action = 'login';
-            return this.http.post('/session/', {action, username, password});
-        }
-        
-        logout() {
-            let action = 'logout';
-            return this.http.post('/session/', {action});
-        }
-        
-        isAuthenticated() {
-            return this._session && 'User' in this._session && this._session.User == 'admin';
-        }
-    
+    constructor($http) {
+        this.http = $http;
+        this._session = undefined;
     }
     
-    AuthenticationService.$inject = ['$http'];
+    read() {
+        return this.http.get('/session/').success(result => {
+            this._session = result;
+        });
+    }
+    
+    login(username, password) {
+        let action = 'login';
+        return this.http.post('/session/', {action, username, password});
+    }
+    
+    logout() {
+        let action = 'logout';
+        return this.http.post('/session/', {action});
+    }
+    
+    isAuthenticated() {
+        return this._session && 'User' in this._session && this._session.User == 'admin';
+    }
+
+}
+
+AuthenticationService.$inject = ['$http'];
+```
 
 Obviously, you'll need to write server side code to actually handle the calls to
 the `/session/*` endpoints. In more complicated admin environments you'll
