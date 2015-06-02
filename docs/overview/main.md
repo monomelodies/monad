@@ -7,14 +7,14 @@ Monad loads by default, after including libraries and its own bundle.
 It's simple, really: assuming your admin lives in `/admin`, put your code in
 `/admin/bundle.js` (or generate that file, see the section on build scripts).
 
-Monad assumes an Angular module called (unsurprisingly) `monad`. There is a
-global object `monad` which "extends" the global `angular` object. Hence, to
-define your main application's entry point (e.g. in `./src/admin/foobar.js`, the
-actual filename is irrelevant as long as it transpiles to
-`./httpdocs/admin/bundle.js`) you would simply do the following:
+Monad assumes an Angular module called (unsurprisingly) `monad`. The central
+`angular.js` bootstrapper export a `monad` object which "extends" the global
+`angular` object. Hence, to define your main application's entry point (e.g. in
+`./src/admin/foobar.js`, the actual filename is irrelevant as long as it
+transpiles to `./httpdocs/admin/bundle.js`) you would simply do the following:
 
 ```javascript
-import {monad} from '../monad/monad';
+import {monad} from 'monad/angular';
 monad.application(app, [...optionalDependencies], configFn).config(configFn);
 ```
 
