@@ -57,6 +57,10 @@ as a resolve. Typically, this will be something like this:
     One or more components that this component extends. **Note:** for "normal"
     Angular dependencies, use the `dependencies` argument in the constructor.
 
+- #### authenticate(auth) ####
+
+    Set the authentication resolve for this module.
+
 - #### list(url, options = {}, resolve = {}) ####
 
     Convenience method for registering a `list` action. `options` can take

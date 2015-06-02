@@ -51,7 +51,7 @@ angular.module('monad.core', ['ng', 'ngRoute', 'pascalprecht.translate', 'ngSani
     }])
     .controller('moController', RootController)
     .service('moNavigation', Navigation)
-    .service('moAuthentication', Authentication)
+    .service('Authentication', Authentication)
     .service('moLanguage', Language)
     .value('title', 'Default generic administrator')
     .constant('languages', ['en', 'nl'])
