@@ -31,6 +31,12 @@
             "body": "Dit kan niet ongedaan gemaakt worden, dus even bevestigen graag...",
             "ok": "Ja, ik weet het zeker",
             "cancel": "Oei, nee..."
+        },
+        "home": {
+            "welcome": {
+                "welcome": "Welkom!",
+                "description": "Hoi daar, je hebt de administrator voor deze site bereikt. Hier zie je je opties. Je kunt ook het menu bovenin gebruiken om te navigaren."
+            }
         }
     }
 }

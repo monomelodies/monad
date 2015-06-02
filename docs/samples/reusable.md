@@ -8,103 +8,118 @@ look at how one would go about building such a reusable "plugin" component.
 > the "Monad structure" with lists, managers etc.
 
 ## Basic concepts
-Since we're building a plugin, it needs to live in its own "namespace". For our
-"foobar" demo app, let's build a "fizzbuzz" plugin.
+Registering components for your plugin works just like "normal" components (in
+fact, they're the same concept, only of course with `monad.application`):
 
-> Technically, a "namespace" isn't required at all, but is highly recommended
-> for clarity and to avoid naming clashes. Just do it!
+```javascript
+monad.component('myplugin')
+    .manager(...)
+    .authentication(...)
+    .list(...)
+    .create(...)
+    .update(...);
+```
 
+> Best practice: name subcomponents with a "namespace" referring to your plugin.
+> This avoids potential naming clashes (at least, as best a possible).
+> A good naming convention for plugin components would be `plugin.component`,
+> e.g. `monad.component('myplugin.foo')`, `monad.component('myplugin.bar')` etc.
+
+Which parts you need to define is up to you and your plugin. For instance, if
+you don't require any special authentication, you should simply rely on the
+supplied service (or "extend" it). Since the authentication is itself an Angular
+service and knows nothing about resolved authentication, this is easy:
+
+```javascript
+let original;
+
+class PluginAuthentication {
+
+    constructor(Authentication, ...args) {
+        super(...args);
+        //... custom stuff...
+        original = Authentication;
+    }
+
+    // This is just a proxy:
+    ['status']function() {
+        return original['status']();
+    }
+
+    // This does something custom:
+    revoke() {
+    }
+        
+}
+
+// Authentication is a global service, so we can inject it:
+PluginAuthentication.$inject = ['Authentication'];
+```
+
+> Best practice: if your subcomponent requires additional authentication, don't
+> make too many assumptions on what or how the consuming CMS does to store
+> those. Instead, you should extend the authentication API and document how
+> consumers should implement it.
+>
+> For example, say you need to authenticate with an external API using oAuth.
+> How and where the consumer (that is, the CMS) stores oAuth credentials is of
+> no interest to the plugin author; she should simply mandate that the custom
+> authentication service _must_ implement e.g. a `getOauth` method.
+
+## Configurability
+The most important thing to remember when you're building a reusable plugin is:
+_when I use this in both project A and project B, would I need to change the
+source code?_ Keep refactoring until you answer "no" to that question :)
+
+> Best practice: for configuration, e.g. a base path for API endpoints, use
+> `Component.value` or `Component.constant` as much as possible. That's what
+> they're there for.
+>
+> The difference between "value" and "constant" is subtle (that's AngularJS's
+> doing, by the way). Mostly you'll want to use "value", unless you need it
+> during config phase, in which case you'll probably want "constant".
+>
+> AngularJS "constants" aren't constant. See their docs for more info. They're
+> just values that are global, and can be injected in slightly different places.
+
+Of course, make sure to document allowed and/or expected values for these
+configuration parameters, "namespace" them as much as you can, and use logical
+names.
+
+## Folding your plugin into the main CMS
 We saw earlier that Components are automatically injected into the main
 application as a dependency. Obviously this also goes for plugins, so if our
 `fizzbuzz` plugin were to define `list` methods on the main menu, they would
 simply show up. However, often an external module will need some tweaking and
-overrides. That's why we're not going to use the call to `monad.component` in
-the module's definition files, but rather hook into the low level Component API
-and leave the wiring together to the consuming application:
+overrides. Luckily, that's easy to accomplish.
+
+For example, let's say we've made a `fizzbuzz` plugin that defines a `list`
+under the URL `/fizzbuzz/`. However, for a particular project that won't
+suffice and we'd rather place that under `/foobar/`. Easy!
 
 ```javascript
-// Entry point for the module, by convention:
-// `/path/to/module/fizzbuzz/angular.js`
-import {Component} from '/path/to/monad/src/classes/Component';
+// In fizzbuzz:
+monad.component('fizzbuzz')
+    .list('/fizzbuzz/');
 
-let fizz = new Component('fizzbuzz/fizz');
-let buzz = new Component('fizzbuzz/buzz');
-// Call `list`, `update` etc. as needed...
-export {fizz, buzz};
+// In main CMS:
+import {fizzbuzz} from '/path/to/fizzbuzz';
+monad.component('fizzbuzz').settings.list.url = '/foobar/';
 ```
 
-Note that the "namespace" looks like a path part, which is what it's used for!
-The module `fizzbuzz` lives under (e.g.) `/admin/fizzbuzz/`. When registering
-components, the slahes are automatically replaced where necessary by Monad. So,
-a [Manager](../services/manager.md) on `fizzbuzz/fizz` will become a
-`fizzbuzzFizzManager` and if it should show up in a menu, the text string will
-become `monad.navigation.fizzbuzz.fizz`.
+> Tip: set a URL to `false` or `undefined` to remove it from a menu completely.
 
-On your custom components, define whatever you need for it to work. Always
-assume that any dependencies should be handled by the component itself, so it
-will truly be "drop-in".
-
-## Hooking into the main application
-In stock AngularJS, you would simply add the plugin module name as a dependency
-and start using whatever you like. Monad takes that concept a bit further. After
-all, by using the low level API nothing actually happened yet with respect to
-Monad component registration; we just have a bunch of Component objects.
-
-A Monad component can also _extend_ another component. This means the component
-will then take its defaults from the component it extends, instead of from the
-normal component defaults:
+For heavier customisation, you might want to use your own component that extends
+the plugin's, and override where necessary:
 
 ```javascript
-import {fizz, buzz} from '/path/to/fizzbuzz/angular';
-
-monad.component('myCustomFizz')
-    .extends(fizz)
-    .list() // Takes all options from fizz.list
-    // etc.
-    ;
+monad.component('foobar')
+    .extend('fizzbuzz')
+    .manager(SomeCustomManager)
+    .settings.list.url = '/foobar/';
 ```
 
-The parameter to `extends` can be either the name of an
-already-registered-component, or the component object itself. When using the
-literal name as a string, of course it has to be registered with
-`monad.component` first, and could should up in the menu.
-
-You can pass multiple arguments to `extends`; the extension will happen in
-order and incrementally. E.g., if you extend component `foo` that defines a
-`list` method and component `bar` that defines an `update` method, the
-extending object will have both methods.
-
-> The arguments are processed in order, so for non-enumerable properties, the
-> last argument will always take precedence.
-
-You can also simply call `extends` multiple times; the result is the same.
-
-## Overriding the defaults
-Whenever a component `extends` another component, its settings are stored but
-not actually applied until the bootstrapping phase. This allows for some very
-flexible overrides, e.g. this will work:
-
-```javascript
-let custom = new Component('custom1');
-custom.list('/custom/', {columns: ['a', 'b', 'c']});
-
-monad.component('custom2')
-    .extends(custom)
-    .list('/whatever/'); // The ListController still has columns a, b and c
-```
-...but so will this:
-```javascript
-let custom = new Component('custom1');
-custom.list('/custom/', {columns: ['a', 'b', 'c']});
-
-monad.component('custom2')
-    .list('/whatever/') // The ListController eventually inherits the columns
-    .extends(custom);
-```
-
-The rule of thumb is that the _native_ settings for a Component take precedence,
-and are augmented by defaults and/or components that are extended.
-
-> For the record, extending a component in no way changes the original
-> Component.
+If you plugin should rarely or never show up in a main menu directly, simply
+add `{menu: false}` to its `list` definition (or, if there is not `list`, just
+omit it).
 
