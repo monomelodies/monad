@@ -168,10 +168,12 @@ function addTarget(type) {
     }
     settings.options.resolve = settings.resolve;
     delete settings.options.template; // Don't do this.
-    this.ngmod.config(['$routeProvider', '$translatePartialLoaderProvider', ($routeProvider, $translatePartialLoaderProvider) => {
-        $routeProvider.when('/:language' + settings.url, settings.options);
-        $translatePartialLoaderProvider.addPart(this.name);
-    }]);
+    if (settings.url) {
+        this.ngmod.config(['$routeProvider', '$translatePartialLoaderProvider', ($routeProvider, $translatePartialLoaderProvider) => {
+            $routeProvider.when('/:language' + settings.url, settings.options);
+            $translatePartialLoaderProvider.addPart(this.name);
+        }]);
+    }
 };
 
 function normalize(name, replace = undefined) {
