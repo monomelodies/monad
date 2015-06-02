@@ -92,7 +92,7 @@ lists. This is all outside the scope of this tutorial.
 Monad's built-in `moLoginController` will call these methods, and as long as
 your implementation honours the required interface authentication will work!
 
-> The `moAuthentication` service handles only basic access to your admin; for
-> examples for more complex handling of multiple "sub-APIs" see 
+> The global `Authentication` service handles only basic access to your admin;
+> for examples of more complex handling of multiple "sub-APIs" see 
 > [the corresponding section in this manual](../samples/subauthentication.md).
 
