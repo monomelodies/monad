@@ -16,7 +16,6 @@ class RootController {
         modal = $modal;
         Language = moLanguage;
         this.title = title;
-        this.loginRequired = this.loginRequired || true;
         this.theme = theme;
         Navigation.current();
         $rootScope.$on('$routeChangeStart', () => this.Authentication['status']());
