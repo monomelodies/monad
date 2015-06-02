@@ -60,3 +60,27 @@ gulp.src('./src/admin/**/*.json', {base: './src/admin'})
 ## Grunt build script
 Feel free to submit one, we don't use Grunt :)
 
+## Aliasing ES6 module names
+Using relative paths everywhere is tiresome and, more importantly, makes code
+reuse more difficult (since relative file locations might change). Fortunately,
+the ES6 module spec will support `System.ondemand` for aliasing module names
+(and therefore locations). `Babel` support something comparable via the
+`resolveModuleSource` option. A simple implementation just for Monad could
+look like this:
+
+```javascript
+browserify.transform(babelify.configure({
+    resolveModuleSource: function(originalSource) {
+        if (originalSource.match(/^monad/)) {
+            return __dirname + '/bower_components/monad/src' + originalSource.replace(/^monad/, '');
+        }
+        return originalSource;
+    }
+});
+```
+Now, instead of `/path/to/monad/src` we can just use `monad` as a moudle
+identifier.
+
+> In the remainder of this documentation, we'll assume such a mapping exists
+> for brevity.
+
