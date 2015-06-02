@@ -3,13 +3,15 @@
 
 class HomeController
 {
-    constructor($http)
+    constructor(Authentication)
     {
-        this.dashboard = '../monad/templates/dashboard.html';
+        if (!Authentication.check()) {
+            Authentication.missing();
+        }
     }
 }
 
-HomeController.$inject = ['$http'];
+HomeController.$inject = ['Authentication'];
 
 export { HomeController };
 
