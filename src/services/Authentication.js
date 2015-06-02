@@ -3,20 +3,24 @@
 
 export class Authentication {
 
-    read() {
-        throw "Authentication.read must be replaced by your custom implementation.";
+    ['status']() {
+        throw "Authentication.status must be replaced by your custom implementation.";
     }
     
-    login(username, password) {
-        throw "Authentication.login must be replaced by your custom implementation.";
+    missing() {
+        throw "Authentication.missing must be replaced by your custom implementation.";
+    }
+
+    attempt(username, password) {
+        throw "Authentication.attempt must be replaced by your custom implementation.";
     }
     
-    logout() {
-        throw "Authentication.logout must be replaced by your custom implementation.";
+    revoke() {
+        throw "Authentication.revoke must be replaced by your custom implementation.";
     }
     
-    isAuthenticated() {
-        return false;
+    check() {
+        throw "Authentication.check must be replaced by your custom implementation.";
     }
 
 };
