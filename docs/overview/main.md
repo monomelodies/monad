@@ -14,6 +14,7 @@ actual filename is irrelevant as long as it transpiles to
 `./httpdocs/admin/bundle.js`) you would simply do the following:
 
 ```javascript
+import {monad} from '../monad/monad';
 monad.application(app, [...optionalDependencies], configFn).config(configFn);
 ```
 
@@ -25,6 +26,9 @@ The 'app' is a random name for your application; in this manual we'll use
 
 > In a real-world application, of course you'd configurate a module either with
 > the third argument, or by manually calling `config`. Both are allowed.
+
+Remember to import `monad` in every file you need it when using ES6-style
+modules! We won't explicitly mention it from now on.
 
 ## Adding components
 Of course, you'll want to separate your admin code into modules (in the Angular,
@@ -95,7 +99,8 @@ the important parts are:
 - A **Manager** is your custom class that handles actual data operations
   (usually via an API);
 - The `list` method registers code to list items;
-- The `update` method registers code to create or update items.
+- The `create` method registers code to create items.
+- The `update` method registers code to update items.
 
 "No `delete`", I hear you think? Nope; that's an API operation and does not
 require any special handling (your Manager of course must handle it).
