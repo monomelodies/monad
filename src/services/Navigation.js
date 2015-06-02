@@ -19,6 +19,7 @@ class Navigation {
         if (!this.hasOwnProperty(menu)) {
             Object.defineProperty(this, menu, {get: () => paths[menu]});
         }
+        console.log(paths[menu]);
     }
 
     current() {
@@ -32,13 +33,6 @@ class Navigation {
             paths[path].map(item => item.selected = false);
         }
         item.selected = true;
-    }
-
-    /**
-     * Main menu is (virtually) always defined anyway.
-     */
-    get main() {
-        return paths.main;
     }
 
 }
