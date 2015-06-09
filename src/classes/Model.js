@@ -130,7 +130,7 @@ class Model {
             if (prop.substring(0, 1) == '$') {
                 continue;
             }
-            if (typeof this[prop] == 'object' && 'getFullYear' in this[prop]) {
+            if (this[prop] && typeof this[prop] == 'object' && 'getFullYear' in this[prop]) {
                 let d = (this[prop] + '').split(' ');
                 data[prop] = [d[3], map(d[1]), d[2]].join('-') + ' '+ d[4];
             } else {
