@@ -17,6 +17,13 @@ standard so we're going to use it. You can find the plugin here:
 `https://wordpress.org/plugins/json-rest-api/`. Install it in your Wordpress
 site via the normal plugin system.
 
+## Prerequisite 3: oAuth and CLI
+For authentication, we'll use oAuth. `WP-API` has a plugin for that, too:
+[download it here and activate it](https://github.com/WP-API/OAuth1/) in
+`/wp-admin/`. For convenience, let's also add the CLI functions:
+- [WP-CLI](http://wp-cli.org/)
+- [
+
 For this tutorial, we'll assume the API is available under `/wp/`. Similarly,
 we'll put our admin stuff in `/admin/wp/` with an entry point
 `/admin/wp/angular.js`. We'll also focus on managing _posts_. (By the time we've
