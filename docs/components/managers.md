@@ -115,7 +115,7 @@ low-level control:
 
     }
 
-As you can see in `Manager.js`, it's a little more compicated than that since
+As you can see in `Manager.js`, it's a little more complicated than that since
 you'll likely want to keep default transformations too (e.g. Monad's post
 normaliser), but this is the basic idea.
 
