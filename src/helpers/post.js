@@ -22,6 +22,8 @@ export default $http => {
                     innerObj[fullSubName] = subValue;
                     query += param(innerObj) + '&';
                 }
+            } else if (value instanceof Date) {
+                query += encodeURIComponent(name) + '=' + encodeURIComponent(value.toString()) + '&';
             } else if (value instanceof Object) {
                 for (subName in value) {
                     subValue = value[subName];
