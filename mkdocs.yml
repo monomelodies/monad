@@ -1,53 +1,54 @@
 site_name: Monad CMS
-site_url: http://monad-cms.readthedocs.org/en/latest/
+site_url: http://monad.monomelodies.nl/docs/
 repo_url: https://github.com/monomelodies/monad
 
 pages:
-- [index.md, Overview, Home]
-- [overview/history.md, Overview, A little history]
-- [overview/build.md, Overview, Setting up a build script]
-- [overview/main.md, Overview, Main concepts]
-- [overview/customisation.md, Overview, Basic customisation]
-- [overview/authentication.md, Overview, Authentication]
-
-- [components/setup.md, Components, Setup]
-- [components/managers.md, Components, Managers]
-- [components/models.md, Components, Models]
-- [components/controllers.md, Components, Controllers]
-- [components/templates.md, Components, Templates]
-- [components/custom.md, Components, "Custom directives, filters and other stuff"]
-
-- [classes/monad.md, Classes, Monad global object]
-- [classes/component.md, Classes, Component]
-- [classes/model.md, Classes, Model]
-- [classes/collection.md, Classes, Collection]
-
-- [services/authentication.md, Services, Authentication]
-- [services/navigation.md, Services, Navigation]
-- [services/language.md, Services, Language]
-- [services/manager.md, Services, Manager]
-
-- [controllers/root.md, Controllers, RootController]
-- [controllers/login.md, Controllers, LoginController]
-- [controllers/home.md, Controllers, HomeController]
-- [controllers/list.md, Controllers, ListController]
-- [controllers/crud.md, Controllers, CrudController]
-
-- [directives/path.md, Directives, moPath]
-- [directives/slug.md, Directives, moSlug]
-- [directives/list.md, Directives, moList]
-- [directives/list/header.md, Directives, moListHeader]
-- [directives/list/table.md, Directives, moListTable]
-- [directives/update.md, Directives, moUpdate]
-- [directives/dragdrop.md, Directives, moDragDrop]
-
-- [samples/home.md, Examples, Adding a custom homepage or dashboard]
-- [samples/multi.md, Examples, CRUD with multiple models]
-- [samples/ckeditor.md, Examples, Integrating CKEditor]
-- [samples/files.md, Examples, File uploads]
-- [samples/subauthentication.md, Examples, Sub-authentication]
-- [samples/reusable.md, Examples, Building reusable components]
-- [samples/wordpress.md, Examples, Wordpress plugin]
+- Overview:
+    - 'Home': 'index.md'
+    - 'A little history': 'overview/history.md'
+    - 'Setting up a build script': 'overview/build.md'
+    - 'Main concepts': 'overview/main.md'
+    - 'Basic customisation': 'overview/customisation.md'
+    - 'Authentication': 'overview/authentication.md'
+- Components:
+    - 'Setup': 'components/setup.md'
+    - 'Managers': 'components/managers.md'
+    - 'Models': 'components/models.md'
+    - 'Controllers': 'components/controllers.md'
+    - 'Templates': 'components/templates.md'
+    - 'Custom directives, filters and other stuff': 'components/custom.md'
+- Classes:
+    - 'Monad global object': 'classes/monad.md'
+    - 'Component': 'classes/component.md'
+    - 'Model': 'classes/model.md'
+    - 'Collection': 'classes/collection.md'
+- Services:
+    - 'Authentication': 'services/authentication.md'
+    - 'Navigation': 'services/navigation.md'
+    - 'Language': 'services/language.md'
+    - 'Manager': 'services/manager.md'
+- Controllers:
+    - 'RootController': 'controllers/root.md'
+    - 'LoginController': 'controllers/login.md'
+    - 'HomeController': 'controllers/home.md'
+    - 'ListController': 'controllers/list.md'
+    - 'CrudController': 'controllers/crud.md'
+- Directives:
+    - 'moPath': 'directives/path.md'
+    - 'moSlug': 'directives/slug.md'
+    - 'moList': 'directives/list.md'
+    - 'moListHeader': 'directives/list/header.md'
+    - 'moListTable': 'directives/list/table.md'
+    - 'moUpdate': 'directives/update.md'
+    - 'moDragDrop': 'directives/dragdrop.md'
+- Examples:
+    - 'Adding a custom homepage or dashboard': 'samples/home.md'
+    - 'CRUD with multiple models': 'samples/multi.md'
+    - 'Integrating CKEditor': 'samples/ckeditor.md'
+    - 'File uploads': 'samples/files.md'
+    - 'Sub-authentication': 'samples/subauthentication.md'
+    - 'Building reusable components': 'samples/reusable.md'
+    - 'Wordpress plugin': 'samples/wordpress.md'
 
 copyright: Copyright &copy; 2015, <a href="http://www.monomelodies.nl/">Marijn Ophorst</a>
 
