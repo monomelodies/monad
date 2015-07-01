@@ -59,7 +59,7 @@ class CrudController {
             }
         }
         if (redir) {
-            loc.path(redir.replace(/:language/, Language.current));
+            loc.path('/' + Language.current + redir);
         }
         route.reset();
     }
