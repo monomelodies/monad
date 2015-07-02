@@ -1,22 +1,22 @@
-<div ng-if="rows && rows.length">
+<div ng-if="tbody.rows && tbody.rows.length">
     <table class="table table-striped">
         <thead>
             <tr>
-                <th ng-repeat="column in columns">
-                    {{module.name + '.' + column | translate}}
+                <th ng-repeat="column in tbody.columns">
+                    {{tbody.module.name + '.' + column | translate}}
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr m-list-row="item" ng-repeat="item in rows" ng-if="!item.$deleted">
-                <td ng-repeat="column in columns">
-                    <a mo-path="/:language{{module.settings.update.url}}" arguments="item">{{item[column]}}</a>
+            <tr m-list-row="item" ng-repeat="item in tbody.rows" ng-if="!item.$deleted">
+                <td ng-repeat="column in tbody.columns">
+                    <a mo-path="/:language{{tbody.module.settings.update.url}}" arguments="item">{{item[column]}}</a>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
-<div ng-if="!(rows && rows.length)">
+<div ng-if="!(tbody.rows && tbody.rows.length)">
     <alert type="warning">{{'monad.nothing' | translate}}</alert>
 </div>
 
