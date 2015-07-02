@@ -8,4 +8,5 @@ angular.module('tests', ['monad.core'])
 
 beforeEach(angular.mock.module('TEMPLATES'));
 beforeEach(angular.mock.module('tests'));
+beforeEach(angular.mock.module('ngCookies'));
 
