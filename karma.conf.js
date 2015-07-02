@@ -6,6 +6,7 @@ module.exports = function(config) {
     files: [
         'dist/libraries.js',
         'node_modules/angular-mocks/angular-mocks.js',
+        'bower_components/angular-cookies/angular-cookies.js',
         'tests/setup.js',
         'tests/**/*.spec.js',
         'src/**/*.html'
