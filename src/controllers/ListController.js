@@ -9,7 +9,7 @@ let modal;
 
 class ListController {
 
-    constructor($route, $modal, $translatePartialLoader, Authentication) {
+    constructor($scope, $route, $modal, $translatePartialLoader, Authentication) {
         if ($route.current && $route.current.locals) {
             for (let p in $route.current.locals) {
                 if (p.substring(0, 1) == '$') {
@@ -28,6 +28,8 @@ class ListController {
         if (!Authentication.check) {
             Authentication.missing();
         }
+
+        $scope.$watch('list.filter', () => this.page = 1, true);
     }
 
     get page() {
@@ -42,7 +44,9 @@ class ListController {
     applyFilter(params) {
         if (this.filter) {
             for (let p in this.filter) {
-                params[p] = this.filter[p];
+                if (this.filter[p]) {
+                    params[p] = this.filter[p];
+                }
             }
         }
         return params;
@@ -77,7 +81,7 @@ class ListController {
 
 };
 
-ListController.$inject = ['$route', '$modal', '$translatePartialLoader', 'Authentication'];
+ListController.$inject = ['$scope', '$route', '$modal', '$translatePartialLoader', 'Authentication'];
 
 export {ListController};
 
