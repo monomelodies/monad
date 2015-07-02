@@ -9,7 +9,7 @@ export default () => {
             this.handle = (item, handler) => {
                 handler(item).success(() => {
                     $route.reset();
-                //    $route.reload();
+                    $route.reload();
                 });
             };
         }],
