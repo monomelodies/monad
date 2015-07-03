@@ -37,6 +37,10 @@ class Manager {
         return params;
     }
 
+    get cache() {
+        return cache;
+    }
+
     get count() {
         return 0;
     }
