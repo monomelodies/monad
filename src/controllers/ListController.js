@@ -34,7 +34,11 @@ class ListController {
             Authentication.missing();
         }
 
-        $scope.$watch('list.filter', () => this.page = 1, true);
+        $scope.$watch('list.filter', (newvalue) => {
+            this.page = 1;
+            this.Manager.filter = newvalue;
+            delete this.Manager.$count;
+        }, true);
     }
 
     get page() {
@@ -43,7 +47,9 @@ class ListController {
 
     set page(page) {
         this._page = page;
-        this.Manager.paginate(page, this.applyFilter(params)).success(items => this.items = items);
+        this.Manager.filter = this.filter;
+        delete this.Manager.$count;
+        this.Manager.paginate(page, params).success(items => this.items = items);
     }
 
     applyFilter(params) {
