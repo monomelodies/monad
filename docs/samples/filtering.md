@@ -21,29 +21,53 @@ In the HTML snippet, bind your form elements to `list.filter.column` using
 <input type="checkbox" ng-model="list.filter.foo" value="1"> should foo be set?
 ```
 
-The contents of `filter` are appended to `$routeParams` and passed as a filter
-verbatim, where keys are fieldnames, values are either an object (subfilter)
-or the value. For subfilters, every new nesting level inverses the `AND/OR`
-clause.
+The contents of `filter` are passed verbatim, where keys are fieldnames, values
+are either an object (subfilter) or the value. How your API deals with that is
+up to you; e.g., in PHP the [Monki simple API](http://monki.monomelodies.nl)
+treats every new nesting level as an inverse `AND/OR` of the parent level.
 
-Values should be escaped server-side; to pass a "raw" value (i.e. verbatim,
-like `CURRENT_TIMESTAMP`) use the syntax `{field: {raw: 'VALUE'}}`.
-
-Ergo, the following filter:
-
-```json
-{foo: 'bar', {bar: 'baz', fizz: 'buzz'}}
-```
-...should evalute to
-```sql
-...WHERE foo = 'bar' AND (bar = 'baz' OR fizz = 'buzz')
-```
+Values should be escaped and validated server-side; Monad does no checking.
 
 On re-filtering, Monad jumps back to page 1 since it has no way of knowing
 beforehand the current page will still be available after the new filter is
-applied.
+applied. (TODO: use Manager.count so we CAN know this?)
 
 How exactly your filter should be passed to your API is up to you; e.g., in
 PHP the [Monki simple API](http://monki.monomelodies.nl) supports simply passing
 it as `?filter=JSON_ENCODED_FILTER`.
+
+## Default filter
+In the same vein, you can also define a _default filter_. This filter
+automatically gets applied if nothing else is selected:
+
+```javascipt
+monad.list(/*....*/, {defaultFilter: () => {
+    return {
+        someField: 1,
+        someOtherField: 2
+    };
+}});
+```
+
+The default filter can be seen as the "initial state" of your filters.
+
+## Filters and custom managers
+The base Manager service itself does nothing to filters, since it has no way of
+knowing how your API expects to receive them. The Manager _does_ offer an
+`applyFilters` method though, which takes as a single argument an object of
+`params` and returns it augmented with the current filter. You should take care
+to apply that in your `list` and `count` implementations, e.g.:
+
+```javascript
+list(filter = {}, options = {}) {
+    // "language" is always in the URL, but we probably don't need it:
+    // (YMMV though)
+    delete filter.language;
+    filter = this.applyFilter(filter);
+    options.limit = options.limit || 10;
+    options.offset = options.offset || 0;
+    return super.list('/admin-api/' + this.constructor.table + '/?filter=' + angular.toJson(filter) + '&options=' + angular.toJson(options));
+}
+```
+
 
