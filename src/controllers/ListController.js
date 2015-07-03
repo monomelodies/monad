@@ -9,7 +9,7 @@ let modal;
 
 class ListController {
 
-    constructor($route, $modal, $translatePartialLoader, Authentication) {
+    constructor($scope, $route, $modal, $translatePartialLoader, Authentication) {
         if ($route.current && $route.current.locals) {
             for (let p in $route.current.locals) {
                 if (p.substring(0, 1) == '$') {
@@ -22,12 +22,19 @@ class ListController {
         params = $route.current.params;
         modal = $modal;
         route = $route;
+
+        if (this.defaultFilter) {
+            this.filter = this.defaultFilter;
+        }
+
         this.page = params.page || 1;
         $translatePartialLoader.addPart(this.module.name);
 
         if (!Authentication.check) {
             Authentication.missing();
         }
+
+        $scope.$watch('list.filter', () => this.page = 1, true);
     }
 
     get page() {
@@ -36,8 +43,19 @@ class ListController {
 
     set page(page) {
         this._page = page;
-        this.Manager.paginate(page, params).success(items => this.items = items);
-    };
+        this.Manager.paginate(page, this.applyFilter(params)).success(items => this.items = items);
+    }
+
+    applyFilter(params) {
+        if (this.filter) {
+            for (let p in this.filter) {
+                if (this.filter[p] !== false) {
+                    params[p] = this.filter[p];
+                }
+            }
+        }
+        return params;
+    }
 
     /**
      * Method allowing item deletion directly from a list:
@@ -68,7 +86,7 @@ class ListController {
 
 };
 
-ListController.$inject = ['$route', '$modal', '$translatePartialLoader', 'Authentication'];
+ListController.$inject = ['$scope', '$route', '$modal', '$translatePartialLoader', 'Authentication'];
 
 export {ListController};
 

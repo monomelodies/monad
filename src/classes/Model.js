@@ -124,17 +124,6 @@ class Model {
         return false;
     }
 
-    $export() {
-        let data = {};
-        for (let prop in this) {
-            if (prop.substring(0, 1) == '$') {
-                continue;
-            }
-            data[prop] = this[prop];
-        }
-        return data;
-    }
-
 };
 
 export {Model};
