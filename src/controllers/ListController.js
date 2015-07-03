@@ -22,6 +22,11 @@ class ListController {
         params = $route.current.params;
         modal = $modal;
         route = $route;
+
+        if (this.defaultFilter) {
+            this.filter = this.defaultFilter;
+        }
+
         this.page = params.page || 1;
         $translatePartialLoader.addPart(this.module.name);
 
@@ -44,7 +49,7 @@ class ListController {
     applyFilter(params) {
         if (this.filter) {
             for (let p in this.filter) {
-                if (this.filter[p]) {
+                if (this.filter[p] !== false) {
                     params[p] = this.filter[p];
                 }
             }
