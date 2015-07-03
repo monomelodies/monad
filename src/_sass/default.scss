@@ -132,4 +132,9 @@ img {
     max-width: 100%;
     height: auto;
     }
+#navbar span {
+    @include border-radius(50%);
+    font-size: 80%;
+    background: $white;
+    }
 
