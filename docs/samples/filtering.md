@@ -43,3 +43,7 @@ On re-filtering, Monad jumps back to page 1 since it has no way of knowing
 beforehand the current page will still be available after the new filter is
 applied.
 
+How exactly your filter should be passed to your API is up to you; e.g., in
+PHP the [Monki simple API](http://monki.monomelodies.nl) supports simply passing
+it as `?filter=JSON_ENCODED_FILTER`.
+
