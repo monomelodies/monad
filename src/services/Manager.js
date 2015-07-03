@@ -23,6 +23,18 @@ class Manager {
         // Set this per-manager where needed:
         this.model = Model;
         this.collection = new Collection();
+        this.filter = {};
+    }
+
+    applyFilter(params) {
+        if (this.filter) {
+            for (let p in this.filter) {
+                if (this.filter[p] !== false) {
+                    params[p] = this.filter[p];
+                }
+            }
+        }
+        return params;
     }
 
     get count() {
