@@ -52,17 +52,6 @@ class ListController {
         this.Manager.paginate(page, params).success(items => this.items = items);
     }
 
-    applyFilter(params) {
-        if (this.filter) {
-            for (let p in this.filter) {
-                if (this.filter[p] !== false) {
-                    params[p] = this.filter[p];
-                }
-            }
-        }
-        return params;
-    }
-
     /**
      * Method allowing item deletion directly from a list:
      */
