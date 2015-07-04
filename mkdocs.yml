@@ -45,6 +45,7 @@ pages:
     - 'Adding a custom homepage or dashboard': 'samples/home.md'
     - 'CRUD with multiple models': 'samples/multi.md'
     - 'Filtering lists': 'samples/filtering.md'
+    - 'Notifications': 'samples/notifications.md'
     - 'Quick inline editing in lists': 'samples/inline.md'
     - 'Integrating CKEditor': 'samples/ckeditor.md'
     - 'File uploads': 'samples/files.md'
