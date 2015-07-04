@@ -35,7 +35,7 @@
                         <li><a href="../" target="_blank">{{'monad.navigation.site' | translate}}</a></li>
                         <li ng-repeat="item in monad.Navigation.main" ng-class="{active: item.selected, dropdown: item.items}">
                             <a ng-if="!item.items" mo-path="{{item.url}}" ng-click="monad.Navigation.select(item)">
-                                <span ng-if="item.notifications">({{item.notifications}})</span>
+                                <small ng-if="item.notifications">{{item.notifications}}</small>
                                 {{item.label | translate}}
                             </a>
                         </li>
