@@ -49,7 +49,7 @@ monad.application('foobar')
 ```
 
 > Note that this is the global authentication for your entire application, as
-> reference by the `RootController`.
+> referenced by the `RootController`.
 
 ## Example
 Usually you'll inject Angular's `$http` service to make the required calls. A
