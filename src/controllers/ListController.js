@@ -9,7 +9,7 @@ let modal;
 
 class ListController {
 
-    constructor($scope, $route, $modal, $translatePartialLoader, Authentication) {
+    constructor($scope, $route, $modal, $translatePartialLoader, $injector) {
         if ($route.current && $route.current.locals) {
             for (let p in $route.current.locals) {
                 if (p.substring(0, 1) == '$') {
@@ -30,8 +30,8 @@ class ListController {
         this.page = params.page || 1;
         $translatePartialLoader.addPart(this.module.name);
 
-        if (!Authentication.check) {
-            Authentication.missing();
+        if (!this.Authentication.check) {
+            this.Authentication.missing();
         }
 
         $scope.$watch('list.filter', (newvalue) => {
@@ -81,7 +81,7 @@ class ListController {
 
 };
 
-ListController.$inject = ['$scope', '$route', '$modal', '$translatePartialLoader', 'Authentication'];
+ListController.$inject = ['$scope', '$route', '$modal', '$translatePartialLoader', '$injector'];
 
 export {ListController};
 
