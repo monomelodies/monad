@@ -101,7 +101,6 @@ class Component {
             create: {resolve: {Authentication: auth}},
             update: {resolve: {Authentication: auth}}
         });
-        this.Authentication = auth;
         return this;
     }
 
@@ -166,6 +165,14 @@ function addTarget(type) {
     if (type == 'create') {
         settings.resolve.item = [this.$manager.name, Manager => new Manager.model];
     }
+    let name;
+    if ('Authentication' in settings.resolve) {
+        name = normalize(this.name) + '_' + type + 'Authentication';
+        this.ngmod.service(name, settings.resolve.Authentication);
+    } else {
+        name = 'Authentication';
+    }
+    settings.resolve.Authentication = [name, Authentication => Authentication];
     settings.options.resolve = settings.resolve;
     delete settings.options.template; // Don't do this.
     if (settings.url) {
