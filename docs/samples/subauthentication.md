@@ -78,4 +78,34 @@ monad.component('foo')
 > component names are unique and each "type" (list, update etc.) can only have
 > one default authentication scheme, this should always work.
 
-> theoretical situation where you'd 
+For complicated admins where you require additional authentication services, use
+the following strategy:
+
+Add a custom controller (possibly extending one of Monad's defaults):
+
+```javascript
+import {ListController} from 'monad/controllers/ListController';
+
+class MyCustomController extends ListController {
+
+    constructor(customAuth, ...args) {
+        super(...args);
+        // ...do something with customAuth here
+    }
+
+}
+
+class CustomAuth {
+}
+
+monad.component('mycustomthing')
+    .service('customAuth', customAuth)
+    // etc.
+    .list('/path/', {}, {customAuth: ['customAuth', customAuth => CustomAuth]});
+
+MyCustomController.$inject = ['customAuth'].concat(ListController.$inject);
+```
+
+Note that in this case you _will_ of course have to manually register the
+service with Angular.
+
