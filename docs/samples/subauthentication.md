@@ -35,10 +35,10 @@ MyCustomController.$inject = ['Authentication'];
 The implementation of `check` and `missing()` is up to you; maybe they look to
 the main session, maybe they do their own calls. Maybe they flip a coin.
 
-## Adding sub-authentication to a component
+## Adding sub-authentication to a parts of a component
 We saw above how you add sub-authentication to a specific component. This is
 really setting the defaults for `list`, `create` and `update`; hence, for even
-more fine-grained control you can set of override these manually:
+more fine-grained control you can set or override these manually:
 
 ```javascript
 monad.component('fizzbuzz')
