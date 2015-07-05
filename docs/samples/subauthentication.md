@@ -73,3 +73,9 @@ monad.component('foo')
     .list('/fizzbuzzfoo/', {}, {Authentication: GoWildWithAuthentication});
 ```
 
+> Monad automatically registers the Authentication injection with Angular under
+> a (hopefully) unique name: `component + '_' + type + 'Authentication'`. Since
+> component names are unique and each "type" (list, update etc.) can only have
+> one default authentication scheme, this should always work.
+
+> theoretical situation where you'd 
