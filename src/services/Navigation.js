@@ -19,7 +19,15 @@ class Navigation {
                         return;
                     }
                     let component = monad.component(path.component);
-                    let authenticate = component.Authentication || auth;
+                    let authenticate;
+                    if (component.defaults.list
+                        && component.defaults.list.resolve
+                        && component.defaults.list.resolve.Authentication
+                    ) {
+                        authenticate = $injector.instantiate(component.defaults.list.resolve.Authentication);
+                    } else {
+                        authenticate = auth;
+                    }
                     if (authenticate && authenticate.check) {
                         items.push(path);
                         let manager = $injector.get(component.$manager.name);
