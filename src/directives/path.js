@@ -13,6 +13,16 @@ export default ['$route', '$location', 'moLanguage', ($route, $location, Languag
     return {
         restrict: 'A',
         link: (scope, element, attrs) => {
+            element.on('click', $event => {
+                let t = element.text();
+                if (!t.match(/\s/) && t.match(/^https?:\/\//)) {
+                    window.open(t);
+                    $event.stopPropagation();
+                    return false;
+                } else {
+                    return true;
+                }
+            });
             let params = $route.current ? $route.current.params : {};
             let original = $route.current ? $route.current.originalPath : $location.path().replace(/^\/[a-z]{2}\//, '/:language/');
             let path = attrs.moPath || original;

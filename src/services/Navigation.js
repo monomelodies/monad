@@ -7,7 +7,7 @@ let auth;
 
 class Navigation {
 
-    constructor($location, Authentication) {
+    constructor($location, Authentication, $injector) {
         loc = $location;
         auth = Authentication;
         for (let menu in paths) {
@@ -22,6 +22,8 @@ class Navigation {
                     let authenticate = component.Authentication || auth;
                     if (authenticate && authenticate.check) {
                         items.push(path);
+                        let manager = $injector.get(component.$manager.name);
+                        path.notifications = manager.notify;
                     }
                 });
                 return items;
@@ -50,7 +52,7 @@ class Navigation {
 
 }
 
-Navigation.$inject = ['$location', 'Authentication'];
+Navigation.$inject = ['$location', 'Authentication', '$injector'];
 
 export {Navigation};
 

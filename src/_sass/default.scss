@@ -132,4 +132,24 @@ img {
     max-width: 100%;
     height: auto;
     }
+#navbar {
+    small {
+        @include border-radius(50%);
+        float: right;
+        font-size: 80%;
+        background: $white;
+        line-height: 20px;
+        height: 20px;
+        padding: 0 4px;
+        min-width: 20px;
+        margin-left: .5em;
+        font-weight: bold;
+        text-shadow: 0!important;
+        text-align: center;
+        }
+    a:hover small, .active small {
+        color: $dark;
+        text-shadow: 0!important;
+        }
+    }
 

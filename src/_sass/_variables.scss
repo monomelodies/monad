@@ -19,3 +19,9 @@ $footer_anchor_fg: $yellow;
 
 $icon-font-path: '../monad/fonts/bootstrap/';
 
+@mixin border-radius($how) {
+    -moz-border-radius: $how;
+    -webkit-border-radius: $how;
+    border-radius: $how;
+};
+
