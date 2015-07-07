@@ -29,7 +29,7 @@ export default ['$route', '$location', 'moLanguage', ($route, $location, Languag
             if (!path) {
                 return;
             }
-            let args = attrs['arguments'] ? scope.$eval(attrs['arguments']) : {};
+            let args = angular.copy(attrs['arguments'] ? scope.$eval(attrs['arguments']) : {});
             if (params.language) {
                 args.language = args.language || params.language;
             } else {
