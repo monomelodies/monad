@@ -3,6 +3,7 @@
 
 import {default as ListHeader} from './list/header/directive';
 import {default as ListTable} from './list/table/directive';
+import Delete from './list/table/delete';
 import {default as Path} from './path';
 import {default as Field} from './field/directive';
 import {default as Update} from './update/directive';
@@ -14,6 +15,7 @@ angular.module('monad.directives', ['ng'])
     .directive('moList', List)
     .directive('moListHeader', ListHeader)
     .directive('moListTable', ListTable)
+    .directive('moDelete', Delete)
     .directive('moPath', Path)
     .directive('moField', Field)
     .directive('moUpdate', Update)
