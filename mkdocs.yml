@@ -46,7 +46,7 @@ pages:
     - 'CRUD with multiple models': 'samples/multi.md'
     - 'Filtering lists': 'samples/filtering.md'
     - 'Notifications': 'samples/notifications.md'
-    - 'Quick inline editing in lists': 'samples/inline.md'
+    - 'List item templates': 'samples/item-templates.md'
     - 'Integrating CKEditor': 'samples/ckeditor.md'
     - 'File uploads': 'samples/files.md'
     - 'Sub-authentication': 'samples/subauthentication.md'
