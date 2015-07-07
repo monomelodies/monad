@@ -78,3 +78,9 @@ items:
 </button>
 ```
 
+## Bonus: modals
+Since Monad comes with Bootstrap, you can also use the `$modal` service to show
+a confirm dialogue. Since this is a common operation, Monad sports a template
+for that: `../monad/directives/list/table/delete.html`. If you need a modal for
+something else, use this as an example.
+
