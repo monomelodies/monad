@@ -27,6 +27,7 @@
             "ok": "Got it!"
         },
         "delete": {
+            "delete": "Delete",
             "title": "Do you want to delete this?",
             "body": "No going back afterwards, so just verifying...",
             "ok": "Yes, I'm sure",
