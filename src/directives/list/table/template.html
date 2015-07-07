@@ -10,12 +10,8 @@
         <tbody>
             <tr ng-repeat="row in tbody.rows" ng-if="!row.$deleted">
                 <td ng-repeat="column in tbody.columns">
-                    <a ng-if="!tbody.inlines[column]" mo-path="/:language{{tbody.module.settings.update.url}}" arguments="row">{{row[column]}}</a>
-                    <button ng-if="tbody.inlines[column]"
-                        class="btn {{tbody.inlines[column].type}}"
-                        ng-click="tbody.handle(row, tbody.inlines[column].handle)">
-                        {{tbody.inlines[column].label|translate}}
-                    </button>
+                    <a ng-if="!tbody.templates[column]" mo-path="/:language{{tbody.module.settings.update.url}}" arguments="row">{{row[column]}}</a>
+                    <div ng-if="tbody.templates[column]" ng-include="tbody.templates[column]"></div>
                 </td>
             </tr>
         </tbody>
