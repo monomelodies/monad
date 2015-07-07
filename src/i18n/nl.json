@@ -27,6 +27,7 @@
             "ok": "Helder!"
         },
         "delete": {
+            "delete": "Verwijderen",
             "title": "Wilt u dit verwijderen?",
             "body": "Dit kan niet ongedaan gemaakt worden, dus even bevestigen graag...",
             "ok": "Ja, ik weet het zeker",
