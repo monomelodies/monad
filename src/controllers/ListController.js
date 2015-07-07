@@ -19,7 +19,8 @@ class ListController {
             }
         }
         this.$new = new this.Manager.model();
-        params = $route.current.params;
+        params = angular.copy($route.current.params);
+        delete params.language;
         modal = $modal;
         route = $route;
 
@@ -34,7 +35,7 @@ class ListController {
             this.Authentication.missing();
         }
 
-        $scope.$watch('list.filter', (newvalue) => {
+        $scope.$watch('list.filter', newvalue => {
             this.page = 1;
             this.Manager.filter = newvalue;
             delete this.Manager.$count;
