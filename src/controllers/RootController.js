@@ -18,7 +18,7 @@ class RootController {
         this.title = title;
         this.theme = theme;
         Navigation.current();
-        $rootScope.$on('$routeChangeStart', () => this.Authentication['status']());
+        $rootScope.$on('$routeChangeStart', () => this.Authentication['status']().then(() => Navigation.clear()));
         $rootScope.$on('$routeChangeSuccess', (event, target) => {
             if (!Language.current) {
                 loc.path('/' + Language.list[0] + '/');
