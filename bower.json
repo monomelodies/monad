@@ -26,6 +26,7 @@
     "angular-translate-loader-partial": ">=2.6.1",
     "autofill-event": ">=1.0.0",
     "bootstrap-sass": ">=3.3.4",
-    "angular-cookies": ">=1.4.1"
+    "angular-cookies": ">=1.4.1",
+    "angular-gettext": ">=2.1.0"
   }
 }
