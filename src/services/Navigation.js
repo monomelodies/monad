@@ -4,6 +4,7 @@
 let paths = {};
 let loc;
 let auth;
+let cache = {};
 
 class Menu {
 }
@@ -33,16 +34,15 @@ class Navigation {
         auth = Authentication;
         for (let menu in paths) {
             Object.defineProperty(this, menu, {get: () => {
-                let items = [];
+                if (menu in cache) {
+                    return cache[menu];
+                }
+                cache[menu] = [];
                 paths[menu].map(path => {
-                    if (path.url == '/') {
-                        items.push(path);
-                        return;
-                    }
                     if (path.component) {
                         let component = monad.component(path.component);
                         if (access(component)) {
-                            items.push(path);
+                            cache[menu].push(path);
                             if ('$manager' in component) {
                                 let manager = $injector.get(component.$manager.name);
                                 path.notifications = manager.notify;
@@ -58,11 +58,11 @@ class Navigation {
                             }
                         });
                         if (sub.items.length) {
-                            items.push(sub);
+                            cache[menu].push(sub);
                         }
                     }
                 });
-                return items;
+                return cache[menu];
             }});
         }
     }
@@ -89,14 +89,20 @@ class Navigation {
                 found = true;
             }
         });
-        if (!found && sub) {
-            let subitem = new Menu;
-            subitem.label = sub;
-            subitem.items = [next];
-            paths[menu].push(subitem);
-        } else {
-            paths[menu].push(next);
+        if (!found) {
+            if (sub) {
+                let subitem = new Menu;
+                subitem.label = sub;
+                subitem.items = [next];
+                paths[menu].push(subitem);
+            } else {
+                paths[menu].push(next);
+            }
         }
+    }
+
+    clear() {
+        cache = {};
     }
 
     current() {
