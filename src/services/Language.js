@@ -3,13 +3,13 @@
 
 let current;
 let langs;
-let translate;
+let catalog;
 
 class Language {
 
-    constructor(languages, $translate, $rootScope) {
+    constructor(languages, gettextCatalog, $rootScope) {
         langs = languages;
-        translate = $translate;
+        catalog = gettextCatalog;
         $rootScope.$on('$routeChangeSuccess', (event, target) => {
             if (target.params.language && target.params.language != current) {
                 this.current = target.params.language;
@@ -26,8 +26,8 @@ class Language {
             throw `Language "${lang}" is unavailable, sorry.`;
         }
         current = lang;
-        translate.use(current);
-        translate.refresh();
+        catalog.setCurrentLanguage(current);
+        catalog.loadRemote('../js/i18n/' + lang + '.json');
     }
 
     get list() {
@@ -36,7 +36,7 @@ class Language {
 
 };
 
-Language.$inject = ['languages', '$translate', '$rootScope'];
+Language.$inject = ['languages', 'gettextCatalog', '$rootScope'];
 
 export {Language};
 
