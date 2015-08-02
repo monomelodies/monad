@@ -11,7 +11,7 @@ class Menu {
 
 class Navigation {
 
-    constructor($location, Authentication, $injector) {
+    constructor($location, Authentication, $injector, gettextCatalog) {
 
         function access(component) {
             let authenticate;
@@ -42,6 +42,9 @@ class Navigation {
                     if (path.component) {
                         let component = monad.component(path.component);
                         if (access(component)) {
+                            if (component._texts && component._texts.$menu) {
+                                path.label = gettextCatalog.getString(component._texts.$menu);
+                            }
                             cache[menu].push(path);
                             if ('$manager' in component) {
                                 let manager = $injector.get(component.$manager.name);
@@ -50,10 +53,13 @@ class Navigation {
                         }
                     } else {
                         // Submenu.
-                        let sub = {label: path.label, items: []};
+                        let sub = {label: gettextCatalog.getString(path.label), items: []};
                         path.items.map(item => {
                             let component = monad.component(item.component);
                             if (access(component)) {
+                                if (component._texts && component._texts.$menu) {
+                                    item.label = gettextCatalog.getString(component._texts.$menu);
+                                }
                                 sub.items.push(item);
                             }
                         });
@@ -67,7 +73,7 @@ class Navigation {
         }
     }
 
-    static register(component, menu, url, label) {
+    static register(component, menu, url, label = undefined) {
         let work;
         if (typeof menu == 'string') {
             let m = {};
@@ -82,9 +88,12 @@ class Navigation {
         paths[menu] = paths[menu] || [];
         let selected = false;
         let found = false;
+        if (!label) {
+            label = this.name;
+        }
         let next = {component, url, label, selected};
         paths[menu].map(item => {
-            if (item.label == sub) {
+            if (item.label && item.label == sub) {
                 item.items.push(next);
                 found = true;
             }
@@ -120,7 +129,7 @@ class Navigation {
 
 }
 
-Navigation.$inject = ['$location', 'Authentication', '$injector'];
+Navigation.$inject = ['$location', 'Authentication', '$injector', 'gettextCatalog'];
 
 export {Navigation};
 
