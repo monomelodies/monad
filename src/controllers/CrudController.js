@@ -13,7 +13,7 @@ let Language;
 
 class CrudController {
 
-    constructor($route, $modal, $location, moLanguage, $translatePartialLoader, Authentication) {
+    constructor($route, $modal, $location, moLanguage, Authentication) {
         route = $route;
         modal = $modal;
         loc = $location;
@@ -31,12 +31,6 @@ class CrudController {
                 this[p] = $route.current.locals[p];
             }
         }
-        $translatePartialLoader.addPart(this.module.name);
-        this.module.dependencies.map(dep => {
-            if (monad.exists(dep)) {
-                $translatePartialLoader.addPart(dep);
-            }
-        });
     }
 
     save() {
@@ -90,7 +84,7 @@ class CrudController {
 
 };
 
-CrudController.$inject = ['$route', '$modal', '$location', 'moLanguage', '$translatePartialLoader', 'Authentication'];
+CrudController.$inject = ['$route', '$modal', '$location', 'moLanguage', 'Authentication'];
 
 export {CrudController};
 
