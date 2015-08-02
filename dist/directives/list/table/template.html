@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 <th ng-repeat="column in tbody.columns">
-                    {{tbody.module.name + '.' + column | translate}}
+                    {{tbody.module.texts[column]}}
                 </th>
             </tr>
         </thead>
@@ -18,6 +18,6 @@
     </table>
 </div>
 <div ng-if="!(tbody.rows && tbody.rows.length)">
-    <alert type="warning">{{'monad.nothing' | translate}}</alert>
+    <alert type="warning" translate>Sorry, nothing found.</alert>
 </div>
 
