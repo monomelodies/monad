@@ -11,7 +11,7 @@ import {Language} from './services/Language';
 import {default as normalizePost} from './helpers/post';
 import {default as Directives} from './directives/angular';
 
-function config($translateProvider, $translatePartialLoaderProvider, $routeProvider, $locationProvider, languages) {
+function config($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(false);
     $routeProvider.
         when('/', {
@@ -27,28 +27,17 @@ function config($translateProvider, $translatePartialLoaderProvider, $routeProvi
             controllerAs: 'login',
             templateUrl: '../monad/templates/login.html'
         });
-    $translateProvider.useLoader('$translatePartialLoader', {
-        urlTemplate: '{part}/i18n/{lang}.json'
-    });
-    $translateProvider.preferredLanguage(languages[0]);
-    $translatePartialLoaderProvider.addPart('../monad');
 };
 
-angular.module('monad.core', ['ng', 'ngRoute', 'pascalprecht.translate', 'ngSanitize', 'ui.bootstrap', Directives])
-    .config(['$translateProvider', '$translatePartialLoaderProvider', '$routeProvider', '$locationProvider', 'languages', config])
-    .run(['$http', '$rootScope', '$translate', '$route', '$cacheFactory', ($http, $rootScope, $translate, $route, $cacheFactory) => {
-        normalizePost($http);
-        $rootScope.$on('$translatePartialLoaderStructureChanged', () => $translate.refresh());
-        $route.reset = () => {
-            let caches = $cacheFactory.info();
-            for (let cache in caches) {
-                if (cache == 'templates') {
-                    continue;
-                }
-                $cacheFactory.get(cache).removeAll();
-            }
-        };
-    }])
+function run(gettextCatalog, languages, $http, $rootScope, $route, $cacheFactory) {
+    normalizePost($http);
+    gettextCatalog.setCurrentLanguage(languages[0]);
+    gettextCatalog.loadRemote('../js/i18n/' + languages[0] + '.json');
+};
+
+angular.module('monad.core', ['ng', 'ngRoute', 'gettext', 'ngSanitize', 'ui.bootstrap', Directives])
+    .config(['$routeProvider', '$locationProvider', config])
+    .run(['gettextCatalog', 'languages', '$http', '$rootScope', '$route', '$cacheFactory', run])
     .controller('moController', RootController)
     .service('moNavigation', Navigation)
     .service('Authentication', Authentication)
