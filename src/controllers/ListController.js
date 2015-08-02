@@ -9,7 +9,7 @@ let modal;
 
 class ListController {
 
-    constructor($scope, $route, $modal, $translatePartialLoader, $injector) {
+    constructor($scope, $route, $modal, $injector) {
         if ($route.current && $route.current.locals) {
             for (let p in $route.current.locals) {
                 if (p.substring(0, 1) == '$') {
@@ -29,7 +29,6 @@ class ListController {
         }
 
         this.page = params.page || 1;
-        $translatePartialLoader.addPart(this.module.name);
 
         if (!this.Authentication.check) {
             this.Authentication.missing();
@@ -40,6 +39,11 @@ class ListController {
             this.Manager.filter = newvalue;
             delete this.Manager.$count;
         }, true);
+    }
+
+    reset() {
+        route.reset();
+        this.page = this._page;
     }
 
     get page() {
@@ -55,7 +59,7 @@ class ListController {
 
 };
 
-ListController.$inject = ['$scope', '$route', '$modal', '$translatePartialLoader', '$injector'];
+ListController.$inject = ['$scope', '$route', '$modal', '$injector'];
 
 export {ListController};
 
