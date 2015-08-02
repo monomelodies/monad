@@ -9,7 +9,7 @@ let Language;
 
 class RootController {
 
-    constructor($location, $rootScope, $translate, $modal, Authentication, Navigation, moLanguage, title, theme) {
+    constructor($location, $rootScope, $modal, Authentication, Navigation, moLanguage, title, theme) {
         loc = $location;
         auth = Authentication;
         nav = Navigation;
@@ -77,7 +77,6 @@ class RootController {
 RootController.$inject = [
     '$location',
     '$rootScope',
-    '$translate',
     '$modal',
     'Authentication',
     'moNavigation',
