@@ -39,10 +39,9 @@ var scripts = [
     './bower_components/angular-bootstrap/ui-bootstrap.js',
     './bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
     './bower_components/angular-route/angular-route.js',
-    './bower_components/angular-translate/angular-translate.js',
-    './bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js',
     './bower_components/angular-sanitize/angular-sanitize.js',
-    './bower_components/autofill-event/src/autofill-event.js'
+    './bower_components/autofill-event/src/autofill-event.js',
+    './bower_components/angular-gettext/dist/angular-gettext.js'
 ];
 
 gulp.task('libraries', function() {
