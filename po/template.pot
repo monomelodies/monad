@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+
+#: src/directives/list/header/template.html:4
+msgid "Create"
+msgstr ""
+
+#: src/directives/list/table/delete.html:1
+msgid "Delete"
+msgstr ""
+
+#: src/templates/login.html:20
+msgid "Go!"
+msgstr ""
+
+#: src/templates/home.html:10
+msgid ""
+"Hi there, you've reached the administrator for this site. Your options are listed here.\n"
+"                You can also use the main menu at the top to navigate."
+msgstr ""
+
+#: src/templates/login.html:18
+msgid "Password"
+msgstr ""
+
+#: src/templates/login.html:5
+msgid "Please login"
+msgstr ""
+
+#: src/directives/update/template.html:10
+msgid "Save changes"
+msgstr ""
+
+#: index.html:23
+msgid "Toggle navigation"
+msgstr ""
+
+#: src/templates/login.html:11
+msgid "Username"
+msgstr ""
+
+#: src/templates/home.html:9
+msgid "Welcome!"
+msgstr ""
+
+#: index.html:69
+msgid "monad.logout"
+msgstr ""
+
+#: index.html:35
+msgid "monad.navigation.site"
+msgstr ""
+
+#: src/directives/list/table/template.html:21
+msgid "monad.nothing"
+msgstr ""
+
+#: src/templates/home.html:19
+msgid "{{item.label}}"
+msgstr ""
