@@ -2,22 +2,22 @@
     <div class="vert-wrapper-inner">
         <form ng-submit="login.attempt()" id="auth" name="auth" novalidate method="post">
             <fieldset>
-                <legend>{{'monad.login' | translate}}</legend>
+                <legend translate>Please login</legend>
                 <div class="form-group">
                     <input type="text"
                         name="username"
                         ng-model="login.credentials[0]"
                         class="form-control"
-                        placeholder="{{'monad.login.username' | translate}}">
+                        placeholder="{{'Username' | translate}}">
                 </div>
                 <div class="form-group">
                     <input type="password"
                         name="password"
                         ng-model="login.credentials[1]"
                         class="form-control"
-                        placeholder="{{'monad.login.password' | translate}}">
+                        placeholder="{{'Password' | translate}}">
                 </div>
-                <button type="submit" class="btn btn-default pull-right">{{'monad.login.go' | translate}}</button>
+                <button type="submit" class="btn btn-default pull-right" translate>Go!</button>
             </fieldset>
         </form>
     </div>
