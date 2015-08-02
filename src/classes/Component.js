@@ -70,6 +70,13 @@ class Component {
             }
         });
         this.ngmod = angular.module(this.name, deps, this.configFn);
+        this.ngmod.run(['gettextCatalog', Catalog => {
+            if (this.texts) {
+                for (let key in this.texts) {
+                    this.texts[key] = Catalog.getString(this.texts[key]);
+                }
+            }
+        }]);
         this.queued.map(proxy => {
             let fn = proxy.shift();
             if (typeof fn == 'string') {
@@ -104,6 +111,11 @@ class Component {
         return this;
     }
 
+    texts(keyValue) {
+        this._texts = keyValue;
+        return this;
+    }
+
     list(url, options = {}, resolve = {}) {
         // It's easier if we can specify 'columns' on the options:
         if ('columns' in options) {
@@ -113,7 +125,7 @@ class Component {
         }
 
         if (!('menu' in options) || options.menu) {
-            Navigation.register(this.name, options.menu || 'main', '/:language' + url, 'monad.navigation.' + normalize(this.name, '.$1'));
+            Navigation.register(this.name, options.menu || 'main', '/:language' + url);//, 'monad.navigation.' + normalize(this.name, '.$1'));
         }
         delete(options.menu);
 
@@ -176,9 +188,8 @@ function addTarget(type) {
     settings.options.resolve = settings.resolve;
     delete settings.options.template; // Don't do this.
     if (settings.url) {
-        this.ngmod.config(['$routeProvider', '$translatePartialLoaderProvider', ($routeProvider, $translatePartialLoaderProvider) => {
+        this.ngmod.config(['$routeProvider', $routeProvider => {
             $routeProvider.when('/:language' + settings.url, settings.options);
-            $translatePartialLoaderProvider.addPart(this.name);
         }]);
     }
 };
