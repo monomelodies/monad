@@ -3,7 +3,7 @@
 
 import {Component} from './Component';
 
-let application;
+let application = undefined;
 let registeredComponents = {};
 
 class Monad {

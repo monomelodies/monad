@@ -1,9 +1,9 @@
 
 "use strict";
 
-let current;
-let langs;
-let catalog;
+let current = undefined;
+let langs = undefined;
+let catalog = undefined;
 
 class Language {
 

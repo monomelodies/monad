@@ -1,9 +1,9 @@
 
 "use strict";
 
-let service;
-let loc;
-let language;
+let service = undefined;
+let loc = undefined;
+let language = undefined;
 
 class LoginController {
 

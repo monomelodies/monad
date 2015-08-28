@@ -1,11 +1,11 @@
 
 "use strict";
 
-let loc;
-let auth;
-let nav;
-let modal;
-let Language;
+let loc = undefined;
+let auth = undefined;
+let nav = undefined;
+let modal = undefined;
+let Language = undefined;
 
 class RootController {
 

@@ -4,8 +4,8 @@
 import {Model} from '../classes/Model';
 import {Collection} from '../classes/Collection';
 
-let http;
-let cache;
+let http = undefined;
+let cache = undefined;
 
 function appendTransform(transform) {
     let defaults = http.defaults.transformResponse;

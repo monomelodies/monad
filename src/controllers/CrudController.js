@@ -6,10 +6,10 @@ import {Collection} from '../classes/Collection';
 import {Model} from '../classes/Model';
 import {Manager} from '../services/Manager';
 
-let route;
-let modal;
-let loc;
-let Language;
+let route = undefined;
+let modal = undefined;
+let loc = undefined;
+let Language = undefined;
 
 class CrudController {
 

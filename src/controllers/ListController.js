@@ -3,9 +3,9 @@
 
 import {Component} from '../classes/Component';
 
-let params;
-let route;
-let modal;
+let params = undefined;
+let route = undefined;
+let modal = undefined;
 
 class ListController {
 

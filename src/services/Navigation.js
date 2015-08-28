@@ -2,8 +2,8 @@
 "use strict";
 
 let paths = {};
-let loc;
-let auth;
+let loc = undefined;
+let auth = undefined;
 let cache = {};
 
 class Menu {
