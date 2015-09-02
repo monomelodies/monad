@@ -1,1 +1,43 @@
-{"nl":{"Create":"Aanmaken","Create new item in {{ module.name }}":"Nieuw item in {{ module.name }}","Delete":"Verwijderen","Edit item in {{ module.name }}":"Wijzig item in {{ module.name }}","Go!":"Gaan!","Hi there, you've reached the administrator for this site. Your options are listed here.\n                You can also use the main menu at the top to navigate.":"Hallo daar, je hebt de admin bereikt voor deze site. Je vindt hier een lijst met opties.\nJe kunt ook het menu bovenin gebruiken voor navigatie.","List of items in {{ module.name }}":"Lijst met items in {{ module.name }}","Logout":"Uitloggen","Password":"Wachtwoord","Please login":"Inloggen a.u.b.","Save changes":"Opslaan","Site":"Site","Sorry, nothing found.":"Sorry, niks gevonden.","Toggle navigation":"Navigatie aan/uit","Username":"Gebruikersnaam","Welcome!":"Welkom!"}}
+{
+    "monad": {
+        "site": "Site",
+        "toggle": "Navigatie aan/uit",
+        "data": {
+            "data": "Data",
+            "submit": "Wijzigingen opslaan",
+            "delete": "Verwijderen",
+            "create": "Toevoegen"
+        },
+        "id": "ID",
+        "title": "Titel",
+        "slug": "Slug",
+        "keywords": "Steekwoorden",
+        "description": "Omschrijving",
+        "login": {
+            "login": "Log in a.u.b.",
+            "username": "Gebruikersnaam",
+            "password": "Wachtwoord",
+            "go": "Inloggen"
+        },
+        "logout": "Uitloggen",
+        "nothing": "Helaas, niks gevonden.",
+        "license": {
+            "license": "Licentie",
+            "note": "NB: dit geldt het Monad CMS framework, niet (noodzakelijk) de site waar het voor gebruikt wordt :)",
+            "ok": "Helder!"
+        },
+        "delete": {
+            "delete": "Verwijderen",
+            "title": "Wilt u dit verwijderen?",
+            "body": "Dit kan niet ongedaan gemaakt worden, dus even bevestigen graag...",
+            "ok": "Ja, ik weet het zeker",
+            "cancel": "Oei, nee..."
+        },
+        "home": {
+            "welcome": {
+                "welcome": "Welkom!",
+                "description": "Hoi daar, je hebt de administrator voor deze site bereikt. Hier zie je je opties. Je kunt ook het menu bovenin gebruiken om te navigaren."
+            }
+        }
+    }
+}
