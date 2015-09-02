@@ -43,6 +43,7 @@ pages:
     - 'moDragDrop': 'directives/dragdrop.md'
 - Examples:
     - 'Adding a custom homepage or dashboard': 'samples/home.md'
+    - 'Translating your administrator': 'samples/translate.md'
     - 'CRUD with multiple models': 'samples/multi.md'
     - 'Filtering lists': 'samples/filtering.md'
     - 'Notifications': 'samples/notifications.md'
