@@ -12,7 +12,7 @@ module.exports = function (grunt) {
         nggettext_compile: {
             all: {
                 options: {
-                    module: 'backwho',
+                    module: 'monad',
                     format: 'json'
                 },
                 files: [
@@ -26,7 +26,12 @@ module.exports = function (grunt) {
                     }
                 ]
             }
+        },
+        watch: {
+            files: ['<%= nggettext_extract.pot.files["po/template.pot"] %>', '<%= nggettext_compile.all.files[0].src %>']
         }
     });
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.registerTask('default', ['nggettext_extract', 'nggettext_compile']);
 };
 
