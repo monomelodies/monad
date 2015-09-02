@@ -16,35 +16,45 @@ to place all our files in. By convention, we create an entry point called
 `angular.js` here which hooks everything up to our Angular module:
 
 ```javascript
-// foobar/angular.js
+// foobar/foo/angular.js
 "use strict";
 
-monad.module('foobar', 'foo')
+export default monad.component('foo')
     // <- define custom stuff here
     ;
 ```
 
-Note that we're still naming our application `foobar`. The 'custom stuff' will
-generally consist of one or more of the following:
+The 'custom stuff' will generally consist of one or more of the following:
 
 ```javascript
-monad.module('foobar', 'foo')
+export default monad.component('foo')
     // Manager class, available as `foobarFooManager` in Angular:
     .manager(Manager)
     // API URL to show a list of items:
-    .list('/my/url/', {
-        // Omit or set to true (default) to have this show up in the main
-        // top menu. The text ID used is `monad.navigation.COMPONENT`, or
-        // `monad.navigation.foo` in this example:
-        menu: false,
-        // Array of column names to include in the list:
-        columns: ['col1', 'col2']
-    })
-    // API URL to create or update an item. `:id` contains whatever your
+    .list('/my/url/')
+    // API URL to create a new item. If everything else is identical to
+    // updating, you can also specify this as `{create: '/my/url/create'}` as
+    // a second option to `update`.
+    .create('/my/url/create/')
+    // API URL to update an item. `:id` contains whatever your
     // unique identifier is (if that's two columns, you'll need to handle
-    // it seperately). For creating, `:id` is replaced with the word
-    // `:create`.
+    // it seperately).
     .update('/my/url/:id/')
     ;
 ```
+
+By default, a `list` action will call `list` on the registered Manager.
+Likewise, an `update` action will call `find` (in the above example, that would
+be a `fooManager` as far as Angular is concerned).
+
+Lastly, we need to tell our _application_ about the component:
+
+```javascript
+
+import foo from '/path/to/foo';
+
+monad.application('foobar', [])
+    .components([foo]);
+```
+
 
