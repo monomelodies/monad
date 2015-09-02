@@ -9,8 +9,7 @@ let defaults = {
     list: {
         options: {
             controller: ListController,
-            controllerAs: 'list',
-            templateUrl: '../monad/templates/list.html'
+            controllerAs: 'list'
         }
     },
     create: {
@@ -117,6 +116,7 @@ class Component {
     }
 
     list(url, options = {}, resolve = {}) {
+        options.templateUrl = options.templateUrl || this.name + '/list.html';
         // It's easier if we can specify 'columns' on the options:
         if ('columns' in options) {
             let columns = options.columns;
