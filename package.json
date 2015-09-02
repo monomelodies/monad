@@ -16,6 +16,7 @@
     "browserify": "~11.0.1",
     "grunt": "~0.4.5",
     "grunt-angular-gettext": "~2.1.0",
+    "grunt-contrib-watch": "^0.6.1",
     "gulp": "~3.8.11",
     "gulp-compass": "~2.0.3",
     "gulp-concat": "~2.6.0",
