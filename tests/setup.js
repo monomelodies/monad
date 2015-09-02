@@ -2,8 +2,10 @@
 "use strict";
 
 angular.module('tests', ['monad.core'])
-    .config(['$translateProvider', $translateProvider => $translateProvider.useLoader('$translatePartialLoader', {urlTemplate: 'foo.json'})])
-    .run(['$httpBackend', $httpBackend => $httpBackend.when('GET', 'foo.json').respond({})])
+    .run(['$httpBackend', $httpBackend => {
+        $httpBackend.when('GET', '../monad/i18n/en.json').respond({});
+        $httpBackend.when('GET', '../js/i18n/en.json').respond({});
+    }])
     ;
 
 beforeEach(angular.mock.module('TEMPLATES'));
