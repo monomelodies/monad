@@ -31,7 +31,9 @@ function config($routeProvider, $locationProvider) {
 
 function run(gettextCatalog, languages, $http, $rootScope, $route, $cacheFactory) {
     normalizePost($http);
+    gettextCatalog.debug = true;
     gettextCatalog.setCurrentLanguage(languages[0]);
+    gettextCatalog.loadRemote('../monad/i18n/' + languages[0] + '.json');
     gettextCatalog.loadRemote('../js/i18n/' + languages[0] + '.json');
 };
 
