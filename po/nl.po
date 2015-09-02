@@ -10,12 +10,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.4\n"
-"X-Poedit-KeywordsList: _;gettext\n"
-"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: gettext\n"
+"X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-SearchPath-0: po\n"
-"X-Poedit-SearchPath-1: src\n"
-"X-Poedit-SearchPath-2: index.html\n"
 
 #: src/directives/list/header/template.html:4
 msgid "Create"
@@ -46,6 +43,10 @@ msgstr ""
 "Hallo daar, je hebt de admin bereikt voor deze site. Je vindt hier een lijst "
 "met opties.\n"
 "Je kunt ook het menu bovenin gebruiken voor navigatie."
+
+#: src/directives/list/header/template.html:7
+msgid "List of items in {{ module.name }}"
+msgstr "Lijst met items in {{ module.name }}"
 
 #: index.html:69
 msgid "Logout"

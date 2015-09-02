@@ -30,6 +30,10 @@ msgid ""
 "                You can also use the main menu at the top to navigate."
 msgstr ""
 
+#: src/directives/list/header/template.html:7
+msgid "List of items in {{ module.name }}"
+msgstr ""
+
 #: index.html:69
 msgid "Logout"
 msgstr ""
