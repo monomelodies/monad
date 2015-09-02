@@ -1,7 +1,6 @@
 
 var gulp = require('gulp');
 var concat = require('gulp-concat');
-var watch = require('gulp-watch');
 var watchify = require('watchify');
 var babel = require('gulp-babel');
 var browserify = require('browserify');
@@ -14,7 +13,6 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var gutil = require('gulp-util');
 var assign = require('lodash.assign');
-var watch = require('gulp-watch');
 
 gulp.task('styles', function() {
 
@@ -55,11 +53,9 @@ gulp.task('libraries', function() {
 gulp.task('expose', function() {
 
     gulp.src('./assets/**/*.png', {base: './assets'})
-        .pipe(watch('./assets/**/*.png', {base: './assets'}))
         .pipe(gulp.dest('./dist'));
 
     gulp.src('./src/**/*.{html,json}', {base: './src'})
-        .pipe(watch('./src/**/*.{html,json}', {base: './src'}))
         .pipe(gulp.dest('./dist'));
 
     gulp.src('./LICENSE')
@@ -71,6 +67,7 @@ gulp.task('expose', function() {
 gulp.task('watch', function() {
 
     gulp.watch(['./bower_components/bootstrap-sass/assets/stylesheets/**/*.scss', './src/_sass/**/*.scss'], ['styles']);
+    gulp.watch(['./assets/**/*.png', './src/**/*.{html,json}', './LICENSE'], ['expose']);
 
 });
 
