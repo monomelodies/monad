@@ -3,65 +3,77 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"X-Generator: Poedit 1.8.4\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en\n"
 
 #: src/directives/list/header/template.html:4
 msgid "Create"
-msgstr ""
+msgstr "Create"
 
 #: src/directives/update/template.html:3
 msgid "Create new item in {{ module.name }}"
-msgstr ""
+msgstr "Create new item in {{ module.name }}"
 
 #: src/directives/list/table/delete.html:1
 msgid "Delete"
-msgstr ""
+msgstr "Delete"
 
 #: src/directives/update/template.html:4
 msgid "Edit item in {{ module.name }}"
-msgstr ""
+msgstr "Edit item in {{ module.name }}"
 
 #: src/templates/login.html:20
 msgid "Go!"
-msgstr ""
+msgstr "Go!"
 
 #: src/templates/home.html:10
 msgid ""
-"Hi there, you've reached the administrator for this site. Your options are listed here.\n"
+"Hi there, you've reached the administrator for this site. Your options are "
+"listed here.\n"
 "                You can also use the main menu at the top to navigate."
 msgstr ""
+"Hi there, you've reached the administrator for this site. Your options are "
+"listed here.\n"
+"                You can also use the main menu at the top to navigate."
 
 #: index.html:69
 msgid "Logout"
-msgstr ""
+msgstr "Logout"
 
 #: src/templates/login.html:18
 msgid "Password"
-msgstr ""
+msgstr "Password"
 
 #: src/templates/login.html:5
 msgid "Please login"
-msgstr ""
+msgstr "Please login"
 
 #: src/directives/update/template.html:11
 msgid "Save changes"
-msgstr ""
+msgstr "Save changes"
 
 #: index.html:35
 msgid "Site"
-msgstr ""
+msgstr "Site"
 
 #: src/directives/list/table/template.html:21
 msgid "Sorry, nothing found."
-msgstr ""
+msgstr "Sorry, nothing found."
 
 #: index.html:23
 msgid "Toggle navigation"
-msgstr ""
+msgstr "Toggle navigation"
 
 #: src/templates/login.html:11
 msgid "Username"
-msgstr ""
+msgstr "Username"
 
 #: src/templates/home.html:9
 msgid "Welcome!"
-msgstr ""
+msgstr "Welcome!"
