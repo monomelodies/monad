@@ -1,12 +1,6 @@
-<div ng-if="tbody.rows && tbody.rows.length">
+<div ng-show="tbody.rows && tbody.rows.length">
     <table class="table table-striped">
-        <thead>
-            <tr>
-                <th ng-repeat="column in tbody.columns">
-                    {{tbody.module.texts[column]}}
-                </th>
-            </tr>
-        </thead>
+        <thead><tr></tr></thead>
         <tbody>
             <tr ng-repeat="row in tbody.rows" ng-if="!row.$deleted">
                 <td ng-repeat="column in tbody.columns">
@@ -17,7 +11,7 @@
         </tbody>
     </table>
 </div>
-<div ng-if="!(tbody.rows && tbody.rows.length)">
-    <alert type="warning" translate>Sorry, nothing found.</alert>
+<div ng-show="!(tbody.rows && tbody.rows.length)">
+    <alert type="warning"><span translate>Sorry, nothing found.</span></alert>
 </div>
 
