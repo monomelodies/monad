@@ -60,13 +60,13 @@ class CrudController {
 
     ['delete']() {
         let modalInstance = modal.open({
-            template: `<div class="modal-header"><h3 class="modal-title">{{'monad.delete.title' | translate}}</h3></div>
-                            <div class="modal-body">
-                            {{'monad.delete.body' | translate}}
+            template: `<div class="modal-header"><h3 class="modal-title" translate>Do you want to delete this?</h3></div>
+                        <div class="modal-body" translate>
+                            No going back afterwards, so just verifying...
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary" ng-click="ok(monad.language)">{{'monad.delete.ok' | translate}}</button>
-                            <button class="btn btn-warning" ng-click="cancel()">{{'monad.delete.cancel' | translate}}</button>
+                            <button class="btn btn-primary" ng-click="ok(monad.language)" translate>Yes, I'm sure</button>
+                            <button class="btn btn-warning" ng-click="cancel()" translate>Oopsie, no...</button>
                         </div>`,
             controller: ['$scope', '$modalInstance', ($scope, $modalInstance) => {
                 $scope.ok = () => {
