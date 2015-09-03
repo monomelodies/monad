@@ -4,7 +4,7 @@
 export default () => {
     return {
         restrict: 'EA',
-        scope: {module: '='},
+        scope: {component: '=moList'},
         controller: ['$scope', $scope => {}],
         controllerAs: 'list',
         bindToController: true
