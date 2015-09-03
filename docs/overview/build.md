@@ -42,8 +42,9 @@ gulp.task('admin', function() {
 Feel free to add stuff like `uglify`, sourcemaps etc. at will, as long as you
 eventually output to `/admin/bundle.js`.
 
-Setting up Gulp to simply copy static files to a public directory is trivial;
-you could use something like this:
+You'll probably also want to expose certain assets from your `./src` folder so
+Monad can access them. Setting up Gulp to simply copy static files to a public
+directory is trivial; you could use something like this:
 
 ```javascript
 gulp.src('./src/admin/**/*.html', {base: './src/admin'})
@@ -59,6 +60,9 @@ gulp.src('./src/admin/**/*.json', {base: './src/admin'})
 
 ## Grunt build script
 Feel free to submit one, we don't use Grunt :)
+
+> Due to `angular-gettext`'s reliance on Grunt, this _is_ a move we're seriously
+> considering in the near future.
 
 ## Aliasing ES6 module names
 Using relative paths everywhere is tiresome and, more importantly, makes code

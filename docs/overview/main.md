@@ -5,7 +5,8 @@ Your admin application will need an entry point. This is the main script that
 Monad loads by default, after including libraries and its own bundle.
 
 It's simple, really: assuming your admin lives in `/admin`, put your code in
-`/admin/bundle.js` (or generate that file, see the section on build scripts).
+`/admin/bundle.js` (or generate that file, see the [section on build
+scripts](./build.md)).
 
 Monad assumes an Angular module called (unsurprisingly) `monad`. The central
 `angular.js` bootstrapper defined a global `monad` object (`window.monad`)
