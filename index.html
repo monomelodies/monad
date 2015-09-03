@@ -36,17 +36,16 @@
                         <li><a href="../" target="_blank" translate>Site</a></li>
                         <li ng-repeat="item in monad.Navigation.main" ng-class="{active: item.selected, dropdown: item.items}" dropdown>
                             <a ng-if="item.items" href class="dropdown-toggle" dropdown-toggle>
-                                {{item.label}} <span class="caret"></span>
+                                <mo-menu-label item="item"></mo-menu-label> <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" ng-if="item.items">
                                 <li ng-repeat="item in item.items">
-                                    <a mo-path="{{item.url}}" ng-click="monad.Navigation.select(item)">
-                                        {{item.label}}
+                                    <a mo-path="{{item.url}}" ng-click="monad.Navigation.select(item)" mo-menu-label item="item">
                                     </a>
                             </ul>
                             <a ng-if="!item.items" mo-path="{{item.url}}" ng-click="monad.Navigation.select(item)">
                                 <small ng-if="item.notifications">{{item.notifications}}</small>
-                                {{item.label}}
+                                <mo-menu-label item="item"></mo-menu-label>
                             </a>
                         </li>
                     </ul>
@@ -86,7 +85,7 @@
         <script src="bundle.js"></script>
         <script>
             angular.element(document).ready(function() {
-                angular.bootstrap(document, ['monad']);
+                window.monad.bootstrap();
             });
         </script>
     </body>
