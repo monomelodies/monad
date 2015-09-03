@@ -6,8 +6,13 @@ export default () => {
         templateUrl: '../monad/directives/list/header/template.html',
         scope: {},
         transclude: true,
+        controller: ['$transclude', function($transclude) {
+            this.transcluded = !!$transclude().length;
+        }],
+        controllerAs: 'header',
+        bindToController: true,
         link: (scope, elem, attrs, ctrl) => {
-            scope.module = ctrl.module;
+            scope.header.component = ctrl.component;
         }
     };
 };
