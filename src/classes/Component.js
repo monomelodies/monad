@@ -3,7 +3,6 @@
 
 import ListController from '../controllers/ListController';
 import CrudController from '../controllers/CrudController';
-import Navigation from '../services/Navigation';
 
 let defaults = {
     list: {
@@ -69,13 +68,6 @@ export default class Component {
             }
         });
         this.ngmod = angular.module(this.name, deps, this.configFn);
-        this.ngmod.run(['gettextCatalog', Catalog => {
-            if (this.texts) {
-                for (let key in this.texts) {
-                    this.texts[key] = Catalog.getString(this.texts[key]);
-                }
-            }
-        }]);
         this.queued.map(proxy => {
             let fn = proxy.shift();
             if (typeof fn == 'string') {
@@ -124,11 +116,6 @@ export default class Component {
             delete options.columns;
         }
 
-        if (!('menu' in options) || options.menu) {
-            Navigation.register(this.name, options.menu || 'main', '/:language' + url);//, 'monad.navigation.' + normalize(this.name, '.$1'));
-        }
-        delete(options.menu);
-
         this.settings.list = {url, options, resolve};
         this.queued.push([addTarget, 'list']);
         return this;
@@ -169,7 +156,7 @@ function addTarget(type) {
     let settings = merge(this.defaults[type], this.settings[type]);
     settings.resolve = settings.resolve || {};
     settings.resolve.Manager = settings.resolve.Manager || [normalize(this.name) + 'Manager', Manager => Manager];
-    settings.resolve.module = () => this;
+    settings.resolve.component = () => this;
     if ('$mapping' in settings.resolve) {
         let $mapping = angular.copy(settings.resolve.$mapping);
         settings.resolve.$mapping = () => $mapping;
