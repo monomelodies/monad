@@ -27,7 +27,8 @@ export default class Language {
         }
         current = lang;
         catalog.setCurrentLanguage(current);
-        catalog.loadRemote('../js/i18n/' + lang + '.json');
+        catalog.loadRemote('../monad/i18n/' + lang + '.json');
+        catalog.loadRemote('i18n/' + lang + '.json');
     }
 
     get list() {
