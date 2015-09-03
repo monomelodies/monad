@@ -28,20 +28,63 @@ let defaults = {
 };
 let interfacer = angular.module('monad.interface', []);
 
+/**
+ * Class for objects representing a Monad Component. Usually not instantiated
+ * directly but rather via `Monad.component`.
+ */
 export default class Component {
 
+    /**
+     * Class constructor.
+     *
+     * @param string name The name of this component.
+     * @param array dependencies Optional array of Angular dependencies.
+     * @param function configFn Optional configuration function.
+     * @return self
+     */
     constructor(name, dependencies = [], configFn = undefined) {
+        /**
+         * The name of this Component.
+         */
         this.name = name;
+        /**
+         * This Component's Manager.
+         */
         this.$manager = undefined;
+        /**
+         * Optional Angular dependencies.
+         */
         this.dependencies = dependencies;
+        /**
+         * Optional Angular configuration function.
+         */
         this.configFn = configFn;
+        /**
+         * Internally used array of queued actions to perform on bootstrapping.
+         */
         this.queued = [];
+        /**
+         * Boolean indicating if bootstrap has run for this Component.
+         */
         this.$bootstrapped = false;
+        /**
+         * Default settings for this Component.
+         */
         this.defaults = angular.extend({}, defaults);
+        /**
+         * Actual settings for this Component.
+         */
         this.settings = {};
+        /**
+         * Pointer to the actual Angular module.
+         */
+        this.ngmod = undefined;
 
         for (let prop in interfacer) {
             if (typeof interfacer[prop] == 'function') {
+                /**
+                 * Proxy all Angular methods on angular.module.
+                 */
                 this[prop] = (...args) => {
                     this.queued.push([prop].concat(args));
                     return this;
@@ -50,6 +93,11 @@ export default class Component {
         }
     }
 
+    /**
+     * Bootstrap this component. Usually called automatically.
+     *
+     * @return void
+     */
     bootstrap() {
         if (this.$bootstrapped) {
             return;
@@ -78,6 +126,17 @@ export default class Component {
         });
     }
 
+    /**
+     * Let this Component extend other Components.
+     *
+     * When extending, all properties from Components extended upon are merged
+     * into the current Component, unless it specifies an override.
+     *
+     * @param string|Component component, ... One or more components to extend.
+     *  Components can be specified either by their name, or as a Component
+     *  object. Components _must_ already exist.
+     * @return self
+     */
     extend(...components) {
         components.map(component => {
             this.dependencies.push(component);
@@ -93,6 +152,12 @@ export default class Component {
         return this;
     }
     
+    /**
+     * Specify a custom authentication handler for this Component.
+     *
+     * @param mixed auth An authentication class.
+     * @return self
+     */
     authentication(auth) {
         this.defaults = merge(this.defaults, {
             list: {resolve: {Authentication: auth}},
@@ -102,11 +167,14 @@ export default class Component {
         return this;
     }
 
-    texts(keyValue) {
-        this._texts = keyValue;
-        return this;
-    }
-
+    /**
+     * Register a `list` action for this Component.
+     *
+     * @param string url The URL. `:language` is automatically prepended.
+     * @param object options Optional options object.
+     * @param object resolve Optional resolve object.
+     * @return self
+     */
     list(url, options = {}, resolve = {}) {
         options.templateUrl = options.templateUrl || this.name + '/list.html';
         // It's easier if we can specify 'columns' on the options:
@@ -121,6 +189,14 @@ export default class Component {
         return this;
     }
 
+    /**
+     * Register a `create` action for this Component.
+     *
+     * @param string url The URL. `:language` is automatically prepended.
+     * @param object options Optional options object.
+     * @param object resolve Optional resolve object.
+     * @return self
+     */
     create(url, options = {}, resolve = {}) {
         options.templateUrl = options.templateUrl || this.name + '/schema.html';
         delete options.create;
@@ -129,6 +205,16 @@ export default class Component {
         return this;
     }
 
+    /**
+     * Register an `update` action for this Component. The optional `create`
+     * option can specifcy a create-URL as a shorthand (typically create and
+     * update will be more or less the same).
+     *
+     * @param string url The URL. `:language` is automatically prepended.
+     * @param object options Optional options object.
+     * @param object resolve Optional resolve object.
+     * @return self
+     */
     update(url, options = {}, resolve = {}) {
         options.templateUrl = options.templateUrl || this.name + '/schema.html';
         if (options.create) {
@@ -140,6 +226,11 @@ export default class Component {
         return this;
     }
 
+    /**
+     * Register the Manager class for this Component.
+     *
+     * @param mixed Manager The Manager class to use.
+     */
     manager(Manager) {
         this.$manager = {name: normalize(this.name) + 'Manager', obj: Manager};
         this.service(this.$manager.name, this.$manager.obj);

@@ -13,19 +13,45 @@ function appendTransform(transform) {
     return defaults.concat(transform);
 };
 
+/**
+ * Default base Manager to extend upon.
+ */
 export default class Manager {
 
+    /**
+     * Class constructor.
+     *
+     * @param object $http Injected $http service.
+     * @param object $cacheFactory Injector $cacheFactory service.
+     * @return void
+     */
     constructor($http, $cacheFactory) {
         http = $http;
         if (cache === undefined) {
             cache = $cacheFactory('monad-managers');
         }
-        // Set this per-manager where needed:
+        /**
+         * The current Model class to work on. You may set this per derived
+         * manager where needed. Defaults to base Monad Model.
+         */
         this.model = Model;
+        /**
+         * The current Collection object to work on. You may set this per
+         * derived manager where needed. Defaults to base Monad Collection.
+         */
         this.collection = new Collection();
+        /**
+         * Bindable pointer for specified list filters, if any.
+         */
         this.filter = {};
     }
 
+    /**
+     * Apply the currently set filter to params.
+     *
+     * @param object params Hash of params to augment.
+     * @return object Augmented params.
+     */
     applyFilter(params) {
         if (this.filter) {
             for (let p in this.filter) {
@@ -37,14 +63,30 @@ export default class Manager {
         return params;
     }
 
+    /**
+     * Virtual getter for the cache object.
+     */
     get cache() {
         return cache;
     }
 
+    /**
+     * Virtual count of total current list items. Here it returns 0; your custom
+     * Manager _may_ offer an actual implementation of this (it depends on the
+     * API you're using).
+     *
+     * @return integer Number of total items in the current list.
+     */
     get count() {
         return 0;
     }
 
+    /**
+     * Retrieve a list (Collection) of items.
+     *
+     * @param string url The API URL to query.
+     * @return Promise An Angular promise yielding a Collection on `success`.
+     */
     list(url) {
         return http({
             url,
@@ -60,6 +102,12 @@ export default class Manager {
         });
     }
 
+    /**
+     * Find a single item.
+     *
+     * @param string url The API URL to query.
+     * @return Primse An Angular promise yielding a Model on `success`.
+     */
     find(url) {
         return http({
             url,
@@ -69,6 +117,13 @@ export default class Manager {
         });
     }
 
+    /**
+     * Save the specified model back to the API.
+     *
+     * @param object model The model to save.
+     * @return mixed On success, a Promise yielding the API's return value on
+     *  `success`. On failure (because e.g. model is not dirty) an empty object.
+     */
     save(model) {
         if (model.$new) {
             return this.create(model).success(() => model.$initial = model.$data);
@@ -89,19 +144,44 @@ export default class Manager {
      * throw an error as a friendly reminder :)
      *
      * The actual implementations should return promises.
+     *
+     * @param object model The model to create.
      */
     create(model) {
         throw "Manager.create must use a custom implementation.";
     }
 
+    /**
+     * API interface. These should be overridden by a custom implementation,
+     * since we have no way to guesstimate how your API works. Hence, these
+     * throw an error as a friendly reminder :)
+     *
+     * The actual implementations should return promises.
+     *
+     * @param object model The model to update.
+     */
     update(model) {
         throw "Manager.update must use a custom implementation.";
     }
 
+    /**
+     * API interface. These should be overridden by a custom implementation,
+     * since we have no way to guesstimate how your API works. Hence, these
+     * throw an error as a friendly reminder :)
+     *
+     * The actual implementations should return promises.
+     *
+     * @param object model The model to delete.
+     */
     ['delete'](model) {
         throw "Manager.delete must use a custom implementation.";
     }
 
+    /**
+     * Virtual property to access the $http service.
+     *
+     * @return object Angular $http service.
+     */
     get http() {
         return http;
     }

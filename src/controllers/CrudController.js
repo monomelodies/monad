@@ -11,17 +11,25 @@ let modal = undefined;
 let loc = undefined;
 let Language = undefined;
 
+/**
+ * Default controller to provide CRUD operations on a Component model.
+ */
 export default class CrudController {
 
-    constructor($route, $modal, $location, moLanguage, Authentication) {
+    /**
+     * Class constructor. Will redirect to login if authentication fails.
+     *
+     * @param object $route Angular $route service.
+     * @param object $modal Bootstrap $modal service.
+     * @param object $location Angular $location service.
+     * @param Language moLanguage Monad Language service.
+     * @return void
+     */
+    constructor($route, $modal, $location, moLanguage) {
         route = $route;
         modal = $modal;
         loc = $location;
         Language = moLanguage;
-
-        if (!Authentication.check) {
-            Authentication.missing();
-        }
 
         if ($route.current && $route.current.locals) {
             for (let p in $route.current.locals) {
@@ -31,8 +39,18 @@ export default class CrudController {
                 this[p] = $route.current.locals[p];
             }
         }
+
+        if (!this.Authentication.check) {
+            this.Authentication.missing();
+        }
     }
 
+    /**
+     * Save the current model object back to an API using its Manager. If the
+     * item is being created, redirect to the list if that exists.
+     *
+     * @return void
+     */
     save() {
         let redir = this.item.$new ? this.component.settings.list.url : undefined;
         for (let model in this.$mapping) {
@@ -58,6 +76,11 @@ export default class CrudController {
         route.reset();
     }
 
+    /**
+     * Delete the current model (after confirmation) and redirect back to list.
+     *
+     * @return void
+     */
     ['delete']() {
         let modalInstance = modal.open({
             template: `<div class="modal-header"><h3 class="modal-title" translate>Do you want to delete this?</h3></div>

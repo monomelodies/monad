@@ -21,14 +21,41 @@ function map(month) {
     return mapper[month];
 };
 
+/**
+ * A data object with dirty checking and optional virtual members or other
+ * additional logic. Implementors should generally extend this class, but this
+ * is not required.
+ */
 export default class Model {
 
+    /**
+     * Class constructor.
+     */
     constructor() {
+        /**
+         * The "initial" state for this model. Used to check for pristineness.
+         * This is automatically set when $load is called.
+         */
         this.$initial = undefined;
+        /**
+         * Internal data storage for this model.
+         */
         this.$data = {};
+        /**
+         * Set to true if the model is scheduled for deletion.
+         */
         this.$deleted = false;
     }
 
+    /**
+     * Static method to create a new Model of this type, optionally specifying
+     * default data and a class to derive from.
+     *
+     * @param object data Hash of key/value pairs of data.
+     * @param class derivedClass Optional class to actually use when
+     *  instantiating (defaults to the current class).
+     * @return mixed A new model of the desired class.
+     */
     static $create(data = {}, derivedClass = undefined) {
         derivedClass = derivedClass || Model;
         let instance = new derivedClass();
@@ -37,6 +64,12 @@ export default class Model {
         return instance;
     }
 
+    /**
+     * Load data into this model instance.
+     *
+     * @param object data Hash of key/value pairs of data.
+     * @return self
+     */
     $load(data = {}) {
         this.$initial = data;
         for (let key in data) {
@@ -60,38 +93,20 @@ export default class Model {
         return this;
     }
 
-    $update() {
-        for (let field in this) {
-            if (field.substring(0, 1) == '$') {
-                continue;
-            }
-            if (typeof this[field] == 'object' && this[field] != null) {
-                if ('$delete' in this[field] && this[field].$deleted) {
-                    this[field].$delete();
-                } else if ('$update' in this[field] && this[field].$dirty) {
-                    this[field].$update();
-                } else if ('map' in this[field]) {
-                    this[field].map(item => {
-                        if (typeof item == 'object') {
-                            if ('$delete' in item && item.$deleted) {
-                                item.$delete();
-                            } else if ('$update' in item && item.$dirty) {
-                                item.$update();
-                            }
-                        }
-                    });
-                }
-            }
-            if (this.$initial[field]) {
-                this.$initial[field] = this.$data[field];
-            }
-        }
-    }
-
+    /**
+     * Virtual property to check if this model is "new".
+     *
+     * @return boolean True if new, false if existing.
+     */
     get $new() {
         return this.$initial === undefined;
     }
 
+    /**
+     * Virtual property to check if this model is "dirty".
+     *
+     * @return boolean True if dirty, false if pristine.
+     */
     get $dirty() {
         if (this.$deleted) {
             return true;

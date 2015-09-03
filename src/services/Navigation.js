@@ -9,9 +9,20 @@ let cache = {};
 class Menu {
 }
 
+/**
+ * Mostly internally used service to handle navigatable menus in Monad.
+ */
 export default class Navigation {
 
-    constructor($location, Authentication, $injector, gettextCatalog) {
+    /**
+     * Class constructor.
+     *
+     * @param object $location Injected $location object.
+     * @param object Authentication Injected Authentication object.
+     * @param object $injector Injector $injector object.
+     * @return void
+     */
+    constructor($location, Authentication, $injector) {
 
         function access(component) {
             let authenticate;
@@ -42,9 +53,6 @@ export default class Navigation {
                     if (path.component) {
                         let component = monad.component(path.component);
                         if (access(component)) {
-                            if (component._texts && component._texts.$menu) {
-                                path.label = gettextCatalog.getString(component._texts.$menu);
-                            }
                             cache[menu].push(path);
                             if ('$manager' in component) {
                                 let manager = $injector.get(component.$manager.name);
@@ -53,13 +61,10 @@ export default class Navigation {
                         }
                     } else {
                         // Submenu.
-                        let sub = {label: gettextCatalog.getString(path.label), items: []};
+                        let sub = {items: []};
                         path.items.map(item => {
                             let component = monad.component(item.component);
                             if (access(component)) {
-                                if (component._texts && component._texts.$menu) {
-                                    item.label = gettextCatalog.getString(component._texts.$menu);
-                                }
                                 sub.items.push(item);
                             }
                         });
@@ -73,6 +78,16 @@ export default class Navigation {
         }
     }
 
+    /**
+     * Static method to register an option on a menu.
+     *
+     * @param Component component The Monad Component to register.
+     * @param string menu The menu to register on.
+     * @param string url The URL this option should link to.
+     * @param string label Optional label to register under; used for building
+     *  menus-with-submenus.
+     * @return void
+     */
     static register(component, menu, url, label = undefined) {
         let work;
         if (typeof menu == 'string') {
@@ -110,16 +125,33 @@ export default class Navigation {
         }
     }
 
+    /**
+     * Clears the menu cache. Sometimes useful to reset stuff.
+     *
+     * @return void
+     */
     clear() {
         cache = {};
     }
 
+    /**
+     * Try to set "selected" status according to the current location.
+     *
+     * @return void
+     */
     current() {
         for (let path in paths) {
             paths[path].map(item => item.selected = item.url != '/' && ('#' + loc.path()).indexOf(item.url) != -1);
         }
     }
 
+    /**
+     * Select the specified item.
+     *
+     * @param object item Optional item to select. If none is passed, nothing is
+     *  selected.
+     * @return void
+     */
     select(item = {}) {
         for (let path in paths) {
             paths[path].map(item => item.selected = false);
@@ -129,5 +161,5 @@ export default class Navigation {
 
 }
 
-Navigation.$inject = ['$location', 'Authentication', '$injector', 'gettextCatalog'];
+Navigation.$inject = ['$location', 'Authentication', '$injector'];
 
