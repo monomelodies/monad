@@ -1,7 +1,8 @@
 
 "use strict";
 
-let isDate = new RegExp(/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/);
+let isDateTime = new RegExp(/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/);
+let isDate = new RegExp(/^(\d{4})-(\d{2})-(\d{2})/);
 let mapper = {
     Jan: '01',
     Feb: '02',
@@ -73,7 +74,10 @@ export default class Model {
     $load(data = {}) {
         this.$initial = data;
         for (let key in data) {
-            let checkDate = isDate.exec(data[key]);
+            let checkDate = isDateTime.exec(data[key]);
+            if (!checkDate) {
+                checkDate = isDate.exec(data[key]);
+            }
             if (checkDate) {
                 checkDate.shift();
                 data[key] = new Date(...checkDate);
