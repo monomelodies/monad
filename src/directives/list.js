@@ -3,7 +3,7 @@
 
 export default () => {
     return {
-        restrict: 'EA',
+        restrict: 'A',
         scope: {component: '=moList'},
         controller: ['$scope', $scope => {}],
         controllerAs: 'list',
