@@ -4,7 +4,7 @@
         <tbody>
             <tr ng-repeat="row in tbody.rows" ng-if="!row.$deleted">
                 <td ng-repeat="column in tbody.columns">
-                    <a ng-if="!tbody.templates[column]" mo-path="/:language{{tbody.module.settings.update.url}}" arguments="row">{{row[column]}}</a>
+                    <a ng-if="!tbody.templates[column]" mo-path="/:language{{tbody.component.settings.update.url}}" arguments="row">{{row[column]}}</a>
                     <div ng-if="tbody.templates[column]" ng-include="tbody.templates[column]"></div>
                 </td>
             </tr>
