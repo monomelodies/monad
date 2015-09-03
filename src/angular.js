@@ -1,15 +1,15 @@
 
 "use strict";
 
-import {Monad} from './classes/Monad';
-import {RootController} from './controllers/RootController';
-import {HomeController} from './controllers/HomeController';
-import {LoginController} from './controllers/LoginController';
-import {Navigation} from './services/Navigation';
-import {Authentication} from './services/Authentication';
-import {Language} from './services/Language';
-import {default as normalizePost} from './helpers/post';
-import {default as Directives} from './directives/angular';
+import Monad from './classes/Monad';
+import RootController from './controllers/RootController';
+import HomeController from './controllers/HomeController';
+import LoginController from './controllers/LoginController';
+import Navigation from './services/Navigation';
+import Authentication from './services/Authentication';
+import Language from './services/Language';
+import normalizePost from './helpers/post';
+import Directives from './directives/angular';
 
 function config($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(false);
