@@ -3,7 +3,7 @@ Wrapper directive for list Collections.
 
 ## Usage
 ```html
-<div class="container-fluid" mo-list module="list.module">
+<div class="container-fluid" mo-list="list.module">
     other content
 </div>
 ```
@@ -13,7 +13,7 @@ contents.
 
 ## API
 
-- #### module ####
+- #### mo-list ####
 
     Required: object representing the Monad component this list is working on.
 

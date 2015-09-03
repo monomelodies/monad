@@ -24,6 +24,8 @@ pages:
     - 'moListHeader': 'directives/list/header.md'
     - 'moListTable': 'directives/list/table.md'
     - 'moUpdate': 'directives/update.md'
+    - 'moDelete': 'directives/list/delete.md'
+    - 'moField': 'directives/field.md'
     - 'moDragDrop': 'directives/dragdrop.md'
 - Examples:
     - 'Adding a custom homepage or dashboard': 'samples/home.md'
