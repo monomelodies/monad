@@ -29,14 +29,23 @@ function config($routeProvider, $locationProvider) {
         });
 };
 
-function run(Language, languages, $http, $rootScope, $route, $cacheFactory) {
+function run(Language, languages, $http, $route, $cacheFactory) {
     normalizePost($http);
     Language.current = languages[0];
+    $route.reset = () => {
+        let caches = $cacheFactory.info();
+        for (let cache in caches) {
+            if (cache == 'templates') {
+                continue;
+            }
+            $cacheFactory.get(cache).removeAll();
+        }
+    };
 };
 
 angular.module('monad.core', ['ng', 'ngRoute', 'gettext', 'ngSanitize', 'ui.bootstrap', Directives])
     .config(['$routeProvider', '$locationProvider', config])
-    .run(['moLanguage', 'languages', '$http', '$rootScope', '$route', '$cacheFactory', run])
+    .run(['moLanguage', 'languages', '$http', '$route', '$cacheFactory', run])
     .controller('moController', RootController)
     .service('moNavigation', Navigation)
     .service('Authentication', Authentication)
