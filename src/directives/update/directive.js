@@ -17,7 +17,7 @@ export default () => {
             save: '&onSave',
             'delete': '&onDelete',
             item: '=',
-            module: '='
+            component: '='
         },
         controller: function() {},
         controllerAs: 'update',
