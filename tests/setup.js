@@ -4,7 +4,7 @@
 angular.module('tests', ['monad.core'])
     .run(['$httpBackend', $httpBackend => {
         $httpBackend.when('GET', '../monad/i18n/en.json').respond({});
-        $httpBackend.when('GET', '../js/i18n/en.json').respond({});
+        $httpBackend.when('GET', 'i18n/en.json').respond({});
     }])
     ;
 

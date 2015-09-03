@@ -10,10 +10,6 @@ describe('service: Language', () => {
         Language = moLanguage;
     }));
 
-    it('should not have a current language', () => {
-        expect(Language.current).toBe(undefined);
-    });
-
     it('should have three languages in total', () => {
         expect(Language.list.length).toBe(3);
     });

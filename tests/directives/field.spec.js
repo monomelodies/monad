@@ -6,7 +6,7 @@ describe('directive: mo-field', () => {
     let scope;
     let compile;
     let item = {test: 'foo'};
-    let tpl = angular.element(`<mo-field label="'test'"><input type="text" ng-model="item"></mo-field>`);
+    let tpl = angular.element(`<mo-field><label>test</label><input type="text" ng-model="item"></mo-field>`);
 
     beforeEach(inject(($rootScope, $compile) => {
         scope = $rootScope;
