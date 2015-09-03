@@ -2,6 +2,7 @@
 "use strict";
 
 import Component from './Component';
+import Navigation from '../services/Navigation';
 
 let application = undefined;
 let registeredComponents = {};
@@ -16,7 +17,8 @@ export default class Monad {
         for (let mod in registeredComponents) {
             extra.push(mod);
         }
-        return (application = new Component('monad', deps.concat(extra), configFn));
+        this.name = name;
+        return (application = new Component(this.name, deps.concat(extra), configFn));
     }
 
     component(name, deps = [], configFn = undefined) {
@@ -35,6 +37,13 @@ export default class Monad {
             throw "Looks like you forget to call monad.application...";
         }
         application.bootstrap();
+        angular.bootstrap(document, [this.name]);
+    }
+
+    navigation(components, menu = 'main') {
+        components.map(component => {
+            Navigation.register(component.name, menu, '/:language' + component.settings.list.url);
+        });
     }
 
 };
