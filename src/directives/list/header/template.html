@@ -1,9 +1,9 @@
 <h1 class="clearfix">
-    <a ng-if="module.settings.create"
+    <a ng-if="header.component.settings.create"
         class="glyphicon glyphicon-plus-sign pull-right"
         title="{{'Create' | translate}}"
-        mo-path="/:language{{module.settings.create.url}}"></a>
+        mo-path="/:language{{header.component.settings.create.url}}"></a>
     <span ng-transclude></span>
-    <span translate>List of items in {{ module.name }}</span>
+    <span translate ng-if="!header.transcluded">List of items in {{ header.component.name }}</span>
 </h1>
 
