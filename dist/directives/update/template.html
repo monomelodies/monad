@@ -1,15 +1,15 @@
 <h1 class="container-fluid clearfix">
-    <small><a class="glyphicon glyphicon-arrow-up pull-right" mo-path="/:language{{module.settings.list.url}}"></a></small>
-    <span ng-if="item.$new" translate>Create new item in {{ module.name }}</span>
-    <span ng-if="!item.$new" translate>Edit item in {{ module.name }}</span>
+    <small><a class="glyphicon glyphicon-arrow-up pull-right" mo-path="/:language{{update.component.settings.list.url}}"></a></small>
+    <span ng-if="item.$new" translate>Create new item in {{ update.component.name }}</span>
+    <span ng-if="!item.$new" translate>Edit item in {{ update.component.name }}</span>
 </h1>
 <div class="container-fluid clearfix">
-    <form ng-submit="save()" class="row">
+    <form ng-submit="update.save()" class="row">
         <div ng-transclude></div>
         <br style="clear: both">
         <div class="clearfix col-md-12 spaceme">
-            <button type="submit" class="btn btn-default pull-right" ng-if="save" translate>Save changes</button>
-            <a href class="glyphicon glyphicon-trash text-danger" ng-if="delete && !item.$new" ng-click="delete()"></a>
+            <button type="submit" class="btn btn-default pull-right" ng-if="update.save" translate>Save changes</button>
+            <a href class="glyphicon glyphicon-trash text-danger" ng-if="update.delete && !update.item.$new" ng-click="update.delete()"></a>
         </div>
     </form>
 </div>
