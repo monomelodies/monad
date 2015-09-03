@@ -1,7 +1,7 @@
 
 "use strict";
 
-import {Model} from './Model';
+import Model from './Model';
 
 /**
  * Private method to do a simple check on the nature of an object.
@@ -10,7 +10,7 @@ function isModel(obj) {
     return typeof obj == 'object' && obj instanceof Model;
 };
 
-class Collection {
+export default class Collection {
 
     constructor() {
         this.model = Model;
@@ -107,6 +107,4 @@ class Collection {
     }
 
 };
-
-export {Collection};
 
