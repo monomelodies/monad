@@ -29,17 +29,14 @@ function config($routeProvider, $locationProvider) {
         });
 };
 
-function run(gettextCatalog, languages, $http, $rootScope, $route, $cacheFactory) {
+function run(Language, languages, $http, $rootScope, $route, $cacheFactory) {
     normalizePost($http);
-    gettextCatalog.debug = true;
-    gettextCatalog.setCurrentLanguage(languages[0]);
-    gettextCatalog.loadRemote('../monad/i18n/' + languages[0] + '.json');
-    gettextCatalog.loadRemote('../js/i18n/' + languages[0] + '.json');
+    Language.current = languages[0];
 };
 
 angular.module('monad.core', ['ng', 'ngRoute', 'gettext', 'ngSanitize', 'ui.bootstrap', Directives])
     .config(['$routeProvider', '$locationProvider', config])
-    .run(['gettextCatalog', 'languages', '$http', '$rootScope', '$route', '$cacheFactory', run])
+    .run(['moLanguage', 'languages', '$http', '$rootScope', '$route', '$cacheFactory', run])
     .controller('moController', RootController)
     .service('moNavigation', Navigation)
     .service('Authentication', Authentication)
@@ -51,13 +48,6 @@ angular.module('monad.core', ['ng', 'ngRoute', 'gettext', 'ngSanitize', 'ui.boot
 
 let monad = new Monad();
 window.monad = monad;
-
-let bootstrap = angular.bootstrap;
-
-angular.bootstrap = (...args) => {
-    monad.bootstrap();
-    bootstrap(...args);
-};
 
 export default monad;
 
