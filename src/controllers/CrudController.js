@@ -34,7 +34,7 @@ export default class CrudController {
     }
 
     save() {
-        let redir = this.item.$new ? this.module.settings.list.url : undefined;
+        let redir = this.item.$new ? this.component.settings.list.url : undefined;
         for (let model in this.$mapping) {
             if (!(this[this.$mapping[model]] && this[this.$mapping[model]] instanceof Manager)) {
                 continue;
@@ -73,7 +73,7 @@ export default class CrudController {
                     this.Manager['delete'](this.item);
                     $modalInstance.close(this.item);
                     route.reset();
-                    loc.path(this.module.settings.list.url.replace(/:language/, Language.current));
+                    loc.path(this.component.settings.list.url.replace(/:language/, Language.current));
                 };
                 $scope.cancel = () => {
                     $modalInstance.dismiss('cancel');
