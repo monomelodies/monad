@@ -1,6 +1,6 @@
 
-import {Collection} from '../../src/classes/Collection';
-import {Model} from '../../src/classes/Model';
+import Collection from '../../src/classes/Collection';
+import Model from '../../src/classes/Model';
 
 // Test class
 class Test extends Collection {

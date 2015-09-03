@@ -1,9 +1,9 @@
 
 "use strict";
 
-import {Manager} from '../../src/services/Manager';
-import {Collection} from '../../src/classes/Collection';
-import {Model} from '../../src/classes/Model';
+import Manager from '../../src/services/Manager';
+import Collection from '../../src/classes/Collection';
+import Model from '../../src/classes/Model';
 
 describe('service: Manager', () => {
 

@@ -1,5 +1,5 @@
 
-import {Model} from '../../src/classes/Model';
+import Model from '../../src/classes/Model';
 
 // Test class
 class Test extends Model {
