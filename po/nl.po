@@ -19,16 +19,16 @@ msgid "Create"
 msgstr "Aanmaken"
 
 #: src/directives/update/template.html:3
-msgid "Create new item in {{ module.name }}"
-msgstr "Nieuw item in {{ module.name }}"
+msgid "Create new item in {{ update.component.name }}"
+msgstr "Item toevoegen in {{ update.component.name }}"
 
 #: src/directives/list/table/delete.html:1
 msgid "Delete"
 msgstr "Verwijderen"
 
 #: src/directives/update/template.html:4
-msgid "Edit item in {{ module.name }}"
-msgstr "Wijzig item in {{ module.name }}"
+msgid "Edit item in {{ update.component.name }}"
+msgstr "Wijzig item in {{ update.component.name }}"
 
 #: src/templates/login.html:20
 msgid "Go!"
@@ -45,8 +45,8 @@ msgstr ""
 "Je kunt ook het menu bovenin gebruiken voor navigatie."
 
 #: src/directives/list/header/template.html:7
-msgid "List of items in {{ module.name }}"
-msgstr "Lijst met items in {{ module.name }}"
+msgid "List of items in {{ header.component.name }}"
+msgstr "Lijst van items in {{ header.component.name }}"
 
 #: index.html:69
 msgid "Logout"
@@ -64,15 +64,15 @@ msgstr "Inloggen a.u.b."
 msgid "Save changes"
 msgstr "Opslaan"
 
-#: index.html:35
+#: index.html:36
 msgid "Site"
 msgstr "Site"
 
-#: src/directives/list/table/template.html:21
+#: src/directives/list/table/template.html:15
 msgid "Sorry, nothing found."
 msgstr "Sorry, niks gevonden."
 
-#: index.html:23
+#: index.html:24
 msgid "Toggle navigation"
 msgstr "Navigatie aan/uit"
 
@@ -83,3 +83,12 @@ msgstr "Gebruikersnaam"
 #: src/templates/home.html:9
 msgid "Welcome!"
 msgstr "Welkom!"
+
+#~ msgid "Create new item in {{ module.name }}"
+#~ msgstr "Nieuw item in {{ module.name }}"
+
+#~ msgid "Edit item in {{ module.name }}"
+#~ msgstr "Wijzig item in {{ module.name }}"
+
+#~ msgid "List of items in {{ module.name }}"
+#~ msgstr "Lijst met items in {{ module.name }}"

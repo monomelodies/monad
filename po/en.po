@@ -17,16 +17,16 @@ msgid "Create"
 msgstr "Create"
 
 #: src/directives/update/template.html:3
-msgid "Create new item in {{ module.name }}"
-msgstr "Create new item in {{ module.name }}"
+msgid "Create new item in {{ update.component.name }}"
+msgstr "Create new item in {{ update.component.name }}"
 
 #: src/directives/list/table/delete.html:1
 msgid "Delete"
 msgstr "Delete"
 
 #: src/directives/update/template.html:4
-msgid "Edit item in {{ module.name }}"
-msgstr "Edit item in {{ module.name }}"
+msgid "Edit item in {{ update.component.name }}"
+msgstr "Edit item in {{ update.component.name }}"
 
 #: src/templates/login.html:20
 msgid "Go!"
@@ -43,8 +43,8 @@ msgstr ""
 "                You can also use the main menu at the top to navigate."
 
 #: src/directives/list/header/template.html:7
-msgid "List of items in {{ module.name }}"
-msgstr "List of items in {{ module.name }}"
+msgid "List of items in {{ header.component.name }}"
+msgstr "List of items in {{ header.component.name }}"
 
 #: index.html:69
 msgid "Logout"
@@ -62,15 +62,15 @@ msgstr "Please login"
 msgid "Save changes"
 msgstr "Save changes"
 
-#: index.html:35
+#: index.html:36
 msgid "Site"
 msgstr "Site"
 
-#: src/directives/list/table/template.html:21
+#: src/directives/list/table/template.html:15
 msgid "Sorry, nothing found."
 msgstr "Sorry, nothing found."
 
-#: index.html:23
+#: index.html:24
 msgid "Toggle navigation"
 msgstr "Toggle navigation"
 
@@ -81,3 +81,12 @@ msgstr "Username"
 #: src/templates/home.html:9
 msgid "Welcome!"
 msgstr "Welcome!"
+
+#~ msgid "Create new item in {{ module.name }}"
+#~ msgstr "Create new item in {{ module.name }}"
+
+#~ msgid "Edit item in {{ module.name }}"
+#~ msgstr "Edit item in {{ module.name }}"
+
+#~ msgid "List of items in {{ module.name }}"
+#~ msgstr "List of items in {{ module.name }}"

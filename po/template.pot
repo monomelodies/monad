@@ -9,7 +9,7 @@ msgid "Create"
 msgstr ""
 
 #: src/directives/update/template.html:3
-msgid "Create new item in {{ module.name }}"
+msgid "Create new item in {{ update.component.name }}"
 msgstr ""
 
 #: src/directives/list/table/delete.html:1
@@ -17,7 +17,7 @@ msgid "Delete"
 msgstr ""
 
 #: src/directives/update/template.html:4
-msgid "Edit item in {{ module.name }}"
+msgid "Edit item in {{ update.component.name }}"
 msgstr ""
 
 #: src/templates/login.html:20
@@ -31,7 +31,7 @@ msgid ""
 msgstr ""
 
 #: src/directives/list/header/template.html:7
-msgid "List of items in {{ module.name }}"
+msgid "List of items in {{ header.component.name }}"
 msgstr ""
 
 #: index.html:69
@@ -50,15 +50,15 @@ msgstr ""
 msgid "Save changes"
 msgstr ""
 
-#: index.html:35
+#: index.html:36
 msgid "Site"
 msgstr ""
 
-#: src/directives/list/table/template.html:21
+#: src/directives/list/table/template.html:15
 msgid "Sorry, nothing found."
 msgstr ""
 
-#: index.html:23
+#: index.html:24
 msgid "Toggle navigation"
 msgstr ""
 
