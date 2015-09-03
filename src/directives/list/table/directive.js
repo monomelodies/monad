@@ -4,22 +4,35 @@ export default () => {
         require: '^moList',
         restrict: 'E',
         templateUrl: '../monad/directives/list/table/template.html',
-        scope: {rows: '=', total: '@', list: '=', templates: '='},
+        scope: {rows: '=', templates: '='},
         controller: ['$scope', '$route', '$transclude', '$element', function($scope, $route, $transclude, $element) {
             this.refresh = promise => promise.then(() => {
                 $route.reset();
                 this.list.page = this.list.page;
             });
             this.columns = [];
+            if (this.items && this.items.length) {
+                for (let key in this.items[0]) {
+                    this.columns.push(key);
+                }
+            }
             let hdrs = $transclude().find('th');
-            hdrs.each((i, hdr) => {
-                this.columns.push(angular.element(hdr).attr('property'));
-            });
-            $element.find('thead tr').append(hdrs);
+            if (hdrs.length) {
+                this.columns = [];
+                hdrs.each((i, hdr) => {
+                    this.columns.push(angular.element(hdr).attr('property'));
+                });
+                $element.find('thead tr').append(hdrs);
+            } else {
+                let h = $element.find('thead tr');
+                this.columns.map(col => {
+                    h.append('<th>' + col + '</th>');
+                });
+            }
         }],
         controllerAs: 'tbody',
         link: (scope, elem, attrs, ctrl) => {
-            scope.tbody.module = ctrl.module;
+            scope.tbody.component = ctrl.component;
         },
         bindToController: true,
         transclude: true
