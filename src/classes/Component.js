@@ -1,9 +1,9 @@
 
 "use strict";
 
-import {ListController} from '../controllers/ListController';
-import {CrudController} from '../controllers/CrudController';
-import {Navigation} from '../services/Navigation';
+import ListController from '../controllers/ListController';
+import CrudController from '../controllers/CrudController';
+import Navigation from '../services/Navigation';
 
 let defaults = {
     list: {
@@ -29,7 +29,7 @@ let defaults = {
 };
 let interfacer = angular.module('monad.interface', []);
 
-class Component {
+export default class Component {
 
     constructor(name, dependencies = [], configFn = undefined) {
         this.name = name;
@@ -239,6 +239,4 @@ function merge(...args) {
 };
 
 /** }}} */
-
-export {Component};
 

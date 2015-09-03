@@ -1,7 +1,7 @@
 
 "use strict";
 
-class HomeController
+export default class HomeController
 {
     constructor(Authentication)
     {
@@ -12,6 +12,4 @@ class HomeController
 }
 
 HomeController.$inject = ['Authentication'];
-
-export { HomeController };
 

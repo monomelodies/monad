@@ -5,7 +5,7 @@ let service = undefined;
 let loc = undefined;
 let language = undefined;
 
-class LoginController {
+export default class LoginController {
 
     constructor($location, Auth, moLanguage) {
         service = Auth;
@@ -23,6 +23,4 @@ class LoginController {
 };
 
 LoginController.$inject = ['$location', 'Authentication', 'moLanguage'];
-
-export {LoginController};
 

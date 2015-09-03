@@ -1,8 +1,8 @@
 
 "use strict";
 
-import {Model} from '../classes/Model';
-import {Collection} from '../classes/Collection';
+import Model from '../classes/Model';
+import Collection from '../classes/Collection';
 
 let http = undefined;
 let cache = undefined;
@@ -13,7 +13,7 @@ function appendTransform(transform) {
     return defaults.concat(transform);
 };
 
-class Manager {
+export default class Manager {
 
     constructor($http, $cacheFactory) {
         http = $http;
@@ -109,6 +109,4 @@ class Manager {
 };
 
 Manager.$inject = ['$http', '$cacheFactory'];
-
-export {Manager};
 

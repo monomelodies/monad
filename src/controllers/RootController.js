@@ -7,7 +7,7 @@ let nav = undefined;
 let modal = undefined;
 let Language = undefined;
 
-class RootController {
+export default class RootController {
 
     constructor($location, $rootScope, $modal, Authentication, Navigation, moLanguage, title, theme) {
         loc = $location;
@@ -84,6 +84,4 @@ RootController.$inject = [
     'title',
     'theme'
 ];
-
-export {RootController};
 

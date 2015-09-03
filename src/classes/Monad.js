@@ -1,12 +1,12 @@
 
 "use strict";
 
-import {Component} from './Component';
+import Component from './Component';
 
 let application = undefined;
 let registeredComponents = {};
 
-class Monad {
+export default class Monad {
 
     application(name, deps = [], configFn = undefined) {
         if (application != undefined) {
@@ -38,6 +38,4 @@ class Monad {
     }
 
 };
-
-export {Monad};
 

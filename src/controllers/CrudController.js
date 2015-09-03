@@ -1,17 +1,17 @@
 
 "use strict";
 
-import {Component} from '../classes/Component';
-import {Collection} from '../classes/Collection';
-import {Model} from '../classes/Model';
-import {Manager} from '../services/Manager';
+import Component from '../classes/Component';
+import Collection from '../classes/Collection';
+import Model from '../classes/Model';
+import Manager from '../services/Manager';
 
 let route = undefined;
 let modal = undefined;
 let loc = undefined;
 let Language = undefined;
 
-class CrudController {
+export default class CrudController {
 
     constructor($route, $modal, $location, moLanguage, Authentication) {
         route = $route;
@@ -85,6 +85,4 @@ class CrudController {
 };
 
 CrudController.$inject = ['$route', '$modal', '$location', 'moLanguage', 'Authentication'];
-
-export {CrudController};
 

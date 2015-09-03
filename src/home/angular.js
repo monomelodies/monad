@@ -1,7 +1,7 @@
 
 "use strict";
 
-import {Controller} from './Controller';
+import Controller from './Controller';
 
 let ngModule = 'monad.home';
 

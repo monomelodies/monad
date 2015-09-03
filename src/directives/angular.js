@@ -1,15 +1,15 @@
 
 "use strict";
 
-import {default as ListHeader} from './list/header/directive';
-import {default as ListTable} from './list/table/directive';
+import ListHeader from './list/header/directive';
+import ListTable from './list/table/directive';
 import Delete from './list/table/delete';
-import {default as Path} from './path';
-import {default as Field} from './field/directive';
-import {default as Update} from './update/directive';
-import {default as DragDrop} from './dragDrop';
-import {default as List} from './list';
-import {default as Slug} from './slug';
+import Path from './path';
+import Field from './field/directive';
+import Update from './update/directive';
+import DragDrop from './dragDrop';
+import List from './list';
+import Slug from './slug';
 
 angular.module('monad.directives', ['ng'])
     .directive('moList', List)

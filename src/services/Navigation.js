@@ -9,7 +9,7 @@ let cache = {};
 class Menu {
 }
 
-class Navigation {
+export default class Navigation {
 
     constructor($location, Authentication, $injector, gettextCatalog) {
 
@@ -130,6 +130,4 @@ class Navigation {
 }
 
 Navigation.$inject = ['$location', 'Authentication', '$injector', 'gettextCatalog'];
-
-export {Navigation};
 

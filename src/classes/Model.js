@@ -21,7 +21,7 @@ function map(month) {
     return mapper[month];
 };
 
-class Model {
+export default class Model {
 
     constructor() {
         this.$initial = undefined;
@@ -125,6 +125,4 @@ class Model {
     }
 
 };
-
-export {Model};
 

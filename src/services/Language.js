@@ -5,7 +5,7 @@ let current = undefined;
 let langs = undefined;
 let catalog = undefined;
 
-class Language {
+export default class Language {
 
     constructor(languages, gettextCatalog, $rootScope) {
         langs = languages;
@@ -37,6 +37,4 @@ class Language {
 };
 
 Language.$inject = ['languages', 'gettextCatalog', '$rootScope'];
-
-export {Language};
 

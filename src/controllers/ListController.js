@@ -1,13 +1,13 @@
 
 "use strict";
 
-import {Component} from '../classes/Component';
+import Component from '../classes/Component';
 
 let params = undefined;
 let route = undefined;
 let modal = undefined;
 
-class ListController {
+export default class ListController {
 
     constructor($scope, $route, $modal, $injector) {
         if ($route.current && $route.current.locals) {
@@ -60,6 +60,4 @@ class ListController {
 };
 
 ListController.$inject = ['$scope', '$route', '$modal', '$injector'];
-
-export {ListController};
 
