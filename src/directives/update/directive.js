@@ -5,7 +5,7 @@ let defaults = {
     onSave: 'crud.save()',
     onDelete: 'crud.delete()',
     item: 'crud.item',
-    module: 'crud.module'
+    component: 'crud.component'
 };
 
 export default () => {
@@ -19,6 +19,9 @@ export default () => {
             item: '=',
             module: '='
         },
+        controller: function() {},
+        controllerAs: 'update',
+        bindToController: true,
         compile: (element, attrs) => {
             for (let attr in defaults) {
                 if (!(attr in attrs)) {
