@@ -7,7 +7,7 @@ necessary, but a lot of work by default. Monad aims to provide a platform
 agnostic toolkit which allows for easy and quick scaffolding of such a
 backend, communicating with your site via APIs.
 
-Full documentation: [http://monad-cms.readthedocs.org/en/latest/](http://monad-cms.readthedocs.org/en/latest/)
+Full documentation: [http://monad.monomelodies.nl/docs/](http://monad.monomelodies.nl/docs/)
 
 ## Getting the code
 The quickest way is to use Monad's Bower package:

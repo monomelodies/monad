@@ -31,7 +31,8 @@ $ npm install gulp-add-src --save-dev
 ```javascript
 // gulpfile.js
 // along with other dependencies:
-var addsrc = 
+var addsrc = require('gulp-add-src');
+
 gulp.task('someTask', function() {
 
     gulp.src('/some/entry/point.js')
@@ -62,4 +63,24 @@ If you use Browserify or the like you could probably also add CKEditor there,
 but since it's already minified and has no dependencies of its own simply
 dropping it in is usually faster and easier, and will work just as well. This is
 globally the same as manually adding a `<script>` tag to your `index.html`.
+
+## Registering the dependency
+In your call to `monad.application`, add the dependency on the `ckeditor`
+module:
+
+```javascript
+monad.application('foobar', ['ckeditor']);
+```
+
+## Add the attribute where you need it
+Usually this will be in `schema.html`:
+
+```html
+<mo-update>
+    <mo-field>
+        <label>WYSIWYG!</label>
+        <textarea ckeditor="options_expression" ng-model="crud.item.the_field"></textarea>
+    </mo-field>
+</mo-update>
+```
 

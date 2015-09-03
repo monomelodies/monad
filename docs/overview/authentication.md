@@ -80,6 +80,11 @@ class AuthenticationService {
     }
     
     check() {
+        // If no session has been loaded yet, don't force a redirect just yet
+        // but wait for it to load instead.
+        if (this._session === undefined) {
+            return true;
+        }
         return this._session && 'User' in this._session && this._session.User == 'admin';
     }
 

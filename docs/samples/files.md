@@ -171,12 +171,14 @@ monad.application('foobar')
     });
 ```
 
-(The exact URLs are random of course; use what you like.)
+(The exact URLs are random of course; use what you like.) Now pass that value
+into the `ckeditor` directive as an argument (quite how you expose this is up to
+you - probably you'll want to extend the root controller or something).
 
 Then in your backend, make sure those URLs serve an HTML page showing thumbnails
 or whatever. For each selectable file, on selection call a CKEditor function on
-the opening window with two parameters: a function number (pass through a `GET`
-parameter called `CKEditorFuncNum`) and the public URL of that file. E.g.:
+the opening window with two parameters: a function number (passed through a
+`GET` parameter called `CKEditorFuncNum`) and the public URL of that file. E.g.:
 
 ```html
 <a href="/url/to/file/1"

@@ -38,6 +38,9 @@ your API.
 Note that you probably don't want to cache these calls, since the whole idea is
 that the results might change :) So, use a sane timeout.
 
+> For bonus points, you could consider implementing notifications using
+> something like [socket.io](http://socket.io).
+
 ## Updating notifications
 Inject `$rootScope` and emit/broadcast/listen to custom events.
 

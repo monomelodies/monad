@@ -2,23 +2,27 @@
 
 ## Central entry point
 Your admin application will need an entry point. This is the main script that
-Monad loads by default, after including libraries and its own bundle.
+Monad loads by default, after including libraries.
 
 It's simple, really: assuming your admin lives in `/admin`, put your code in
 `/admin/bundle.js` (or generate that file, see the [section on build
 scripts](./build.md)).
 
-Monad assumes an Angular module called (unsurprisingly) `monad`. The central
-`angular.js` bootstrapper defined a global `monad` object (`window.monad`)
-which "extends" the global `angular` object. Hence, to define your main
-application's entry point (e.g. in `./src/admin/foobar.js`, the actual filename
-is irrelevant as long as it transpiles to `./httpdocs/admin/bundle.js`) you
-would simply do the following:
+To bootstrap Monad, your `bundle.js` needs at the very least to do this:
 
 ```javascript
-// We need to 'import' Monad at least once:
-import bootstrap from 'monad/angular';
-monad.application(app, [...optionalDependencies], configFn).config(configFn);
+import monad from '/path/to/monad/monad'
+```
+
+The imported `monad` object is what we'll work with as opposed to `angular`.
+Note that for ES6 applications, you'll need to re-import this object wherever
+you need it.
+
+Next step is to register an _applicatoin_ with Monad. The "application" is your
+actual admin:
+
+```javascript
+monad.application('myAwesomeAdmin', []);
 ```
 
 > `monad.application` works as `angular.module`, except the module name is
@@ -26,19 +30,23 @@ monad.application(app, [...optionalDependencies], configFn).config(configFn);
 
 The 'app' is a random name for your application; in this manual we'll use
 `foobar`. It's sort of a namespace, as far as ECMAScript and Angular allow that.
+You can also pass a third argument (like in `angular.module`) which is a
+callable for configuration, or chain the `config` method (or `run` etc.).
 
 > In a real-world application, of course you'd configurate a module either with
 > the third argument, or by manually calling `config`. Both are allowed.
 
 ## Adding components
-Of course, you'll want to separate your admin code into modules (in the Angular,
-ES6 and Monad sense). For this, use `monad.component`, which takes the same
-arguments as `angular.module`, but returns a `Component` object instead:
+A Monad admin is built out of "components", which are sort-of like a cross
+between ES6 modules and Angular models.
+
+For this, use `monad.component`, which takes the same arguments as
+`angular.module`, but returns a `Component` object instead:
 
 ```javascript
-monad.component('foobarFoo', [...optionalDependencies], configFn)
+let component1 = monad.component('foobarFoo', [...optionalDependencies], configFn)
     .config(configFn);
-monad.component('foobarBar', [...optionalDependencies], configFn)
+let component2 = monad.component('foobarBar', [...optionalDependencies], configFn)
     .config(configFn);
 // etc.
 ```
@@ -48,8 +56,8 @@ adds dependencies on previously registered components (as well as `monad.core`).
 Hence, this code:
 
 ```javascript
-monad.component('foobarFoo');
-monad.component('foobarBar');
+let component1 = monad.component('foobarFoo');
+let component2 = monad.component('foobarBar');
 monad.application('foobar');
 ```
 
@@ -59,27 +67,34 @@ monad.application('foobar');
 > It is a good practice to prefix your custom component names with an app name,
 > but technically it's not required so you can also add external components.
 > If you're building a "plugin" component, it should never call
-> `monad.application` though - there can be only _one_ "application".
+> `monad.application` though - there can be only _one_ "application". Also, for
+> plugin components, you'll _definitely_ want to "namespace" them with a prefix
+> to prevent possible naming clashes!
 
-It is also possible to register components _after_
-the call to `monad.application`, but then you need to "predepend" your
-application:
+As soon as all components are defined, register the main application using
+`monad.application`. This automatically injects dependencies on all known
+components.
+
+This implies you first setup components, then your application. In ES6, this
+actually makes the most sense:
 
 ```javascript
-// This is slightly more verbose, but would work just as well:
-monad.application('foobar', ['foobarFoo', 'foobarBar']);
-monad.component('foobarFoo');
-monad.component('foobarBar');
+import component1 from '/path/to/component/1/';
+import component2 from '/path/to/component/1/';
+monad.application('foobar');
 ```
 
-> Auto-injection will not work in this case since Monad nor Angular has a way
-> of knowing about future components. This is the less common pattern though,
-> since in ES6 you'll generally start with a bunch of `import` statements that
-> register components, and then hook them to your application. By then we can
-> auto-depend.
+## Showing up in the menu
+For components to show up in a menu, call `monad.navigation` with an array of
+known Component objects to add (this is why we were storing them in variables,
+by the way):
 
-And of course, a component depending on another component or Angular module
-_should_ list those dependencies for clarity and reusability.
+```javascript
+monad.navigation([component1, component2]);
+```
+
+The second argument is the menu name, which defaults to `main` (the top menu).
+Note that components will only show if they specify a `list` action (see below).
 
 ## Getting stuff done
 Obviously you'll also need your components to _do_ something. Monad extends the
@@ -96,7 +111,7 @@ monad.component('foobar', 'foo')
 These utility methods are explained in more depth in subsequent chapters, but
 the important parts are:
 
-- A **Manager** is your custom class that handles actual data operations
+- A *Manager* is your custom class that handles actual data operations
   (usually via an API);
 - The `list` method registers code to list items;
 - The `create` method registers code to create items.

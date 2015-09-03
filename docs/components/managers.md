@@ -56,9 +56,9 @@ So, the following is a common pattern:
 ```javascript
 "use strict";
 
-import {Manager as Base} from '/path/to/monad/src/services/Manager';
+import Base from '/path/to/monad/src/services/Manager';
 // Assuming we require a custom Model:
-import {Model} from './Model';
+import Model from './Model';
 
 class Manager extends Base {
 
@@ -88,7 +88,10 @@ class Manager extends Base {
 ```
 
 Note that you can just as well write a manager using differently named methods;
-but you'll also need to roll your own controller in that case.
+but you'll also need to roll your own controller in that case. Alternatively,
+there's nothing that requires you to call the `super` methods; you can write
+your own implementation, as long as Models or Collections of Models are returned
+(or your custom controller does not expect those, that's also fine of course).
 
 ## Manually transforming the `$http` response
 This is really something Angular-y, so outside of the scope of this

@@ -18,7 +18,7 @@ controller from Monad:
 
 ```javascript
 // Assuming components and application have been setup...
-import {HomeController} from '/path/to/monad/src/controllers/HomeController';
+import HomeController from '/path/to/monad/src/controllers/HomeController';
 
 angular.module('monad').config(['$routeProvider', $routeProvider => {
     $routeProvider.when('/:language/', {

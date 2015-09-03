@@ -43,3 +43,13 @@ your table headings:
 > You need to wrap it in a complete, valid table, or some browsers will barf on
 > you and you'll be wandering why your headers are missing.
 
+The same goes for your `schema.html` files; just translate what you need.
+
+## Compiling translations for use
+Once you've generated a `.pot` template, translated all the strings and saved
+your various language files as `.po` files, run the Grunt task supplied by
+`angular-gettext` to compile to JSON. The output path should be
+`/path/to/my/admin/i18n`. The names of the files should correspond to whatever
+language given in the URL via the `/:language/` parameter, i.e. for `en` there
+should be a file `i18n/en.json`.
+
