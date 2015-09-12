@@ -26,7 +26,7 @@ export default class RootController {
      * @param object theme Injected Monad `theme` value.
      * @return void
      */
-    constructor($location, $rootScope, $modal, Authentication, Navigation, moLanguage, title, theme) {
+    constructor($location, $routeParams, $rootScope, $modal, Authentication, Navigation, moLanguage, title, theme) {
         loc = $location;
         auth = Authentication;
         nav = Navigation;
@@ -37,8 +37,8 @@ export default class RootController {
         Navigation.current();
         $rootScope.$on('$routeChangeStart', () => this.Authentication['status']().then(() => Navigation.clear()));
         $rootScope.$on('$routeChangeSuccess', (event, target) => {
-            if (!Language.current) {
-                loc.path('/' + Language.list[0] + '/');
+            if (!('language' in $routeParams)) {
+                loc.path('/' + Language.current + '/');
             }
         });
     }
