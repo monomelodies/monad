@@ -16,6 +16,5 @@ application-wide `language` parameter or an item ID.
     controller (note: must be registered in Angular!) or a path string.
 - #### arguments ####
     Object hash with optional path parameters. The language parameter is
-    injected automatically and defaults to
-    [`Language.current`](../services/language.md).
+    injected automatically and defaults to `Language.current`.
 

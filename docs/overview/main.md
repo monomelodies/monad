@@ -130,5 +130,5 @@ your component. Ergo, for an app `foobar` the component `baz` will have a
 `foobarBazManager`.
 
 For detailed information on the various utility methods and their arguments,
-see [the section on Components](../classes/component.md).
+see the [section on Components](../components/setup.md).
 

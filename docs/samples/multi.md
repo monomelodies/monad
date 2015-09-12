@@ -8,12 +8,12 @@ items. Luckily, Monad offers an easier way that will suffice in most cases.
 ## Registering multiple callbacks
 As mentioned in [the section on controllers](../components/controllers.md), each
 resolved local whose name does not begin with `$` is registered on the
-[CrudController](../controllers/crud.md). There is, however, one special
-exception: the `$mapping` property. This should resolve to a hash with object
-names (as resolved) as keys, and manager names (as resolved) as values.
+`CrudController`. There is, however, one special exception: the `$mapping`
+property. This should resolve to a hash with object names (as resolved) as keys,
+and manager names (as resolved) as values.
 
-> Actually, the internal default for the [CrudController](../controllers/crud.md)
-> is `{item: 'Manager'}`.
+> Actually, the internal default for the `CrudController` is
+> `{item: 'Manager'}`.
 
 The component internally transforms this to a resolvable function for Angular,
 so you can just specify key/value pairs and trust the normal extension system to

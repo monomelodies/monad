@@ -20,8 +20,7 @@ actually show in the table). If omitted, all fields will be shown.
 
 - #### rows ####
 
-    Required array or (preferably) [Collection](../../classes/collection.md) of
-    rows to display on a page.
+    Required array or (preferably) `Collection` of rows to display on a page.
 
 - #### template ####
 
