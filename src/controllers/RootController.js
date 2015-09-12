@@ -128,5 +128,5 @@ export default class RootController {
 
 };
 
-RootController.$inject = ['$location', '$rootScope', '$modal', 'Authentication', 'moNavigation', 'moLanguage', 'title', 'theme'];
+RootController.$inject = ['$location', '$routeParams', '$rootScope', '$modal', 'Authentication', 'moNavigation', 'moLanguage', 'title', 'theme'];
 
