@@ -34,7 +34,7 @@ msgstr ""
 msgid "List of items in {{ header.component.name }}"
 msgstr ""
 
-#: index.html:69
+#: index.html:75
 msgid "Logout"
 msgstr ""
 
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Save changes"
 msgstr ""
 
-#: index.html:36
+#: index.html:42
 msgid "Site"
 msgstr ""
 
@@ -58,7 +58,7 @@ msgstr ""
 msgid "Sorry, nothing found."
 msgstr ""
 
-#: index.html:24
+#: index.html:30
 msgid "Toggle navigation"
 msgstr ""
 
