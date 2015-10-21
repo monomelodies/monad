@@ -24,10 +24,18 @@ msgstr ""
 msgid "Go!"
 msgstr ""
 
+#: src/templates/license.html:9
+msgid "Got it!"
+msgstr ""
+
 #: src/templates/home.html:10
 msgid ""
 "Hi there, you've reached the administrator for this site. Your options are listed here.\n"
 "                You can also use the main menu at the top to navigate."
+msgstr ""
+
+#: src/templates/license.html:2
+msgid "License"
 msgstr ""
 
 #: src/directives/list/header/template.html:7
@@ -36,6 +44,10 @@ msgstr ""
 
 #: index.html:75
 msgid "Logout"
+msgstr ""
+
+#: src/templates/license.html:5
+msgid "Note: this applies to the Monad CMS framework, not (necessarily) the site it is used for :)"
 msgstr ""
 
 #: src/templates/login.html:18
