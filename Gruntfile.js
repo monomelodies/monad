@@ -80,7 +80,7 @@ module.exports = function (grunt) {
                     {
                         cwd: './',
                         src: ['LICENSE'],
-                        dest: 'dist/'
+                        dest: 'dist/LICENSE.txt'
                     }
                 ]
             }
