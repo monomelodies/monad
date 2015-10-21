@@ -16,7 +16,7 @@
             <div class="panel panel-info">
                 <ul class="list-group">
                     <li class="list-group-item" ng-repeat="item in monad.Navigation.main">
-                        <a mo-path="{{item.url}}">{{item.label}}</a>
+                        <a mo-path="{{item.url}}" mo-menu-label item="item"></a>
                     </li>
                 </ul>
             </div>
