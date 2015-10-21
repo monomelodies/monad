@@ -111,7 +111,7 @@ export default class RootController {
     <h3 class="modal-title" translate>License</h3>
 </div>
 <div class="modal-body">
-    <p><strong> translate>Note: this applies to the Monad CMS framework, not (necessarily) the site it is used for :)</strong></p>
+    <p><strong translate>Note: this applies to the Monad CMS framework, not (necessarily) the site it is used for :)</strong></p>
     <p ng-repeat="paragraph in paragraphs">{{paragraph}}</p>
 </div>
 <div class="modal-footer">
