@@ -106,17 +106,7 @@ export default class RootController {
      */
     license() {
         let m = modal.open({
-            template: `
-<div class="modal-header">
-    <h3 class="modal-title" translate>License</h3>
-</div>
-<div class="modal-body">
-    <p><strong translate>Note: this applies to the Monad CMS framework, not (necessarily) the site it is used for :)</strong></p>
-    <p ng-repeat="paragraph in paragraphs">{{paragraph}}</p>
-</div>
-<div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()" translate>Got it!</button>
-</div>`,
+            templateUrl: '../monad/templates/license.html',
             controller: ['$scope', '$modalInstance', '$http', ($scope, $modalInstance, $http) => {
                 $http.get('../monad/LICENSE.txt').success(result => {
                     $scope.paragraphs = result.split('\n\n');
