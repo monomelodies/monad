@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Poedit 1.8.5\n"
 "X-Poedit-KeywordsList: gettext\n"
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -34,6 +34,10 @@ msgstr "Wijzig item in {{ update.component.name }}"
 msgid "Go!"
 msgstr "Gaan!"
 
+#: src/templates/license.html:9
+msgid "Got it!"
+msgstr "Duidelijk!"
+
 #: src/templates/home.html:10
 msgid ""
 "Hi there, you've reached the administrator for this site. Your options are "
@@ -44,13 +48,25 @@ msgstr ""
 "met opties.\n"
 "Je kunt ook het menu bovenin gebruiken voor navigatie."
 
+#: src/templates/license.html:2
+msgid "License"
+msgstr "Licentie"
+
 #: src/directives/list/header/template.html:7
 msgid "List of items in {{ header.component.name }}"
 msgstr "Lijst van items in {{ header.component.name }}"
 
-#: index.html:69
+#: index.html:75
 msgid "Logout"
 msgstr "Uitloggen"
+
+#: src/templates/license.html:5
+msgid ""
+"Note: this applies to the Monad CMS framework, not (necessarily) the site it "
+"is used for :)"
+msgstr ""
+"Let op: dit geldt voor het Monad CMS framework, niet (per se) de site waar "
+"het voor gebruikt is :)"
 
 #: src/templates/login.html:18
 msgid "Password"
@@ -64,7 +80,7 @@ msgstr "Inloggen a.u.b."
 msgid "Save changes"
 msgstr "Opslaan"
 
-#: index.html:36
+#: index.html:42
 msgid "Site"
 msgstr "Site"
 
@@ -72,7 +88,7 @@ msgstr "Site"
 msgid "Sorry, nothing found."
 msgstr "Sorry, niks gevonden."
 
-#: index.html:24
+#: index.html:30
 msgid "Toggle navigation"
 msgstr "Navigatie aan/uit"
 
