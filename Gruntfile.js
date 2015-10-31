@@ -37,7 +37,7 @@ module.exports = function (grunt) {
         concat: {
             libs: {
                 src: [
-                    'node_modules/babel-core/browser-polyfill.js',
+                    'node_modules/babel-polyfill/dist/polyfill.js',
                     'bower_components/jquery/dist/jquery.js',
                     'bower_components/angular/angular.js',
                     'bower_components/angular-bootstrap/ui-bootstrap.js',
