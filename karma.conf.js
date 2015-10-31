@@ -27,6 +27,9 @@ module.exports = function(config) {
         transform: ['babelify']
     },
     babelPreprocessor: {
+        options: {
+            presets: ['es2015']
+        }
     },
     reporters: ['progress'],
     port: 9876,
