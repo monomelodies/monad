@@ -42,5 +42,8 @@
     "url": "https://github.com/monomelodies/monad.git"
   },
   "author": "Marijn Ophorst <marijn@monomelodies.nl>",
-  "license": "MIT"
+  "license": "MIT",
+  "babel": {
+    "presets": ["es2015"]
+  }
 }
