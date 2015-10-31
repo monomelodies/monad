@@ -84,7 +84,7 @@ the following strategy:
 Add a custom controller (possibly extending one of Monad's defaults):
 
 ```javascript
-import {ListController} from 'monad/controllers/ListController';
+import ListController from 'monad/controllers/ListController';
 
 class MyCustomController extends ListController {
 
