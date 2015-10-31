@@ -1,6 +1,6 @@
 {
   "name": "monad",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Generic AngularJS-based CMS framework",
   "main": "Monad.js",
   "directories": {
@@ -43,10 +43,5 @@
     "url": "https://github.com/monomelodies/monad.git"
   },
   "author": "Marijn Ophorst <marijn@monomelodies.nl>",
-  "license": "MIT",
-  "babel": {
-    "presets": [
-      "es2015"
-    ]
-  }
+  "license": "MIT"
 }
