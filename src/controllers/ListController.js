@@ -1,8 +1,6 @@
 
 "use strict";
 
-import Component from '../classes/Component';
-
 let params = undefined;
 let route = undefined;
 let modal = undefined;
