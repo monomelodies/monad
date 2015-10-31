@@ -1,8 +1,8 @@
 
 "use strict";
 
-import {monad} from '../src/angular';
-import {Component} from '../src/classes/Component';
+import monad from '../src/angular';
+import Component from '../src/classes/Component';
 
 describe("Monad global application and component handler", () => {
 
