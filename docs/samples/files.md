@@ -28,7 +28,7 @@ browserify([
 
 Then add the module dependency to your Monad application:
 ```javascript
-monad.application('foobar', ['ng-file-upload']);
+monad.application('foobar', ['ngFileUpload']);
 ```
 
 ### Option 1: write a custom controller

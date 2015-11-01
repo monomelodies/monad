@@ -41,3 +41,6 @@ monad.component('myComponent')
     });
 ```
 
+Here, `$mapping` tells Monad that for the key `customModel`, it should be
+handled by entry `customManager`.
+

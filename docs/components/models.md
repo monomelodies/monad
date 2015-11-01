@@ -47,3 +47,19 @@ read-only; if you need to write too, simply add a corresponding `set` method.
 > A real-world example of this could be a data source listing `firstname` and
 > `lastname` fields, and a model defining a `fullname` virtual property.
 
+On your Manager, register the _uninstantiated_ model class on the property
+`model` to make Monad use it automatically:
+
+```javascript
+import Base from '/path/to/monad/src/services/Manager';
+import Model from '/path/to/My/Custom/Model';
+
+class Manager extends Base {
+
+    constructor(...args) {
+        super(...args);
+        this.model = Model;
+    }
+
+}
+```
