@@ -155,4 +155,11 @@ img {
         text-shadow: 0!important;
         }
     }
+legend {
+    clear: both;
+    }
+fieldset {
+    display: table-cell;
+    width: 100%;
+    }
 
