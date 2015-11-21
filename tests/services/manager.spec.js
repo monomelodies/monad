@@ -25,8 +25,7 @@ describe('service: Manager', () => {
 
     it("should list a Collection", () => {
         http.expectGET('/tests/service/');
-        let coll;
-        mngr.list('/tests/service/').success(c => coll = c);
+        let coll = mngr.list('/tests/service/');
         http.flush();
         expect(coll instanceof Collection).toEqual(true);
         expect(coll.length).toBe(3);
@@ -35,8 +34,7 @@ describe('service: Manager', () => {
 
     it("should find a Model", () => {
         http.expectGET('/tests/service/1/');
-        let model;
-        mngr.find('/tests/service/1/').success(m => model = m);
+        let model = mngr.find('/tests/service/1/');
         http.flush();
         expect(model instanceof Model).toEqual(true);
         expect(model.$dirty).toBe(false);
