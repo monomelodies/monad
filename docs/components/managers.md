@@ -15,18 +15,20 @@ class Manager {
     }
 
     list(...params) {
-        // Returns promise resolving to a Collection of Models. Note that
-        // this is also responsible for pagination.
+        // Returns a Collection of Models. Note that this is also responsible
+        // for pagination. The Collection should have a `$then` property which
+        // proxies to the underlying promise used to retrieve the data (if any).
     }
 
     paginate(page, params) {
         // Return call to list with the correct page injected.
-        // Second argument are $routeParams, in case you need them.
+        // Second argument contains the $routeParams, in case you need them.
     }
 
     find(...params) {
-        // Returns promise yielding Models found using params (usually
-        // taken from $routeParams)
+        // Returns a Model found using params (usually taken from $routeParams).
+        // The Model should have a `$then` property which proxies to the
+        // underlying promise used to retrieve the data (if any).
     }
 
     create(item) {
@@ -67,7 +69,6 @@ class Manager extends Base {
         // anything. If we don't, other methods won't have access to
         // `super` either.
         super(...args);
-        this.model = Model;
     }
 
     list(param1, param2, param3) {
@@ -85,6 +86,9 @@ class Manager extends Base {
     // Implement create, update, delete as required.
 
 }
+
+// This is for the custom model:
+Manager.Model = Model;
 ```
 
 Note that you can just as well write a manager using differently named methods;
