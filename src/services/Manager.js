@@ -75,36 +75,37 @@ export default class Manager {
      * Retrieve a list (Collection) of items.
      *
      * @param string url The API URL to query.
-     * @return Promise An Angular promise yielding a Collection on `success`.
+     * @return Collection A collection of Models found.
      */
     list(url) {
-        return http({
+        let collection = new this.constructor.Collection;
+        collection.$then = http({
             url,
             method: 'GET',
             transformResponse: appendTransform(values => {
-                while (this.constructor.Collection.length) {
-                    this.constructor.Collection.pop();
-                }
-                values.map(value => this.constructor.Collection.push((new this.constructor.Model()).$load(value)));
-                return this.constructor.Collection;
+                values.map(value => collection.push((new this.constructor.Model()).$load(value)));
+                return collection;
             }),
             cache
-        });
+        }).then;
+        return collection;
     }
 
     /**
      * Find a single item.
      *
      * @param string url The API URL to query.
-     * @return Primse An Angular promise yielding a Model on `success`.
+     * @return Model A Model.
      */
     find(url) {
-        return http({
+        let model = new this.constructor.Model;
+        model.$then = http({
             url,
             method: 'GET',
-            transformResponse: appendTransform(item => (new this.constructor.Model()).$load(item)),
+            transformResponse: appendTransform(item => model.$load(item)),
             cache
-        });
+        }).then;
+        return model;
     }
 
     /**
@@ -188,5 +189,5 @@ Manager.Model = Model;
  * The current Collection object to work on. You may set this per
  * derived manager where needed. Defaults to base Monad Collection.
  */
-Manager.Collection = new Collection();
+Manager.Collection = Collection;
 
