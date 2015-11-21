@@ -46,11 +46,6 @@ export default class Collection {
      */
     constructor() {
         /**
-         * A reference to the base model. Override in derived class if you need
-         * to use custom models.
-         */
-        this.model = Model;
-        /**
          * Internal storage.
          */
         this.storage = [];
@@ -75,7 +70,7 @@ export default class Collection {
     push(...args) {
         let idx = this.storage.length;
         args = args.map(arg => this.defaults(arg));
-        args = args.map(arg => isModel(arg) ? arg : Model.$create(arg, this.model));
+        args = args.map(arg => isModel(arg) ? arg : Model.$create(arg, this.constructor.Model));
         this.storage.push(...args);
         for (let i = idx; i < this.storage.length; i++) {
             Object.defineProperty(this, i, {get: () => this.storage[i] || undefined, configurable: true});
@@ -104,7 +99,7 @@ export default class Collection {
      */
     unshift(...args) {
         args = args.map(arg => this.defaults(arg));
-        args = args.map(arg => isModel(arg) ? arg : Model.$create(arg, this.model));
+        args = args.map(arg => isModel(arg) ? arg : Model.$create(arg, this.constructor.Model));
         let work = new Array(this.storage);
         work.unshift(...args);
         this.storage = [];
@@ -213,4 +208,10 @@ export default class Collection {
     }
 
 };
+
+/**
+ * A reference to the base model. Override in derived class if you need
+ * to use custom models.
+ */
+Collection.Model = Model;
 
