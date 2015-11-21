@@ -79,7 +79,7 @@ export default class Manager {
      */
     list(url) {
         let collection = new this.constructor.Collection;
-        collection.$then = http({
+        collection.$promise = http({
             url,
             method: 'GET',
             transformResponse: appendTransform(values => {
@@ -87,7 +87,7 @@ export default class Manager {
                 return collection;
             }),
             cache
-        }).then;
+        });
         return collection;
     }
 
@@ -99,12 +99,12 @@ export default class Manager {
      */
     find(url) {
         let model = new this.constructor.Model;
-        model.$then = http({
+        model.$promise = http({
             url,
             method: 'GET',
             transformResponse: appendTransform(item => model.$load(item)),
             cache
-        }).then;
+        });
         return model;
     }
 
