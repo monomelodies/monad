@@ -29,7 +29,7 @@ export default class ListController {
                 this[p] = $route.current.locals[p];
             }
         }
-        this.$new = new this.Manager.model();
+        this.$new = new this.Manager.constructor.Model();
         params = angular.copy($route.current.params);
         delete params.language;
         modal = $modal;
