@@ -31,16 +31,6 @@ export default class Manager {
             cache = $cacheFactory('monad-managers');
         }
         /**
-         * The current Model class to work on. You may set this per derived
-         * manager where needed. Defaults to base Monad Model.
-         */
-        this.model = Model;
-        /**
-         * The current Collection object to work on. You may set this per
-         * derived manager where needed. Defaults to base Monad Collection.
-         */
-        this.collection = new Collection();
-        /**
          * Bindable pointer for specified list filters, if any.
          */
         this.filter = {};
@@ -92,11 +82,11 @@ export default class Manager {
             url,
             method: 'GET',
             transformResponse: appendTransform(values => {
-                while (this.collection.length) {
-                    this.collection.pop();
+                while (this.constructor.Collection.length) {
+                    this.constructor.Collection.pop();
                 }
-                values.map(value => this.collection.push((new this.model()).$load(value)));
-                return this.collection;
+                values.map(value => this.constructor.Collection.push((new this.constructor.Model()).$load(value)));
+                return this.constructor.Collection;
             }),
             cache
         });
@@ -112,7 +102,7 @@ export default class Manager {
         return http({
             url,
             method: 'GET',
-            transformResponse: appendTransform(item => (new this.model()).$load(item)),
+            transformResponse: appendTransform(item => (new this.constructor.Model()).$load(item)),
             cache
         });
     }
@@ -189,4 +179,14 @@ export default class Manager {
 };
 
 Manager.$inject = ['$http', '$cacheFactory'];
+/**
+ * The current Model class to work on. You may set this per derived
+ * manager where needed. Defaults to base Monad Model.
+ */
+Manager.Model = Model;
+/**
+ * The current Collection object to work on. You may set this per
+ * derived manager where needed. Defaults to base Monad Collection.
+ */
+Manager.Collection = new Collection();
 
