@@ -10,7 +10,7 @@ Monad expects the required service to be registered in Angular as
 service needs to implement the following interface:
 
 ```javascript
-class AuthenticationService {
+export default class AuthenticationService {
 
     ['status']() {
         // Return a promise reading the current authentication status.
@@ -23,6 +23,10 @@ class AuthenticationService {
     
     attempt(...args) {
         // Returns a promise attempting authentication using supplied `args`.
+        // What `args` you pass depends on your application's needs - a common
+        // scenario is of course `username` and `password`, but if you also
+        // require `mobile_number`, `social_security` and `mothers_maiden_name`
+        // that's all fine too.
     }
     
     revoke() {
@@ -44,6 +48,7 @@ Import this in your entry point file (or simply define it there, whichever you
 prefer) and override it in Angular:
 
 ```javascript
+import AuthenticationService from '/path/to/AuthenticationService';
 monad.application('foobar')
     .service('Authentication', AuthenticationService);
 ```
@@ -56,16 +61,17 @@ Usually you'll inject Angular's `$http` service to make the required calls. A
 very basic real-world implementation could look like this:
 
 ```javascript
-class AuthenticationService {
+let session = undefined;
+
+export default class AuthenticationService {
 
     constructor($http) {
         this.http = $http;
-        this._session = undefined;
     }
     
     ['status']() {
         return this.http.get('/session/').success(result => {
-            this._session = result;
+            session = result;
         });
     }
     
@@ -82,10 +88,10 @@ class AuthenticationService {
     check() {
         // If no session has been loaded yet, don't force a redirect just yet
         // but wait for it to load instead.
-        if (this._session === undefined) {
+        if (session === undefined) {
             return true;
         }
-        return this._session && 'User' in this._session && this._session.User == 'admin';
+        return session && 'User' in session && session.User == 'admin';
     }
 
 }

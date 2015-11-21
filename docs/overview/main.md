@@ -18,7 +18,7 @@ The imported `monad` object is what we'll work with as opposed to `angular`.
 Note that for ES6 applications, you'll need to re-import this object wherever
 you need it.
 
-Next step is to register an _applicatoin_ with Monad. The "application" is your
+Next step is to register an _application_ with Monad. The "application" is your
 actual admin:
 
 ```javascript
@@ -28,17 +28,18 @@ monad.application('myAwesomeAdmin', []);
 > `monad.application` works as `angular.module`, except the module name is
 > implied to be `monad`, and it instead takes an `app` parameter.
 
-The 'app' is a random name for your application; in this manual we'll use
+The `app` is a random name for your application; in this manual we'll use
 `foobar`. It's sort of a namespace, as far as ECMAScript and Angular allow that.
 You can also pass a third argument (like in `angular.module`) which is a
 callable for configuration, or chain the `config` method (or `run` etc.).
 
 > In a real-world application, of course you'd configurate a module either with
-> the third argument, or by manually calling `config`. Both are allowed.
+> the third argument, *or* by manually calling `config`. Both are allowed, but
+> using them together is useless obfuscation.
 
 ## Adding components
 A Monad admin is built out of "components", which are sort-of like a cross
-between ES6 modules and Angular models.
+between ES6 modules and Angular modules.
 
 For this, use `monad.component`, which takes the same arguments as
 `angular.module`, but returns a `Component` object instead:
@@ -69,7 +70,7 @@ monad.application('foobar');
 > If you're building a "plugin" component, it should never call
 > `monad.application` though - there can be only _one_ "application". Also, for
 > plugin components, you'll _definitely_ want to "namespace" them with a prefix
-> to prevent possible naming clashes!
+> to prevent possible naming clashes.
 
 As soon as all components are defined, register the main application using
 `monad.application`. This automatically injects dependencies on all known
@@ -101,7 +102,7 @@ Obviously you'll also need your components to _do_ something. Monad extends the
 default Angular module with some handy methods for that:
 
 ```javascript
-monad.component('foobar', 'foo')
+monad.component('foobar')
     .manager(Manager)
     .list(url, options, resolve)
     .create(url, options, resolve)
@@ -124,10 +125,10 @@ The `options` and `resolve` objects are passed - augmented with defaults - to
 Angular's `$routeProvider.when` method. The `url` parameter is prefixed with
 `/:language` for convenience.
 
-The Manager is registered under `appComponentnameManager` for future reference.
-Capitalization is handled in a basic manner, i.e. you don't have to capitalize
-your component. Ergo, for an app `foobar` the component `baz` will have a
-`foobarBazManager`.
+The Manager is registered with Angular under `appComponentnameManager` for
+future injection. Capitalization is handled in a basic manner, i.e. you don't
+have to capitalize your component. Ergo, for an app `foobar` the component `baz`
+will have a `foobarBazManager`.
 
 For detailed information on the various utility methods and their arguments,
 see the [section on Components](../components/setup.md).

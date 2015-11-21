@@ -1,8 +1,9 @@
 # Setting up a build script
 Monad uses ES6-style modules, but of course most current browsers don't know
 what to make of those. This means you have to _transpile_ your code. You're free
-to write your whole admin in ES5 if that's your thang, but you'll need something
-like Babel to at least import Monad once.
+to write your whole admin in ES5 if that's your "thang", but you'll need
+something like [Browserify](http://browserify.org/) to at least import Monad
+once.
 
 When you look at `index.html`, you'll notice that after the `libraries.js` file,
 it attempts to load a `bundle.js` from the current directory. This is where your
@@ -14,10 +15,33 @@ since we need a transpiler in combination with Browserify anyway, you might as
 well take advantage of ES6 features (they're awesome!) and split stuff into
 multiple smaller files for maintainability.
 
+Monad itself uses the [Babel transpiler](https://babeljs.io/). There are
+alternatives, but all examples will assume Babel.
+
 ## Grunt build script
 ```bash
-$ npm install --save-dev grunt-browserify grunt-contrib-copy babelify
+$ npm install --save-dev grunt-browserify grunt-contrib-copy babelify \
+    babel-polyfill babel-preset-es2015
 ```
+
+> As of Babel 6, the actual transpiling is done by plugins.
+> `babel-preset-es2015` contains all common ES6 transpilations you'll likely
+> need, but of course YMMV.
+
+In your project's `package.json`, add the following to the root:
+
+```json
+{
+    // ...other stuff...
+    "babel": {
+        "presets": [
+            "es2015"
+        ]
+    }
+}
+```
+
+Next create a file called `Gruntfile.js` in the project's root:
 
 ```javascript
 module.exports = function (grunt) {
@@ -54,7 +78,14 @@ Monad can access them (see the `copy` task above).
 > Of course, you could also use symlinks for that; it depends on your preference
 > and whether or not your host allows you to do that.
 
+Grunt is a _very_ extensive tool and we won't go into details here. Some plugins
+you might want to check out are `load-grunt-config` and `load-grunt-tasks`.
+
 ## Gulp build script
+First, `npm install` the [Gulp](http://gulpjs.com/) modules you need. The
+example below is probably slightly outdated since the newest Babel version
+introduced a *lot* of breaking changes, but it can serve as a starting point:
+
 ```javascript
 var gulp = require('gulp');
 var browserify = require('browserify');
@@ -77,4 +108,9 @@ gulp.task('admin', function() {
 ```
 
 For exposing static assets, use something like `gulp-copy`.
+
+## Other tools
+There's many other tools for building stuff; you're free to use one of your own
+liking or even cobble something custom together yourself. As long as the output
+goes to `./admin/bundle.js`, we're all fine with that.
 
