@@ -49,7 +49,7 @@ to store the upload in `item.property`.)
 Now, we need our controller to handle that:
 
 ```javascript
-import {CrudController} from '/path/to/monad/src/controllers/CrudController';
+import CrudController from '/path/to/monad/src/controllers/CrudController';
 
 let upl;
 
