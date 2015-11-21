@@ -6,7 +6,9 @@ can see a model object as a representation of a single database row.
 
 > Of course, we don't care if you get your data from a relational database,
 > a NoSQL database, an Excel file, flat JSON or a random Google query. The
-> point is, each 'item' is represented by a single model.
+> point is, each 'item' is represented by a single model. For simplicity,
+> whenever this manual mentions "database" we actually mean "whatever storage
+> your API is talking to".
 
 The model itself is _not_ an object in the Angular-sense; it is pure EcmaScript.
 Apart from advantages over Angular (services are singletons, whereas models by
@@ -48,7 +50,7 @@ read-only; if you need to write too, simply add a corresponding `set` method.
 > `lastname` fields, and a model defining a `fullname` virtual property.
 
 On your Manager, register the _uninstantiated_ model class on the property
-`model` to make Monad use it automatically:
+`Model` to make Monad use it automatically:
 
 ```javascript
 import Base from '/path/to/monad/src/services/Manager';
@@ -58,8 +60,12 @@ class Manager extends Base {
 
     constructor(...args) {
         super(...args);
-        this.model = Model;
+        //...other custom stuff...
     }
 
 }
+
+Manager.Model = Model;
+
 ```
+

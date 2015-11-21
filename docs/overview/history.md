@@ -27,8 +27,8 @@ particular project we learned it for sported a Laravel backend, which worked
 fine but seemed a little weird - there were all these APIs to power the Angular
 frontend, but the backend essentially duplicated that in plain old PHP.
 
-Late in 2014 we built a custom CMS in Angular for a different client, and this
-was actually pretty awesome. We could reuse most of the API code from the
+In 2014 we built a custom CMS in Angular for a different client, and this was
+actually pretty awesome. We could reuse most of the API code from the
 (front-end) Angular site, but more importantly we could use directives to
 handle all custom data formatting and validation options.
 

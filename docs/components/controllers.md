@@ -7,7 +7,7 @@ to simply extend one of the existing controllers and override what you need to
 (usually the `update` method):
 
 ```javascript
-import CrudController from '/path/to/monad/src/controllers/CrudController`;
+import CrudController from '/path/to/monad/src/controllers/CrudController';
 
 export default class MyController extends CrudController {
 
@@ -21,7 +21,11 @@ export default class MyController extends CrudController {
 Note that both the `CrudController` as well as the `ListController`
 automagically register all passed resolves whose names do not begin with `$`
 (since that's kind of an internal Angular-thing) on `this`, and are thus
-available both in the controller as in the view template.
+available both in the controller as in the view template. So extending the
+`ListController` (assuming you've called `super()` correctly) gives you access
+to e.g. `this.category` if your route resolves a `category` property. You'll
+also get a `this.Manager` property and a `this.$new` property (containing an
+empty Model you can use for creation).
 
 Finally, during component definition instruct Monad to use the custom
 controller for this action:

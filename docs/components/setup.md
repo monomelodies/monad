@@ -1,11 +1,9 @@
 # Setup
-We saw earlier how Monad works with the concept of 'modules', both in the
-ES6-sense as well as the Angular-sense. Let's dive into that a bit further.
-You can think of a module as 'an option that shows up in the (main) menu',
-although technically it is not required to actually expose modules in any menu.
-
-> To differentiate between AngularJS and ES6 modules, Monad refers to them as
-> "components" instead.
+We saw earlier how Monad works with the concept of 'components', which are a mix
+of ES6 modules and Angular modules. Let's dive into that a bit further.
+You can think of a component as 'an option that shows up in the (main) menu',
+although technically it is not required to actually expose components in any
+menu.
 
 ## Create a component
 First, create a folder somewhere that will contain all your module's files. This
@@ -19,7 +17,7 @@ to place all our files in. By convention, we create an entry point called
 `angular.js` here which hooks everything up to our Angular module:
 
 ```javascript
-// foobar/foo/angular.js
+// admin/foo/angular.js
 "use strict";
 
 export default monad.component('foo')
@@ -31,8 +29,10 @@ export default monad.component('foo')
 The 'custom stuff' will generally consist of one or more of the following:
 
 ```javascript
+import Manager from '/path/to/Manager';
+
 export default monad.component('foo')
-    // Manager class, available as `foobarFooManager` in Angular:
+    // Manager class, available as `applicationnameFooManager` in Angular:
     .manager(Manager)
     // API URL to show a list of items:
     .list('/my/url/')
@@ -57,7 +57,7 @@ should happen:
 
 ```javascript
 
-import foo from '/path/to/foo';
+import foo from '/path/to/foo/angular';
 
 monad.application('foobar', [])
     .navigation([foo]);
@@ -65,7 +65,7 @@ monad.application('foobar', [])
 
 The second optional argument to `navigation` can be a menu name, which defaults
 to `main` (the top menu in the default skin). Custom skins or views can define
-as many menus as they like.
+as many menus as they like, as long as their internal names are unique.
 
 ## Customising the title
 The default label in the menu is simply the component's name; not very user

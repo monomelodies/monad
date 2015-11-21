@@ -72,7 +72,7 @@ example:
 
 ```html
 <mo-update>
-    <fieldset class="col-md-12">
+    <div class="col-md-12"><fieldset role="core">
         <legend>This is my data</legend>
         <mo-field>
             <label>The label for ID</label>
@@ -90,7 +90,7 @@ example:
             <label>The label for description</label>
             <textarea ckeditor="options" ng-model="crud.item.description"></textarea>
         </mo-field>
-    </fieldset>
+    </fieldset></div>
 </mo-update>
 ```
 

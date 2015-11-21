@@ -19,7 +19,7 @@ monad.application('foobar')
     URL (relative to the admin directory, of course) of the theme CSS. We offer a
     Bootstrap-based default - feel free to customise. You can either write something
     from scratch if you want, or extend the existing theme (all our CSS is written
-    using SASS, so importing/overriding is easy).
+    using [SASS](http://sass-lang.com/), so importing/overriding is easy).
 
 ## Constants
 

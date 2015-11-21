@@ -13,11 +13,11 @@ Full documentation: [http://monad.monomelodies.nl/docs/](http://monad.monomelodi
 The quickest way is to use Monad's Bower package:
 
 ```bash
-$ bower install --save-dev monad
+$ bower install --save monad
 ```
 
-Alternatively, download the source from Github and unpack it somewhere to your
-liking, or add a Git submodule:
+Alternatively, [download the source from Github](https://github.com/monomelodies/monad/)
+and unpack it somewhere to your liking, or add a Git submodule:
 
 ```bash
 $ cd /path/to/where/you/keep/submodules
@@ -33,12 +33,21 @@ $ cd /path/to/monad
 $ bower install
 ```
 
-If you also want to hack on Monad itself, you'll want the Node packages too:
+If you're going to hack on Monad itself, you'll want the Node packages too:
 
 ```bash
 $ cd /path/to/monad
 $ npm install
 ```
+
+Monad uses [Grunt](http://gruntjs.com/) for building, so in that case you'll
+want that too:
+
+```bash
+$ sudo npm install -g grunt-cli
+```
+
+> Your own project can use a different task runner like Gulp, or none at all.
 
 ## Making Monad publicly available
 In your `monad` directory, you'll notice bunch of other directories and files,
@@ -72,10 +81,24 @@ If for whatever reason you can't symlink, you'll need to copy some files around
 and preferably set up a build script to watch changes. Added bonus here is that
 a build script can transpile your ES6 code to ES5 (which is what Monad does
 too), so we'd think it's generally a good idea (adding a build script, not
-copying files around!). We'll give you an example in Gulp (our preferred tool)
+copying files around!). We'll give you an example in Grunt (our preferred tool)
 in the next chapter, but something similar would work for other systems (e.g.
-Grunt).
+Gulp).
 
-An alternative could be to place Monad in a public path directly and use e.g.
-Apache aliases to point the browser to the right location.
+An alternative could be to use e.g. Nginx or Apache aliases to point the browser
+to the right location for `/monad`. Example in Nginx:
+
+```
+server {
+    # all your other stuff...
+
+    location /monad/ {
+        root $BASE/bower_components/monad/dist;
+    }
+}
+```
+
+> Using server-side aliases is our own preferred method these days, but you'll
+> need a bit more control over your environment to make that work. For instance
+> on a shared host you'll often need to resort to symlinking or copying.
 

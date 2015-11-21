@@ -3,7 +3,7 @@ A core concept in a Monad admin is the `Manager`. A "manager" is like a super
 object handling all module-specific retreiving and storing of data. You can
 think of it as an interface between Monad and whatever backend you're using.
 
-ECMAScript lacks interfaces, but Monad assumes a manager adheres to the
+ECMAScript lacks *actual* interfaces, but Monad assumes a manager adheres to the
 following specifications:
 
 ```javascript
@@ -44,12 +44,12 @@ class Manager {
 }
 ```
 
-Which params you need to supply is dependant on your API and preferences.
+Which `params` you need to supply is dependant on your API and preferences.
 
 ## Extending the default
 The default Manager in Monad offers `list` and `find` methods that simply accept
 a URL, call it using `$http.get` and transform the response using the `model`
-property on the Manager (which itself defaults to the base Model).
+property on the Manager (which itself defaults to the base `Model`).
 
 So, the following is a common pattern:
 
@@ -121,4 +121,7 @@ low-level control:
 As you can see in `Manager.js`, it's a little more complicated than that since
 you'll likely want to keep default transformations too (e.g. Monad's post
 normaliser), but this is the basic idea.
+
+> Usually, you can just call the `super` versions with a prepared URL and be
+> done with it; overriding those are a _very_ specific use-case.
 
