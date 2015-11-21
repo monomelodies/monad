@@ -32,9 +32,9 @@ on e.g. the `$routeParams` for specific cases.
 monad.component('myComponent')
     .manager(Manager) // Assuming this is defined somewhere
     .update('/some/url/:id', {}, {
-        'item': () => someitem, // Some item
-        'customManager': () => resolvedManager,
-        'customModel': () => someOtherModel,
+        item: () => someitem, // Some item
+        customManager: () => resolvedManager,
+        customModel: () => someOtherModel,
         $mapping: {
             customModel: 'customManager'
         }
@@ -43,4 +43,47 @@ monad.component('myComponent')
 
 Here, `$mapping` tells Monad that for the key `customModel`, it should be
 handled by entry `customManager`.
+
+## Loading extra data
+Building on the above example, say we have a `ticket` with id `42`. The id is
+accessed via the `$routeParams`, that's easy enough. In the same vein, we can
+query all comments on a ticket by specifying e.g. the following:
+
+```javascript
+monad.component('ticket')
+    .manager(Manager)
+    .update('/some/url/:id', {}, {
+        item: () => { /* get the ticket */ },
+        comments: ['commentManager', '$route', (commentManager, $route) => {
+            return commentManager.list({ticket: $route.current.params.id});
+        }]
+    });
+```
+
+> We need to use `$route.current.params` here, `$routeParams` isn't available
+> for injection at this stage because Angular.
+
+## Extra data based on non-URL properties
+In complicated setups, it could also be you need even more data, e.g. based on
+the ticket's `owner` property. Of course, this isn't included in the URL and
+won't be available until the ticket actually resolves. To accomplish this, you'd
+have to do something like this:
+
+```javascript
+monad.component('ticket')
+    .update('/some/url/:id', {}, {
+        owner: ['referenceToTicket', 'ownerManager', (ticket, ownerManager) => {
+            // Of course, assuming such a derived class exists.
+            let owner = new OwnerModel;
+            ticket.$promise.then(ticket => {
+                owner.$load(ownerManager.find({id: ticket.data.owner}));
+            });
+            return owner;
+        }]
+    });
+```
+
+The idea is that you simply return an empty Model (or Collection for that
+matter; in that case you would call `fill` instead of `$load`) and fill it with
+data as soon as the Promise resolves.
 

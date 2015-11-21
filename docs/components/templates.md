@@ -72,7 +72,7 @@ example:
 
 ```html
 <mo-update>
-    <div class="col-md-12"><fieldset role="core">
+    <div class="col-md-12"><fieldset>
         <legend>This is my data</legend>
         <mo-field>
             <label>The label for ID</label>
@@ -93,6 +93,9 @@ example:
     </fieldset></div>
 </mo-update>
 ```
+
+> We put the Bootstrap classes on an extra `<div>` since especially Firefox acts
+> weird when they're put directly on `<fieldset>`. Such is life.
 
 The `moUpdate` directive supports a few custom arguments, but we supply sane
 defaults so you usually don't need to change them.
