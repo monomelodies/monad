@@ -253,7 +253,7 @@ function addTarget(type) {
         settings.resolve.$mapping = () => $mapping;
     }
     if (type == 'create') {
-        settings.resolve.item = [this.$manager.name, Manager => new Manager.model];
+        settings.resolve.item = [this.$manager.name, Manager => new Manager.constructor.Model];
     }
     let name;
     if ('Authentication' in settings.resolve) {
