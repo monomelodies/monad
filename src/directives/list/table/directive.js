@@ -22,8 +22,7 @@ class controller {
         } else {
             let h = $element.find('thead tr');
             this.columns.map(col => {
-                console.log(col);
-            //    h.append('<th>' + col + '</th>');
+                h.append('<th>' + col + '</th>');
             });
         }
     }
