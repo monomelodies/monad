@@ -117,14 +117,14 @@ export default class Manager {
      */
     save(model) {
         if (model.$new) {
-            return this.create(model).success(() => model.$initial = model.$data);
+            return this.create(model).then(result => model.$load(result.data));
         } else if (model.$deleted) {
-            return this['delete'](model).success(() => {
+            return this['delete'](model).then(() => {
                 model.$data = {};
                 model.$initial = undefined;
             });
         } else if (model.$dirty) {
-            return this.update(model).success(() => model.$initial = model.$data);
+            return this.update(model).then(result => model.$load(result.data));
         }
         return {};
     }
