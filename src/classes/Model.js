@@ -113,11 +113,8 @@ export default class Model {
      * @return boolean True if dirty, false if pristine.
      */
     get $dirty() {
-        if (this.$deleted) {
+        if (this.$deleted || this.$new) {
             return true;
-        }
-        if (this.$new) {
-            return false;
         }
         for (let key in this) {
             if (key.substring(0, 1) == '$') {
