@@ -80,6 +80,7 @@ export default class Model {
             }
             if (checkDate) {
                 checkDate.shift();
+                checkDate[1]--; // Javascript months are offset by 0 for reasons only Brendan Eich will know...
                 data[key] = new Date(...checkDate);
             }
             var props = {enumerable: true, configurable: true};
