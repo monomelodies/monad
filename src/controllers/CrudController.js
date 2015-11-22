@@ -105,6 +105,20 @@ export default class CrudController {
         });
     }
 
+    /**
+     * Returns true if any model on this CRUD controller is dirty.
+     *
+     * @return boolean True if anything is dirty, false if all are pristine.
+     */
+    get $dirty() {
+        for (let model in this.$mapping) {
+            if (this[model].$dirty) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 };
 
 CrudController.$inject = ['$route', '$modal', '$location', 'moLanguage', 'Authentication'];
