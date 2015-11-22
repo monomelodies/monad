@@ -167,5 +167,9 @@ button.fixed {
     position: fixed;
     bottom: 32px;
     right: 15px;
+
+    &.ng-hide-animate {
+        opacity: 0;
+        }
     }
 
