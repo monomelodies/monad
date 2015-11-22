@@ -162,4 +162,10 @@ fieldset {
     display: table-cell;
     width: 100%;
     }
+button.fixed {
+    transition: opacity .5s ease;
+    position: fixed;
+    bottom: 32px;
+    right: 15px;
+    }
 
