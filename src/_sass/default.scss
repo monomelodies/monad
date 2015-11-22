@@ -168,8 +168,19 @@ button.fixed {
     bottom: 32px;
     right: 15px;
 
-    &.ng-hide-animate {
+    &.ng-enter {
         opacity: 0;
+
+        &.ng-enter-active {
+            opacity: 1;
+            }
+        }
+    &.ng-leave {
+        opacity: 1;
+
+        &.ng-leave-active {
+            opacity: 0;
+            }
         }
     }
 
