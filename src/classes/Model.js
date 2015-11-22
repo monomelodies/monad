@@ -120,7 +120,7 @@ export default class Model {
             if (key.substring(0, 1) == '$') {
                 continue;
             }
-            if (key in this.$data && this.$data[key] != this.$initial[key]) {
+            if (!(key in this.$data) || (key in this.$data && this.$data[key] != this.$initial[key])) {
                 return true;
             } else if (typeof this[key] == 'object' && this[key] != null) {
                 if ('map' in this[key]) {
