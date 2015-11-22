@@ -43,7 +43,7 @@ function run(Language, languages, $http, $route, $cacheFactory) {
     };
 };
 
-angular.module('monad.core', ['ng', 'ngRoute', 'gettext', 'ngSanitize', 'ui.bootstrap', Directives])
+angular.module('monad.core', ['ng', 'ngRoute', 'gettext', 'ngSanitize', 'ngAnimate', 'ui.bootstrap', Directives])
     .config(['$routeProvider', '$locationProvider', config])
     .run(['moLanguage', 'languages', '$http', '$route', '$cacheFactory', run])
     .controller('moController', RootController)
