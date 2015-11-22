@@ -81,7 +81,7 @@ export default class ListController {
         this._page = page;
         this.Manager.filter = this.filter;
         delete this.Manager.$count;
-        this.Manager.paginate(page, params).success(items => this.items = items);
+        this.items = this.Manager.paginate(page, params);
     }
 
 };
