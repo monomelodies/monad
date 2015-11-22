@@ -55,8 +55,7 @@ export default class Navigation {
                         if (access(component)) {
                             cache[menu].push(path);
                             if ('$manager' in component) {
-                                let manager = $injector.get(component.$manager.name);
-                                path.notifications = manager.notify;
+                                path.manager = $injector.get(component.$manager.name);
                             }
                         }
                     } else {

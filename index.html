@@ -46,13 +46,13 @@
                             </a>
                             <ul class="dropdown-menu" ng-if="item.items">
                                 <li ng-repeat="item in item.items">
-                                    <a mo-path="{{item.url}}" ng-click="monad.Navigation.select(item)" mo-menu-label item="item">
-                                        <small ng-if="item.notifications">{{item.notifications}}</small>
+                                    <a mo-path="{{ item.url }}" ng-click="monad.Navigation.select(item)" mo-menu-label item="item">
+                                        <small ng-if="item.manager.notify">{{ item.manager.notify }}</small>
                                         <mo-menu-label item="item"></mo-menu-label>
                                     </a>
                             </ul>
-                            <a ng-if="!item.items" mo-path="{{item.url}}" ng-click="monad.Navigation.select(item)">
-                                <small ng-if="item.notifications">{{item.notifications}}</small>
+                            <a ng-if="!item.items" mo-path="{{ item.url }}" ng-click="monad.Navigation.select(item)">
+                                <small ng-if="item.manager.notify">{{ item.manager.notify }}</small>
                                 <mo-menu-label item="item"></mo-menu-label>
                             </a>
                         </li>
