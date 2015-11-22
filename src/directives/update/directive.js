@@ -5,6 +5,7 @@ let defaults = {
     onSave: 'crud.save()',
     onDelete: 'crud.delete()',
     item: 'crud.item',
+    $dirty: 'crud.$dirty',
     component: 'crud.component'
 };
 
@@ -16,6 +17,7 @@ export default () => {
         scope: {
             save: '&onSave',
             'delete': '&onDelete',
+            $dirty: '=',
             item: '=',
             component: '='
         },
