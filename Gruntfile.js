@@ -108,7 +108,7 @@ module.exports = function (grunt) {
                 tasks: ['sass']
             },
             statics: {
-                files: ['**/*.{html,json,png}'],
+                files: ['src/**/*.{html,json}', 'assets/**/*.png', 'bower_components/bootstrap-sass/assets/fonts/**/*'],
                 tasks: ['newer:copy:statics']
             },
             license: {
