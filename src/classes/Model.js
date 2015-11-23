@@ -76,7 +76,7 @@ export default class Model {
             this.addField(key);
             this[key] = data[key];
         }
-        this.$initial = this.$data;
+        this.$initial = angular.copy(this.$data);
         return this;
     }
 
@@ -132,7 +132,7 @@ export default class Model {
                 delete this[key];
                 this.addField(key, value);
             }
-            if (!(this.$initial && this.$data[key] == this.$initial[key])) {
+            if (!(this.$initial && ('' + this.$data[key]) == ('' + this.$initial[key]))) {
                 if (this.$data[key] !== null && this.$data[key] !== undefined && ('' + this.$data[key]).replace(/\s+/, '').length) {
                     return true;
                 }
