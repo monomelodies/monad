@@ -183,4 +183,11 @@ button.fixed {
             }
         }
     }
+.form-control {
+    &[type=checkbox], &[type=radio] {
+        display: inline-block;
+        width: auto;
+        height: auto;
+        }
+    }
 
