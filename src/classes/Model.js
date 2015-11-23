@@ -74,28 +74,35 @@ export default class Model {
     $load(data = {}) {
         this.$initial = data;
         for (let key in data) {
-            let checkDate = isDateTime.exec(data[key]);
-            if (!checkDate) {
-                checkDate = isDate.exec(data[key]);
-            }
-            if (checkDate) {
-                checkDate.shift();
-                checkDate[1]--; // Javascript months are offset by 0 for reasons only Brendan Eich will know...
-                data[key] = new Date(...checkDate);
-            }
-            var props = {enumerable: true, configurable: true};
-            if (!this.hasOwnProperty(key)) {
-                props.get = () => {
-                    return this.$data[key];
-                };
-                props.set = value => {
-                    this.$data[key] = value;
-                };
-            }
-            Object.defineProperty(this, key, props);
-            this.$data[key] = data[key];
+            this.addField(key, data[key]);
         }
         return this;
+    }
+
+    addField(key, value = undefined) {
+        var props = {enumerable: true, configurable: true};
+        if (!this.hasOwnProperty(key)) {
+            props.get = () => {
+                return this.$data[key];
+            };
+            props.set = value => {
+                if (value != undefined) {
+                    let checkDate = isDateTime.exec(value);
+                    if (!checkDate) {
+                        checkDate = isDate.exec(value);
+                    }
+                    if (checkDate) {
+                        checkDate.shift();
+                        // Javascript months are offset by 0 for reasons only Brendan Eich knows...
+                        checkDate[1]--;
+                        value = new Date(...checkDate);
+                    }
+                }
+                this.$data[key] = value;
+            };
+        }
+        Object.defineProperty(this, key, props);
+        this.$data[key] = value;
     }
 
     /**
@@ -113,19 +120,26 @@ export default class Model {
      * @return boolean True if dirty, false if pristine.
      */
     get $dirty() {
-        if (this.$deleted || this.$new) {
+        if (this.$deleted) {
             return true;
         }
         for (let key in this) {
             if (key.substring(0, 1) == '$') {
                 continue;
             }
-            if (!(key in this.$data) || (key in this.$data && this.$data[key] != this.$initial[key])) {
-                return true;
-            } else if (typeof this[key] == 'object' && this[key] != null) {
-                if ('map' in this[key]) {
+            if (!(key in this.$data)) {
+                let value = this[key];
+                delete this[key];
+                this.addField(key, value);
+            }
+            if (!(this.$initial && this.$data[key] == this.$initial[key])) {
+                if (this.$data[key] !== null && this.$data[key] !== undefined && ('' + this.$data[key]).replace(/\s+/, '').length) {
+                    return true;
+                }
+            } else if (typeof this.$data[key] == 'object' && this.$data[key] != null) {
+                if ('map' in this.$data[key]) {
                     let dirty = false;
-                    this[key].map(elem => {
+                    this.$data[key].map(elem => {
                         if (typeof elem == 'object' && elem.$dirty || elem.$deleted) {
                             dirty = true;
                         }
@@ -133,7 +147,7 @@ export default class Model {
                     if (dirty) {
                         return true;
                     }
-                } else if (this[key].$dirty || this[key].$deleted) {
+                } else if (this.$data[key].$dirty || this.$data[key].$deleted) {
                     return true;
                 }
             }
