@@ -72,11 +72,11 @@ export default class Model {
      * @return self
      */
     $load(data = {}) {
-        this.$initial = data;
         for (let key in data) {
             this.addField(key);
             this[key] = data[key];
         }
+        this.$initial = this.$data;
         return this;
     }
 
