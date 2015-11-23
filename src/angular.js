@@ -40,6 +40,7 @@ function run(Language, languages, $http, $route, $cacheFactory) {
             }
             $cacheFactory.get(cache).removeAll();
         }
+        $route.reload();
     };
 };
 
