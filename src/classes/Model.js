@@ -74,14 +74,15 @@ export default class Model {
     $load(data = {}) {
         this.$initial = data;
         for (let key in data) {
-            this.addField(key, data[key]);
+            this.addField(key);
+            this[key] = data[key];
         }
         return this;
     }
 
-    addField(key, value = undefined) {
-        var props = {enumerable: true, configurable: true};
+    addField(key) {
         if (!this.hasOwnProperty(key)) {
+            var props = {enumerable: true, configurable: true};
             props.get = () => {
                 return this.$data[key];
             };
@@ -100,9 +101,8 @@ export default class Model {
                 }
                 this.$data[key] = value;
             };
+            Object.defineProperty(this, key, props);
         }
-        Object.defineProperty(this, key, props);
-        this.$data[key] = value;
     }
 
     /**
@@ -111,7 +111,7 @@ export default class Model {
      * @return boolean True if new, false if existing.
      */
     get $new() {
-        return this.$initial === undefined;
+        return !this.$promise && this.$initial === undefined;
     }
 
     /**
