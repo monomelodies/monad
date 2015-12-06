@@ -97,6 +97,8 @@ export default class Model {
                         // Javascript months are offset by 0 for reasons only Brendan Eich knows...
                         checkDate[1]--;
                         value = new Date(...checkDate);
+                    } else if ((value - 0) == value && ('' + value).trim().length > 0) {
+                        value = value - 0;
                     }
                 }
                 this.$data[key] = value;
