@@ -1,7 +1,7 @@
 <h1 class="container-fluid clearfix">
     <small><a class="glyphicon glyphicon-arrow-up pull-right" mo-path="/:language{{update.component.settings.list.url}}"></a></small>
-    <span ng-if="update.item.$new" translate>Create new item in {{ update.component.name }}</span>
-    <span ng-if="!update.item.$new" translate>Edit item in {{ update.component.name }}</span>
+    <span ng-if="update.item.$new" translate>Create new item in <code>{{ update.component.name }}</code></span>
+    <span ng-if="!update.item.$new" translate>Edit <q>{{ update.item.$title }}</q> in <code>{{ update.component.name }}</code></span>
 </h1>
 <div class="container-fluid clearfix">
     <form ng-submit="update.save()" id="mo_update_form" name="mo_update_form">
