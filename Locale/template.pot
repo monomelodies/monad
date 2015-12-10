@@ -9,7 +9,7 @@ msgid "Create"
 msgstr ""
 
 #: src/directives/update/template.html:3
-msgid "Create new item in {{ update.component.name }}"
+msgid "Create new item in <code>{{ update.component.name }}</code>"
 msgstr ""
 
 #: src/directives/list/table/delete.html:1
@@ -17,7 +17,7 @@ msgid "Delete"
 msgstr ""
 
 #: src/directives/update/template.html:4
-msgid "Edit item in {{ update.component.name }}"
+msgid "Edit <q>{{ update.item.$title }}</q> in <code>{{ update.component.name }}</code>"
 msgstr ""
 
 #: src/templates/login.html:20
