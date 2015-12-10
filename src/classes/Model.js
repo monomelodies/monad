@@ -73,14 +73,21 @@ export default class Model {
      */
     $load(data = {}) {
         for (let key in data) {
-            this.addField(key);
+            this.$addField(key);
             this[key] = data[key];
         }
         this.$initial = angular.copy(this.$data);
         return this;
     }
 
-    addField(key) {
+    /**
+     * Method to add a field called key, but only if it doesn't exist
+     * natively on the model.
+     *
+     * @param string key The keyname (property).
+     * @return void
+     */
+    $addField(key) {
         if (!this.hasOwnProperty(key)) {
             var props = {enumerable: true, configurable: true};
             props.get = () => {
@@ -132,7 +139,7 @@ export default class Model {
             if (!(key in this.$data)) {
                 let value = this[key];
                 delete this[key];
-                this.addField(key, value);
+                this.$addField(key, value);
             }
             if (!(this.$initial && ('' + this.$data[key]) == ('' + this.$initial[key]))) {
                 if (this.$data[key] !== null && this.$data[key] !== undefined && ('' + this.$data[key]).replace(/\s+/, '').length) {
@@ -155,6 +162,29 @@ export default class Model {
             }
         }
         return false;
+    }
+
+    /**
+     * Guesstimate the "title" of a particular model instance.
+     *
+     * @return string A guesstimated title.
+     */
+    get $title() {
+        // First, the usual suspects:
+        if ('title' in this.$data) {
+            return this.$data.title;
+        }
+        if ('name' in this.$data) {
+            return this.$data.name;
+        }
+        // If any field in $data is an actual string _and_ its length is shorter
+        // than 255 chars (reasonable maximum...) use that:
+        for (let prop in this.$data) {
+            if (this.$data[prop] instanceof String && this.$data[prop] <= 255) {
+                return this.$data[prop];
+            }
+        }
+        return '[Untitled]';
     }
 
 };
