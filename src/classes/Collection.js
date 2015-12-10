@@ -48,7 +48,7 @@ export default class Collection {
         /**
          * Internal storage.
          */
-        this.storage = [];
+        this.$storage = [];
     }
 
     /**
@@ -68,12 +68,12 @@ export default class Collection {
      * @return integer The new length of the Collection.
      */
     push(...args) {
-        let idx = this.storage.length;
+        let idx = this.$storage.length;
         args = args.map(arg => this.defaults(arg));
         args = args.map(arg => isModel(arg) ? arg : Model.$create(arg, this.constructor.Model));
-        this.storage.push(...args);
-        for (let i = idx; i < this.storage.length; i++) {
-            Object.defineProperty(this, i, {get: () => this.storage[i] || undefined, configurable: true});
+        this.$storage.push(...args);
+        for (let i = idx; i < this.$storage.length; i++) {
+            Object.defineProperty(this, i, {get: () => this.$storage[i] || undefined, configurable: true});
         }
         return this.length;
     }
@@ -84,9 +84,9 @@ export default class Collection {
      * @return mixed The shifted element.
      */
     shift() {
-        let shifted = this.storage(shift);
+        let shifted = this.$storage(shift);
         if (shifted !== undefined) {
-            delete this[this.storage.length];
+            delete this[this.$storage.length];
         }
         return shifted;
     }
@@ -100,9 +100,9 @@ export default class Collection {
     unshift(...args) {
         args = args.map(arg => this.defaults(arg));
         args = args.map(arg => isModel(arg) ? arg : Model.$create(arg, this.constructor.Model));
-        let work = new Array(this.storage);
+        let work = new Array(this.$storage);
         work.unshift(...args);
-        this.storage = [];
+        this.$storage = [];
         work.map(item => this.push(item));
         return this.length;
     }
@@ -113,9 +113,9 @@ export default class Collection {
      * @return mixed The popped element.
      */
     pop() {
-        let popped = this.storage.pop();
+        let popped = this.$storage.pop();
         if (popped !== undefined) {
-            delete this[this.storage.length];
+            delete this[this.$storage.length];
         }
         return popped;
     }
@@ -126,7 +126,7 @@ export default class Collection {
      * @return integer The current length of the Collection.
      */
     get length() {
-        return this.storage.length;
+        return this.$storage.length;
     }
 
     /**
@@ -135,7 +135,7 @@ export default class Collection {
      * @return void
      */
     reverse() {
-        this.storage.reverse();
+        this.$storage.reverse();
     }
 
     /**
@@ -145,7 +145,7 @@ export default class Collection {
      * @return self
      */
     sort(...args) {
-        this.storage.sort(...args);
+        this.$storage.sort(...args);
         return this;
     }
 
@@ -160,9 +160,9 @@ export default class Collection {
     splice(start, deleteCount, ...args) {
         args = args.map(arg => this.defaults(arg));
         let previousLength = this.length;
-        let work = new Array(...this.storage);
+        let work = new Array(...this.$storage);
         let retval = work.splice(start, deleteCount, ...args);
-        this.storage = [];
+        this.$storage = [];
         work.map(item => this.push(item));
         if (this.length < previousLength) {
             for (let i = this.length; i < previousLength; i++) {
@@ -179,17 +179,17 @@ export default class Collection {
      * @return integer The index of the item, or -1.
      */
     indexOf(item) {
-        return this.storage.indexOf(item);
+        return this.$storage.indexOf(item);
     }
 
     /**
      * Interface to `Array.map`.
      *
      * @param mixed arg, ... Whatever you need to pass to `Array.map`.
-     * @return array The value of `this.storage` after applying `map`.
+     * @return array The value of `this.$storage` after applying `map`.
      */
     map(...args) {
-        return this.storage.map(...args);
+        return this.$storage.map(...args);
     }
 
     /**
@@ -199,8 +199,8 @@ export default class Collection {
      *  otherwise false.
      */
     get $dirty() {
-        for (let i = 0; i < this.storage.length; i++) {
-            if (this.storage[i].$new || this.storage[i].$dirty) {
+        for (let i = 0; i < this.$storage.length; i++) {
+            if (this.$storage[i].$new || this.$storage[i].$dirty) {
                 return true;
             }
         }
