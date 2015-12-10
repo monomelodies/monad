@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.5\n"
+"X-Generator: Poedit 1.8.6\n"
 "X-Poedit-KeywordsList: gettext\n"
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -19,16 +19,20 @@ msgid "Create"
 msgstr "Aanmaken"
 
 #: src/directives/update/template.html:3
-msgid "Create new item in {{ update.component.name }}"
-msgstr "Item toevoegen in {{ update.component.name }}"
+msgid "Create new item in <code>{{ update.component.name }}</code>"
+msgstr "Voeg item toe in <code>{{ update.component.name }}</code>"
 
 #: src/directives/list/table/delete.html:1
 msgid "Delete"
 msgstr "Verwijderen"
 
 #: src/directives/update/template.html:4
-msgid "Edit item in {{ update.component.name }}"
-msgstr "Wijzig item in {{ update.component.name }}"
+msgid ""
+"Edit <q>{{ update.item.$title }}</q> in <code>{{ update.component.name }}</"
+"code>"
+msgstr ""
+"Wijzig <q>{{ update.item.$title }}</q> in <code>{{ update.component.name }}</"
+"code>"
 
 #: src/templates/login.html:20
 msgid "Go!"
@@ -56,7 +60,7 @@ msgstr "Licentie"
 msgid "List of items in {{ header.component.name }}"
 msgstr "Lijst van items in {{ header.component.name }}"
 
-#: index.html:75
+#: index.html:77
 msgid "Logout"
 msgstr "Uitloggen"
 
@@ -76,7 +80,7 @@ msgstr "Wachtwoord"
 msgid "Please login"
 msgstr "Inloggen a.u.b."
 
-#: src/directives/update/template.html:11
+#: src/directives/update/template.html:12
 msgid "Save changes"
 msgstr "Opslaan"
 
@@ -99,12 +103,3 @@ msgstr "Gebruikersnaam"
 #: src/templates/home.html:9
 msgid "Welcome!"
 msgstr "Welkom!"
-
-#~ msgid "Create new item in {{ module.name }}"
-#~ msgstr "Nieuw item in {{ module.name }}"
-
-#~ msgid "Edit item in {{ module.name }}"
-#~ msgstr "Wijzig item in {{ module.name }}"
-
-#~ msgid "List of items in {{ module.name }}"
-#~ msgstr "Lijst met items in {{ module.name }}"
