@@ -180,7 +180,10 @@ export default class Model {
         // If any field in $data is an actual string _and_ its length is shorter
         // than 255 chars (reasonable maximum...) use that:
         for (let prop in this.$data) {
-            if (this.$data[prop] instanceof String && this.$data[prop].length <= 255) {
+            if (this.$data[prop] instanceof String
+                && this.$data[prop].length
+                && this.$data[prop].length <= 255
+            ) {
                 return this.$data[prop];
             }
         }
