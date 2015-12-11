@@ -26,7 +26,7 @@ export default class RootController {
      * @param object theme Injected Monad `theme` value.
      * @return void
      */
-    constructor($location, $routeParams, $rootScope, $modal, Authentication, Navigation, moLanguage, title, theme) {
+    constructor($location, $routeParams, $rootScope, $modal, Authentication, Navigation, moLanguage, title, theme, Report, liveReload) {
         loc = $location;
         auth = Authentication;
         nav = Navigation;
@@ -34,6 +34,8 @@ export default class RootController {
         Language = moLanguage;
         this.title = title;
         this.theme = theme;
+        this.messages = Report.messages;
+        this.liveReload = liveReload;
         Navigation.current();
         $rootScope.$on('$routeChangeStart', () => this.Authentication['status']().then(() => Navigation.clear()));
         $rootScope.$on('$routeChangeSuccess', (event, target) => {
@@ -118,5 +120,7 @@ export default class RootController {
 
 };
 
-RootController.$inject = ['$location', '$routeParams', '$rootScope', '$modal', 'Authentication', 'moNavigation', 'moLanguage', 'title', 'theme'];
+RootController.$inject = [
+    '$location', '$routeParams', '$rootScope', '$modal', 'Authentication', 'moNavigation', 'moLanguage', 'title', 'theme', 'moReport', 'liveReload'
+];
 
