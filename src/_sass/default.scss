@@ -190,4 +190,18 @@ button.fixed {
         height: auto;
         }
     }
+#tray {
+    position: fixed;
+    bottom: 34px;
+    right: 10px;
+    width: 300px;
+
+    ul {
+        list-style: none;
+
+        li.alert {
+            margin: 10px 0 0;
+            }
+        }
+    }
 
