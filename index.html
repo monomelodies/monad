@@ -87,6 +87,16 @@
             </nav>
         </footer>
 
+        <aside id="tray">
+            <ul>
+                <li ng-repeat="msg in monad.messages" mo-message
+                    body="msg.body"
+                    scope="msg.scope"
+                    class="alert"
+                    ng-class="['alert-' + (msg.type || 'warning')]"></li>
+            </ul>
+        </aside>
+
         <div id="modal" ng-if="monad.modal"></div>
         
         <script src="../monad/libraries.js"></script>
@@ -96,6 +106,7 @@
                 window.monad.bootstrap();
             });
         </script>
+        <script ng-if="monad.liveReload" ng-src="{{ monad.liveReload }}"></script>
     </body>
 </html>
 
