@@ -8,8 +8,8 @@ export default ['$compile', $compile => ({
     bindToController: true,
     scope: {data: '=scope', body: '='},
     link: (scope, elem, attrs) => {
-        elem.html(scope.msg.body).show();
-        $compile(elem.contents())(scope)
+        let html = angular.element(scope.msg.body);
+        elem.append($compile(html)(scope));
     }
 })];
 
