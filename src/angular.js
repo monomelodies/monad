@@ -8,6 +8,7 @@ import LoginController from './controllers/LoginController';
 import Navigation from './services/Navigation';
 import Authentication from './services/Authentication';
 import Language from './services/Language';
+import Report from './services/Report';
 import normalizePost from './helpers/post';
 import Directives from './directives/angular';
 
@@ -51,7 +52,9 @@ angular.module('monad.core', ['ng', 'ngRoute', 'gettext', 'ngSanitize', 'ngAnima
     .service('moNavigation', Navigation)
     .service('Authentication', Authentication)
     .service('moLanguage', Language)
+    .service('moReport', Report)
     .value('title', 'Default generic administrator')
+    .value('liveReload', undefined)
     .constant('languages', ['en', 'nl'])
     .value('theme', '../monad/default.css')
     ;
