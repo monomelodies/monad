@@ -62,7 +62,7 @@ export default class Report {
         let msg = {body, type, scope};
         let i = _messages.length;
         _messages.push(msg);
-        let handler = () => _messages.splice(i, 1);{
+        let handler = () => _messages.splice(i, 1);
         return promise.then(handler, handler);
     }
 
