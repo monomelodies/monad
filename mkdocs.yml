@@ -33,6 +33,7 @@ pages:
     - 'CRUD with multiple models': 'samples/multi.md'
     - 'Filtering lists': 'samples/filtering.md'
     - 'Notifications': 'samples/notifications.md'
+    - 'Messages': 'samples/messaging.md'
     - 'Integrating CKEditor': 'samples/ckeditor.md'
     - 'File uploads': 'samples/files.md'
     - 'Sub-authentication': 'samples/subauthentication.md'
