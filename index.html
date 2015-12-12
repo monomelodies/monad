@@ -89,11 +89,11 @@
 
         <aside id="tray">
             <ul>
-                <li ng-repeat="msg in monad.messages" mo-message
-                    body="msg.body"
-                    scope="msg.scope"
-                    class="alert"
-                    ng-class="['alert-' + (msg.type || 'warning')]"></li>
+                <li ng-repeat="msg in monad.messages">
+                    <uib-alert type="{{ msg.type }}">
+                        <mo-message data="msg"></mo-message>
+                    </uib-alert>
+                </li>
             </ul>
         </aside>
 
