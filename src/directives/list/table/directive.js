@@ -1,7 +1,7 @@
 
 class controller {
 
-    constructor($scope, $route, $transclude, $element) {
+    constructor($scope, $route, $transclude) {
         this.refresh = promise => promise.then(() => {
             $route.reset();
             this.list.page = this.list.page;
@@ -15,20 +15,16 @@ class controller {
         let hdrs = $transclude().find('th');
         if (hdrs.length) {
             this.columns = [];
-            hdrs.each((i, hdr) => {
-                this.columns.push(angular.element(hdr).attr('property'));
-            });
-            $element.find('thead tr').append(hdrs);
+            angular.forEach(hdrs, hdr => this.columns.push(angular.element(hdr).attr('property')));
+            this.header = hdrs.parent('tr');
         } else {
-            let h = $element.find('thead tr');
-            this.columns.map(col => {
-                h.append('<th>' + col + '</th>');
-            });
+            this.header = angular.element('<tr/>');
+            this.columns.map(col => this.header.append('<th>' + col + '</th>'));
         }
     }
 }
 
-controller.$inject = ['$scope', '$route', '$transclude', '$element'];
+controller.$inject = ['$scope', '$route', '$transclude'];
 
 export default () => {
     return {
@@ -38,11 +34,12 @@ export default () => {
         scope: {rows: '=', templates: '='},
         controller,
         controllerAs: 'tbody',
+        bindToController: true,
+        transclude: true,
         link: (scope, elem, attrs, ctrl) => {
             scope.tbody.component = ctrl.component;
-        },
-        bindToController: true,
-        transclude: true
+            elem.find('thead').append(scope.tbody.header);
+        }
     };
 };
 

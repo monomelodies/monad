@@ -12,38 +12,27 @@ export default () => {
     };
 };
 
+function prevent(event) {
+    if (event.preventDefault) {
+        event.preventDefault();
+    }
+    if (event.stopPropagation) {
+        event.stopPropagation();
+    }
+};
+
 function link($scope, elem, attrs) {
     elem.attr('draggable', 'true');
-    elem.attr('ondrop', '');
     elem.bind('dragstart', event => {
-        target = $scope.item;
-        if (event.originalEvent) {
-            event.originalEvent.dataTransfer.effectAllowed = 'move';
-            event.originalEvent.dataTransfer.setData('json/custom-object', $scope.item);
+        if (event.dataTransfer) {
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('json/custom-object', $scope.item);
         }
+        target = $scope.item;
     });
     elem.bind('dragenter', event => {
-        if (event.originalEvent && event.originalEvent.preventDefault) {
-            event.originalEvent.preventDefault();
-        }
+        prevent(event);
         elem.addClass('over');
-    });
-    elem.bind('dragover', event => {
-        if (event.originalEvent && event.originalEvent.preventDefault) {
-            event.originalEvent.preventDefault();
-        }
-        if (event.originalEvent) {
-            event.originalEvent.dataTransfer.dropEffect = 'move';
-        }
-        return false;
-    });
-    elem.bind('dragleave', event => {
-        elem.removeClass('over');
-    });
-    elem.bind('drop', event => {
-        if (event.originalEvent && event.originalEvent.stopPropagation) {
-            event.originalEvent.stopPropagation();
-        }
         if (target != $scope.item) {
             $scope.$apply(() => {
                 let idxsource = $scope.list.indexOf(target);
@@ -66,8 +55,23 @@ function link($scope, elem, attrs) {
         }
         return false;
     });
+    elem.bind('dragover', event => {
+        prevent(event);
+        return false;
+    });
+    elem.bind('dragleave', event => {
+        prevent(event);
+        elem.removeClass('over');
+        return false;
+    });
+    elem.bind('drop', event => {
+        prevent(event);
+        angular.element(elem.parent()[0].querySelectorAll('.over')).removeClass('over');
+        return false;
+    });
     elem.bind('dragend', event => {
-        elem.parent().find('.over').removeClass('over');
+        angular.element(elem.parent()[0].querySelectorAll('.over')).removeClass('over');
+        return false;
     });
 }
 

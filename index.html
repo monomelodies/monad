@@ -89,17 +89,16 @@
 
         <aside id="tray">
             <ul>
-                <li ng-repeat="msg in monad.messages" mo-message
-                    body="msg.body"
-                    scope="msg.scope"
-                    class="alert"
-                    ng-class="['alert-' + (msg.type || 'warning')]"></li>
+                <li ng-repeat="msg in monad.messages">
+                    <uib-alert type="{{ msg.type }}">
+                        <mo-message data="msg"></mo-message>
+                    </uib-alert>
+                </li>
             </ul>
         </aside>
 
         <div id="modal" ng-if="monad.modal"></div>
         
-        <script src="../monad/libraries.js"></script>
         <script src="bundle.js"></script>
         <script>
             angular.element(document).ready(function() {
