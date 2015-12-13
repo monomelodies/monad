@@ -1,9 +1,8 @@
 
 "use strict";
 
-import monad from '../monad';
+import monad from '../src/angular';
 import '../node_modules/angular-mocks/angular-mocks.js';
-import '../bower_components/angular-cookies/angular-cookies.js';
 
 angular.module('tests', ['monad.core'])
     .run(['$httpBackend', $httpBackend => {
@@ -14,5 +13,4 @@ angular.module('tests', ['monad.core'])
 
 beforeEach(angular.mock.module('TEMPLATES'));
 beforeEach(angular.mock.module('tests'));
-beforeEach(angular.mock.module('ngCookies'));
 
