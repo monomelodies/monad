@@ -1,5 +1,5 @@
 
-import monad from '../../src/angular';
+import monad from '../../monad';
 
 describe("class: Component", () => {
 
