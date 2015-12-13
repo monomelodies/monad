@@ -1,6 +1,9 @@
 
 "use strict";
 
+import '../node_modules/angular-mocks/angular-mocks.js';
+import '../bower_components/angular-cookies/angular-cookies.js';
+
 angular.module('tests', ['monad.core'])
     .run(['$httpBackend', $httpBackend => {
         $httpBackend.when('GET', '../monad/i18n/en.json').respond({});
