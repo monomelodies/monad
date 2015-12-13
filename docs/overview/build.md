@@ -5,15 +5,33 @@ to write your whole admin in ES5 if that's your "thang", but you'll need
 something like [Browserify](http://browserify.org/) to at least import Monad
 once.
 
-When you look at `index.html`, you'll notice that after the `libraries.js` file,
-it attempts to load a `bundle.js` from the current directory. This is where your
-custom admin code is loaded, so it's up to you to make sure that file exists.
+When you look at `index.html`, you'll notice that it attempts to load a
+`bundle.js` from the current directory. This is where your custom admin code is
+loaded, so it's up to you to make sure that file exists.
 
 The simplest way is of course to just write all your code in `./bundle.js` in
-your admin-or-wherever directory, which works as a poor man's solution. But
-since we need a transpiler in combination with Browserify anyway, you might as
-well take advantage of ES6 features (they're awesome!) and split stuff into
-multiple smaller files for maintainability.
+your admin-or-wherever directory, which works as a poor man's solution:
+
+```javascript
+# bundle.js
+
+document.write('<script src="/monad/monad.js"></' + 'script>');
+
+// The rest of your admin, Monad itself is registered on window.monad for
+// your convenience.
+```
+
+There's also a `monad.min.js` there which is minified (for production use).
+
+A better solution is to use Browserify, and you might as well add a transpiler
+so you too can take advantage of ES6 features (they're awesome!) and split stuff
+into multiple smaller files for maintainability. The `monad.js` file actually
+exports an ES6 module for you, so you can reference it directly in your own
+admin entry point instead:
+
+```javascript
+import monad from '/path/to/monad/dist/monad.js';
+```
 
 Monad itself uses the [Babel transpiler](https://babeljs.io/). There are
 alternatives, but all examples will assume Babel.
