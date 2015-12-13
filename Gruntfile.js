@@ -3,9 +3,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-angular-gettext');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-sass');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-newer');
     grunt.initConfig({
@@ -51,6 +49,11 @@ module.exports = function (grunt) {
                     {expand: true, src: '**/*.{html,json}', cwd: 'src/', dest: 'dist/'},
                     {expand: true, src: '**/*.png', cwd: 'assets/', dest: 'dist/'},
                     {expand: true, src: 'fonts/**/*', cwd: 'bower_components/bootstrap-sass/assets/', dest: 'dist'}
+                ]
+            },
+            polyfill: {
+                files: [
+                    {expand: true, src: 'polyfill.js', cwd: 'node_modules/babel-polyfill/dist/', dest: 'dist/'}
                 ]
             },
             license: {
