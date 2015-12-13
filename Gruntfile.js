@@ -2,10 +2,12 @@
 module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-angular-gettext');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-browserify');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-newer');
+    grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.initConfig({
         nggettext_extract: {
             pot: {
@@ -51,11 +53,6 @@ module.exports = function (grunt) {
                     {expand: true, src: 'fonts/**/*', cwd: 'bower_components/bootstrap-sass/assets/', dest: 'dist'}
                 ]
             },
-            polyfill: {
-                files: [
-                    {expand: true, src: 'polyfill.js', cwd: 'node_modules/babel-polyfill/dist/', dest: 'dist/'}
-                ]
-            },
             license: {
                 files: [
                     {
@@ -90,10 +87,26 @@ module.exports = function (grunt) {
                 files: ['LICENSE'],
                 tasks: ['newer:copy:license']
             }
+        },
+        browserify: {
+            monad: {
+                src: './src/angular.js',
+                dest: 'dist/monad.js',
+                options: {
+                    transform: ['babelify'],
+                    watch: true
+                }
+            }
+        },
+        uglify: {
+            monad: {
+                src: './dist/monad.js',
+                dest: './dist/monad.min.js'
+            }
         }
     });
     grunt.registerTask('default', ['clean:prepare', 'build']);
-    grunt.registerTask('build', ['gettext', 'sass', 'newer:copy']);
+    grunt.registerTask('build', ['gettext', 'sass', 'browserify', 'uglify', 'newer:copy']);
     grunt.registerTask('gettext', ['nggettext_extract', 'nggettext_compile']);
     grunt.registerTask('dev', ['clean:prepare', 'build', 'watch']);
 };
