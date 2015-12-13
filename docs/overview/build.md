@@ -5,11 +5,11 @@ to write your whole admin in ES5 if that's your "thang", but you'll need
 something like [Browserify](http://browserify.org/) to at least import Monad
 once.
 
-When you look at `index.html`, you'll notice that after the `libraries.js` file,
-it attempts to load a `bundle.js` from the current directory. This is where your
-custom admin code is loaded, so it's up to you to make sure that file exists.
+When you look at `index.html`, you'll notice that it attempts to load a
+`bundle.js` from the current directory. This is where your admin code is loaded,
+so it's up to you to make sure that file exists.
 
-The simplest way is of course to just write all your code in `./bundle.js` in
+The simplest way is of course to just write all your code in `bundle.js` in
 your admin-or-wherever directory, which works as a poor man's solution. But
 since we need a transpiler in combination with Browserify anyway, you might as
 well take advantage of ES6 features (they're awesome!) and split stuff into
@@ -70,7 +70,7 @@ module.exports = function (grunt) {
 ```
 
 Feel free to add stuff like `uglify`, sourcemaps etc. at will, as long as you
-eventually output to `/admin/bundle.js`.
+eventually output to `admin/bundle.js`.
 
 You'll probably also want to expose certain assets from your `./src` folder so
 Monad can access them (see the `copy` task above).
@@ -112,5 +112,5 @@ For exposing static assets, use something like `gulp-copy`.
 ## Other tools
 There's many other tools for building stuff; you're free to use one of your own
 liking or even cobble something custom together yourself. As long as the output
-goes to `./admin/bundle.js`, we're all fine with that.
+goes to `admin/bundle.js`, we're all fine with that.
 
