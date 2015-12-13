@@ -1,6 +1,7 @@
 
 "use strict";
 
+import monad from '../monad';
 import '../node_modules/angular-mocks/angular-mocks.js';
 import '../bower_components/angular-cookies/angular-cookies.js';
 
