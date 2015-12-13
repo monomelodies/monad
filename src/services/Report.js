@@ -36,7 +36,6 @@ export default class Report {
         let promise = $timeout(() => {}, 3000);
         let type = 'default';
         let scope = {};
-        console.log(args);
         args.map(arg => {
             if (arg === undefined) {
                 return;
