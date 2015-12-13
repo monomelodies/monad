@@ -24,8 +24,10 @@ function prevent(event) {
 function link($scope, elem, attrs) {
     elem.attr('draggable', 'true');
     elem.bind('dragstart', event => {
-        event.dataTransfer.effectAllowed = 'move';
-        event.dataTransfer.setData('json/custom-object', $scope.item);
+        if (event.dataTransfer) {
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('json/custom-object', $scope.item);
+        }
         target = $scope.item;
     });
     elem.bind('dragenter', event => {
