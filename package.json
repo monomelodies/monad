@@ -1,5 +1,5 @@
 {
-  "name": "monad",
+  "name": "monad-cms",
   "version": "1.4.0",
   "description": "Generic AngularJS-based CMS framework",
   "main": "monad.js",
@@ -12,12 +12,11 @@
     "angular-route": "~1.4.8",
     "angular-ui-bootstrap": "~0.14.3",
     "angular-sanitize": "~1.4.8",
-    "autofill-event": "~1.0.0",
+    "autofill-event": "0.0.1",
     "bootstrap-sass": "~3.3.6",
     "angular-cookies": "~1.4.8",
     "angular-gettext": "~2.1.2",
     "angular-animate": "~1.4.8",
-    "autofill-event": "0.0.1",
     "babel-polyfill": "^6.3.14"
   },
   "devDependencies": {
@@ -48,8 +47,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/monomelodies/monad.git"
+    "url": "git+https://github.com/monomelodies/monad.git"
   },
   "author": "Marijn Ophorst <marijn@monomelodies.nl>",
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/monomelodies/monad/issues"
+  },
+  "homepage": "https://github.com/monomelodies/monad#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }
