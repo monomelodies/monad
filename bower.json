@@ -3,7 +3,7 @@
   "authors": [
     "Marijn Ophorst <marijn@monomelodies.nl>"
   ],
-  "main": "./monad.js",
+  "main": "dist/monad.js",
   "license": "MIT",
   "private": false,
   "ignore": [
