@@ -93,7 +93,7 @@ server {
     # all your other stuff...
 
     location /monad/ {
-        root $BASE/bower_components/monad/dist;
+        root /path/to/project/bower_components/monad/dist;
     }
 }
 ```
