@@ -1,6 +1,6 @@
 {
   "name": "monad",
-  "version": "1.1.2",
+  "version": "1.3.2",
   "authors": [
     "Marijn Ophorst <marijn@monomelodies.nl>"
   ],
@@ -15,8 +15,7 @@
     "test",
     "tests"
   ],
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "angular": "~1.3.15",
     "angular-route": "~1.3.15",
     "angular-bootstrap": "~0.14.3",
