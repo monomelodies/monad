@@ -1,8 +1,8 @@
 
 "use strict";
 
-import monad from '../src/angular';
-import '../node_modules/angular-mocks/angular-mocks.js';
+import monad from '../monad';
+import 'angular-mocks/angular-mocks.js';
 
 angular.module('tests', ['monad.core'])
     .run(['$httpBackend', $httpBackend => {
