@@ -10,10 +10,10 @@ backend, communicating with your site via APIs.
 Full documentation: [http://monad.monomelodies.nl/docs/](http://monad.monomelodies.nl/docs/)
 
 ## Getting the code
-The quickest way is to use Monad's Bower package:
+The quickest way is to use Monad's NPM package:
 
 ```bash
-$ bower install --save monad
+$ npm install --save monad-cms
 ```
 
 Alternatively, [download the source from Github](https://github.com/monomelodies/monad/)
