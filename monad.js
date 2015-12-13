@@ -1,7 +1,7 @@
 
 "use strict";
 
-import './node_modules/babel-polyfill/dist/polyfill.js';
+import './dist/polyfill.js';
 import './bower_components/angular/angular.js';
 import './bower_components/angular-bootstrap/ui-bootstrap.js';
 import './bower_components/angular-bootstrap/ui-bootstrap-tpls.js';
