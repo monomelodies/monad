@@ -24,9 +24,9 @@ describe('directive: mo-drag-drop', () => {
         let divs = element.find('div');
         expect(divs.eq(2).text()).toBe('buzz 3 2');
 
-        divs.eq(0).trigger('dragstart');
-        divs.eq(1).trigger('dragenter');
-        divs.eq(1).trigger('drop');
+        divs.eq(0).triggerHandler('dragstart');
+        divs.eq(1).triggerHandler('dragenter');
+        divs.eq(1).triggerHandler('drop');
 
         expect(scope.items[0].id).toBe(2);
         expect(element.find('div').eq(1).text()).toBe('baz 1 1');
