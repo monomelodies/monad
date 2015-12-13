@@ -110,12 +110,10 @@ body {
     border-radius: 8px;
     }
 .over {
-    .thumbnail {
-        border-style: dotted;
-        opacity: .5;
-        }
+    opacity: 0;
     }
 [draggable] {
+    transition: all .5s ease;
     -moz-user-select: none;
     -khtml-user-select: none;
     -webkit-user-select: none;
