@@ -4,7 +4,7 @@ HTML content. Luckily, using Monad and Angular makes integrating something like
 CKEditor (which is a bit of an industry standard) relatively easy.
 
 ## Install the plugin
-Assuming you're using Bower (and if you're not, you really should):
+Assuming you're using Bower:
 
 ```bash
 $ bower install ckeditor angular-ckeditor --save
@@ -20,49 +20,32 @@ $ cd /my/public/dir
 $ ln -s /path/to/bower_components/ckeditor .
 ```
 
+Or, alternatively (and this is the preferred method if you can), set up your
+webserver with an alias.
+
 ## Prepend CKEditor to your bundle
-CKEditor needs to be included _before_ any of the other libraries. This requires
-a slight modification to our build script. In Gulp:
-
-```bash
-$ npm install gulp-add-src --save-dev
-```
+CKEditor needs to be included _before_ any of the other libraries. It also wants
+a `CKEDITOR_BASEPATH` global "constant" to be defined. CKEditor is notoriously
+picky here. Open your admin entry point and add it at the _top_:
 
 ```javascript
-// gulpfile.js
-// along with other dependencies:
-var addsrc = require('gulp-add-src');
+// This comes right at the beginning:
+window.CKEDITOR_BASEPATH = '/ckeditor/';
+// Next, import Monad itself which contains Angular etc.
+import monad from 'monad-cms/monad';
+// Then import CKEditor base. Technically, you could also import this _before_
+// Monad, but this way the two CKEditor calls are placed together. In any case,
+// import these _after_ the `BASEPATH` "constant" is defined.
+import '/path/to/bower_components/ckeditor/ckeditor.js';
+// Finally, the Angular bindings for CKEditor.
+import '/path/to/bower_components/angular-ckeditor/angular-ckeditor.js';
 
-gulp.task('someTask', function() {
-
-    gulp.src('/some/entry/point.js')
-        // [snip other operations]
-        pipe(addsrc.prepend(['/ckeditor/settings.js', '/path/to/ckeditor/ckeditor.js'])
-        pipe(concat('bundle.js'))
-        // output as normal
-        ;
-
-});
+// ...and then your normal admin code...
 ```
-What this does is prepend the CKEditor library _and_ a settings file to your
-bundled admin scripts.
 
-## Local CKEditor settings
-What should be in that settings file? Not much:
-
-```javascript
-window.CKEDITOR_BASEPATH = '/public/path/to/ckeditor/';
-```
-This _must_ be defined _before_ CKEditor loads for it to work.
-
-> CKEditor is notoriously picky about loading order; ideally you'd do something
-> like `document.head.insertNode('<script/>')`, but that won't work. Other
-> external plugins could suffer the same fate.
-
-If you use Browserify or the like you could probably also add CKEditor there,
-but since it's already minified and has no dependencies of its own simply
-dropping it in is usually faster and easier, and will work just as well. This is
-globally the same as manually adding a `<script>` tag to your `index.html`.
+> Browserify doesn't by default ignore the `bower_components` directory, and
+> will thus try to transpile CKEditor. Don't worry about it, effectively it'll
+> ignore it anyway since CKEditor is ES5 code.
 
 ## Registering the dependency
 In your call to `monad.application`, add the dependency on the `ckeditor`

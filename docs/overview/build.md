@@ -2,8 +2,8 @@
 Monad uses ES6-style modules, but of course most current browsers don't know
 what to make of those. This means you have to _transpile_ your code. You're free
 to write your whole admin in ES5 if that's your "thang", but you'll need
-something like [Browserify](http://browserify.org/) to at least import Monad
-once.
+something like [Browserify](http://browserify.org/) and a transpiler to at least
+import Monad once.
 
 When you look at `index.html`, you'll notice that it attempts to load a
 `bundle.js` from the current directory. This is where your admin code is loaded,
@@ -17,6 +17,25 @@ multiple smaller files for maintainability.
 
 Monad itself uses the [Babel transpiler](https://babeljs.io/). There are
 alternatives, but all examples will assume Babel.
+
+## Importing
+At the top of your admin's entry point, `import` the Monad core:
+
+```javascript
+import monad from 'monad-cms/monad';
+```
+
+This is equivalent to Node's `require()` call. It loads Monad and all libraries
+Monad itself depends on (like AngularJS).
+
+## Browserifying
+You can transpile your admin manually:
+
+```bash
+$ npm install --save-dev babelify
+$ browserify /path/to/entry/script.js -t babelify \
+    --outfile /path/to/admin/bundle.js
+```
 
 ## Grunt build script
 ```bash

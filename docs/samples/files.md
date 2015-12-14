@@ -4,7 +4,6 @@ framework. But, here is how _we_ would implement it in our admins. Let's assume
 all file uploads are made to a central point in your API. We'll call it
 `/api/file/` in these examples.
 
-## Using Angular
 This assumes the [angular-file-upload](https://github.com/danialfarid/angular-file-upload)
 plugin. Install it in your project (example in Bower) and add it as a
 dependency:
@@ -13,25 +12,20 @@ dependency:
 $ bower install --save-dev ng-file-upload
 ```
 
-If you're using Gulp and Browserify, add it to your `files` entry:
 ```javascript
-browserify([
-    './bower_components/ng-file-upload/ng-file-upload-all.js',
-    //...other dependencies...
-    './path/to/public/admin/foobar.js'
-]);
+// Admin entry point, after `import 'monad-cms/monad`:
+import '/path/to/bower_components/ng-file-upload/ng-file-upload-all.js';
 ```
-> If your build setup is different, modify accordingly. The important thing is
-> the custom Angular module needs to be included somewhere before
-> `angular.bootstrap` has kicked in. Adding it to your `bundle.js` is the
-> easiest way to accomplish that.
 
 Then add the module dependency to your Monad application:
 ```javascript
 monad.application('foobar', ['ngFileUpload']);
 ```
 
-### Option 1: write a custom controller
+There are alternative file upload modules out there; you can use whichever suits
+your needs best.
+
+## Option 1: write a custom controller
 In your `schema.html` or `list.html` (or wherever you need the upload option),
 add a link to `angular-file-upload`:
 
@@ -108,7 +102,7 @@ class CrudWithUploadController extends CrudController {
 };
 ```
 
-### Option 2: write a custom directive
+## Option 2: write a custom directive
 In larger projects, it's typical for file uploads to be in multiple places. You
 should write your own directive in that case:
 
@@ -152,6 +146,27 @@ monad.application('foobar')
 
 The `property` property will likely also vary, so you would extend your
 directive to take that from an attribute.
+
+## Option 3: registering a handler directly as a resolve
+Since parameters to `monad.update()` etc. are autoresolved on the current scope
+controller, you can also define them directly if you don't need access to that
+scope:
+
+```javascript
+monad.update('/some/path/:id/', {}, {
+    // ...other stuff you need to define like Managers etc.
+    uploader: ['Upload', Upload => {
+        return file => {
+            // Handle using Upload service.
+        };
+    }]
+});
+```
+
+```html
+<!-- schema.html -->
+<a href ngf-select="crud.uploader($file)">Upload something!</a>
+```
 
 ## In CKEditor
 > There are Angular modules that handle this in a pure Angular sense. To be
