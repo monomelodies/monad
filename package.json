@@ -45,6 +45,9 @@
     "vinyl-transform": "~1.0.0",
     "watchify": "~3.6.1"
   },
+  "browserify": {
+    "transform": [["babelify", { "presets": ["es2015"] }]]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/monomelodies/monad.git"
