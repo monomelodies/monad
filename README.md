@@ -25,20 +25,25 @@ $ git submodule add https://github.com/monomelodies/monad.git
 ```
 
 ### Installing dependencies
-If you didn't install the Bower package, you'll need Bower to install the
-dependencies manually:
+If you didn't install the NPM package, you'll need to install the dependencies
+manually:
 
 ```bash
-$ cd /path/to/monad
-$ bower install
-```
-
-If you're going to hack on Monad itself, you'll want the Node packages too:
-
-```bash
-$ cd /path/to/monad
+$ cd /path/to/monad-cms
 $ npm install
 ```
+
+If you're going to hack on Monad itself, you'll want to clone the repo instead
+of installing via NPM.
+
+```bash
+$ git clone https://github.com/monomelodies/monad.git
+& cd monad
+$ npm install
+```
+
+> Note that the NPM package is called `monad-cms`, but the repo is simply named
+> `monad`. `monad` was already taken on NPM, that's why.
 
 Monad uses [Grunt](http://gruntjs.com/) for building, so in that case you'll
 want that too:
@@ -93,7 +98,7 @@ server {
     # all your other stuff...
 
     location /monad/ {
-        root /path/to/project/bower_components/monad/dist;
+        root /path/to/project/node_modules/monad-cms/dist;
     }
 }
 ```
