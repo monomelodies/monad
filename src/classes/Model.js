@@ -22,6 +22,9 @@ function map(month) {
     return mapper[month];
 };
 
+let wm = new WeakMap();
+let data = new WeakMap();
+
 /**
  * A data object with dirty checking and optional virtual members or other
  * additional logic. Implementors should generally extend this class, but this
@@ -37,15 +40,15 @@ export default class Model {
          * The "initial" state for this model. Used to check for pristineness.
          * This is automatically set when $load is called.
          */
-        this.$initial = undefined;
+        wm.set(this, {initial: undefined});
         /**
          * Internal data storage for this model.
          */
-        this.$data = {};
+        wm.set(this, {data: {}});
         /**
          * Set to true if the model is scheduled for deletion.
          */
-        this.$deleted = false;
+        wm.set(this, {deleted: false});
     }
 
     /**
@@ -61,7 +64,7 @@ export default class Model {
         derivedClass = derivedClass || Model;
         let instance = new derivedClass();
         instance.$load(data);
-        instance.$initial = undefined;
+        wm.set(instance, {initial: undefined});
         return instance;
     }
 
@@ -76,7 +79,7 @@ export default class Model {
             this.$addField(key);
             this[key] = data[key];
         }
-        this.$initial = angular.copy(this.$data);
+        wm.set(this, {initial: angular.copy(data)});
         return this;
     }
 
@@ -91,7 +94,7 @@ export default class Model {
         if (!this.hasOwnProperty(key)) {
             var props = {enumerable: true, configurable: true};
             props.get = () => {
-                return this.$data[key];
+                return data.get(this)[key];
             };
             props.set = value => {
                 if (value != undefined) {
@@ -108,7 +111,9 @@ export default class Model {
                         value = value - 0;
                     }
                 }
-                this.$data[key] = value;
+                let d = {};
+                d[key] = value;
+                data.set(this, d);
             };
             Object.defineProperty(this, key, props);
         }
@@ -120,7 +125,7 @@ export default class Model {
      * @return boolean True if new, false if existing.
      */
     get $new() {
-        return !this.$promise && this.$initial === undefined;
+        return wm.get(this).initial === undefined;
     }
 
     /**
@@ -129,26 +134,27 @@ export default class Model {
      * @return boolean True if dirty, false if pristine.
      */
     get $dirty() {
-        if (this.$deleted) {
+        if (wm.get(this).deleted) {
             return true;
         }
         for (let key in this) {
             if (key.substring(0, 1) == '$') {
                 continue;
             }
-            if (!(key in this.$data)) {
+            if (!(key in data.get(this))) {
                 let value = this[key];
                 delete this[key];
                 this.$addField(key, value);
             }
-            if (!(this.$initial && ('' + this.$data[key]) == ('' + this.$initial[key]))) {
-                if (this.$data[key] !== null && this.$data[key] !== undefined && ('' + this.$data[key]).replace(/\s+/, '').length) {
+            var initial = wm.get(this).initial;
+            if (!(initial && ('' + this[key]) == ('' + initial[key]))) {
+                if (this[key] !== null && this[key] !== undefined && ('' + this[key]).replace(/\s+/, '').length) {
                     return true;
                 }
-            } else if (typeof this.$data[key] == 'object' && this.$data[key] != null) {
-                if ('map' in this.$data[key]) {
+            } else if (typeof this[key] == 'object' && this[key] != null) {
+                if ('map' in this[key]) {
                     let dirty = false;
-                    this.$data[key].map(elem => {
+                    this[key].map(elem => {
                         if (typeof elem == 'object' && elem.$dirty || elem.$deleted) {
                             dirty = true;
                         }
@@ -156,7 +162,7 @@ export default class Model {
                     if (dirty) {
                         return true;
                     }
-                } else if (this.$data[key].$dirty || this.$data[key].$deleted) {
+                } else if (this[key].$dirty || this[key].$deleted) {
                     return true;
                 }
             }
@@ -170,21 +176,25 @@ export default class Model {
      * @return string A guesstimated title.
      */
     get $title() {
+        let d = data.get(this);
         // First, the usual suspects:
-        if ('title' in this.$data) {
-            return this.$data.title;
+        if ('title' in d) {
+            return d;
         }
-        if ('name' in this.$data) {
-            return this.$data.name;
+        if ('name' in d) {
+            return d.name;
         }
-        // If any field in $data is an actual string _and_ its length is shorter
+        // If any field is an actual string _and_ its length is shorter
         // than 255 chars (reasonable maximum...) use that:
-        for (let prop in this.$data) {
-            if (this.$data[prop] instanceof String
-                && this.$data[prop].length
-                && this.$data[prop].length <= 255
+        for (let prop in this) {
+            if (prop.substring(0, 1) == '$') {
+                continue;
+            }
+            if (this[prop] instanceof String
+                && this[prop].length
+                && this[prop].length <= 255
             ) {
-                return this.$data[prop];
+                return this[prop];
             }
         }
         return '[Untitled]';
