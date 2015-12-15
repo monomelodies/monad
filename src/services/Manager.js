@@ -4,14 +4,32 @@
 import Model from '../classes/Model';
 import Collection from '../classes/Collection';
 
+let isDateTime = new RegExp(/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/);
+let isDate = new RegExp(/^(\d{4})-(\d{2})-(\d{2})/);
 let http = undefined;
 let cache = undefined;
 
-function appendTransform(transform) {
-    let defaults = http.defaults.transformResponse;
-    defaults = angular.isArray(defaults) ? defaults : [defaults];
-    return defaults.concat(transform);
-};
+function normalize(obj) {
+    for (let prop in obj) {
+        let value = obj[prop];
+        if (value != undefined) {
+            let checkDate = isDateTime.exec(value);
+            if (!checkDate) {
+                checkDate = isDate.exec(value);
+            }
+            if (checkDate) {
+                checkDate.shift();
+                // Javascript months are offset by 0 for reasons only Brendan Eich knows...
+                checkDate[1]--;
+                value = new Date(...checkDate);
+            } else if ((value - 0) == value && ('' + value).trim().length > 0) {
+                value = value - 0;
+            }
+        }
+        obj[prop] = value;
+    }
+    return obj;
+}
 
 /**
  * Default base Manager to extend upon.
@@ -79,14 +97,9 @@ export default class Manager {
      */
     list(url) {
         let collection = new this.constructor.Collection;
-        collection.$promise = http({
-            url,
-            method: 'GET',
-            transformResponse: appendTransform(values => {
-                values.map(value => collection.push((new this.constructor.Model()).$load(value)));
-                return collection;
-            }),
-            cache
+        collection.$promise = http.get(url, cache).then(result => {
+            result.data.map(value => collection.push((new this.constructor.Model()).$load(normalize(value))));
+            return collection;
         });
         return collection;
     }
@@ -99,11 +112,8 @@ export default class Manager {
      */
     find(url) {
         let model = new this.constructor.Model;
-        model.$promise = http({
-            url,
-            method: 'GET',
-            transformResponse: appendTransform(item => model.$load(item)),
-            cache
+        model.$promise = http.get(url, cache).then(result => {
+            return model.$load(normalize(result.data));
         });
         return model;
     }
@@ -120,8 +130,7 @@ export default class Manager {
             return this.create(model).then(result => model.$load(result.data));
         } else if (model.$deleted) {
             return this['delete'](model).then(() => {
-                model.$data = {};
-                model.$initial = undefined;
+                model.$load(undefined);
             });
         } else if (model.$dirty) {
             return this.update(model).then(result => model.$load(result.data));
