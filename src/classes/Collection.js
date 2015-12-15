@@ -161,7 +161,6 @@ export default class Collection {
      * @return array Array of spliced items.
      */
     splice(start, deleteCount, ...args) {
-        args = args.map(arg => this.defaults(arg));
         let previousLength = this.length;
         let work = new Array(...wm.get(this));
         let retval = work.splice(start, deleteCount, ...args);
