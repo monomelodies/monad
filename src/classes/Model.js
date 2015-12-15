@@ -68,48 +68,16 @@ export default class Model {
      * @return self
      */
     $load(data = {}) {
-        for (let key in data) {
-            this[key] = data[key];
+        if (data == undefined) {
+            wm.set(this, {initial: undefined, deleted: true});
+        } else {
+            for (let key in data) {
+                this[key] = data[key];
+            }
+            wm.set(this, {initial: angular.copy(data), deleted: false});
         }
-        wm.set(this, {initial: angular.copy(data), deleted: false});
         return this;
     }
-
-    /**
-     * Method to add a field called key, but only if it doesn't exist
-     * natively on the model.
-     *
-     * @param string key The keyname (property).
-     * @return void
-    $addField(key) {
-        if (!this.hasOwnProperty(key)) {
-            var props = {enumerable: true, configurable: true};
-            props.get = () => {
-                return data.get(this)[key];
-            };
-            props.set = value => {
-                if (value != undefined) {
-                    let checkDate = isDateTime.exec(value);
-                    if (!checkDate) {
-                        checkDate = isDate.exec(value);
-                    }
-                    if (checkDate) {
-                        checkDate.shift();
-                        // Javascript months are offset by 0 for reasons only Brendan Eich knows...
-                        checkDate[1]--;
-                        value = new Date(...checkDate);
-                    } else if ((value - 0) == value && ('' + value).trim().length > 0) {
-                        value = value - 0;
-                    }
-                }
-                let d = {};
-                d[key] = value;
-                data.set(this, d);
-            };
-            Object.defineProperty(this, key, props);
-        }
-    }
-     */
 
     /**
      * Virtual property to check if this model is "new".
@@ -140,7 +108,6 @@ export default class Model {
             if (initial === undefined && this[key] !== undefined) {
                 return true;
             }
-            console.log('compare', key, initial, this);
             if (('' + this[key]).trim() != ('' + initial[key]).trim() && typeof this[key] != 'object') {
                 return true;
             }
