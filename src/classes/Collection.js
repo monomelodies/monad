@@ -3,6 +3,8 @@
 
 import Model from './Model';
 
+let wm = new WeakMap();
+
 /**
  * Private method to do a simple check on the nature of an object.
  */
@@ -48,7 +50,7 @@ export default class Collection {
         /**
          * Internal storage.
          */
-        this.$storage = [];
+        wm.set(this, []);
     }
 
     /**
@@ -68,12 +70,13 @@ export default class Collection {
      * @return integer The new length of the Collection.
      */
     push(...args) {
-        let idx = this.$storage.length;
+        let idx = wm.get(this).length;
         args = args.map(arg => this.defaults(arg));
         args = args.map(arg => isModel(arg) ? arg : Model.$create(arg, this.constructor.Model));
-        this.$storage.push(...args);
-        for (let i = idx; i < this.$storage.length; i++) {
-            Object.defineProperty(this, i, {get: () => this.$storage[i] || undefined, configurable: true});
+        let storage = wm.get(this);
+        storage.push(...args);
+        for (let i = idx; i < wm.get(this).length; i++) {
+            Object.defineProperty(this, i, {get: () => wm.get(this)[i] || undefined, configurable: true});
         }
         return this.length;
     }
@@ -84,9 +87,9 @@ export default class Collection {
      * @return mixed The shifted element.
      */
     shift() {
-        let shifted = this.$storage(shift);
+        let shifted = wm.get(this).shift();
         if (shifted !== undefined) {
-            delete this[this.$storage.length];
+            delete this[wm.get(this)];
         }
         return shifted;
     }
@@ -100,9 +103,9 @@ export default class Collection {
     unshift(...args) {
         args = args.map(arg => this.defaults(arg));
         args = args.map(arg => isModel(arg) ? arg : Model.$create(arg, this.constructor.Model));
-        let work = new Array(this.$storage);
+        let work = new Array(wm.get(this));
         work.unshift(...args);
-        this.$storage = [];
+        wm.set(this, []);
         work.map(item => this.push(item));
         return this.length;
     }
@@ -113,9 +116,9 @@ export default class Collection {
      * @return mixed The popped element.
      */
     pop() {
-        let popped = this.$storage.pop();
+        let popped = wm.get(this).pop();
         if (popped !== undefined) {
-            delete this[this.$storage.length];
+            delete this[wm.get(this).length];
         }
         return popped;
     }
@@ -126,7 +129,7 @@ export default class Collection {
      * @return integer The current length of the Collection.
      */
     get length() {
-        return this.$storage.length;
+        return wm.get(this).length;
     }
 
     /**
@@ -135,7 +138,7 @@ export default class Collection {
      * @return void
      */
     reverse() {
-        this.$storage.reverse();
+        wm.get(this, wm.get(this).reverse());
     }
 
     /**
@@ -145,7 +148,7 @@ export default class Collection {
      * @return self
      */
     sort(...args) {
-        this.$storage.sort(...args);
+        wm.set(this, wm.get(this).sort(...args));
         return this;
     }
 
@@ -160,9 +163,9 @@ export default class Collection {
     splice(start, deleteCount, ...args) {
         args = args.map(arg => this.defaults(arg));
         let previousLength = this.length;
-        let work = new Array(...this.$storage);
+        let work = new Array(...wm.get(this));
         let retval = work.splice(start, deleteCount, ...args);
-        this.$storage = [];
+        wm.get(this, []);
         work.map(item => this.push(item));
         if (this.length < previousLength) {
             for (let i = this.length; i < previousLength; i++) {
@@ -179,17 +182,17 @@ export default class Collection {
      * @return integer The index of the item, or -1.
      */
     indexOf(item) {
-        return this.$storage.indexOf(item);
+        return wm.get(this).indexOf(item);
     }
 
     /**
      * Interface to `Array.map`.
      *
      * @param mixed arg, ... Whatever you need to pass to `Array.map`.
-     * @return array The value of `this.$storage` after applying `map`.
+     * @return array The value of the internal storage after applying `map`.
      */
     map(...args) {
-        return this.$storage.map(...args);
+        return wm.get(this).map(...args);
     }
 
     /**
@@ -199,8 +202,8 @@ export default class Collection {
      *  otherwise false.
      */
     get $dirty() {
-        for (let i = 0; i < this.$storage.length; i++) {
-            if (this.$storage[i].$new || this.$storage[i].$dirty) {
+        for (let i = 0; i < wm.get(this).length; i++) {
+            if (this[i].$new || this[i].$dirty) {
                 return true;
             }
         }
