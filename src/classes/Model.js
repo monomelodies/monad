@@ -1,6 +1,8 @@
 
 "use strict";
 
+import Collection from './Collection';
+
 let isDateTime = new RegExp(/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/);
 let isDate = new RegExp(/^(\d{4})-(\d{2})-(\d{2})/);
 let mapper = {
@@ -23,7 +25,6 @@ function map(month) {
 };
 
 let wm = new WeakMap();
-let data = new WeakMap();
 
 /**
  * A data object with dirty checking and optional virtual members or other
@@ -40,15 +41,7 @@ export default class Model {
          * The "initial" state for this model. Used to check for pristineness.
          * This is automatically set when $load is called.
          */
-        wm.set(this, {initial: undefined});
-        /**
-         * Internal data storage for this model.
-         */
-        wm.set(this, {data: {}});
-        /**
-         * Set to true if the model is scheduled for deletion.
-         */
-        wm.set(this, {deleted: false});
+        wm.set(this, {initial: undefined, deleted: false});
     }
 
     /**
@@ -64,7 +57,7 @@ export default class Model {
         derivedClass = derivedClass || Model;
         let instance = new derivedClass();
         instance.$load(data);
-        wm.set(instance, {initial: undefined});
+        wm.set(instance, {initial: undefined, deleted: false});
         return instance;
     }
 
@@ -76,10 +69,9 @@ export default class Model {
      */
     $load(data = {}) {
         for (let key in data) {
-            this.$addField(key);
             this[key] = data[key];
         }
-        wm.set(this, {initial: angular.copy(data)});
+        wm.set(this, {initial: angular.copy(data), deleted: false});
         return this;
     }
 
@@ -89,7 +81,6 @@ export default class Model {
      *
      * @param string key The keyname (property).
      * @return void
-     */
     $addField(key) {
         if (!this.hasOwnProperty(key)) {
             var props = {enumerable: true, configurable: true};
@@ -118,6 +109,7 @@ export default class Model {
             Object.defineProperty(this, key, props);
         }
     }
+     */
 
     /**
      * Virtual property to check if this model is "new".
@@ -137,22 +129,26 @@ export default class Model {
         if (wm.get(this).deleted) {
             return true;
         }
+        let initial = wm.get(this).initial;
         for (let key in this) {
             if (key.substring(0, 1) == '$') {
                 continue;
             }
-            if (!(key in data.get(this))) {
-                let value = this[key];
-                delete this[key];
-                this.$addField(key, value);
+            if (this[key] === undefined && initial === undefined) {
+                continue;
             }
-            var initial = wm.get(this).initial;
-            if (!(initial && ('' + this[key]) == ('' + initial[key]))) {
-                if (this[key] !== null && this[key] !== undefined && ('' + this[key]).replace(/\s+/, '').length) {
-                    return true;
-                }
-            } else if (typeof this[key] == 'object' && this[key] != null) {
-                if ('map' in this[key]) {
+            if (initial === undefined && this[key] !== undefined) {
+                return true;
+            }
+            console.log('compare', key, initial, this);
+            if (('' + this[key]).trim() != ('' + initial[key]).trim() && typeof this[key] != 'object') {
+                return true;
+            }
+            if (!this[key] && initial[key] || this[key] && !initial[key]) {
+                return true;
+            }
+            if (typeof this[key] == 'object') {
+                if (this[key] instanceof Collection) {
                     let dirty = false;
                     this[key].map(elem => {
                         if (typeof elem == 'object' && elem.$dirty || elem.$deleted) {
@@ -162,7 +158,7 @@ export default class Model {
                     if (dirty) {
                         return true;
                     }
-                } else if (this[key].$dirty || this[key].$deleted) {
+                } else if (this[key] instanceof Model && this[key].$dirty) {
                     return true;
                 }
             }
@@ -176,13 +172,12 @@ export default class Model {
      * @return string A guesstimated title.
      */
     get $title() {
-        let d = data.get(this);
         // First, the usual suspects:
-        if ('title' in d) {
-            return d;
+        if ('title' in this) {
+            return this.title;
         }
-        if ('name' in d) {
-            return d.name;
+        if ('name' in this) {
+            return this.name;
         }
         // If any field is an actual string _and_ its length is shorter
         // than 255 chars (reasonable maximum...) use that:
