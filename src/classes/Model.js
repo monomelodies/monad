@@ -26,8 +26,16 @@ function map(month) {
 
 let wm = new WeakMap();
 
+/**
+ * Private helper to check if a field is actually set.
+ * Unset is defined as undefined or null, string with no length OR
+ * a string consisting only of <p></p> (for WYSIWTYG fields).
+ *
+ * @param mixed val The value to check.
+ * @return boolean True if the value is considered "empty", else false.
+ */
 function isset(val) {
-    return val !== undefined && val !== null;
+    return !!(val !== undefined && val !== null && ('' + val).trim().length && !('' + val).trim().match(/^<p>(\s|\n|&nbsp;)*<\/p>$/));
 }
 
 /**
@@ -106,10 +114,13 @@ export default class Model {
             if (key.substring(0, 1) == '$') {
                 continue;
             }
-            if (!isset(this[key]) && !isset(initial)) {
+            if (!isset(this[key]) && !isset(initial[key])) {
                 continue;
             }
             if (!isset(initial) && isset(this[key])) {
+                return true;
+            }
+            if (isset(initial[key]) && !isset(this[key])) {
                 return true;
             }
             if (('' + this[key]).trim() != ('' + initial[key]).trim() && typeof this[key] != 'object') {
