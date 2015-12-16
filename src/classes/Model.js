@@ -26,6 +26,10 @@ function map(month) {
 
 let wm = new WeakMap();
 
+function isset(val) {
+    return val !== undefined && val !== null;
+}
+
 /**
  * A data object with dirty checking and optional virtual members or other
  * additional logic. Implementors should generally extend this class, but this
@@ -85,7 +89,7 @@ export default class Model {
      * @return boolean True if new, false if existing.
      */
     get $new() {
-        return wm.get(this).initial === undefined;
+        return !isset(wm.get(this).initial);
     }
 
     /**
@@ -102,10 +106,10 @@ export default class Model {
             if (key.substring(0, 1) == '$') {
                 continue;
             }
-            if (this[key] === undefined && initial === undefined) {
+            if (!isset(this[key]) && !isset(initial)) {
                 continue;
             }
-            if (initial === undefined && this[key] !== undefined) {
+            if (!isset(initial) && isset(this[key])) {
                 return true;
             }
             if (('' + this[key]).trim() != ('' + initial[key]).trim() && typeof this[key] != 'object') {
