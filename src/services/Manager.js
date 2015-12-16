@@ -9,6 +9,16 @@ let isDate = new RegExp(/^(\d{4})-(\d{2})-(\d{2})/);
 let http = undefined;
 let cache = undefined;
 
+/**
+ * Internal helper method to normalize data for Angular:
+ * - dates are actual Date objects
+ * - numbers are actual Number objects
+ *
+ * @param object obj An object to normalize.
+ * @return object Then normalized object.
+ * @todo Make this more generic and recursize? We might want to be able to
+ *  also inject it into Socket handlers for instance.
+ */
 function normalize(obj) {
     for (let prop in obj) {
         let value = obj[prop];
