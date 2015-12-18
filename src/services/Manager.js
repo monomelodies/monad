@@ -137,21 +137,21 @@ export default class Manager {
      */
     save(model) {
         if (model.$new) {
-            return this.create(model).then(result => model.$load(result.data));
+            return this.create(model).then(result => model.$load(normalize(result.data)));
         } else if (model.$deleted) {
             return this['delete'](model).then(() => {
                 model.$load(undefined);
             });
         } else if (model.$dirty) {
-            return this.update(model).then(result => model.$load(result.data));
+            return this.update(model).then(result => model.$load(normalize(result.data)));
         }
         return {};
     }
 
     /**
-     * API interface. These should be overridden by a custom implementation,
-     * since we have no way to guesstimate how your API works. Hence, these
-     * throw an error as a friendly reminder :)
+     * API interface. This should be overridden by a custom implementation,
+     * since we have no way to guesstimate how your API works. Hence, this
+     * throws an error as a friendly reminder :)
      *
      * The actual implementations should return promises.
      *
@@ -162,9 +162,9 @@ export default class Manager {
     }
 
     /**
-     * API interface. These should be overridden by a custom implementation,
-     * since we have no way to guesstimate how your API works. Hence, these
-     * throw an error as a friendly reminder :)
+     * API interface. This should be overridden by a custom implementation,
+     * since we have no way to guesstimate how your API works. Hence, this
+     * throws an error as a friendly reminder :)
      *
      * The actual implementations should return promises.
      *
@@ -175,9 +175,9 @@ export default class Manager {
     }
 
     /**
-     * API interface. These should be overridden by a custom implementation,
-     * since we have no way to guesstimate how your API works. Hence, these
-     * throw an error as a friendly reminder :)
+     * API interface. This should be overridden by a custom implementation,
+     * since we have no way to guesstimate how your API works. Hence, this
+     * throws an error as a friendly reminder :)
      *
      * The actual implementations should return promises.
      *
