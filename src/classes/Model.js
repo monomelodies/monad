@@ -25,6 +25,7 @@ function map(month) {
 };
 
 let wm = new WeakMap();
+let promise = new WeakMap();
 
 /**
  * Private helper to check if a field is actually set.
@@ -175,6 +176,14 @@ export default class Model {
             }
         }
         return '[Untitled]';
+    }
+
+    set $promise(p) {
+        promise.set(this, p);
+    }
+
+    get $promise() {
+        return promise.get(this);
     }
 
 };
