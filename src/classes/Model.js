@@ -110,24 +110,18 @@ export default class Model {
         if (wm.get(this).deleted) {
             return true;
         }
-        let initial = wm.get(this).initial;
+        let initial = wm.get(this).initial || {};
         for (let key in this) {
             if (key.substring(0, 1) == '$') {
                 continue;
             }
-            if (!isset(this[key]) && !(isset(initial) && isset(initial[key]))) {
+            if (!isset(this[key]) && !isset(initial[key])) {
                 continue;
             }
-            if (!isset(initial) && isset(this[key])) {
-                return true;
-            }
-            if (isset(initial[key]) && !isset(this[key])) {
+            if ((!isset(this[key]) && isset(initial[key])) || (isset(this[key]) && !isset(initial[key]))) {
                 return true;
             }
             if (('' + this[key]).trim() != ('' + initial[key]).trim() && typeof this[key] != 'object') {
-                return true;
-            }
-            if (!this[key] && initial[key] || this[key] && !initial[key]) {
                 return true;
             }
             if (typeof this[key] == 'object') {
