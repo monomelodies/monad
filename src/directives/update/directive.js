@@ -42,7 +42,7 @@ class controller {
             // so we need to manually build the properties
             // by analysing the transcluded schema.
             $timeout(() => {
-                let test = angular.element('#mo_update_form').html().match(/ng-model="crud\.item\.(.*?)"/g);
+                let test = angular.element(document.querySelector('#mo_update_form')).html().match(/ng-model="crud\.item\.(.*?)"/g);
                 let props = {};
                 if (test) {
                     for (let i = 0; i < test.length; i++) {
