@@ -115,7 +115,7 @@ export default class Model {
             if (key.substring(0, 1) == '$') {
                 continue;
             }
-            if (!isset(this[key]) && !isset(initial[key])) {
+            if (!isset(this[key]) && !(isset(initial) && isset(initial[key]))) {
                 continue;
             }
             if (!isset(initial) && isset(this[key])) {
