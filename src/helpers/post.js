@@ -11,11 +11,11 @@ export default $http => {
     // values (null or undefined). We actually want those to be posted, but as
     // an empty value, so lines 35 to 37 handle that.
     function param(obj) {
-        var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
+        let query = '', name, value, fullSubName, subValue, innerObj;
         for (name in obj) {
             value = obj[name];
             if (value instanceof Array) {
-                for (i = 0; i < value.length; ++i) {
+                for (let i = 0; i < value.length; ++i) {
                     subValue = value[i];
                     fullSubName = name + '[' + i + ']';
                     innerObj = {};
@@ -25,7 +25,7 @@ export default $http => {
             } else if (value instanceof Date) {
                 query += encodeURIComponent(name) + '=' + encodeURIComponent(value.toString()) + '&';
             } else if (value instanceof Object) {
-                for (subName in value) {
+                for (let subName in value) {
                     subValue = value[subName];
                     fullSubName = name + '[' + subName + ']';
                     innerObj = {};
