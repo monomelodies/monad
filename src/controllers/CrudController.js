@@ -9,7 +9,9 @@ import Manager from '../services/Manager';
 let route = undefined;
 let modal = undefined;
 let loc = undefined;
-let Language = undefined;
+let q = undefined;
+let report = undefined;
+let gettextCatalog = undefined;
 
 /**
  * Default controller to provide CRUD operations on a Component model.
@@ -22,14 +24,18 @@ export default class CrudController {
      * @param object $route Angular $route service.
      * @param object $modal Bootstrap $modal service.
      * @param object $location Angular $location service.
-     * @param Language moLanguage Monad Language service.
+     * @param object $q Angular $q service.
+     * @param object gettextCatalog angular-gettext service.
+     * @param object moReport Monad report service.
      * @return void
      */
-    constructor($route, $modal, $location, moLanguage) {
+    constructor($route, $modal, $location, $q, gtc, moReport) {
         route = $route;
         modal = $modal;
         loc = $location;
-        Language = moLanguage;
+        q = $q;
+        gettextCatalog = gtc;
+        report = moReport;
 
         if ($route.current && $route.current.locals) {
             for (let p in $route.current.locals) {
@@ -46,13 +52,12 @@ export default class CrudController {
     }
 
     /**
-     * Save the current model object back to an API using its Manager. If the
-     * item is being created, redirect to the list if that exists.
+     * Save the current model object back to an API using its Manager.
      *
      * @return void
      */
     save() {
-        let redir = this.item.$new ? this.component.settings.list.url : undefined;
+        let promises = [];
         for (let model in this.$mapping) {
             if (!(this[this.$mapping[model]] && this[this.$mapping[model]] instanceof Manager)) {
                 continue;
@@ -63,17 +68,14 @@ export default class CrudController {
                     if (item.$deleted) {
                         remove.unshift(index);
                     }
-                    this[this.$mapping[model]].save(item);
+                    promises.push(this[this.$mapping[model]].save(item));
                 });
                 remove.map(index => this[model].splice(index, 1));
             } else if (this[model] instanceof Model) {
-                this[this.$mapping[model]].save(this[model]);
+                promises.push(this[this.$mapping[model]].save(this[model]));
             }
         }
-        if (redir) {
-            loc.path('/' + Language.current + redir);
-        }
-        route.reset();
+        report.add('primary', gettextCatalog.getString('Saving...'), q.all(promises).then(() => { route.reset(); }));
     }
 
     /**
@@ -121,5 +123,5 @@ export default class CrudController {
 
 };
 
-CrudController.$inject = ['$route', '$modal', '$location', 'moLanguage', 'Authentication'];
+CrudController.$inject = ['$route', '$uibModal', '$location', '$q', 'gettextCatalog', 'moReport'];
 
