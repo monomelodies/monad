@@ -1,24 +1,69 @@
 {
-  "name": "monad-cms",
-  "version": "1.4.3",
-  "description": "Generic AngularJS-based CMS framework",
-  "main": "monad.js",
-  "directories": {
-    "doc": "docs",
-    "test": "tests"
+  "_args": [
+    [
+      "monad-cms@1.4.3",
+      "/home/monomelodies/sites/projects/sensi/tltk"
+    ]
+  ],
+  "_from": "monad-cms@1.4.3",
+  "_id": "monad-cms@1.4.3",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/monad-cms",
+  "_nodeVersion": "4.2.3",
+  "_npmUser": {
+    "email": "marijn@monomelodies.nl",
+    "name": "monomelodies"
+  },
+  "_npmVersion": "3.5.1",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "monad-cms",
+    "raw": "monad-cms@1.4.3",
+    "rawSpec": "1.4.3",
+    "scope": null,
+    "spec": "1.4.3",
+    "type": "version"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_shasum": "d57957ccbf113728d793ed8e33166613d4aec43b",
+  "_shrinkwrap": null,
+  "_spec": "monad-cms@1.4.3",
+  "_where": "/home/monomelodies/sites/projects/sensi/tltk",
+  "author": {
+    "email": "marijn@monomelodies.nl",
+    "name": "Marijn Ophorst"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015"
+          ]
+        }
+      ]
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/monomelodies/monad/issues"
   },
   "dependencies": {
     "angular": "~1.4.8",
-    "angular-route": "~1.4.8",
-    "angular-ui-bootstrap": "~0.14.3",
-    "angular-sanitize": "~1.4.8",
-    "autofill-event": "0.0.1",
-    "bootstrap-sass": "~3.3.6",
+    "angular-animate": "~1.4.8",
     "angular-cookies": "~1.4.8",
     "angular-gettext": "~2.1.2",
-    "angular-animate": "~1.4.8",
-    "babel-polyfill": "^6.3.14"
+    "angular-route": "~1.4.8",
+    "angular-sanitize": "~1.4.8",
+    "angular-ui-bootstrap": "~0.14.3",
+    "autofill-event": "0.0.1",
+    "babel-polyfill": "^6.3.14",
+    "bootstrap-sass": "~3.3.6"
   },
+  "description": "Generic AngularJS-based CMS framework",
   "devDependencies": {
     "angular-mocks": "~1.4.8",
     "babel-core": "~6.3.17",
@@ -40,29 +85,33 @@
     "karma-ng-html2js-preprocessor": "~0.2.0",
     "karma-phantomjs-launcher": "~0.2.1"
   },
-  "browserify": {
-    "transform": [
-      [
-        "babelify",
-        {
-          "presets": [
-            "es2015"
-          ]
-        }
-      ]
-    ]
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
   },
+  "dist": {
+    "shasum": "d57957ccbf113728d793ed8e33166613d4aec43b",
+    "tarball": "http://registry.npmjs.org/monad-cms/-/monad-cms-1.4.3.tgz"
+  },
+  "gitHead": "ae4b185288cb08b951344d5bb77302faf7c74e3c",
+  "homepage": "https://github.com/monomelodies/monad#readme",
+  "license": "MIT",
+  "main": "monad.js",
+  "maintainers": [
+    {
+      "name": "monomelodies",
+      "email": "marijn@monomelodies.nl"
+    }
+  ],
+  "name": "monad-cms",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/monomelodies/monad.git"
   },
-  "author": "Marijn Ophorst <marijn@monomelodies.nl>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/monomelodies/monad/issues"
-  },
-  "homepage": "https://github.com/monomelodies/monad#readme",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  }
+  },
+  "version": "1.4.3"
 }
