@@ -2,27 +2,7 @@
 "use strict";
 
 import Collection from './Collection';
-
-let isDateTime = new RegExp(/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/);
-let isDate = new RegExp(/^(\d{4})-(\d{2})-(\d{2})/);
-let mapper = {
-    Jan: '01',
-    Feb: '02',
-    Mar: '03',
-    Apr: '04',
-    May: '05',
-    Jun: '06',
-    Jul: '07',
-    Aug: '08',
-    Sep: '09',
-    Oct: '10',
-    Nov: '11',
-    Dec: '12'
-};
-
-function map(month) {
-    return mapper[month];
-};
+import normalize from '../helpers/normalize';
 
 let wm = new WeakMap();
 let promise = new WeakMap();
@@ -49,12 +29,17 @@ export default class Model {
     /**
      * Class constructor.
      */
-    constructor() {
+    constructor(p = undefined) {
         /**
          * The "initial" state for this model. Used to check for pristineness.
          * This is automatically set when $load is called.
          */
         wm.set(this, {initial: undefined, deleted: false});
+        if (p) {
+            wm.set(this, {initial: true});
+            promise.set(this, p);
+            p.then(result => this.$load(result.data));
+        }
     }
 
     /**
@@ -78,18 +63,17 @@ export default class Model {
      * Load data into this model instance.
      *
      * @param object data Hash of key/value pairs of data.
-     * @return self
      */
     $load(data = {}) {
         if (data == undefined) {
             wm.set(this, {initial: undefined, deleted: true});
         } else {
+            data = normalize(data);
             for (let key in data) {
                 this[key] = data[key];
             }
             wm.set(this, {initial: angular.copy(data), deleted: false});
         }
-        return this;
     }
 
     /**
@@ -170,10 +154,6 @@ export default class Model {
             }
         }
         return '[Untitled]';
-    }
-
-    set $promise(p) {
-        promise.set(this, p);
     }
 
     get $promise() {
