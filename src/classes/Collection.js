@@ -4,6 +4,7 @@
 import Model from './Model';
 
 let wm = new WeakMap();
+let promise = new WeakMap();
 
 /**
  * Private method to do a simple check on the nature of an object.
@@ -46,11 +47,19 @@ export default class Collection {
     /**
      * Class constructor.
      */
-    constructor() {
+    constructor(p = undefined) {
         /**
          * Internal storage.
          */
         wm.set(this, []);
+        if (p) {
+            p.then(results => results.data.map(value => {
+                let model = new this.constructor.Model();
+                model.$load(value);
+                this.push(model);
+            }));
+            promise.set(this, p);
+        }
     }
 
     /**
@@ -207,6 +216,10 @@ export default class Collection {
             }
         }
         return false;
+    }
+
+    get $promise() {
+        return promise.get(this);
     }
 
 };
