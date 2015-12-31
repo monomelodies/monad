@@ -4,42 +4,8 @@
 import Model from '../classes/Model';
 import Collection from '../classes/Collection';
 
-let isDateTime = new RegExp(/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/);
-let isDate = new RegExp(/^(\d{4})-(\d{2})-(\d{2})/);
 let http = undefined;
 let cache = undefined;
-
-/**
- * Internal helper method to normalize data for Angular:
- * - dates are actual Date objects
- * - numbers are actual Number objects
- *
- * @param object obj An object to normalize.
- * @return object Then normalized object.
- * @todo Make this more generic and recursize? We might want to be able to
- *  also inject it into Socket handlers for instance.
- */
-function normalize(obj) {
-    for (let prop in obj) {
-        let value = obj[prop];
-        if (value != undefined) {
-            let checkDate = isDateTime.exec(value);
-            if (!checkDate) {
-                checkDate = isDate.exec(value);
-            }
-            if (checkDate) {
-                checkDate.shift();
-                // Javascript months are offset by 0 for reasons only Brendan Eich knows...
-                checkDate[1]--;
-                value = new Date(...checkDate);
-            } else if ((value - 0) == value && ('' + value).trim().length > 0) {
-                value = value - 0;
-            }
-        }
-        obj[prop] = value;
-    }
-    return obj;
-}
 
 /**
  * Default base Manager to extend upon.
@@ -106,12 +72,7 @@ export default class Manager {
      * @return Collection A collection of Models found.
      */
     list(url) {
-        let collection = new this.constructor.Collection;
-        collection.$promise = http.get(url, cache).then(result => {
-            result.data.map(value => collection.push((new this.constructor.Model()).$load(normalize(value))));
-            return collection;
-        });
-        return collection;
+        return new this.constructor.Collection(http.get(url, cache));
     }
 
     /**
@@ -121,11 +82,7 @@ export default class Manager {
      * @return Model A Model.
      */
     find(url) {
-        let model = new this.constructor.Model;
-        model.$promise = http.get(url, cache).then(result => {
-            return model.$load(normalize(result.data));
-        });
-        return model;
+        return new this.constructor.Model(http.get(url, cache));
     }
 
     /**
@@ -137,13 +94,13 @@ export default class Manager {
      */
     save(model) {
         if (model.$new) {
-            return this.create(model).then(result => model.$load(normalize(result.data)));
+            return this.create(model).then(result => model.$load(result.data));
         } else if (model.$deleted) {
             return this['delete'](model).then(() => {
                 model.$load(undefined);
             });
         } else if (model.$dirty) {
-            return this.update(model).then(result => model.$load(normalize(result.data)));
+            return this.update(model).then(result => model.$load(result.data));
         }
         return {};
     }
