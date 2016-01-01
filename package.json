@@ -45,7 +45,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "ssh://git@dev.sensimedia.nl/home/git/libraries/monad"
+    "url": "https://github.com/monomelodies/monad.git"
   },
   "keywords": [
     "angular",
