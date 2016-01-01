@@ -173,7 +173,7 @@ export default class Collection {
         let previousLength = this.length;
         let work = new Array(...wm.get(this));
         let retval = work.splice(start, deleteCount, ...args);
-        wm.get(this, []);
+        wm.set(this, []);
         work.map(item => this.push(item));
         if (this.length < previousLength) {
             for (let i = this.length; i < previousLength; i++) {
