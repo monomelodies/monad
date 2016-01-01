@@ -10,7 +10,6 @@ import Update from './update/directive';
 import DragDrop from './dragDrop';
 import List from './list';
 import Slug from './slug';
-import Label from './label';
 import Message from './message';
 
 angular.module('monad.directives', ['ng'])
@@ -23,7 +22,6 @@ angular.module('monad.directives', ['ng'])
     .directive('moUpdate', Update)
     .directive('moDragDrop', DragDrop)
     .directive('moSlug', Slug)
-    .directive('moMenuLabel', Label)
     .directive('moMessage', Message)
     ;
 
