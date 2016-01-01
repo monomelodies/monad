@@ -47,7 +47,6 @@ module.exports = function (grunt) {
             statics: {
                 files: [
                     {expand: true, src: '**/*.{html,json}', cwd: 'src/', dest: 'dist/'},
-                    {expand: true, src: '**/*.png', cwd: 'assets/', dest: 'dist/'},
                     {expand: true, src: 'fonts/**/*', cwd: 'node_modules/bootstrap-sass/assets/', dest: 'dist'}
                 ]
             },
@@ -78,7 +77,7 @@ module.exports = function (grunt) {
                 tasks: ['sass']
             },
             statics: {
-                files: ['src/**/*.{html,json}', 'assets/**/*.png', 'bower_components/bootstrap-sass/assets/fonts/**/*'],
+                files: ['src/**/*.{html,json}', 'bower_components/bootstrap-sass/assets/fonts/**/*'],
                 tasks: ['newer:copy:statics']
             },
             license: {
