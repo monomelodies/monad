@@ -53,7 +53,7 @@
                             </ul>
                             <a ng-if="!item.items" mo-path="{{ item.url }}" ng-click="monad.Navigation.select(item)">
                                 <small ng-if="item.manager.notify">{{ item.manager.notify }}</small>
-                                <mo-menu-label item="item"></mo-menu-label>
+                                <span ng-include="item.component + '/menu.html'">{{ item.component }}</span>
                             </a>
                         </li>
                     </ul>
