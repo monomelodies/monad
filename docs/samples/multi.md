@@ -87,3 +87,17 @@ The idea is that you simply return an empty Model (or Collection for that
 matter; in that case you would call `fill` instead of `$load`) and fill it with
 data as soon as the Promise resolves.
 
+## Setting defaults
+When collections are related to a "main" object, you'll need a way to persist
+certain defaults to the child objects. An example would be an admin page for a
+`User`, who has `Tweets` where each tweet obviously has a parameter like
+`owner`. `ng-init` to the rescue!
+
+To accomplish this, you would do something like the following for all tweets:
+
+```html
+<div ng-repeat="tweet in crud.tweets" ng-init="tweet.owner = crud.user.id">
+    ...other HTML for admining a tweet...
+</div>
+```
+
