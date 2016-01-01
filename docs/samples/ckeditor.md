@@ -4,10 +4,8 @@ HTML content. Luckily, using Monad and Angular makes integrating something like
 CKEditor (which is a bit of an industry standard) relatively easy.
 
 ## Install the plugin
-Assuming you're using Bower:
-
-```bash
-$ bower install ckeditor angular-ckeditor --save
+```sh
+$ npm install ckeditor angular-ckeditor --save-dev
 ```
 
 > There are other CKEditor plugins for angular; use the one you like best.
@@ -15,37 +13,50 @@ $ bower install ckeditor angular-ckeditor --save
 CKEditor needs to live in a public place so it can load images, styles, plugins
 etc.
 
-```bash
-$ cd /my/public/dir
+```sh
+$ cd /my/public/admin/dir
 $ ln -s /path/to/bower_components/ckeditor .
 ```
 
 Or, alternatively (and this is the preferred method if you can), set up your
-webserver with an alias.
+webserver with an alias. Note that CKEditor itself is installed using Bower, not
+NPM.
 
-## Prepend CKEditor to your bundle
+## Loading the Javascript for CKEditor
 CKEditor needs to be included _before_ any of the other libraries. It also wants
 a `CKEDITOR_BASEPATH` global "constant" to be defined. CKEditor is notoriously
-picky here. Open your admin entry point and add it at the _top_:
+picky here. The best way to handle this is to replace `index.html` in your admin
+folder with something dynamic and alter the HTML manually (or, if you're using
+an overwrite anyway, simply adapt it). This example is in PHP, but any server
+side language will do:
+
+```php
+<?php
+
+// Replace this with the correct path, obviously:
+$html = file_get_contents('/path/to/node_modules/monad-cms/index.html');
+echo str_replace(
+    '<script src="bundle.js"></script>',
+    <<<EOT
+<script>window.CKEDITOR_BASEPATH = '/ckeditor/'</script>
+<script src="/ckeditor/ckeditor.js"></script>
+<script src="bundle.js"></script>
+
+EOT
+    ,
+    $html
+);
+```
+
+You'll also need to change your entry point and import the Angular module for
+CKEditor:
 
 ```javascript
-// This comes right at the beginning:
-window.CKEDITOR_BASEPATH = '/ckeditor/';
-// Next, import Monad itself which contains Angular etc.
 import monad from 'monad-cms/monad';
-// Then import CKEditor base. Technically, you could also import this _before_
-// Monad, but this way the two CKEditor calls are placed together. In any case,
-// import these _after_ the `BASEPATH` "constant" is defined.
-import '/path/to/bower_components/ckeditor/ckeditor.js';
-// Finally, the Angular bindings for CKEditor.
-import '/path/to/bower_components/angular-ckeditor/angular-ckeditor.js';
+import 'angular-ckeditor/angular-ckeditor.js';
 
 // ...and then your normal admin code...
 ```
-
-> Browserify doesn't by default ignore the `bower_components` directory, and
-> will thus try to transpile CKEditor. Don't worry about it, effectively it'll
-> ignore it anyway since CKEditor is ES5 code.
 
 ## Registering the dependency
 In your call to `monad.application`, add the dependency on the `ckeditor`
