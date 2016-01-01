@@ -73,6 +73,13 @@ export default class Collection {
     }
 
     /**
+     * Adds a new entry to this collection of the specified type.
+     */
+    append() {
+        this.push(this.defaults(this.constructor.Model.$create({})));
+    }
+
+    /**
      * Interface to `Array.push`.
      *
      * @param mixed arg, ... Items to push onto the Collection.
