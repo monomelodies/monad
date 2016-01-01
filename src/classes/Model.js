@@ -160,5 +160,13 @@ export default class Model {
         return promise.get(this);
     }
 
+    get $deleted() {
+        return wm.get(this).deleted;
+    }
+
+    set $deleted(value) {
+        wm.get(this).deleted = value;
+    }
+
 };
 
