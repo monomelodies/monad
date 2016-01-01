@@ -52,5 +52,8 @@
     "cms"
   ],
   "author": "Marijn Ophorst <marijn@monomelodies.nl> (http://monomelodies.nl)",
-  "license": "MIT"
+  "license": "MIT",
+  "browserify": {
+    "transform": [["babelify", {"presets": ["es2015"]}]]
+  }
 }
