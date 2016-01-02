@@ -12,7 +12,7 @@ let defaults = {
 export default () => {
     return {
         restrict: 'E',
-        templateUrl: '../monad/directives/update/template.html',
+        templateUrl: '/monad/directives/update/template.html',
         transclude: true,
         scope: {
             save: '&onSave',
