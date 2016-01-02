@@ -52,8 +52,6 @@ export default class Language {
         }
         current = lang;
         catalog.setCurrentLanguage(current);
-        catalog.loadRemote('../monad/i18n/' + lang + '.json');
-        catalog.loadRemote('i18n/' + lang + '.json');
     }
 
     /**
