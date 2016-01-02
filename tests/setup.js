@@ -2,7 +2,7 @@
 "use strict";
 
 import monad from '../monad';
-import 'angular-mocks/angular-mocks.js';
+import 'angular-mocks';
 
 angular.module('tests', ['monad.core'])
     .run(['$httpBackend', $httpBackend => {
@@ -11,6 +11,5 @@ angular.module('tests', ['monad.core'])
     }])
     ;
 
-beforeEach(angular.mock.module('TEMPLATES'));
 beforeEach(angular.mock.module('tests'));
 
