@@ -30,7 +30,7 @@ export default () => {
     return {
         require: '^moList',
         restrict: 'E',
-        templateUrl: '../monad/directives/list/table/template.html',
+        templateUrl: '/monad/directives/list/table/template.html',
         scope: {rows: '=', templates: '='},
         controller,
         controllerAs: 'tbody',
