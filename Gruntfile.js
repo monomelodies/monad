@@ -6,6 +6,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-newer');
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-angular-templates');
+    grunt.loadNpmTasks('grunt-inline');
+    grunt.loadNpmTasks('node-spritesheet');
+
     grunt.initConfig({
         nggettext_extract: {
             pot: {
@@ -16,20 +20,7 @@ module.exports = function (grunt) {
         },
         nggettext_compile: {
             all: {
-                options: {
-                    module: 'monad',
-                    format: 'json'
-                },
-                files: [
-                    {
-                        expand: true,
-                        dot: true,
-                        cwd: "Locale",
-                        dest: 'dist/i18n',
-                        src: ['*.po'],
-                        ext: '.json'
-                    }
-                ]
+                files: {'i18n.js': ['Locale/*.po']}
             }
         },
         sass: {
@@ -60,6 +51,50 @@ module.exports = function (grunt) {
                 ]
             }
         },
+        ngtemplates: {
+            'monad.templates': {
+                options: {
+                    htmlmin: {
+                        collapseBooleanAttributes: true,
+                        collapseWhitespace: true,
+                        removeAttributeQuotes: true,
+                        removeComments: true,
+                        removeEmptyAttributes: true,
+                        removeRedundantAttributes: true,
+                        removeScriptTypeAttributes: true,
+                        removeStyleLinkTypeAttributes: true
+                    },
+                    standalone: true,
+                    prefix: '/monad/'
+                },
+                cwd: 'src',
+                src: ['**/*.html', '!index.html'],
+                dest: 'templates.js'
+            }
+        },
+        spritesheet: {
+            compile: {
+                options: {
+                    outputImage: 'i18n.png',
+                    outputCss: 'flags.css',
+                    selector: '.flag'
+                },
+                files: {'': 'assets/i18n/**/*.png'}
+            }
+        },
+        inline: {
+            index: {
+                src: 'src/index.html',
+                dest: 'index.html'
+            },
+            flags: {
+                options: {
+                    tag: ''
+                },
+                src: 'flags.css',
+                dest: 'src/_sass/_flags.scss'
+            }
+        },
         clean: {
             prepare: ['dist']
         },
@@ -83,11 +118,20 @@ module.exports = function (grunt) {
             license: {
                 files: ['LICENSE'],
                 tasks: ['newer:copy:license']
+            },
+            spritesheet: {
+                files: ['assets/i18n/**/*.png'],
+                tasks: ['spritesheet']
+            },
+            inline: {
+                files: ['src/index.html', 'flags.css', 'i18n.png'],
+                tasks: ['inline']
             }
         }
     });
+
     grunt.registerTask('default', ['clean:prepare', 'build']);
-    grunt.registerTask('build', ['gettext', 'sass', 'newer:copy']);
+    grunt.registerTask('build', ['gettext', 'sass', 'spritesheet', 'inline', 'newer:copy']);
     grunt.registerTask('gettext', ['nggettext_extract', 'nggettext_compile']);
     grunt.registerTask('dev', ['clean:prepare', 'build', 'watch']);
 };
