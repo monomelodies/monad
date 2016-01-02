@@ -21,12 +21,12 @@ function config($routeProvider, $locationProvider) {
         when('/:language/', {
             controller: HomeController,
             controllerAs: 'home',
-            templateUrl: '../monad/templates/home.html'
+            templateUrl: '/monad/templates/home.html'
         }).
         when('/:language/login/', {
             controller: LoginController,
             controllerAs: 'login',
-            templateUrl: '../monad/templates/login.html'
+            templateUrl: '/monad/templates/login.html'
         });
 };
 
@@ -45,7 +45,7 @@ function run(Language, languages, $http, $route, $cacheFactory) {
     };
 };
 
-angular.module('monad.core', ['ng', 'ngRoute', 'gettext', 'ngSanitize', 'ngAnimate', 'ui.bootstrap', Directives])
+angular.module('monad.core', ['ng', 'ngRoute', 'gettext', 'ngSanitize', 'ngAnimate', 'ui.bootstrap', Directives, 'monad.templates'])
     .config(['$routeProvider', '$locationProvider', config])
     .run(['moLanguage', 'languages', '$http', '$route', '$cacheFactory', run])
     .controller('moController', RootController)
