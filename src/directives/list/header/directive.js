@@ -3,7 +3,7 @@ export default () => {
     return {
         require: '^moList',
         restrict: 'E',
-        templateUrl: '../monad/directives/list/header/template.html',
+        templateUrl: '/monad/directives/list/header/template.html',
         scope: {},
         transclude: true,
         controller: ['$transclude', function($transclude) {
