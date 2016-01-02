@@ -18,7 +18,7 @@ export default class RootController {
      *
      * @param object $location Injected Angular $location service.
      * @param object $rootScope Injected Angular $rootScope.
-     * @param object $modal Injected Bootstrap $modal service.
+     * @param object $uibModal Injected Bootstrap $uibModal service.
      * @param object Authentication Injected global Authentication service.
      * @param object Navigation Injected Monad Navigation service.
      * @param object moLanguage Injected Monad Language service.
@@ -26,11 +26,11 @@ export default class RootController {
      * @param object theme Injected Monad `theme` value.
      * @return void
      */
-    constructor($location, $routeParams, $rootScope, $modal, Authentication, Navigation, moLanguage, title, theme, Report, liveReload) {
+    constructor($location, $routeParams, $rootScope, $uibModal, Authentication, Navigation, moLanguage, title, theme, Report, liveReload) {
         loc = $location;
         auth = Authentication;
         nav = Navigation;
-        modal = $modal;
+        modal = $uibModal;
         Language = moLanguage;
         this.title = title;
         this.theme = theme;
@@ -108,12 +108,9 @@ export default class RootController {
      */
     license() {
         let m = modal.open({
-            templateUrl: '../monad/templates/license.html',
-            controller: ['$scope', '$modalInstance', '$http', ($scope, $modalInstance, $http) => {
-                $http.get('../monad/LICENSE.txt').success(result => {
-                    $scope.paragraphs = result.split('\n\n');
-                });
-                $scope.ok = $modalInstance.close;
+            templateUrl: '/monad/templates/license.html',
+            controller: ['$scope', '$uibModalInstance', ($scope, $uibModalInstance) => {
+                $scope.ok = $uibModalInstance.close;
             }]
         });
     }
@@ -121,6 +118,6 @@ export default class RootController {
 };
 
 RootController.$inject = [
-    '$location', '$routeParams', '$rootScope', '$modal', 'Authentication', 'moNavigation', 'moLanguage', 'title', 'theme', 'moReport', 'liveReload'
+    '$location', '$routeParams', '$rootScope', '$uibModal', 'Authentication', 'moNavigation', 'moLanguage', 'title', 'theme', 'moReport', 'liveReload'
 ];
 
