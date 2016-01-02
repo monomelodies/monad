@@ -41,6 +41,8 @@ export default class RootController {
         $rootScope.$on('$routeChangeSuccess', (event, target) => {
             if (!('language' in $routeParams)) {
                 loc.path('/' + Language.current + '/');
+            } else if (!auth.check) {
+                auth.missing();
             }
         });
     }
