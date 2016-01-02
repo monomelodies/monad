@@ -1,5 +1,6 @@
 
 @import 'variables';
+@import 'flags';
 @import 'bootstrap';
 @import 'bootstrap/theme';
 
@@ -60,6 +61,14 @@ body {
     a {
         padding: 4px 15px;
         line-height: 16px;
+
+        .flag {
+            line-height: 11px;
+            margin: 3px 0 2px;
+            padding: 0;
+            display: block;
+            text-indent: -1000em;
+            }
         }
     .navbar-text {
         margin: 4px 15px;
