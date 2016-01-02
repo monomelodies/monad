@@ -23,40 +23,12 @@ module.exports = function (grunt) {
                 files: {'i18n.js': ['Locale/*.po']}
             }
         },
-        sass: {
-            dist: {
-                options: {
-                    style: 'compressed',
-                    compass: true,
-                    sourcemap: 'none',
-                    loadPath: ['node_modules/bootstrap-sass/assets/stylesheets']
-                },
-                files: {'dist/default.css': 'src/_sass/**/default.scss'}
-            }
-        },
-        copy: {
-            statics: {
-                files: [
-                    {expand: true, src: '**/*.{html,json}', cwd: 'src/', dest: 'dist/'},
-                    {expand: true, src: 'fonts/**/*', cwd: 'node_modules/bootstrap-sass/assets/', dest: 'dist'}
-                ]
-            },
-            license: {
-                files: [
-                    {
-                        cwd: './',
-                        src: ['LICENSE'],
-                        dest: 'dist/LICENSE.txt'
-                    }
-                ]
-            }
-        },
         ngtemplates: {
             'monad.templates': {
                 options: {
                     htmlmin: {
                         collapseBooleanAttributes: true,
-                        collapseWhitespace: true,
+                        collapseWhitespace: false,
                         removeAttributeQuotes: true,
                         removeComments: true,
                         removeEmptyAttributes: true,
