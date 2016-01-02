@@ -37,8 +37,10 @@ export default class LoginController {
      * @return void
      */
     attempt() {
-        service.attempt(...this.credentials).success(result => {
-            loc.path('/' + language.current + '/');
+        service.attempt(...this.credentials).then(result => {
+            if (service.check) {
+                loc.path('/' + language.current + '/');
+            }
         });
     }
 
