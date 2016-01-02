@@ -67,9 +67,6 @@ module.exports = function (grunt) {
                 dest: 'src/_sass/_flags.scss'
             }
         },
-        clean: {
-            prepare: ['dist']
-        },
         watch: {
             gettext_extract: {
                 files: ['src/**/*.{js,html}', 'index.html'],
@@ -78,18 +75,6 @@ module.exports = function (grunt) {
             gettext_compile: {
                 files: ['Locale/*.po'],
                 tasks: ['nggettext_compile']
-            },
-            sass: {
-                files: ['src/_sass/**/*.scss', 'bower_components/bootstrap-sass/assets/stylesheets/**/*.scss'],
-                tasks: ['sass']
-            },
-            statics: {
-                files: ['src/**/*.{html,json}', 'bower_components/bootstrap-sass/assets/fonts/**/*'],
-                tasks: ['newer:copy:statics']
-            },
-            license: {
-                files: ['LICENSE'],
-                tasks: ['newer:copy:license']
             },
             spritesheet: {
                 files: ['assets/i18n/**/*.png'],
@@ -102,9 +87,9 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('default', ['clean:prepare', 'build']);
-    grunt.registerTask('build', ['gettext', 'sass', 'spritesheet', 'inline', 'newer:copy']);
+    grunt.registerTask('default', ['build']);
+    grunt.registerTask('build', ['gettext', 'spritesheet', 'inline', 'newer:copy']);
     grunt.registerTask('gettext', ['nggettext_extract', 'nggettext_compile']);
-    grunt.registerTask('dev', ['clean:prepare', 'build', 'watch']);
+    grunt.registerTask('dev', ['build', 'watch']);
 };
 
