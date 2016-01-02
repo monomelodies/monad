@@ -5,8 +5,8 @@ multiple languages often arises. This is (relatively) easy in Monad.
 ## Configuring `angular-gettext`
 Monad internally uses [`angular-gettext`](https://angular-gettext.rocketeer.be/)
 to provide so-called "i18n" to your administrator. Generic texts like "please
-login" are provided and autoloaded; a project-specific translation file is also
-autoloaded (but will of course return a 404 if not provided).
+login" are provided by Monad; it's up to you to mark and provide translations
+for your own components.
 
 Follow the instructions for `angular-gettext` to set it up inside your
 _project_; we can't reuse the Monad copy.
@@ -48,8 +48,17 @@ The same goes for your `schema.html` files; just translate what you need.
 ## Compiling translations for use
 Once you've generated a `.pot` template, translated all the strings and saved
 your various language files as `.po` files, run the Grunt task supplied by
-`angular-gettext` to compile to JSON. The output path should be
-`/path/to/my/admin/i18n`. The names of the files should correspond to whatever
-language given in the URL via the `/:language/` parameter, i.e. for `en` there
-should be a file `i18n/en.json`.
+`angular-gettext` to compile to Javascript.
+
+> _Do not add a module name._ Imports get "hoisted", so if you try to use a
+> custom module name it won't exist yet during inclusion. Just use the default
+> (`"gettext"`) which is guaranteed to exist and on which Monad itself already
+> depends.
+
+## Importing translations in your admin
+This is now as simple as:
+
+```javascript
+import '/path/to/i18n.js';
+```
 

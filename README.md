@@ -55,55 +55,29 @@ $ sudo npm install -g grunt-cli
 > Your own project can use a different task runner like Gulp, or none at all.
 
 ## Making Monad publicly available
-In your `monad` directory, you'll notice bunch of other directories and files,
-but the most important one for now is the `dist` directory. This is the compiled
-etc. version of Monad ready for use. So, you'll need to make sure your web
-server of choice can access it. Let's assume your site lives under `./httpdocs`
-and your admin should be available under `./httpdocs/admin`. Monad will then
-assume it lives under `./httpdocs/monad` (i.e., `/path/to/admin/../monad/`).
-Your best option is to just add a symlink to the `dist` folder under that alias:
+Pick a folder (any folder, e.g. `/admin/`) to host your CMS from. Copy, link or
+otherwise include Monad's `./index.html` file from the root there. If you open
+it up in your favourite text editor, you'll notice it tries to load a few
+additional external files:
 
-```bash
-$ cd /path/to/httpdocs/admin/../
-$ ln -s /path/to/monad/dist ./monad
-```
+- #### `admin.css`
+  This must contain your admin styles. If you're not doing anything spectacular,
+  you can generate it using SASS by simply importing Monad's default:
+  `@import '/path/to/monad/src/_sass/default'`.
+  > Note that Monad itself depends on Bootstrap, so e.g. in your Grunt task you
+  > would have to add the following:
+  > `loadPath: ['node_modules/monad-cms/node_modules/bootstrap-sass/assets/stylesheets']`
 
-If you want to name your `admin` folder `slartibarfast` or whatever, that's fine
-by us. Monad doesn't by design care where it lives; all paths are relative.
+- #### Glyphicons
+  Bootstrap comes with the Glyphicon icon font set, so you'll also need to copy
+  those files into your public admin:
+  `cp -r node_modules/monad-cms/node_modules/bootstrap-sass/assets/fonts /path/to/public/admin/`
 
-In the `dist` folder, you'll notice an `index.html`. You could write your own,
-but this is Monad's default and generally works like a charm. The `/admin/` path
-needs access to it, so again we can symlink:
-
-```bash
-$ cd /path/to/httpdocs/admin
-$ ln -s ./monad/index.html .
-```
+- #### `bundle.js`
+  This contains all your Javascript admin code. The recommended way is to use
+  Browserify in combination with a transpiler like Babel to generate this. If you
+  don't know how that works, don't fret: we'll explain elsewhere in the
+  documentation.
 
 And that's it! You're ready to roll.
-
-If for whatever reason you can't symlink, you'll need to copy some files around
-and preferably set up a build script to watch changes. Added bonus here is that
-a build script can transpile your ES6 code to ES5 (which is what Monad does
-too), so we'd think it's generally a good idea (adding a build script, not
-copying files around!). We'll give you an example in Grunt (our preferred tool)
-in the next chapter, but something similar would work for other systems (e.g.
-Gulp).
-
-An alternative could be to use e.g. Nginx or Apache aliases to point the browser
-to the right location for `/monad`. Example in Nginx:
-
-```
-server {
-    # all your other stuff...
-
-    location /monad/ {
-        root /path/to/project/node_modules/monad-cms/dist;
-    }
-}
-```
-
-> Using server-side aliases is our own preferred method these days, but you'll
-> need a bit more control over your environment to make that work. For instance
-> on a shared host you'll often need to resort to symlinking or copying.
 

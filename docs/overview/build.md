@@ -22,7 +22,7 @@ alternatives, but all examples will assume Babel.
 At the top of your admin's entry point, `import` the Monad core:
 
 ```javascript
-import monad from 'monad-cms/monad';
+import monad from 'monad-cms';
 ```
 
 This is equivalent to Node's `require()` call. It loads Monad and all libraries
