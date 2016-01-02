@@ -1,9 +1,0 @@
-<div class="container-fluid" mo-list module="list.module">
-    <mo-list-header></mo-list-header>
-    <div ng-if="list.filterUrl" ng-include="list.filterUrl"></div>
-    <mo-list-table rows="list.items" list="list" columns="list.columns" templates="list.templates"></mo-list-table>
-    <div class="text-center" ng-if="list.Manager.count > 10">
-        <pagination total-items="list.Manager.count" ng-model="list.page" boundary-links="true" max-size="10"></pagination>
-    </div>
-</div>
-
