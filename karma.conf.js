@@ -5,19 +5,12 @@ module.exports = function(config) {
     frameworks: ['browserify', 'jasmine'],
     files: [
         'tests/setup.js',
-        'tests/**/*.spec.js',
-        'src/**/*.html'
+        'tests/**/*.spec.js'
     ],
-    ngHtml2JsPreprocessor: {
-        moduleName: 'TEMPLATES',
-        stripPrefix: 'src\/',
-        prependPrefix: '../monad/'
-    },
     exclude: [
     ],
     preprocessors: {
-        'tests/**/*.js': ['browserify'],
-        'src/**/*.html': ['ng-html2js']
+        'tests/**/*.js': ['browserify']
     },
     browserify: {
         debug: true,
