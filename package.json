@@ -1,6 +1,6 @@
 {
   "name": "monad-cms",
-  "version": "1.4.8",
+  "version": "1.5.3",
   "description": "Generic AngularJS-based CMS framework",
   "main": "monad.js",
   "directories": {
@@ -34,7 +34,6 @@
     "grunt-contrib-sass": "^0.9.2",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-inline": "^0.3.6",
-    "grunt-newer": "^1.1.1",
     "jasmine-core": "~2.4.1",
     "karma": "~0.13.16",
     "karma-babel-preprocessor": "~6.0.1",
