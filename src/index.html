@@ -39,12 +39,15 @@
                 <div id="navbar" class="navbar-collapse collapse" ng-class="{'in': navExp}">
                     <ul class="nav navbar-nav">
                         <li><a href="/" target="_blank" translate>Site</a></li>
-                        <li ng-repeat="item in monad.Navigation.main" ng-class="{active: item.selected, dropdown: item.items}" dropdown>
-                            <a ng-if="item.items" href class="dropdown-toggle" dropdown-toggle>
+                        <li ng-repeat="item in monad.Navigation.main"
+                            ng-if="item.access()"
+                            ng-class="{active: item.selected, dropdown: item.items}"
+                            uib-dropdown>
+                            <a ng-if="item.items" href class="dropdown-toggle" uib-dropdown-toggle>
                                 <span ng-include="item.component + '/menu.html'"></span> <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" ng-if="item.items">
-                                <li ng-repeat="item in item.items">
+                                <li ng-repeat="item in item.items" ng-if="item.access()">
                                     <a mo-path="{{ item.url }}" ng-click="monad.Navigation.select(item)" mo-menu-label item="item">
                                         <small ng-if="item.manager.notify">{{ item.manager.notify }}</small>
                                         <span ng-include="item.component + '/menu.html'"></span>
@@ -60,7 +63,9 @@
             </div>
         </nav>
 
-        <div class="theme-showcase" role="main" ng-view></div>
+        <mo-login auth="monad.Authentication">
+            <div class="theme-showcase" role="main" ng-view></div>
+        </mo-login>
 
         <footer id="footer">
             <nav class="navbar navbar-default navbar-fixed-bottom">
