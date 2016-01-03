@@ -54,6 +54,8 @@ export default class CrudController {
      */
     save() {
         let promises = [];
+        this.progress = 0;
+        let done = 0;
         for (let model in this.$mapping) {
             if (!(this[this.$mapping[model]] && this[this.$mapping[model]] instanceof Manager)) {
                 continue;
@@ -61,17 +63,31 @@ export default class CrudController {
             if (this[model] instanceof Collection) {
                 let remove = [];
                 this[model].map((item, index) => {
-                    if (item.$deleted) {
-                        remove.unshift(index);
+                    if (item.$dirty) {
+                        if (item.$deleted) {
+                            remove.unshift(index);
+                        }
+                        promises.push(this[this.$mapping[model]].save(item).then(() => {
+                            done++;
+                            this.progress = (done / promises.length) * 100;
+                        }));
                     }
-                    promises.push(this[this.$mapping[model]].save(item));
                 });
                 remove.map(index => this[model].splice(index, 1));
             } else if (this[model] instanceof Model) {
-                promises.push(this[this.$mapping[model]].save(this[model]));
+                promises.push(this[this.$mapping[model]].save(this[model]).then(() => {
+                    done++;
+                    this.progress = (done / promises.length) * 100;
+                }));
             }
         }
-        report.add('info', gettextCatalog.getString('Saving...'), q.all(promises).then(() => { route.reset(); }));
+        report.add(
+            'info',
+            '<p style="text-align: center">' + gettextCatalog.getString('Saving...') + '</p>' +
+            '<uib-progressbar type="info" class="progress-striped" value="msg.data.progress"></uib-progressbar>',
+            this,
+            q.all(promises).then(() => { route.reset(); })
+        );
     }
 
     /**
