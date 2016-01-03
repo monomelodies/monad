@@ -38,7 +38,7 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse" ng-class="{'in': navExp}">
                     <ul class="nav navbar-nav">
-                        <li><a href="../" target="_blank" translate>Site</a></li>
+                        <li><a href="/" target="_blank" translate>Site</a></li>
                         <li ng-repeat="item in monad.Navigation.main" ng-class="{active: item.selected, dropdown: item.items}" dropdown>
                             <a ng-if="item.items" href class="dropdown-toggle" dropdown-toggle>
                                 <span ng-include="item.component + '/menu.html'"></span> <span class="caret"></span>
