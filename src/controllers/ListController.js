@@ -17,10 +17,10 @@ export default class ListController {
      *
      * @param object $scope Injected Angular $scope.
      * @param object $route Injected Angular $route service.
-     * @param object $modal Injected Bootstrap $modal service.
+     * @param object $uibModal Injected Bootstrap $uibModal service.
      * @return void
      */
-    constructor($scope, $route, $modal) {
+    constructor($scope, $route, $uibModal) {
         if ($route.current && $route.current.locals) {
             for (let p in $route.current.locals) {
                 if (p.substring(0, 1) == '$') {
@@ -32,7 +32,7 @@ export default class ListController {
         this.$new = new this.Manager.constructor.Model();
         params = angular.copy($route.current.params);
         delete params.language;
-        modal = $modal;
+        modal = $uibModal;
         route = $route;
 
         if (this.defaultFilter) {
@@ -40,10 +40,6 @@ export default class ListController {
         }
 
         this.page = params.page || 1;
-
-        if (!this.Authentication.check) {
-            this.Authentication.missing();
-        }
 
         $scope.$watch('list.filter', newvalue => {
             this.page = 1;
@@ -86,5 +82,5 @@ export default class ListController {
 
 };
 
-ListController.$inject = ['$scope', '$route', '$modal'];
+ListController.$inject = ['$scope', '$route', '$uibModal'];
 
