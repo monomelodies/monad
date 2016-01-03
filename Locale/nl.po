@@ -34,7 +34,7 @@ msgstr ""
 "Wijzig <q>{{ update.item.$title }}</q> in <code>{{ update.component.name }}</"
 "code>"
 
-#: src/templates/login.html:20
+#: src/templates/login.html:21
 msgid "Go!"
 msgstr "Gaan!"
 
@@ -60,7 +60,7 @@ msgstr "Licentie"
 msgid "List of items in {{ header.component.name }}"
 msgstr "Lijst van items in {{ header.component.name }}"
 
-#: index.html:77
+#: index.html:81 src/index.html:81
 msgid "Logout"
 msgstr "Uitloggen"
 
@@ -72,11 +72,11 @@ msgstr ""
 "Let op: dit geldt voor het Monad CMS framework, niet (per se) de site waar "
 "het voor gebruikt is :)"
 
-#: src/templates/login.html:18
+#: src/templates/login.html:19
 msgid "Password"
 msgstr "Wachtwoord"
 
-#: src/templates/login.html:5
+#: src/templates/login.html:6
 msgid "Please login"
 msgstr "Inloggen a.u.b."
 
@@ -84,7 +84,11 @@ msgstr "Inloggen a.u.b."
 msgid "Save changes"
 msgstr "Opslaan"
 
-#: index.html:42
+#: src/controllers/CrudController.js:74
+msgid "Saving..."
+msgstr "Bezig met opslaan..."
+
+#: index.html:41 src/index.html:41
 msgid "Site"
 msgstr "Site"
 
@@ -92,11 +96,11 @@ msgstr "Site"
 msgid "Sorry, nothing found."
 msgstr "Sorry, niks gevonden."
 
-#: index.html:30
+#: index.html:29 src/index.html:29
 msgid "Toggle navigation"
 msgstr "Navigatie aan/uit"
 
-#: src/templates/login.html:11
+#: src/templates/login.html:12
 msgid "Username"
 msgstr "Gebruikersnaam"
 
