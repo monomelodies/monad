@@ -11,6 +11,7 @@ import DragDrop from './dragDrop';
 import List from './list';
 import Slug from './slug';
 import Message from './message';
+import Login from './login';
 
 angular.module('monad.directives', ['ng'])
     .directive('moList', List)
@@ -23,6 +24,7 @@ angular.module('monad.directives', ['ng'])
     .directive('moDragDrop', DragDrop)
     .directive('moSlug', Slug)
     .directive('moMessage', Message)
+    .directive('moLogin', Login)
     ;
 
 export default 'monad.directives';
