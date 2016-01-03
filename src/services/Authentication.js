@@ -14,14 +14,6 @@ export default class Authentication {
     }
     
     /**
-     * _Should_ do something useful if authentication failed (show login, show
-     * error etc.).
-     */
-    missing() {
-        throw "Authentication.missing must be replaced by your custom implementation.";
-    }
-
-    /**
      * _Should_ attempt to login a user. Username/password is an example, you
      * can implement whatever login scheme you need.
      *
