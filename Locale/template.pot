@@ -63,7 +63,7 @@ msgstr ""
 msgid "Save changes"
 msgstr ""
 
-#: src/controllers/CrudController.js:74
+#: src/controllers/CrudController.js:86
 msgid "Saving..."
 msgstr ""
 
