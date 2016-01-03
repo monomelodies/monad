@@ -37,12 +37,10 @@ export default class RootController {
         this.messages = Report.messages;
         this.liveReload = liveReload;
         Navigation.current();
-        $rootScope.$on('$routeChangeStart', () => this.Authentication['status']().then(() => Navigation.clear()));
+        $rootScope.$on('$routeChangeStart', () => auth['status']().then(() => Navigation.clear()));
         $rootScope.$on('$routeChangeSuccess', (event, target) => {
             if (!('language' in $routeParams)) {
                 loc.path('/' + Language.current + '/');
-            } else if (!auth.check) {
-                auth.missing();
             }
         });
     }
@@ -84,17 +82,6 @@ export default class RootController {
     }
 
     /**
-     * Logout the current user ("revoke permissions"). This is a global revoke
-     * on the central Authentication service. The user is redirected to the
-     * login page on success.
-     *
-     * @return void
-     */
-    logout() {
-        this.Authentication.revoke().success(() => loc.path('/' + this.language + '/login/'));
-    }        
-
-    /**
      * Get the current URL.
      *
      * @return string URL The current URL ("path").
@@ -104,7 +91,7 @@ export default class RootController {
     }
 
     /**
-     * Show Monad's license in a Bootstrap model.
+     * Show Monad's license in a Bootstrap modal.
      *
      * @return void
      */
