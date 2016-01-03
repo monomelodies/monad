@@ -52,20 +52,18 @@ export default class Navigation {
                 paths[menu].map(path => {
                     if (path.component) {
                         let component = monad.component(path.component);
-                        if (access(component)) {
-                            cache[menu].push(path);
-                            if ('$manager' in component) {
-                                path.manager = $injector.get(component.$manager.name);
-                            }
+                        path.access = () => access(component);
+                        cache[menu].push(path);
+                        if ('$manager' in component) {
+                            path.manager = $injector.get(component.$manager.name);
                         }
                     } else {
                         // Submenu.
                         let sub = {items: []};
                         path.items.map(item => {
                             let component = monad.component(item.component);
-                            if (access(component)) {
-                                sub.items.push(item);
-                            }
+                            item.access = () => access(component);
+                            sub.items.push(item);
                         });
                         if (sub.items.length) {
                             cache[menu].push(sub);
