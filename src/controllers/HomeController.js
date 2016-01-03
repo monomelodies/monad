@@ -7,20 +7,5 @@
  */
 export default class HomeController
 {
-    /**
-     * Class constructor. Will redirect to login if global authentication fails.
-     *
-     * @param Authentication Authentication Injected global authentication
-     *  service.
-     * @return void
-     */
-    constructor(Authentication)
-    {
-        if (!Authentication.check) {
-            Authentication.missing();
-        }
-    }
 }
-
-HomeController.$inject = ['Authentication'];
 
