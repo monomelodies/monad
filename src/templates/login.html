@@ -1,19 +1,20 @@
-<div class="vert-wrapper">
+<div ng-transclude ng-if="login.auth.check"></div>
+<div class="vert-wrapper" ng-if="!login.auth.check && login.default">
     <div class="vert-wrapper-inner">
-        <form ng-submit="login.attempt()" id="auth" name="auth" novalidate method="post">
+        <form ng-submit="login.auth.attempt(login.credentials)" id="auth" name="auth" novalidate method="post">
             <fieldset>
                 <legend translate>Please login</legend>
                 <div class="form-group">
                     <input type="text"
                         name="username"
-                        ng-model="login.credentials[0]"
+                        ng-model="login.credentials.username"
                         class="form-control"
                         placeholder="{{'Username' | translate}}">
                 </div>
                 <div class="form-group">
                     <input type="password"
                         name="password"
-                        ng-model="login.credentials[1]"
+                        ng-model="login.credentials.password"
                         class="form-control"
                         placeholder="{{'Password' | translate}}">
                 </div>
@@ -21,5 +22,9 @@
             </fieldset>
         </form>
     </div>
+</div>
+<div ng-if="!login.default && !login.auth.check">
+    <div ng-if="login.template" ng-bind-html="login.template"></div>
+    <div ng-if="login.templateUrl" ng-include="login.templateUrl"></div>
 </div>
 
