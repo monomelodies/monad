@@ -22,16 +22,16 @@ export default class CrudController {
      * Class constructor. Will redirect to login if authentication fails.
      *
      * @param object $route Angular $route service.
-     * @param object $modal Bootstrap $modal service.
+     * @param object $uibModal Bootstrap $uibModal service.
      * @param object $location Angular $location service.
      * @param object $q Angular $q service.
      * @param object gettextCatalog angular-gettext service.
      * @param object moReport Monad report service.
      * @return void
      */
-    constructor($route, $modal, $location, $q, gtc, moReport) {
+    constructor($route, $uibModal, $location, $q, gtc, moReport) {
         route = $route;
-        modal = $modal;
+        modal = $uibModal;
         loc = $location;
         q = $q;
         gettextCatalog = gtc;
@@ -44,10 +44,6 @@ export default class CrudController {
                 }
                 this[p] = $route.current.locals[p];
             }
-        }
-
-        if (!this.Authentication.check) {
-            this.Authentication.missing();
         }
     }
 
@@ -93,10 +89,10 @@ export default class CrudController {
                             <button class="btn btn-primary" ng-click="ok(monad.language)" translate>Yes, I'm sure</button>
                             <button class="btn btn-warning" ng-click="cancel()" translate>Oopsie, no...</button>
                         </div>`,
-            controller: ['$scope', '$modalInstance', ($scope, $modalInstance) => {
+            controller: ['$scope', '$uibModalInstance', ($scope, $uibModalInstance) => {
                 $scope.ok = () => {
                     this.Manager['delete'](this.item);
-                    $modalInstance.close(this.item);
+                    $uibModalInstance.close(this.item);
                     route.reset();
                     loc.path(this.component.settings.list.url.replace(/:language/, Language.current));
                 };
