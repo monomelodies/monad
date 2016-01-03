@@ -71,7 +71,7 @@ export default class CrudController {
                 promises.push(this[this.$mapping[model]].save(this[model]));
             }
         }
-        report.add('primary', gettextCatalog.getString('Saving...'), q.all(promises).then(() => { route.reset(); }));
+        report.add('info', gettextCatalog.getString('Saving...'), q.all(promises).then(() => { route.reset(); }));
     }
 
     /**
