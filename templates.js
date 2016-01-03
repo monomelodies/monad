@@ -142,21 +142,26 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
 
 
   $templateCache.put('/monad/templates/login.html',
-    "<div class=vert-wrapper>\n" +
+    "<div ng-transclude ng-if=login.auth.check></div>\n" +
+    "<div class=vert-wrapper ng-if=\"!login.auth.check && login.default\">\n" +
     "    <div class=vert-wrapper-inner>\n" +
-    "        <form ng-submit=login.attempt() id=auth name=auth novalidate method=post>\n" +
+    "        <form ng-submit=login.auth.attempt(login.credentials) id=auth name=auth novalidate method=post>\n" +
     "            <fieldset>\n" +
     "                <legend translate>Please login</legend>\n" +
     "                <div class=form-group>\n" +
-    "                    <input name=username ng-model=login.credentials[0] class=form-control placeholder=\"{{'Username' | translate}}\">\n" +
+    "                    <input name=username ng-model=login.credentials.username class=form-control placeholder=\"{{'Username' | translate}}\">\n" +
     "                </div>\n" +
     "                <div class=form-group>\n" +
-    "                    <input type=password name=password ng-model=login.credentials[1] class=form-control placeholder=\"{{'Password' | translate}}\">\n" +
+    "                    <input type=password name=password ng-model=login.credentials.password class=form-control placeholder=\"{{'Password' | translate}}\">\n" +
     "                </div>\n" +
     "                <button type=submit class=\"btn btn-default pull-right\" translate>Go!</button>\n" +
     "            </fieldset>\n" +
     "        </form>\n" +
     "    </div>\n" +
+    "</div>\n" +
+    "<div ng-if=\"!login.default && !login.auth.check\">\n" +
+    "    <div ng-if=login.template ng-bind-html=login.template></div>\n" +
+    "    <div ng-if=login.templateUrl ng-include=login.templateUrl></div>\n" +
     "</div>"
   );
 
