@@ -13,27 +13,33 @@ monad.component('fizzbuzz')
 ```
 
 ## Access control
-Each controller requiring a form of authentication should check user access on
-construction. If you're extending Monad's default controllers, you're covered
-already. If you need to do it manually, this is the way:
+Templates requiring fine-grained access control handling should be wrapped in an
+`mo-login` directive, specifying your custom authentication service. By default
+this directive shows the login screen if the check fails; you can supply
+additional `template` or `template-url` attributes to override this behaviour.
 
-```javascript
-class MyCustomController {
+`template` is an expression evaluating to a string of HTML to show.
+`template-url` is an expression evaluating to a URL to include instead (cfg.
+`ng-include`).
 
-    constructor(Authentication) {
-        if (!Authentication.check) {
-            Authentication.missing();
-        }
-        // Other stuff...
-    }
+The implementation of the Authentication service's `check` getter is up to you;
+maybe it looks to the main session, maybe it does its own calls. Maybe it
+flips a coin.
 
-}
+The custom service is passed a `pagetype.Authentication`, e.g.
+`list.Authentication` when in the list view. So your templates should the be
+wrapped in an additional `mo-login` directive:
 
-MyCustomController.$inject = ['Authentication'];
+```html
+<!-- /some/module/list.html -->
+<mo-login auth="list.Authentication" template-url="'/some/module/noaccess.html'">
+    <mo-list>...</mo-list>
+</mo-login>
 ```
 
-The implementation of `check` and `missing()` is up to you; maybe they look to
-the main session, maybe they do their own calls. Maybe they flip a coin.
+The `noaccess.html` template in this example could then show a friendly (or not
+so friendly :)) message explaining why the user is denied access even though
+she's obviously logged in.
 
 ## Adding sub-authentication to a parts of a component
 We saw above how you add sub-authentication to a specific component. This is

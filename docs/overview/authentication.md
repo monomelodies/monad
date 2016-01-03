@@ -4,6 +4,25 @@ user to see if she has access to our admin. We don't make any assumptions
 regarding your authentication scheme, so this is something you'll *have* to
 configure and implement yourself.
 
+## The `mo-login` directive
+Sections requiring an access check should be wrapped in the `mo-login`
+directive. Its default behaviour is to show the transcluded content if access
+is granted, and otherwise show its own template (which should contain something
+useful, like a login form or a notification).
+
+`mo-login` requires a scope parameter called `auth`. This is normally the
+Authentication object for your current component. The `monad` root controller
+also exposes `monad.Authentication` which is the main auth service, and wraps
+your entire admin in a login directive as well.
+
+The default behaviour is to show a form with `username` and `password` fields.
+If your admin requires a different authentication method (e.g. two tier using
+text messages), you should override the `mo-login` directive and/or template.
+
+Since Monad prebundles all its templates using `$templateCache`, overwriting the
+key `/monad/templates/login.html` should do the trick. The actual handling is
+done by your `Authentication` service anyway (see below).
+
 ## Interface
 Monad expects the required service to be registered in Angular as
 `Authentication`. So, let's set up our own implementation. The
@@ -16,17 +35,12 @@ export default class AuthenticationService {
         // Return a promise reading the current authentication status.
     }
     
-    missing() {
-        // Called when authentication is missing. Could redirect, show a popup
-        // requiring authentication etc.
-    }
-    
-    attempt(...args) {
-        // Returns a promise attempting authentication using supplied `args`.
-        // What `args` you pass depends on your application's needs - a common
-        // scenario is of course `username` and `password`, but if you also
-        // require `mobile_number`, `social_security` and `mothers_maiden_name`
-        // that's all fine too.
+    attempt(credentials) {
+        // Returns a promise attempting authentication using supplied
+        // `credentials` (a key/value hash). What `credentials` you pass depends
+        // on your application's needs - a common scenario is of course
+        // `username` and `password`, but if you also require `mobile_number`,
+        // `social_security` and `mothers_maiden_name` that's all fine too.
     }
     
     revoke() {
@@ -36,7 +50,7 @@ export default class AuthenticationService {
     
     check() {
         // Return true if the user is authenticated according to the
-        // current session, false otherwise. If you login scheme involves
+        // current session, false otherwise. If your login scheme involves
         // stuff like roles, this should check for the correct ones
         // accordingly.
     }
@@ -70,27 +84,27 @@ export default class AuthenticationService {
     }
     
     ['status']() {
-        return this.http.get('/session/').success(result => {
-            session = result;
+        return this.http.get('/session/').then(result => {
+            session = result.data;
         });
     }
     
-    attempt(username, password) {
+    attempt(credentials) {
         let action = 'login';
-        return this.http.post('/session/', {action, username, password});
+        let {username, password} = credentials;
+        return this.http.post('/session/', {action, username, password}).then(result => {
+            session = result.data;
+        });
     }
     
     revoke() {
         let action = 'logout';
-        return this.http.post('/session/', {action});
+        return this.http.post('/session/', {action}).then(result => {
+            session = result.data;
+        });
     }
     
     check() {
-        // If no session has been loaded yet, don't force a redirect just yet
-        // but wait for it to load instead.
-        if (session === undefined) {
-            return true;
-        }
         return session && 'User' in session && session.User == 'admin';
     }
 
