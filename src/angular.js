@@ -4,7 +4,6 @@
 import Monad from './classes/Monad';
 import RootController from './controllers/RootController';
 import HomeController from './controllers/HomeController';
-import LoginController from './controllers/LoginController';
 import Navigation from './services/Navigation';
 import Authentication from './services/Authentication';
 import Language from './services/Language';
@@ -22,11 +21,6 @@ function config($routeProvider, $locationProvider) {
             controller: HomeController,
             controllerAs: 'home',
             templateUrl: '/monad/templates/home.html'
-        }).
-        when('/:language/login/', {
-            controller: LoginController,
-            controllerAs: 'login',
-            templateUrl: '/monad/templates/login.html'
         });
 };
 
