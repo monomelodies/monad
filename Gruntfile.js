@@ -79,6 +79,10 @@ module.exports = function (grunt) {
                 files: ['assets/i18n/**/*.png'],
                 tasks: ['spritesheet']
             },
+            templates: {
+                files: ['src/**/*.html'],
+                tasks: ['ngtemplates']
+            },
             inline: {
                 files: ['src/index.html', 'flags.css', 'i18n.png'],
                 tasks: ['inline']
@@ -87,7 +91,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', ['build']);
-    grunt.registerTask('build', ['gettext', 'spritesheet', 'inline']);
+    grunt.registerTask('build', ['gettext', 'inline']);
     grunt.registerTask('gettext', ['nggettext_extract', 'nggettext_compile']);
     grunt.registerTask('dev', ['build', 'watch']);
 };
