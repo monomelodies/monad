@@ -20,7 +20,7 @@ msgstr ""
 msgid "Edit <q>{{ update.item.$title }}</q> in <code>{{ update.component.name }}</code>"
 msgstr ""
 
-#: src/templates/login.html:20
+#: src/templates/login.html:21
 msgid "Go!"
 msgstr ""
 
@@ -51,11 +51,11 @@ msgstr ""
 msgid "Note: this applies to the Monad CMS framework, not (necessarily) the site it is used for :)"
 msgstr ""
 
-#: src/templates/login.html:18
+#: src/templates/login.html:19
 msgid "Password"
 msgstr ""
 
-#: src/templates/login.html:5
+#: src/templates/login.html:6
 msgid "Please login"
 msgstr ""
 
@@ -63,7 +63,7 @@ msgstr ""
 msgid "Save changes"
 msgstr ""
 
-#: src/controllers/CrudController.js:78
+#: src/controllers/CrudController.js:74
 msgid "Saving..."
 msgstr ""
 
@@ -81,7 +81,7 @@ msgstr ""
 msgid "Toggle navigation"
 msgstr ""
 
-#: src/templates/login.html:11
+#: src/templates/login.html:12
 msgid "Username"
 msgstr ""
 
