@@ -36,7 +36,7 @@ function run($rootScope, Language, languages, $http, $route, $cacheFactory) {
             $cacheFactory.get(cache).removeAll();
         }
         $route.reload();
-        $rootScope.$broadcast('$route-reset');
+        $rootScope.$broadcast('monad:reset');
     };
 };
 
