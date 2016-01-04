@@ -24,7 +24,7 @@ function config($routeProvider, $locationProvider) {
         });
 };
 
-function run(Language, languages, $http, $route, $cacheFactory) {
+function run($rootScope, Language, languages, $http, $route, $cacheFactory) {
     normalizePost($http);
     Language.current = languages[0];
     $route.reset = () => {
@@ -36,12 +36,13 @@ function run(Language, languages, $http, $route, $cacheFactory) {
             $cacheFactory.get(cache).removeAll();
         }
         $route.reload();
+        $rootScope.$broadcast('$route-reset');
     };
 };
 
 angular.module('monad.core', ['ng', 'ngRoute', 'gettext', 'ngSanitize', 'ngAnimate', 'ui.bootstrap', Directives, 'monad.templates'])
     .config(['$routeProvider', '$locationProvider', config])
-    .run(['moLanguage', 'languages', '$http', '$route', '$cacheFactory', run])
+    .run(['$rootScope', 'moLanguage', 'languages', '$http', '$route', '$cacheFactory', run])
     .controller('moController', RootController)
     .service('moNavigation', Navigation)
     .service('Authentication', Authentication)
@@ -50,7 +51,6 @@ angular.module('monad.core', ['ng', 'ngRoute', 'gettext', 'ngSanitize', 'ngAnima
     .value('title', 'Default generic administrator')
     .value('liveReload', undefined)
     .constant('languages', ['en', 'nl'])
-    .value('theme', '../monad/default.css')
     ;
 
 let monad = new Monad();
