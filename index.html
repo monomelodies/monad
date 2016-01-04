@@ -78,7 +78,7 @@
                                 <a href ng-click="monad.license()">MIT</a>
                             </p></li>
                             <li id="menu-logout" ng-if="monad.Authentication.check">
-                                <a title="{{'Logout' | translate}}" ng-click="monad.logout()" href>
+                                <a title="{{'Logout' | translate}}" ng-click="monad.Authentication.revoke()" href>
                                     <span class="glyphicon glyphicon-log-out text-danger"></span>
                                 </a>
                             </li>
