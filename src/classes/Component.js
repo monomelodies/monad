@@ -254,6 +254,8 @@ function addTarget(type) {
     }
     if (type == 'create') {
         settings.resolve.item = [this.$manager.name, Manager => new Manager.constructor.Model];
+    } else if (type == 'update' && !settings.resolve.item) {
+        settings.resolve.item = ['$route', this.$manager.name, ($route, Manager) => Manager.find($route.current.params)]
     }
     let name;
     if ('Authentication' in settings.resolve) {
