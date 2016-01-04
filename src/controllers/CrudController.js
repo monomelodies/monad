@@ -74,7 +74,7 @@ export default class CrudController {
                     }
                 });
                 remove.map(index => this[model].splice(index, 1));
-            } else if (this[model] instanceof Model) {
+            } else if (this[model] instanceof Model && this[model].$dirty) {
                 promises.push(this[this.$mapping[model]].save(this[model]).then(() => {
                     done++;
                     this.progress = (done / promises.length) * 100;
