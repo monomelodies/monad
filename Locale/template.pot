@@ -42,8 +42,8 @@ msgstr ""
 msgid "List of items in {{ header.component.name }}"
 msgstr ""
 
-#: index.html:81
-#: src/index.html:81
+#: index.html:82
+#: src/index.html:82
 msgid "Logout"
 msgstr ""
 
