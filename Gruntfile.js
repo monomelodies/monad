@@ -1,97 +1,112 @@
 
 module.exports = function (grunt) {
-    grunt.loadNpmTasks('grunt-angular-gettext');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-sass');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-angular-templates');
-    grunt.loadNpmTasks('grunt-inline');
-    grunt.loadNpmTasks('node-spritesheet');
 
-    grunt.initConfig({
-        nggettext_extract: {
-            pot: {
-                files: {
-                    'Locale/template.pot': ['src/**/*.{js,html}', 'index.html']
-                }
-            },
-        },
-        nggettext_compile: {
-            all: {
-                files: {'i18n.js': ['Locale/*.po']}
+    var pkg = grunt.file.readJSON('package.json');
+    grunt.initConfig({pkg: pkg});
+
+    grunt.loadNpmTasks('grunt-angular-gettext');
+    grunt.config('nggettext_extract', {
+        pot: {
+            files: {
+                'Locale/template.pot': ['src/**/*.{js,html}', 'index.html']
             }
         },
-        ngtemplates: {
-            'monad.templates': {
-                options: {
-                    htmlmin: {
-                        collapseBooleanAttributes: true,
-                        collapseWhitespace: false,
-                        removeAttributeQuotes: true,
-                        removeComments: true,
-                        removeEmptyAttributes: true,
-                        removeRedundantAttributes: true,
-                        removeScriptTypeAttributes: true,
-                        removeStyleLinkTypeAttributes: true
-                    },
-                    standalone: true,
-                    prefix: '/monad/'
+    });
+    grunt.config('nggettext_compile', {
+        all: {
+            files: {'i18n.js': ['Locale/*.po']}
+        }
+    });
+
+    grunt.loadNpmTasks('grunt-angular-templates');
+    grunt.config('ngtemplates', {
+        'monad.templates': {
+            options: {
+                htmlmin: {
+                    collapseBooleanAttributes: true,
+                    collapseWhitespace: false,
+                    removeAttributeQuotes: true,
+                    removeComments: true,
+                    removeEmptyAttributes: true,
+                    removeRedundantAttributes: true,
+                    removeScriptTypeAttributes: true,
+                    removeStyleLinkTypeAttributes: true
                 },
-                cwd: 'src',
-                src: ['**/*.html', '!index.html'],
-                dest: 'templates.js'
-            }
+                standalone: true,
+                prefix: '/monad/'
+            },
+            cwd: 'src',
+            src: ['**/*.html', '!index.html'],
+            dest: 'templates.js'
+        }
+    });
+
+    grunt.loadNpmTasks('node-spritesheet');
+    grunt.config('spritesheet', {
+        compile: {
+            options: {
+                outputImage: 'i18n.png',
+                outputCss: 'flags.css',
+                selector: '.flag'
+            },
+            files: {'': 'assets/i18n/**/*.png'}
+        }
+    });
+
+    grunt.loadNpmTasks('grunt-inline');
+    grunt.config('inline', {
+        index: {
+            src: 'src/index.html',
+            dest: 'index.html'
+        },
+        flags: {
+            options: {
+                tag: ''
+            },
+            src: 'flags.css',
+            dest: 'src/_sass/_flags.scss'
+        }
+    });
+
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.config('watch', {
+        gettext_extract: {
+            files: ['src/**/*.{js,html}', 'index.html'],
+            tasks: ['nggettext_extract']
+        },
+        gettext_compile: {
+            files: ['Locale/*.po'],
+            tasks: ['nggettext_compile']
         },
         spritesheet: {
-            compile: {
-                options: {
-                    outputImage: 'i18n.png',
-                    outputCss: 'flags.css',
-                    selector: '.flag'
-                },
-                files: {'': 'assets/i18n/**/*.png'}
-            }
+            files: ['assets/i18n/**/*.png'],
+            tasks: ['spritesheet']
+        },
+        templates: {
+            files: ['src/**/*.html'],
+            tasks: ['ngtemplates']
         },
         inline: {
-            index: {
-                src: 'src/index.html',
-                dest: 'index.html'
+            files: ['src/index.html', 'flags.css', 'i18n.png'],
+            tasks: ['includereplace', 'inline']
+        }
+    });
+
+    grunt.loadNpmTasks('grunt-include-replace');
+    grunt.config('includereplace', {
+        index: {
+            options: {
+                globals: {
+                    version: pkg.version
+                }
             },
-            flags: {
-                options: {
-                    tag: ''
-                },
-                src: 'flags.css',
-                dest: 'src/_sass/_flags.scss'
-            }
-        },
-        watch: {
-            gettext_extract: {
-                files: ['src/**/*.{js,html}', 'index.html'],
-                tasks: ['nggettext_extract']
-            },
-            gettext_compile: {
-                files: ['Locale/*.po'],
-                tasks: ['nggettext_compile']
-            },
-            spritesheet: {
-                files: ['assets/i18n/**/*.png'],
-                tasks: ['spritesheet']
-            },
-            templates: {
-                files: ['src/**/*.html'],
-                tasks: ['ngtemplates']
-            },
-            inline: {
-                files: ['src/index.html', 'flags.css', 'i18n.png'],
-                tasks: ['inline']
-            }
+            src: 'index.html',
+            dest: 'index.html'
         }
     });
 
     grunt.registerTask('default', ['build']);
-    grunt.registerTask('build', ['gettext', 'inline']);
+    grunt.registerTask('build', ['gettext', 'inline', 'includereplace']);
     grunt.registerTask('gettext', ['nggettext_extract', 'nggettext_compile']);
     grunt.registerTask('dev', ['build', 'watch']);
 };
