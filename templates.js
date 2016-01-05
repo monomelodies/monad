@@ -72,7 +72,7 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
     "    <span ng-if=!update.item.$new translate>Edit <q>{{ update.item.$title }}</q> in <code>{{ update.component.name }}</code></span>\n" +
     "</h1>\n" +
     "<div class=\"container-fluid clearfix\">\n" +
-    "    <form ng-submit=update.save() id=mo_update_form name=mo_update_form>\n" +
+    "    <form ng-submit=update.save() id=mo_update_form name=mo_update_form novalidate method=post>\n" +
     "        <div ng-transclude></div>\n" +
     "        <br style=\"clear: both\">\n" +
     "        <div class=row>\n" +
