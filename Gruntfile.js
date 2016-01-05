@@ -100,8 +100,8 @@ module.exports = function (grunt) {
                     version: pkg.version
                 }
             },
-            src: 'index.html',
-            dest: 'index.html'
+            src: './index.html',
+            dest: './index.html'
         }
     });
 
