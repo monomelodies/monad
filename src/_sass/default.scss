@@ -191,6 +191,9 @@ button.fixed {
         }
     }
 .form-control {
+    &.ng-invalid {
+        box-shadow: 0 0 1px 1px #fcc;
+        }
     &[type=checkbox], &[type=radio] {
         display: inline-block;
         width: auto;
@@ -233,4 +236,5 @@ button.fixed {
 .progress {
     margin-bottom: 0;
     }
+    
 
