@@ -4,7 +4,7 @@
     <span ng-if="!update.item.$new" translate>Edit <q>{{ update.item.$title }}</q> in <code>{{ update.component.name }}</code></span>
 </h1>
 <div class="container-fluid clearfix">
-    <form ng-submit="update.save()" id="mo_update_form" name="mo_update_form" novalidate>
+    <form ng-submit="update.save()" id="mo_update_form" name="mo_update_form" novalidate method="post">
         <div ng-transclude></div>
         <br style="clear: both">
         <div class="row">
