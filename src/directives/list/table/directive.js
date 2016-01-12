@@ -19,7 +19,24 @@ class controller {
             this.header = hdrs.parent('tr');
         } else {
             this.header = angular.element('<tr/>');
-            this.columns.map(col => this.header.append('<th>' + col + '</th>'));
+            this.columns.map(col => this.header.append('<th property="' + col + '">' + col + '</th>'));
+        }
+        let sortable = false;
+        if (this.allowSorting) {
+            if (this.allowSorting == '*') {
+                sortable = this.columns;
+            } else {
+                sortable = this.allowSorting.split(',');
+            }
+        }
+        if (sortable) {
+            angular.forEach(this.header.find('th'), hdr => {
+                let h = angular.element(hdr);
+                let prop = h.attr('property');
+                if (sortable.indexOf(prop) != -1) {
+                    h.html('<a ng-href ng-click="tbody.sort(' + prop + ')">' + h.html() + '</a>');
+                }
+            });
         }
     }
 }
@@ -31,7 +48,7 @@ export default () => {
         require: '^moList',
         restrict: 'E',
         templateUrl: '/monad/directives/list/table/template.html',
-        scope: {rows: '=', templates: '='},
+        scope: {rows: '=', templates: '=', allowSorting: '@'},
         controller,
         controllerAs: 'tbody',
         bindToController: true,
