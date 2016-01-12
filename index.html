@@ -105,11 +105,6 @@
         <div id="modal" ng-if="monad.modal"></div>
         
         <script src="bundle.js"></script>
-        <script>
-            angular.element(document).ready(function() {
-                window.monad.bootstrap();
-            });
-        </script>
         <script ng-if="monad.liveReload" ng-src="{{ monad.liveReload }}"></script>
     </body>
 </html>
