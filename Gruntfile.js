@@ -88,7 +88,7 @@ module.exports = function (grunt) {
         },
         inline: {
             files: ['src/index.html', 'flags.css', 'i18n.png'],
-            tasks: ['includereplace', 'inline']
+            tasks: ['inline', 'includereplace']
         }
     });
 
