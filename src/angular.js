@@ -8,8 +8,8 @@ import Navigation from './services/Navigation';
 import Authentication from './services/Authentication';
 import Language from './services/Language';
 import Report from './services/Report';
-import normalizePost from './helpers/post';
 import Directives from './directives/angular';
+import 'ng-lollipop';
 
 function config($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(false);
@@ -24,8 +24,7 @@ function config($routeProvider, $locationProvider) {
         });
 };
 
-function run($rootScope, Language, languages, $http, $route, $cacheFactory) {
-    normalizePost($http);
+function run($rootScope, Language, languages, $route, $cacheFactory) {
     Language.current = languages[0];
     $route.reset = () => {
         let caches = $cacheFactory.info();
@@ -40,9 +39,10 @@ function run($rootScope, Language, languages, $http, $route, $cacheFactory) {
     };
 };
 
-angular.module('monad.core', ['ng', 'ngRoute', 'gettext', 'ngSanitize', 'ngAnimate', 'ui.bootstrap', Directives, 'monad.templates'])
+angular.module('monad.core', ['ng', 'ngRoute', 'gettext', 'ngSanitize', 'ngAnimate', 'ui.bootstrap', Directives, 'monad.templates', 'lollipop'])
     .config(['$routeProvider', '$locationProvider', config])
     .run(['$rootScope', 'moLanguage', 'languages', '$http', '$route', '$cacheFactory', run])
+    .run(['normalizeIncomingHttpData', 'postRegularForm', (a, b) => {}])
     .controller('moController', RootController)
     .service('moNavigation', Navigation)
     .service('Authentication', Authentication)
