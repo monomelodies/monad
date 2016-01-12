@@ -153,6 +153,29 @@ export default class Manager {
         return http;
     }
 
+    set order(column) {
+        let order = wm.get(this);
+        if (order.column != column) {
+            order.column = column;
+            order.ascending = false;
+            wm.set(this, order);
+        }
+    }
+
+    get order() {
+        return wm.get(this).order;
+    }
+
+    set ascending(stat) {
+        let order = wm.get(this);
+        order.ascending = stat;
+        wm.set(this, order);
+    }
+
+    get ascending() {
+        return wm.get(this).ascending;
+    }
+
 };
 
 Manager.$inject = ['$http', '$cacheFactory'];

@@ -2,7 +2,6 @@
 "use strict";
 
 import Collection from './Collection';
-import normalize from '../helpers/normalize';
 
 let wm = new WeakMap();
 let promise = new WeakMap();
@@ -68,7 +67,6 @@ export default class Model {
         if (data == undefined) {
             wm.set(this, {initial: undefined, deleted: true});
         } else {
-            data = normalize(data);
             for (let key in data) {
                 this[key] = data[key];
             }

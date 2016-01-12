@@ -14,5 +14,7 @@ import './i18n';
 import './templates';
 import monad from './src/angular';
 
+angular.element(document).ready(() => window.monad.bootstrap());
+
 export default monad;
 
