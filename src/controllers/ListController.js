@@ -4,6 +4,8 @@
 let params = undefined;
 let route = undefined;
 let modal = undefined;
+let _page = 1;
+let filter = {};
 
 /**
  * Default "list" controller. Usually good enough if all you need is a
@@ -12,40 +14,12 @@ let modal = undefined;
 export default class ListController {
 
     /**
-     * Class constructor. Redirects to login if authentication for this
-     * Component fails.
+     * Class constructor.
      *
-     * @param object $scope Injected Angular $scope.
-     * @param object $route Injected Angular $route service.
-     * @param object $uibModal Injected Bootstrap $uibModal service.
      * @return void
      */
-    constructor($scope, $route, $uibModal) {
-        if ($route.current && $route.current.locals) {
-            for (let p in $route.current.locals) {
-                if (p.substring(0, 1) == '$') {
-                    continue;
-                }
-                this[p] = $route.current.locals[p];
-            }
-        }
-        this.$new = new this.Manager.constructor.Model();
-        params = angular.copy($route.current.params);
-        delete params.language;
-        modal = $uibModal;
-        route = $route;
-
-        if (this.defaultFilter) {
-            this.filter = this.defaultFilter;
-        }
-
-        this.page = params.page || 1;
-
-        $scope.$watch('list.filter', newvalue => {
-            this.page = 1;
-            this.Manager.filter = newvalue;
-            delete this.Manager.$count;
-        }, true);
+    constructor() {
+        this.page = _page;
     }
 
     /**
@@ -55,7 +29,7 @@ export default class ListController {
      */
     reset() {
         route.reset();
-        this.page = this._page;
+        this.page = 1;
     }
 
     /**
@@ -64,7 +38,7 @@ export default class ListController {
      * @return integer Current page number.
      */
     get page() {
-        return this._page;
+        return _page;
     }
 
     /**
@@ -74,10 +48,17 @@ export default class ListController {
      * @return void
      */
     set page(page) {
-        this._page = page;
-        this.Manager.filter = this.filter;
-        delete this.Manager.$count;
-        this.items = this.Manager.paginate(page, params);
+        _page = page;
+        this.items = this.resource.query({filter: this.filter, limit: 10, offset: (page - 1) * 10});
+    }
+
+    get filter() {
+        return filter;
+    }
+
+    set filter(f) {
+        filter = f;
+        this.page = 1;
     }
 
 };
