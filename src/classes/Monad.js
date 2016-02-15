@@ -1,7 +1,6 @@
 
 "use strict";
 
-import Component from './Component';
 import Navigation from '../services/Navigation';
 
 let application = undefined;
