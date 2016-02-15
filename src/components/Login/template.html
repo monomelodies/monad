@@ -1,0 +1,26 @@
+<div ng-transclude ng-if="$ctrl.auth.check"></div>
+<div class="vert-wrapper" ng-if="!$ctrl.auth.check">
+    <div class="vert-wrapper-inner">
+        <form ng-submit="$ctrl.auth.attempt($ctrl.credentials)" id="auth" name="auth" novalidate method="post">
+            <fieldset>
+                <legend translate>Please login</legend>
+                <div class="form-group">
+                    <input type="text"
+                        name="username"
+                        ng-model="$ctrl.credentials.username"
+                        class="form-control"
+                        placeholder="{{ 'Username' | translate }}">
+                </div>
+                <div class="form-group">
+                    <input type="password"
+                        name="password"
+                        ng-model="$ctrl.credentials.password"
+                        class="form-control"
+                        placeholder="{{ 'Password' | translate }}">
+                </div>
+                <button type="submit" class="btn btn-default pull-right" translate>Go!</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
