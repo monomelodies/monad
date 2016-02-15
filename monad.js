@@ -8,13 +8,10 @@ import 'angular-ui-bootstrap/ui-bootstrap-tpls.js';
 import 'angular-route';
 import 'angular-sanitize';
 import 'angular-animate';
+import 'angular-resource';
 import 'autofill-event';
 import 'angular-gettext';
 import './i18n';
 import './templates';
-import monad from './src/angular';
-
-angular.element(document).ready(() => window.monad.bootstrap());
-
-export default monad;
+import './src/angular';
 
