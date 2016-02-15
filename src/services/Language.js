@@ -13,15 +13,13 @@ export default class Language {
     /**
      * Class constructor.
      *
-     * @param array languages Injected array of languages, set using
-     *  `monad.application('foo').constant('languages', [])`.
      * @param object gettextCatalog Catalog service so a language change can
      *  lazily load new json files.
      * @param object $rootScope Injector $rootScope.
      * @return void
      */
-    constructor(languages, gettextCatalog, $rootScope) {
-        langs = languages;
+    constructor(gettextCatalog, $rootScope) {
+        langs = $rootScope.languages;
         catalog = gettextCatalog;
         $rootScope.$on('$routeChangeSuccess', (event, target) => {
             if (target.params.language && target.params.language != current) {
@@ -65,5 +63,5 @@ export default class Language {
 
 };
 
-Language.$inject = ['languages', 'gettextCatalog', '$rootScope'];
+Language.$inject = ['gettextCatalog', '$rootScope'];
 
