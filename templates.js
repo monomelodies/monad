@@ -31,6 +31,48 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
   );
 
 
+  $templateCache.put('/monad/components/Login/template.html',
+    "<div ng-transclude ng-if=$ctrl.auth.check></div>\n" +
+    "<div class=vert-wrapper ng-if=!$ctrl.auth.check>\n" +
+    "    <div class=vert-wrapper-inner>\n" +
+    "        <form ng-submit=$ctrl.auth.attempt($ctrl.credentials) id=auth name=auth novalidate method=post>\n" +
+    "            <fieldset>\n" +
+    "                <legend translate>Please login</legend>\n" +
+    "                <div class=form-group>\n" +
+    "                    <input name=username ng-model=$ctrl.credentials.username class=form-control placeholder=\"{{ 'Username' | translate }}\">\n" +
+    "                </div>\n" +
+    "                <div class=form-group>\n" +
+    "                    <input type=password name=password ng-model=$ctrl.credentials.password class=form-control placeholder=\"{{ 'Password' | translate }}\">\n" +
+    "                </div>\n" +
+    "                <button type=submit class=\"btn btn-default pull-right\" translate>Go!</button>\n" +
+    "            </fieldset>\n" +
+    "        </form>\n" +
+    "    </div>\n" +
+    "</div>"
+  );
+
+
+  $templateCache.put('/monad/components/Update/template.html',
+    "<h1 class=\"container-fluid clearfix\">\n" +
+    "    <small><a class=\"glyphicon glyphicon-arrow-up pull-right\" mo-path=\"/:language{{ $ctrl.list }}\"></a></small>\n" +
+    "    <span ng-if=update.item.$new translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" +
+    "    <span ng-if=!update.item.$new translate>Edit <q>{{ $ctrl.item[$ctrl.title] }}</q> in <code>{{ $ctrl.type }}</code></span>\n" +
+    "</h1>\n" +
+    "<div class=\"container-fluid clearfix\">\n" +
+    "    <form ng-submit=$ctrl.save() id=mo_update_form name=mo_update_form novalidate method=post>\n" +
+    "        <div ng-transclude></div>\n" +
+    "        <br style=\"clear: both\">\n" +
+    "        <div class=row>\n" +
+    "            <div class=\"clearfix col-md-12 spaceme\">\n" +
+    "                <button type=submit class=\"btn btn-primary fixed\" ng-if=\"mo_update_form.$valid && mo_update_form.$dirty\" translate>Save changes</button>\n" +
+    "                <a href class=\"glyphicon glyphicon-trash text-danger\" ng-if=\"$ctrl.delete && $ctrl.item.id\" ng-click=$ctrl.delete()></a>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </form>\n" +
+    "</div>"
+  );
+
+
   $templateCache.put('/monad/directives/list/header/template.html',
     "<h1 class=clearfix>\n" +
     "    <a ng-if=header.component.settings.create class=\"glyphicon glyphicon-plus-sign pull-right\" title=\"{{'Create' | translate}}\" mo-path=/:language{{header.component.settings.create.url}}></a>\n" +
@@ -45,51 +87,10 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
   );
 
 
-  $templateCache.put('/monad/directives/list/table/template.html',
-    "<div ng-show=\"tbody.rows && tbody.rows.length\">\n" +
-    "    <table class=\"table table-striped\">\n" +
-    "        <thead></thead>\n" +
-    "        <tbody>\n" +
-    "            <tr ng-repeat=\"row in tbody.rows\" ng-if=!row.$deleted>\n" +
-    "                <td ng-repeat=\"column in tbody.columns\">\n" +
-    "                    <a ng-if=!tbody.templates[column] mo-path=/:language{{tbody.component.settings.update.url}} arguments=row>{{row[column]}}</a>\n" +
-    "                    <div ng-if=tbody.templates[column] ng-include=tbody.templates[column]></div>\n" +
-    "                </td>\n" +
-    "            </tr>\n" +
-    "        </tbody>\n" +
-    "    </table>\n" +
-    "</div>\n" +
-    "<div ng-show=\"!(tbody.rows && tbody.rows.length)\">\n" +
-    "    <uib-alert type=warning><span translate>Sorry, nothing found.</span></uib-alert>\n" +
-    "</div>"
-  );
-
-
-  $templateCache.put('/monad/directives/update/template.html',
-    "<h1 class=\"container-fluid clearfix\">\n" +
-    "    <small><a class=\"glyphicon glyphicon-arrow-up pull-right\" mo-path=/:language{{update.component.settings.list.url}}></a></small>\n" +
-    "    <span ng-if=update.item.$new translate>Create new item in <code>{{ update.component.name }}</code></span>\n" +
-    "    <span ng-if=!update.item.$new translate>Edit <q>{{ update.item.$title }}</q> in <code>{{ update.component.name }}</code></span>\n" +
-    "</h1>\n" +
-    "<div class=\"container-fluid clearfix\">\n" +
-    "    <form ng-submit=update.save() id=mo_update_form name=mo_update_form novalidate method=post>\n" +
-    "        <div ng-transclude></div>\n" +
-    "        <br style=\"clear: both\">\n" +
-    "        <div class=row>\n" +
-    "            <div class=\"clearfix col-md-12 spaceme\">\n" +
-    "                <button type=submit class=\"btn btn-primary fixed\" ng-if=\"mo_update_form.$valid && update.$dirty\" translate>Save changes</button>\n" +
-    "                <a href class=\"glyphicon glyphicon-trash text-danger\" ng-if=\"update.delete && !update.item.$new\" ng-click=update.delete()></a>\n" +
-    "            </div>\n" +
-    "        </div>\n" +
-    "    </form>\n" +
-    "</div>"
-  );
-
-
   $templateCache.put('/monad/templates/home.html',
     "<article class=jumbotron>\n" +
     "    <div class=container-fluid>\n" +
-    "        <h1>{{monad.title}} administrator</h1>\n" +
+    "        <h1>{{ $root.title }} administrator</h1>\n" +
     "    </div>\n" +
     "</article>\n" +
     "<div class=container-fluid>\n" +
@@ -105,7 +106,7 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
     "            <div class=\"panel panel-info\">\n" +
     "                <ul class=list-group>\n" +
     "                    <li class=list-group-item ng-repeat=\"item in monad.Navigation.main\">\n" +
-    "                        <a mo-path={{item.url}} ng-include=\"item.component + '/menu.html'\"></a>\n" +
+    "                        <a mo-path=\"{{ item.url }}\" ng-include=\"item.component + '/menu.html'\"></a>\n" +
     "                    </li>\n" +
     "                </ul>\n" +
     "            </div>\n" +
