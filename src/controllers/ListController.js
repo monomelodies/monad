@@ -19,7 +19,9 @@ export default class ListController {
      * @return void
      */
     constructor() {
-        this.page = _page;
+        if (!this.items) {
+            this.page = _page;
+        }
     }
 
     /**
