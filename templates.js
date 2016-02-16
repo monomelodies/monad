@@ -55,8 +55,8 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
   $templateCache.put('/monad/components/Update/template.html',
     "<h1 class=\"container-fluid clearfix\">\n" +
     "    <small><a class=\"glyphicon glyphicon-arrow-up pull-right\" mo-path=\"/:language{{ $ctrl.list }}\"></a></small>\n" +
-    "    <span ng-if=update.item.$new translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" +
-    "    <span ng-if=!update.item.$new translate>Edit <q>{{ $ctrl.item[$ctrl.title] }}</q> in <code>{{ $ctrl.type }}</code></span>\n" +
+    "    <span ng-if=update.data.item.$new translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" +
+    "    <span ng-if=!update.data.item.$new translate>Edit <q>{{ $ctrl.data.item[$ctrl.title] }}</q> in <code>{{ $ctrl.type }}</code></span>\n" +
     "</h1>\n" +
     "<div class=\"container-fluid clearfix\">\n" +
     "    <form ng-submit=$ctrl.save() id=mo_update_form name=mo_update_form novalidate method=post>\n" +
@@ -64,8 +64,8 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
     "        <br style=\"clear: both\">\n" +
     "        <div class=row>\n" +
     "            <div class=\"clearfix col-md-12 spaceme\">\n" +
-    "                <button type=submit class=\"btn btn-primary fixed\" ng-if=\"mo_update_form.$valid && mo_update_form.$dirty\" translate>Save changes</button>\n" +
-    "                <a href class=\"glyphicon glyphicon-trash text-danger\" ng-if=\"$ctrl.delete && $ctrl.item.id\" ng-click=$ctrl.delete()></a>\n" +
+    "                <button type=submit class=\"btn btn-primary fixed\" ng-if=\"mo_update_form.$valid && $ctrl.$dirty()\" translate>Save changes</button>\n" +
+    "                <a href class=\"glyphicon glyphicon-trash text-danger\" ng-if=\"$ctrl.delete && $ctrl.data.item.id\" ng-click=$ctrl.delete()></a>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </form>\n" +
