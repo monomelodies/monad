@@ -10,7 +10,7 @@ angular.module('monad.components.list', [])
         template: `<h1 class="clearfix">
     <a ng-if="$ctrl.create"
         class="glyphicon glyphicon-plus-sign pull-right"
-        title="{{'Create' | translate}}"
+        title="{{ 'Create' | translate }}"
         mo-path="/:language{{ $ctrl.create }}"></a>
     <span ng-transclude></span>
 </h1>`,
@@ -58,7 +58,7 @@ angular.module('monad.components.list', [])
         <div ng-show="!$ctrl.rows.length">
             <uib-alert type="warning"><span translate>Sorry, nothing found.</span></uib-alert>
         </div>`,
-        bindings: {rows: '<', update: '@'}
+        bindings: {rows: '=', update: '@'}
     })
     ;
 
