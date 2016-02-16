@@ -1,7 +1,7 @@
 <h1 class="container-fluid clearfix">
     <small><a class="glyphicon glyphicon-arrow-up pull-right" mo-path="/:language{{ $ctrl.list }}"></a></small>
-    <span ng-if="update.item.$new" translate>Create new item in <code>{{ $ctrl.type }}</code></span>
-    <span ng-if="!update.item.$new" translate>Edit <q>{{ $ctrl.item[$ctrl.title] }}</q> in <code>{{ $ctrl.type }}</code></span>
+    <span ng-if="update.data.item.$new" translate>Create new item in <code>{{ $ctrl.type }}</code></span>
+    <span ng-if="!update.data.item.$new" translate>Edit <q>{{ $ctrl.data.item[$ctrl.title] }}</q> in <code>{{ $ctrl.type }}</code></span>
 </h1>
 <div class="container-fluid clearfix">
     <form ng-submit="$ctrl.save()" id="mo_update_form" name="mo_update_form" novalidate method="post">
@@ -9,8 +9,8 @@
         <br style="clear: both">
         <div class="row">
             <div class="clearfix col-md-12 spaceme">
-                <button type="submit" class="btn btn-primary fixed" ng-if="mo_update_form.$valid && mo_update_form.$dirty" translate>Save changes</button>
-                <a href class="glyphicon glyphicon-trash text-danger" ng-if="$ctrl.delete && $ctrl.item.id" ng-click="$ctrl.delete()"></a>
+                <button type="submit" class="btn btn-primary fixed" ng-if="mo_update_form.$valid && $ctrl.$dirty()" translate>Save changes</button>
+                <a href class="glyphicon glyphicon-trash text-danger" ng-if="$ctrl.delete && $ctrl.data.item.id" ng-click="$ctrl.delete()"></a>
             </div>
         </div>
     </form>
