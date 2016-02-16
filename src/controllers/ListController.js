@@ -65,5 +65,3 @@ export default class ListController {
 
 };
 
-ListController.$inject = ['$scope', '$route', '$uibModal'];
-
