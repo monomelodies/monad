@@ -67,6 +67,24 @@ angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'mon
     // Normalize HTTP data using ng-lollipop
     .run(['normalizeIncomingHttpData', 'postRegularForm', (a, b) => {}])
 
+    // Extend default $resource service with save method on queried array.
+    // In Monad, we want to be able to easily append a new item to an array of
+    // queried resources. This exposes a `save` method on the array.
+    .factory('moResource', ['$resource', $resource => {
+        return (url, paramDefaults = {}, actions = {}, options = {}) => {
+            let res = $resource(url, paramDefaults, actions, options);
+            let query = res.query;
+            res.query = (parameters, success, error) => {
+                let found = query.call(res, parameters, success, error);
+                found.save = function (data, success, error) {
+                    return res.save({}, data, success, error);
+                };
+                return found;
+            };
+            return res;
+        };
+    }])
+
     // Default controllers
     .controller('moListController', ListController)
 
