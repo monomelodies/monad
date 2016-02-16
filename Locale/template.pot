@@ -17,7 +17,7 @@ msgid "Delete"
 msgstr ""
 
 #: src/components/Update/template.html:4
-msgid "Edit <q>{{ $ctrl.item[$ctrl.title] }}</q> in <code>{{ $ctrl.type }}</code>"
+msgid "Edit <q>{{ $ctrl.data.item[$ctrl.title] }}</q> in <code>{{ $ctrl.type }}</code>"
 msgstr ""
 
 #: src/components/Login/template.html:21
@@ -66,6 +66,7 @@ msgstr ""
 msgid "Save changes"
 msgstr ""
 
+#: src/components/Update/component.js:54
 #: src/controllers/CrudController.js:86
 msgid "Saving..."
 msgstr ""
