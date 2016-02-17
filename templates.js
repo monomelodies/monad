@@ -64,7 +64,7 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
     "        <br style=\"clear: both\">\n" +
     "        <div class=row>\n" +
     "            <div class=\"clearfix col-md-12 spaceme\">\n" +
-    "                <button type=submit class=\"btn btn-primary fixed\" ng-if=\"mo_update_form.$valid && $ctrl.$dirty()\" translate>Save changes</button>\n" +
+    "                <button type=submit class=\"btn btn-primary fixed\" ng-if=\"mo_update_form.$valid && $ctrl.$dirty\" translate>Save changes</button>\n" +
     "                <a href class=\"glyphicon glyphicon-trash text-danger\" ng-if=\"$ctrl.delete && $ctrl.data.item.id\" ng-click=$ctrl.delete()></a>\n" +
     "            </div>\n" +
     "        </div>\n" +
