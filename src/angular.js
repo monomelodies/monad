@@ -2,7 +2,7 @@
 "use strict";
 
 import 'ng-lollipop';
-import ListController from './controllers/ListController';
+import ListController from './ListController';
 import Navigation from './services/Navigation';
 import Authentication from './services/Authentication';
 import Language from './services/Language';
