@@ -1,8 +1,6 @@
 
 "use strict";
 
-import Collection from './Collection';
-
 let wm = new WeakMap();
 let promise = new WeakMap();
 
