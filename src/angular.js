@@ -1,6 +1,7 @@
 
 "use strict";
 
+import 'ng-lollipop';
 import ListController from './controllers/ListController';
 import Navigation from './services/Navigation';
 import Authentication from './services/Authentication';
@@ -8,8 +9,7 @@ import Language from './services/Language';
 import Report from './services/Report';
 import './directives/angular';
 import './components/angular';
-import 'ng-lollipop';
-import Model from './classes/Model';
+import Model from './Model';
 
 angular.module('monad.ng', ['ng', 'ngRoute', 'ngSanitize', 'ngAnimate', 'ngResource']);
 angular.module('monad.externals', ['gettext', 'ui.bootstrap', 'lollipop']);
