@@ -67,7 +67,6 @@ msgid "Save changes"
 msgstr ""
 
 #: src/components/Update/component.js:52
-#: src/controllers/CrudController.js:86
 msgid "Saving..."
 msgstr ""
 
