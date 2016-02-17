@@ -6,9 +6,7 @@ angular.module('monad.components.update', [])
         templateUrl: '/monad/components/Update/template.html',
         transclude: true,
         bindings: {data: '=', list: '@', type: '@', title: '@'},
-        controller: ['gettextCatalog', '$q', 'moReport', '$route', '$timeout', function (gettextCatalog, $q, moReport, $route, $timeout) {
-            let pristine = this.data;
-
+        controller: ['$scope', 'gettextCatalog', '$q', 'moReport', '$route', '$timeout', function ($scope, gettextCatalog, $q, moReport, $route, $timeout) {
             this.save = () => {
                 let promise = $q.defer();
                 let operations = 0;
@@ -58,9 +56,21 @@ angular.module('monad.components.update', [])
                 );
             };
 
-            this.$dirty = () => {
-                return pristine == this.data;
-            };
+            Object.defineProperty(this, '$dirty', {get: () => {
+                for (let i in this.data) {
+                    if (angular.isArray(this.data[i])) {
+                        for (let j = 0; j < this.data[i].length; j++) {
+                            // Deleted, dirty or new
+                            if (this.data[i][j].$deleted || this.data[i][j].$dirty || !('$save' in this.data[i][j])) {
+                                return true;
+                            }
+                        }
+                    } else if (this.data[i].$deleted || this.data[i].$dirty) {
+                        return true;
+                    }
+                }
+                return false;
+            }});
         }]
     })
     ;
