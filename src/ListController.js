@@ -45,7 +45,7 @@ export default class ListController {
 
     /**
      * Setter for the current page. Automatically refreshes the current
-     * Collection via the registered Manager.
+     * collection via the registered resource.
      *
      * @return void
      */
