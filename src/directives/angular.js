@@ -3,7 +3,7 @@
 
 import Delete from './list/table/delete';
 import Path from './path';
-import Field from './field/directive';
+import Field from './Field';
 import DragDrop from './dragDrop';
 import Slug from './slug';
 import Message from './message';
