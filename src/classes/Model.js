@@ -7,80 +7,27 @@ let wm = new WeakMap();
 let promise = new WeakMap();
 
 /**
- * Private helper to check if a field is actually set.
- * Unset is defined as undefined or null, string with no length OR
- * a string consisting only of <p></p> (for WYSIWTYG fields).
- *
- * @param mixed val The value to check.
- * @return boolean True if the value is considered "empty", else false.
- */
-function isset(val) {
-    return !!(val !== undefined && val !== null && ('' + val).trim().length && !('' + val).trim().match(/^<p>(\s|\n|&nbsp;)*<\/p>$/));
-}
-
-/**
- * A data object with dirty checking and optional virtual members or other
- * additional logic. Implementors should generally extend this class, but this
- * is not required.
+ * A data object with dirty checking and other virtual helpers.
  */
 export default class Model {
 
     /**
-     * Class constructor.
+     * Class constructor. Pass the initial key/values as data. This should be
+     * an Angular resource object.
      */
-    constructor(p = undefined) {
-        /**
-         * The "initial" state for this model. Used to check for pristineness.
-         * This is automatically set when $load is called.
-         */
+    constructor(data) {
         wm.set(this, {initial: undefined, deleted: false});
-        if (p) {
-            wm.set(this, {initial: true});
-            promise.set(this, p);
-            p.then(result => this.$load(result.data));
-        }
-    }
-
-    /**
-     * Static method to create a new Model of this type, optionally specifying
-     * default data and a class to derive from.
-     *
-     * @param object data Hash of key/value pairs of data.
-     * @param class derivedClass Optional class to actually use when
-     *  instantiating (defaults to the current class).
-     * @return mixed A new model of the desired class.
-     */
-    static $create(data = {}, derivedClass = undefined) {
-        derivedClass = derivedClass || Model;
-        let instance = new derivedClass();
-        instance.$load(data);
-        wm.set(instance, {initial: undefined, deleted: false});
-        return instance;
-    }
-
-    /**
-     * Load data into this model instance.
-     *
-     * @param object data Hash of key/value pairs of data.
-     */
-    $load(data = {}) {
-        if (data == undefined) {
-            wm.set(this, {initial: undefined, deleted: true});
-        } else {
-            for (let key in data) {
-                this[key] = data[key];
+        let loader = () => {
+            wm.get(this).initial = angular.copy(data);
+            for (let prop in data) {
+                this[prop] = data[prop];
             }
-            wm.set(this, {initial: angular.copy(data), deleted: false});
+        };
+        if (data.$promise) {
+            data.$promise.then(loader);
+        } else {
+            loader();
         }
-    }
-
-    /**
-     * Virtual property to check if this model is "new".
-     *
-     * @return boolean True if new, false if existing.
-     */
-    get $new() {
-        return !isset(wm.get(this).initial);
     }
 
     /**
@@ -93,33 +40,12 @@ export default class Model {
             return true;
         }
         let initial = wm.get(this).initial || {};
-        for (let key in this) {
-            if (key.substring(0, 1) == '$') {
+        for (let prop in this) {
+            if (prop.substring(0, 1) == '$') {
                 continue;
             }
-            if (!isset(this[key]) && !isset(initial[key])) {
-                continue;
-            }
-            if ((!isset(this[key]) && isset(initial[key])) || (isset(this[key]) && !isset(initial[key]))) {
+            if (differs(this[prop], initial[prop])) {
                 return true;
-            }
-            if (('' + this[key]).trim() != ('' + initial[key]).trim() && typeof this[key] != 'object') {
-                return true;
-            }
-            if (typeof this[key] == 'object') {
-                if (this[key] instanceof Collection) {
-                    let dirty = false;
-                    this[key].map(elem => {
-                        if (typeof elem == 'object' && elem.$dirty || elem.$deleted) {
-                            dirty = true;
-                        }
-                    });
-                    if (dirty) {
-                        return true;
-                    }
-                } else if (this[key] instanceof Model && this[key].$dirty) {
-                    return true;
-                }
             }
         }
         return false;
@@ -151,17 +77,87 @@ export default class Model {
         return '[Untitled]';
     }
 
-    get $promise() {
-        return promise.get(this);
-    }
-
+    /**
+     * Get private deleted state.
+     *
+     * @return bool
+     */
     get $deleted() {
         return wm.get(this).deleted;
     }
 
+    /**
+     * Set the deleted state. Note that this does _not_ call the "$delete"
+     * resource method.
+     *
+     * @param mixed value Truthy for "scheduled for deletion".
+     */
     set $deleted(value) {
-        wm.get(this).deleted = value;
+        wm.get(this).deleted = !!value;
     }
 
 };
+
+/**
+ * Private helper to check if a field is actually set.
+ * Unset is defined as undefined or null, string with no length OR
+ * a string consisting only of <p></p> (for WYSIWTYG fields).
+ *
+ * @param mixed val The value to check.
+ * @return bool True if the value is considered "empty", else false.
+ */
+function isset(val) {
+    return !!(val !== undefined && val !== null && ('' + val).trim().length && !('' + val).trim().match(/^<p>(\s|\n|&nbsp;)*<\/p>$/));
+}
+
+/**
+ * Private helper to determine if two values differ. Values can be of any type;
+ * the helper guesstimates and recurses as needed.
+ *
+ * @param mixed a Value to check.
+ * @param mixed b Value to compare to.
+ * @return bool
+ */
+function differs(a, b) {
+    if ((!isset(a) && isset(b)) || (isset(a) && !isset(b))) {
+        return true;
+    }
+    if (!a && !b) {
+        return false;
+    }
+    // If `a` is "dirty" we don't even have to do any other checks.
+    if (a instanceof Model) {
+        return a.$dirty || a.$deleted;
+    }
+    if (angular.isArray(a) && angular.isArray(b)) {
+        if (a.length != b.length) {
+            return true;
+        }
+        for (let i = 0; i < a.length; i++) {
+            if (differs(a[i], b[i])) {
+                return true;
+            }
+        }
+    }
+    if (typeof a == 'object' && typeof b == 'object') {
+        for (let i in a) {
+            if (i.substring(0, 1) == '$') {
+                continue;
+            }
+            if (differs(a[i], b[i])) {
+                return true;
+            }
+        }
+        for (let i in b) {
+            if (i.substring(0, 1) == '$') {
+                continue;
+            }
+            if (!(i in a)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    return ('' + a).trim() != ('' + b).trim();
+}
 
