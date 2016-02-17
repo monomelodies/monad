@@ -21,7 +21,6 @@ msgid "Edit <q>{{ $ctrl.data.item[$ctrl.title] }}</q> in <code>{{ $ctrl.type }}<
 msgstr ""
 
 #: src/components/Login/template.html:21
-#: src/templates/login.html:21
 msgid "Go!"
 msgstr ""
 
@@ -53,12 +52,10 @@ msgid "Note: this applies to the Monad CMS framework, not (necessarily) the site
 msgstr ""
 
 #: src/components/Login/template.html:19
-#: src/templates/login.html:19
 msgid "Password"
 msgstr ""
 
 #: src/components/Login/template.html:6
-#: src/templates/login.html:6
 msgid "Please login"
 msgstr ""
 
@@ -81,7 +78,6 @@ msgid "Toggle navigation"
 msgstr ""
 
 #: src/components/Login/template.html:12
-#: src/templates/login.html:12
 msgid "Username"
 msgstr ""
 
