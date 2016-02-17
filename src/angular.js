@@ -9,6 +9,7 @@ import Report from './services/Report';
 import './directives/angular';
 import './components/angular';
 import 'ng-lollipop';
+import Model from './classes/Model';
 
 angular.module('monad.ng', ['ng', 'ngRoute', 'ngSanitize', 'ngAnimate', 'ngResource']);
 angular.module('monad.externals', ['gettext', 'ui.bootstrap', 'lollipop']);
@@ -74,12 +75,21 @@ angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'mon
         return (url, paramDefaults = {}, actions = {}, options = {}) => {
             let res = $resource(url, paramDefaults, actions, options);
             let query = res.query;
+            let get = res.get;
             res.query = (parameters, success, error) => {
                 let found = query.call(res, parameters, success, error);
                 found.save = function (data, success, error) {
                     return res.save({}, data, success, error);
                 };
+                found.$promise.then(() => {
+                    found.map((item, i) => found[i] = new Model(item));
+                    return found;
+                });
                 return found;
+            };
+            res.get = (parameters, success, error) => {
+                let found = get.call(res, parameters, success, error);
+                return new Model(found);
             };
             return res;
         };
