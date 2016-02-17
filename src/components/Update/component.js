@@ -6,7 +6,7 @@ angular.module('monad.components.update', [])
         templateUrl: '/monad/components/Update/template.html',
         transclude: true,
         bindings: {data: '=', list: '@', type: '@', title: '@'},
-        controller: ['$scope', 'gettextCatalog', '$q', 'moReport', '$route', '$timeout', function ($scope, gettextCatalog, $q, moReport, $route, $timeout) {
+        controller: ['gettextCatalog', '$q', 'moReport', '$route', '$timeout', function (gettextCatalog, $q, moReport, $route, $timeout) {
             this.save = () => {
                 let promise = $q.defer();
                 let operations = 0;
