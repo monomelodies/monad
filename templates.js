@@ -55,8 +55,8 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
   $templateCache.put('/monad/components/Update/template.html',
     "<h1 class=\"container-fluid clearfix\">\n" +
     "    <small><a class=\"glyphicon glyphicon-arrow-up pull-right\" mo-path=\"/:language{{ $ctrl.list }}\"></a></small>\n" +
-    "    <span ng-if=update.data.item.$new translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" +
-    "    <span ng-if=!update.data.item.$new translate>Edit <q>{{ $ctrl.data.item[$ctrl.title] }}</q> in <code>{{ $ctrl.type }}</code></span>\n" +
+    "    <span ng-if=!$ctrl.data[$ctrl.type].id translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" +
+    "    <span ng-if=$ctrl.data[$ctrl.type].id translate>Edit <q>{{ $ctrl.data[$ctrl.type][$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code></span>\n" +
     "</h1>\n" +
     "<div class=\"container-fluid clearfix\">\n" +
     "    <form ng-submit=$ctrl.save() id=mo_update_form name=mo_update_form novalidate method=post>\n" +
@@ -70,20 +70,6 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
     "        </div>\n" +
     "    </form>\n" +
     "</div>"
-  );
-
-
-  $templateCache.put('/monad/directives/list/header/template.html',
-    "<h1 class=clearfix>\n" +
-    "    <a ng-if=header.component.settings.create class=\"glyphicon glyphicon-plus-sign pull-right\" title=\"{{'Create' | translate}}\" mo-path=/:language{{header.component.settings.create.url}}></a>\n" +
-    "    <span ng-transclude></span>\n" +
-    "    <span translate ng-if=!header.transcluded>List of items in {{ header.component.name }}</span>\n" +
-    "</h1>"
-  );
-
-
-  $templateCache.put('/monad/directives/list/table/delete.html',
-    "<button class=\"btn btn-warning\" mo-delete ng-click=\"tbody.refresh(delete(row, tbody.list.Manager))\" translate>Delete</button>"
   );
 
 
