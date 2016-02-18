@@ -60,6 +60,10 @@ angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'mon
     .run(['$rootScope', 'moNavigation', ($rootScope, moNavigation) => {
         $rootScope.Navigation = moNavigation;
     }])
+    // Register reporting service
+    .run(['$rootScope', 'moReport', ($rootScope, moReport) => {
+        $rootScope.messages = moReport.messages;
+    }])
     // Initialize session
     .run(['$rootScope', 'Authentication', ($rootScope, Authentication) => {
         $rootScope.$on('$routeChangeStart', () => Authentication['status']());//.then(() => Navigation.clear()));
