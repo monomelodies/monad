@@ -6,7 +6,7 @@ angular.module('monad.components.update', [])
         templateUrl: '/monad/components/Update/template.html',
         transclude: true,
         bindings: {data: '=', list: '@', type: '@', title: '@'},
-        controller: ['gettextCatalog', '$q', 'moReport', '$route', '$timeout', function (gettextCatalog, $q, moReport, $route, $timeout) {
+        controller: ['gettextCatalog', '$q', 'moReport', '$route', function (gettextCatalog, $q, moReport, $route) {
             this.save = () => {
                 let promise = $q.defer();
                 let operations = 0;
@@ -30,7 +30,7 @@ angular.module('monad.components.update', [])
                                 if (item.$deleted) {
                                     operations++;
                                     item.$delete({}, progress);
-                                } else {
+                                } else if (!item.id || item.$dirty) {
                                     operations++;
                                     item.$save({}, progress);
                                 }
@@ -42,11 +42,9 @@ angular.module('monad.components.update', [])
                     };
                 };
 
-                $timeout(() => {
-                    for (let i in this.data) {
-                        saveit()(this.data[i]);
-                    }
-                });
+                for (let i in this.data) {
+                    saveit()(this.data[i]);
+                }
                 moReport.add(
                     'info',
                     '<p style="text-align: center">' + gettextCatalog.getString('Saving...') + '</p>' +
