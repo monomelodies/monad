@@ -4,16 +4,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
-#: src/directives/list/header/template.html:4
-msgid "Create"
-msgstr ""
-
 #: src/components/Update/template.html:3
 msgid "Create new item in <code>{{ $ctrl.type }}</code>"
-msgstr ""
-
-#: src/directives/list/table/delete.html:1
-msgid "Delete"
 msgstr ""
 
 #: src/components/Update/template.html:4
@@ -36,10 +28,6 @@ msgstr ""
 
 #: src/templates/license.html:2
 msgid "License"
-msgstr ""
-
-#: src/directives/list/header/template.html:7
-msgid "List of items in {{ header.component.name }}"
 msgstr ""
 
 #: index.html:82
