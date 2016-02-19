@@ -100,15 +100,15 @@ module.exports = function (grunt) {
                     version: pkg.version
                 }
             },
-            src: 'index.html',
-            dest: 'index.html'
+            src: 'dist/index.html',
+            dest: 'dist/index.html'
         }
     });
 
     grunt.loadNpmTasks('grunt-browserify');
     grunt.config('browserify', {
         monad: {
-            src: './src/angular.js',
+            src: 'src/angular.js',
             dest: 'dist/monad.js',
             options: {
                 transform: ['babelify'],
