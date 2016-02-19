@@ -49618,21 +49618,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () {
-    function defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }return function (Constructor, protoProps, staticProps) {
-        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-    };
-}();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var params = undefined;
 var route = undefined;
@@ -49667,6 +49655,7 @@ var ListController = function () {
      * @return void
      */
 
+
     _createClass(ListController, [{
         key: "reset",
         value: function reset() {
@@ -49692,8 +49681,8 @@ var ListController = function () {
          *
          * @return void
          */
-
-        , set: function set(page) {
+        ,
+        set: function set(page) {
             _page = page;
             this.items = this.resource.query({ filter: this.filter, limit: 10, offset: (page - 1) * 10 });
         }
@@ -49718,33 +49707,15 @@ exports.default = ListController;
 
 "use strict";
 
-var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _createClass = function () {
-    function defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }return function (Constructor, protoProps, staticProps) {
-        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-    };
-}();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var wm = new WeakMap();
 var promise = new WeakMap();
@@ -49784,6 +49755,7 @@ var Model = function () {
      *
      * @return boolean True if dirty, false if pristine.
      */
+
 
     _createClass(Model, [{
         key: '$dirty',
@@ -49850,8 +49822,8 @@ var Model = function () {
          *
          * @param mixed value Truthy for "scheduled for deletion".
          */
-
-        , set: function set(value) {
+        ,
+        set: function set(value) {
             wm.get(this).deleted = !!value;
         }
     }]);
@@ -49981,9 +49953,7 @@ var _Model = require('./Model');
 
 var _Model2 = _interopRequireDefault(_Model);
 
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 angular.module('monad.ng', ['ng', 'ngRoute', 'ngSanitize', 'ngAnimate', 'ngResource']);
 angular.module('monad.externals', ['gettext', 'ui.bootstrap', 'lollipop']);
@@ -50085,7 +50055,7 @@ angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'mon
 // Default controllers
 .controller('moListController', _ListController2.default).service('moNavigation', _Navigation2.default).service('Authentication', _Authentication2.default).service('moLanguage', _Language2.default).service('moReport', _Report2.default);
 
-},{"../i18n":1,"../templates":224,"./ListController":207,"./Model":208,"./components/angular":213,"./directives/angular":215,"./services/Authentication":220,"./services/Language":221,"./services/Navigation":222,"./services/Report":223,"angular":14,"angular-animate":3,"angular-gettext":4,"angular-resource":6,"angular-route":8,"angular-sanitize":10,"angular-ui-bootstrap":12,"autofill-event":15,"babel-polyfill":16,"ng-lollipop":205}],210:[function(require,module,exports){
+},{"../i18n":1,"../templates":223,"./ListController":207,"./Model":208,"./components/angular":213,"./directives/angular":215,"./services/Authentication":219,"./services/Language":220,"./services/Navigation":221,"./services/Report":222,"angular":14,"angular-animate":3,"angular-gettext":4,"angular-resource":6,"angular-route":8,"angular-sanitize":10,"angular-ui-bootstrap":12,"autofill-event":15,"babel-polyfill":16,"ng-lollipop":205}],210:[function(require,module,exports){
 
 "use strict";
 
@@ -50148,13 +50118,7 @@ angular.module('monad.components.login', []).component('moLogin', {
 
 "use strict";
 
-var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 angular.module('monad.components.update', []).component('moUpdate', {
     templateUrl: '/monad/components/Update/template.html',
@@ -50259,10 +50223,6 @@ exports.default = function () {
 
 "use strict";
 
-var _path = require('./path');
-
-var _path2 = _interopRequireDefault(_path);
-
 var _Field = require('./Field');
 
 var _Field2 = _interopRequireDefault(_Field);
@@ -50279,13 +50239,11 @@ var _message = require('./message');
 
 var _message2 = _interopRequireDefault(_message);
 
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-angular.module('monad.directives', []).directive('moPath', _path2.default).directive('moField', _Field2.default).directive('moDragDrop', _dragDrop2.default).directive('moSlug', _slug2.default).directive('moMessage', _message2.default);
+angular.module('monad.directives', []).directive('moField', _Field2.default).directive('moDragDrop', _dragDrop2.default).directive('moSlug', _slug2.default).directive('moMessage', _message2.default);
 
-},{"./Field":214,"./dragDrop":216,"./message":217,"./path":218,"./slug":219}],216:[function(require,module,exports){
+},{"./Field":214,"./dragDrop":216,"./message":217,"./slug":218}],216:[function(require,module,exports){
 
 "use strict";
 
@@ -50293,15 +50251,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-function _toConsumableArray(arr) {
-    if (Array.isArray(arr)) {
-        for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-            arr2[i] = arr[i];
-        }return arr2;
-    } else {
-        return Array.from(arr);
-    }
-}
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var draggedElement = undefined;
 var target = undefined;
@@ -50388,21 +50338,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () {
-    function defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }return function (Constructor, protoProps, staticProps) {
-        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-    };
-}();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var controller = function () {
     function controller() {
@@ -50434,58 +50372,6 @@ exports.default = ['$compile', function ($compile) {
 }];
 
 },{}],218:[function(require,module,exports){
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = ['$route', '$location', 'moLanguage', function ($route, $location, Language) {
-
-    function found(element, path, args) {
-        for (var a in args) {
-            path = path.replace(':' + a, args[a]);
-        }
-        element.attr('href', '#' + path.replace(/^#/, ''));
-    };
-
-    return {
-        restrict: 'A',
-        link: function link(scope, element, attrs) {
-            element.on('click', function ($event) {
-                var t = element.text();
-                if (!t.match(/\s/) && t.match(/^https?:\/\//)) {
-                    window.open(t);
-                    $event.stopPropagation();
-                    return false;
-                } else {
-                    return true;
-                }
-            });
-            var params = $route.current ? $route.current.params : {};
-            var original = $route.current ? $route.current.originalPath : $location.path().replace(/^\/[a-z]{2}\//, '/:language/');
-            var path = attrs.moPath || original;
-            if (!path) {
-                return;
-            }
-            var args = angular.copy(attrs['arguments'] ? scope.$eval(attrs['arguments']) : {});
-            if (params.language) {
-                args.language = args.language || params.language;
-            } else {
-                args.language = args.language || Language.current;
-            }
-            for (var _path in $route.routes) {
-                var _pC = ($route.routes[_path].controller || '') + '';
-                if (_pC.toLowerCase() == path.toLowerCase()) {
-                    return found(element, _path, args);
-                }
-            }
-            return found(element, path, args);
-        }
-    };
-}];
-
-},{}],219:[function(require,module,exports){
 
 "use strict";
 
@@ -50539,7 +50425,7 @@ exports.default = function () {
     };
 };
 
-},{}],220:[function(require,module,exports){
+},{}],219:[function(require,module,exports){
 
 "use strict";
 
@@ -50551,21 +50437,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-  };
-}();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Authentication = function () {
   function Authentication() {
@@ -50574,6 +50448,7 @@ var Authentication = function () {
 
   _createClass(Authentication, [{
     key: 'status',
+
 
     /**
      * _Must_ return a promise checking the current authentication status.
@@ -50630,7 +50505,7 @@ var Authentication = function () {
 exports.default = Authentication;
 ;
 
-},{}],221:[function(require,module,exports){
+},{}],220:[function(require,module,exports){
 
 "use strict";
 
@@ -50638,24 +50513,12 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () {
-    function defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }return function (Constructor, protoProps, staticProps) {
-        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-    };
-}();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var current = undefined;
-var langs = undefined;
+var scope = undefined;
 var catalog = undefined;
 
 /**
@@ -50678,7 +50541,7 @@ var Language = function () {
 
         _classCallCheck(this, Language);
 
-        langs = $rootScope.languages;
+        scope = $rootScope;
         catalog = gettextCatalog;
         $rootScope.$on('$routeChangeSuccess', function (event, target) {
             if (target.params.language && target.params.language != current) {
@@ -50693,6 +50556,7 @@ var Language = function () {
      * @return string Current language identifier.
      */
 
+
     _createClass(Language, [{
         key: 'current',
         get: function get() {
@@ -50706,9 +50570,9 @@ var Language = function () {
          * @param string lang The language identifier to set.
          * @return void
          */
-
-        , set: function set(lang) {
-            if (langs.indexOf(lang) == -1) {
+        ,
+        set: function set(lang) {
+            if (scope.languages.indexOf(lang) == -1) {
                 throw 'Language "' + lang + '" is unavailable, sorry.';
             }
             current = lang;
@@ -50724,7 +50588,7 @@ var Language = function () {
     }, {
         key: 'list',
         get: function get() {
-            return langs;
+            return scope.languages;
         }
     }]);
 
@@ -50736,7 +50600,7 @@ exports.default = Language;
 
 Language.$inject = ['gettextCatalog', '$rootScope'];
 
-},{}],222:[function(require,module,exports){
+},{}],221:[function(require,module,exports){
 
 "use strict";
 
@@ -50744,21 +50608,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () {
-    function defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }return function (Constructor, protoProps, staticProps) {
-        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-    };
-}();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var paths = {};
 var loc = undefined;
@@ -50777,6 +50629,7 @@ var Menu = function Menu() {
 /**
  * Service to handle navigatable menus in Monad.
  */
+
 
 var Navigation = function () {
 
@@ -50815,6 +50668,7 @@ var Navigation = function () {
      * @param object option Key/value hash of settings for this option.
      * @return self for easy chaining (`moNavigation.option().option()`).
      */
+
 
     _createClass(Navigation, [{
         key: 'option',
@@ -50898,49 +50752,24 @@ var Navigation = function () {
 
 exports.default = Navigation;
 
+
 Navigation.$inject = ['$location', 'Authentication'];
 
-},{}],223:[function(require,module,exports){
+},{}],222:[function(require,module,exports){
 
 "use strict";
-
-var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
-    return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-} : function (obj) {
-    return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
-};
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _createClass = function () {
-    function defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }return function (Constructor, protoProps, staticProps) {
-        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-    };
-}();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _toConsumableArray(arr) {
-    if (Array.isArray(arr)) {
-        for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-            arr2[i] = arr[i];
-        }return arr2;
-    } else {
-        return Array.from(arr);
-    }
-}
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-    }
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var _messages = [];
 var $timeout = undefined;
@@ -50975,6 +50804,7 @@ var Report = function () {
      * @return promise The promise used to remove the message is returned, e.g.
      *  for additional (error) handling.
      */
+
 
     _createClass(Report, [{
         key: 'add',
@@ -51028,6 +50858,7 @@ var Report = function () {
 
     }, {
         key: 'default',
+
 
         /**
          * Convenience method to add a `default` message.
@@ -51139,9 +50970,10 @@ var Report = function () {
 
 exports.default = Report;
 
+
 Report.$inject = ['$timeout'];
 
-},{}],224:[function(require,module,exports){
+},{}],223:[function(require,module,exports){
 'use strict';
 
 angular.module('monad.templates', []).run(['$templateCache', function ($templateCache) {
