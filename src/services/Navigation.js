@@ -8,7 +8,8 @@ let cache = {};
 
 let defaults = {
     menu: 'main',
-    authentication: undefined
+    authentication: undefined,
+    notify: () => {}
 };
 
 class Menu {
@@ -47,6 +48,8 @@ export default class Navigation {
      * - (string) `authentication`: Custom authentication service for this
      *   option. Defaults to the main authentication service, but you can
      *   override to restrict access to certain sections.
+     * - (function) `notify`: A function that returns an integer alerting the
+     *   user to activity or todos in this menu item.
      *
      * @param object option Key/value hash of settings for this option.
      * @return self for easy chaining (`moNavigation.option().option()`).
