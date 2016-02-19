@@ -40,7 +40,7 @@ angular.module('monad.components.list', [])
                 let custom = $transclude().find('td[property="' + col + '"]');
                 let html = custom.html();
                 if (!(html && html.length)) {
-                    html = `<a ng-href="#/{{ $root.Language.current }}{{ $ctrl.update }}" arguments="row">{{ row.${col} }}</a>`;
+                    html = `<a ng-href="#/{{ $root.Language.current }}{{ $ctrl.update.replace(':id', row.id) }}" arguments="row">{{ row.${col} }}</a>`;
                 }
                 $templateCache.put('/monad/' + col + '.html', html);
             });
