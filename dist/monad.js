@@ -50092,7 +50092,7 @@ angular.module('monad.components.list', []).component('moListHeader', {
             var custom = $transclude().find('td[property="' + col + '"]');
             var html = custom.html();
             if (!(html && html.length)) {
-                html = '<a ng-href="#/{{ $root.Language.current }}{{ $ctrl.update }}" arguments="row">{{ row.' + col + ' }}</a>';
+                html = '<a ng-href="#/{{ $root.Language.current }}{{ $ctrl.update.replace(\':id\', row.id) }}" arguments="row">{{ row.' + col + ' }}</a>';
             }
             $templateCache.put('/monad/' + col + '.html', html);
         });
@@ -50619,7 +50619,8 @@ var cache = {};
 
 var defaults = {
     menu: 'main',
-    authentication: undefined
+    authentication: undefined,
+    notify: function notify() {}
 };
 
 var Menu = function Menu() {
@@ -50664,6 +50665,8 @@ var Navigation = function () {
      * - (string) `authentication`: Custom authentication service for this
      *   option. Defaults to the main authentication service, but you can
      *   override to restrict access to certain sections.
+     * - (function) `notify`: A function that returns an integer alerting the
+     *   user to activity or todos in this menu item.
      *
      * @param object option Key/value hash of settings for this option.
      * @return self for easy chaining (`moNavigation.option().option()`).
