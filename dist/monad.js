@@ -49638,15 +49638,22 @@ var ListController = function () {
     /**
      * Class constructor.
      *
+     * @param object $scope Injected scope.
      * @return void
      */
 
-    function ListController() {
+    function ListController($scope) {
+        var _this = this;
+
         _classCallCheck(this, ListController);
 
         if (!this.items) {
             this.page = _page;
         }
+        this.filter = {};
+        $scope.$watch('$ctrl.filter', function (newvalue) {
+            _this.page = 1;
+        });
     }
 
     /**
@@ -49657,7 +49664,7 @@ var ListController = function () {
 
 
     _createClass(ListController, [{
-        key: "reset",
+        key: 'reset',
         value: function reset() {
             route.reset();
             this.page = 1;
@@ -49670,7 +49677,7 @@ var ListController = function () {
          */
 
     }, {
-        key: "page",
+        key: 'page',
         get: function get() {
             return _page;
         }
@@ -49687,7 +49694,7 @@ var ListController = function () {
             this.items = this.resource.query({ filter: this.filter, limit: 10, offset: (page - 1) * 10 });
         }
     }, {
-        key: "filter",
+        key: 'filter',
         get: function get() {
             return filter;
         },
@@ -49702,6 +49709,8 @@ var ListController = function () {
 
 exports.default = ListController;
 ;
+
+ListController.$inject = ['$scope'];
 
 },{}],208:[function(require,module,exports){
 
