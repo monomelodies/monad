@@ -54,7 +54,7 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
 
   $templateCache.put('/monad/components/Update/template.html',
     "<h1 class=\"container-fluid clearfix\">\n" +
-    "    <small><a class=\"glyphicon glyphicon-arrow-up pull-right\" mo-path=\"/:language{{ $ctrl.list }}\"></a></small>\n" +
+    "    <small><a class=\"glyphicon glyphicon-arrow-up pull-right\" ng-href=\"#/{{ $root.Language.current }}{{ $ctrl.list }}\"></a></small>\n" +
     "    <span ng-if=!$ctrl.data[$ctrl.type].id translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" +
     "    <span ng-if=$ctrl.data[$ctrl.type].id translate>Edit <q>{{ $ctrl.data[$ctrl.type][$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code></span>\n" +
     "</h1>\n" +
@@ -91,8 +91,8 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
     "        <aside class=col-md-6>\n" +
     "            <div class=\"panel panel-info\">\n" +
     "                <ul class=list-group>\n" +
-    "                    <li class=list-group-item ng-repeat=\"item in monad.Navigation.main\">\n" +
-    "                        <a mo-path=\"{{ item.url }}\" ng-include=\"item.component + '/menu.html'\"></a>\n" +
+    "                    <li class=list-group-item ng-repeat=\"item in $root.Navigation.main\">\n" +
+    "                        <a ng-href=\"#/{{ $root.Language.current }}{{ item.url }}\" ng-click=$root.Navigation.select(item)>{{ item.title }}</a>\n" +
     "                    </li>\n" +
     "                </ul>\n" +
     "            </div>\n" +
