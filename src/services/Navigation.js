@@ -6,129 +6,84 @@ let loc = undefined;
 let auth = undefined;
 let cache = {};
 
+let defaults = {
+    menu: 'main',
+    authentication: undefined
+};
+
 class Menu {
 }
 
 /**
- * Mostly internally used service to handle navigatable menus in Monad.
+ * Service to handle navigatable menus in Monad.
  */
 export default class Navigation {
 
     /**
      * Class constructor.
      *
-     * @param object $location Injected $location object.
-     * @param object Authentication Injected Authentication object.
-     * @param object $injector Injector $injector object.
+     * @param object $location Injected $location service.
+     * @param object Authentication Injected default Authentication service.
      * @return void
      */
-    constructor($location, Authentication, $injector) {
-
-        function access(component) {
-            let authenticate;
-            if (component.defaults.list
-                && component.defaults.list.resolve
-                && component.defaults.list.resolve.Authentication
-            ) {
-                authenticate = $injector.instantiate(component.defaults.list.resolve.Authentication);
-            } else {
-                authenticate = Authentication;
-            }
-            if (authenticate && authenticate.check) {
-                return true;
-            } else {
-                return false;
-            }
-        };
-
+    constructor($location, Authentication) {
+        defaults.authentication = Authentication;
         loc = $location;
-        auth = Authentication;
-        for (let menu in paths) {
-            Object.defineProperty(this, menu, {get: () => {
-                if (menu in cache) {
-                    return cache[menu];
-                }
-                cache[menu] = [];
-                paths[menu].map(path => {
-                    if (path.component) {
-                        let component = monad.component(path.component);
-                        path.access = () => access(component);
-                        cache[menu].push(path);
-                        if ('$manager' in component) {
-                            path.manager = $injector.get(component.$manager.name);
-                        }
-                    } else {
-                        // Submenu.
-                        let sub = {items: []};
-                        path.items.map(item => {
-                            let component = monad.component(item.component);
-                            item.access = () => access(component);
-                            sub.items.push(item);
-                        });
-                        if (sub.items.length) {
-                            cache[menu].push(sub);
-                        }
-                    }
-                });
-                return cache[menu];
+    }
+
+    /**
+     * Register an option on a menu.
+     *
+     * The following keys are recognised:
+     * - (string) `title`: Human-readable option name. Run through
+     *   `angular-gettext` when creating a multi-language admin.
+     * - (string) `menu`: The menu to append this option to. Defaults to `main`
+     *   which is the main top menu. You can add other menus if you like.
+     * - (string) `parent`: Optional (possibly translated) title of parent item
+     *   to add option to. Allows you to build submenus (pulldown). Note that
+     *   menu titles are assumed to be unique within a (sub)menu.
+     * - (string) `url`: The URL the menu option refers to. The language gets
+     *   prepended by Monad.
+     * - (string) `authentication`: Custom authentication service for this
+     *   option. Defaults to the main authentication service, but you can
+     *   override to restrict access to certain sections.
+     *
+     * @param object option Key/value hash of settings for this option.
+     * @return self for easy chaining (`moNavigation.option().option()`).
+     */
+    option(option = {}) {
+        option = angular.extend({}, defaults, option);
+        if (!('title' in option)) {
+            throw 'Each menu option needs a (unique) title.';
+        }
+        paths[option.menu] = paths[option.menu] || [];
+        let work = paths[option.menu];
+        if (!this.hasOwnProperty(option.menu)) {
+            Object.defineProperty(this, option.menu, {get: () => {
+                return paths[option.menu];
             }});
         }
-    }
-
-    /**
-     * Static method to register an option on a menu.
-     *
-     * @param Component component The Monad Component to register.
-     * @param string menu The menu to register on.
-     * @param string url The URL this option should link to.
-     * @param string label Optional label to register under; used for building
-     *  menus-with-submenus.
-     * @return void
-     */
-    static register(component, menu, url, label = undefined) {
-        let work;
-        if (typeof menu == 'string') {
-            let m = {};
-            m[menu] = null;
-            menu = m;
-        }
-        let sub;
-        for (let key in menu) {
-            sub = menu[key];
-            menu = key;
-        }
-        paths[menu] = paths[menu] || [];
-        let selected = false;
-        let found = false;
-        if (!label) {
-            label = this.name;
-        }
-        let next = {component, url, label, selected};
-        paths[menu].map(item => {
-            if (item.label && item.label == sub) {
-                item.items.push(next);
-                found = true;
-            }
-        });
-        if (!found) {
-            if (sub) {
-                let subitem = new Menu;
-                subitem.label = sub;
-                subitem.items = [next];
-                paths[menu].push(subitem);
-            } else {
-                paths[menu].push(next);
+        if ('parent' in option) {
+            let found = undefined;
+            paths[option.menu].map(item => {
+                if (item.title == option['parent']) {
+                    found = item;
+                }
+            });
+            if (!found) {
+                found = {
+                    title: option['parent'],
+                    items: []
+                };
+                paths[option.menu].push(found);
+                work = found.items;
             }
         }
-    }
-
-    /**
-     * Clears the menu cache. Sometimes useful to reset stuff.
-     *
-     * @return void
-     */
-    clear() {
-        cache = {};
+        if (!('url' in option)) {
+            throw 'Each menu option needs to specify a URL.';
+        }
+        work.push(option);
+        return this;
     }
 
     /**
@@ -158,5 +113,5 @@ export default class Navigation {
 
 }
 
-Navigation.$inject = ['$location', 'Authentication', '$injector'];
+Navigation.$inject = ['$location', 'Authentication'];
 
