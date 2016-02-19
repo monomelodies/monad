@@ -16,12 +16,17 @@ export default class ListController {
     /**
      * Class constructor.
      *
+     * @param object $scope Injected scope.
      * @return void
      */
-    constructor() {
+    constructor($scope) {
         if (!this.items) {
             this.page = _page;
         }
+        this.filter = {};
+        $scope.$watch('$ctrl.filter', (newvalue) => {
+            this.page = 1;
+        });
     }
 
     /**
@@ -64,4 +69,6 @@ export default class ListController {
     }
 
 };
+
+ListController.$inject = ['$scope'];
 
