@@ -49,12 +49,12 @@
                             <ul class="dropdown-menu" ng-if="item.items">
                                 <li ng-repeat="item in item.items" ng-if="item.authentication.check">
                                     <a ng-href="#/{{ Language.current }}{{ item.url }}" ng-click="Navigation.select(item)" mo-menu-label item="item">
-                                        <small ng-if="item.notify">{{ item.notify }}</small>
+                                        <small ng-if="item.notify">{{ item.notify() }}</small>
                                         {{ item.title }}
                                     </a>
                             </ul>
                             <a ng-if="!item.items" ng-href="#/{{ Language.current }}{{ item.url }}" ng-click="Navigation.select(item)">
-                                <small ng-if="item.notify">{{ item.notify }}</small>
+                                <small ng-if="item.notify">{{ item.notify() }}</small>
                                 {{ item.title }}
                             </a>
                         </li>
@@ -104,6 +104,7 @@
 
         <div id="modal" ng-if="modal"></div>
         
+        <script src="monad.js"></script>
         <script src="bundle.js"></script>
         <script ng-if="liveReload" ng-src="{{ liveReload }}"></script>
     </body>
