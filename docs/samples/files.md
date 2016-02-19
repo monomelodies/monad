@@ -5,21 +5,23 @@ all file uploads are made to a central point in your API. We'll call it
 `/api/file/` in these examples.
 
 This assumes the [angular-file-upload](https://github.com/danialfarid/angular-file-upload)
-plugin. Install it in your project (example in Bower) and add it as a
+plugin. Install it in your project (example in NPM) and add it as a
 dependency:
 
 ```bash
-$ bower install --save-dev ng-file-upload
+$ npm install --save-dev ng-file-upload
 ```
 
 ```javascript
-// Admin entry point, after `import 'monad-cms/monad`:
-import '/path/to/bower_components/ng-file-upload/ng-file-upload-all.js';
+// ES6
+import 'ng-file-upload';
+// Browserify
+require('ng-file-upload');
 ```
 
 Then add the module dependency to your Monad application:
 ```javascript
-monad.application('foobar', ['ngFileUpload']);
+var app = angular.module('awesome', ['monad', ['ngFileUpload']);
 ```
 
 There are alternative file upload modules out there; you can use whichever suits
@@ -30,45 +32,27 @@ In your `schema.html` or `list.html` (or wherever you need the upload option),
 add a link to `angular-file-upload`:
 
 ```html
-<a ngf-select ngf-change="crud.upload($files)" ng-model="crud.item.property" href>
+<a ngf-select ngf-change="$ctrl.upload($files)" ng-model="$ctrl.data.item.property" href>
     click to upload files!
 </a>
 ```
 
-(The above assumes we're doing it on a create/update page - `crud` - and we want
-to store the upload in `item.property`.)
+(The above assumes we're doing it on a create/update page and we want to store
+the upload in `item.property`.)
 
 > `angular-file-upload` supports many more options; see its documentation.
 
 Now, we need our controller to handle that:
 
 ```javascript
-import CrudController from '/path/to/monad/src/controllers/CrudController';
-
-let upl;
-
-class CrudWithUploadController extends CrudController {
-    
-    constructor(...args, Upload) {
-        super(...args);
-        upl = Upload;
-    }
-
-    upload($files) {
-    }
-
-};
-
-CrudWithUploadController.$inject = CrudController.$inject.concat(['Upload']);
-
-export {CrudWithUploadController};
-```
-
-...and in our entry point:
-
-```javascript
-monad.component('foobar', 'upload')
-    .update('/some/url/:id/', {controller: CrudWithUploadController});
+app.component('awesomeFoo', {
+    // ...
+    controller: ['Upload', function(Upload) {
+        this.upload = function ($files) {
+            // ...
+        };
+    }]
+});
 ```
 
 We've added an extra dependency on `Upload`. This is the service
@@ -76,23 +60,20 @@ We've added an extra dependency on `Upload`. This is the service
 the magic happens, so let's write a simple implementation:
 
 ```javascript
-class CrudWithUploadController extends CrudController {
-
 // ...as above...
-
-    upload($files) {
-        $files.map(file => {
-            upl.upload({
+    this.upload = function ($files) {
+        $files.map(function (file) {
+            Upload.upload({
                 url: '/api/file/',
                 // You'll probably want this parameter, since uploading
                 // typically requires a valid session. But it depends on
                 // your authentication scheme:
                 withCredentials: true,
                 file: file
-            }).progress(evt => {
+            }).progress(function (evt) {
                 // Example of showing progress percentage:
                 console.log(Math.round(100.0 * evt.loaded / evt.total));
-            }).success((data, status, headers, config) => {
+            }).success(function (data, status, headers, config) {
                 // Done! This should do something useful, e.g.:
                 this.item.property = data.id;
             });
@@ -139,7 +120,7 @@ monad.application('foobar')
 ...so you can do this in any template requiring an upload:
 
 ```html
-<a ngf-select ngf-change="upload($files)" ng-model="crud.item.property" foobar-upload href>
+<a ngf-select ngf-change="upload($files)" ng-model="$ctrl.data.item.property" foobar-upload href>
     click to upload files!
 </a>
 ```
@@ -148,24 +129,25 @@ The `property` property will likely also vary, so you would extend your
 directive to take that from an attribute.
 
 ## Option 3: registering a handler directly as a resolve
-Since parameters to `monad.update()` etc. are autoresolved on the current scope
-controller, you can also define them directly if you don't need access to that
-scope:
+If uploading doesn't need access to the scope, you could also define the upload
+function as a `resolve` and inject it into your component:
 
 ```javascript
-monad.update('/some/path/:id/', {}, {
-    // ...other stuff you need to define like Managers etc.
-    uploader: ['Upload', Upload => {
-        return file => {
-            // Handle using Upload service.
-        };
-    }]
-});
+//...
+$routeProvider.when('/some/path/:id/', {
+    //...
+    resolve: {
+        file: ['Upload', function (Upload) {
+        }]
+    }
 ```
+
+...and assuming the component registers `$resolve.file` on its `file`
+property...
 
 ```html
 <!-- schema.html -->
-<a href ngf-select="crud.uploader($file)">Upload something!</a>
+<a href ngf-select="$ctrl.file($file)">Upload something!</a>
 ```
 
 ## In CKEditor
@@ -178,12 +160,13 @@ that handle the file selection. Assuming you need it available globally, you
 would do this:
 
 ```javascript
-monad.application('foobar')
-    .value('ckeditor', {
+app.run(['$rootScope', function ($rootScope) {
+    $rootScope.ckeditor = {
         filebrowserBrowseUrl: '/api/browse/file/',
         filebrowserImageBrowseUrl: '/api/browse/image/',
         filebrwoserFlashBrowseUrl: '/api/browse/flash/'
-    });
+    };
+}]);
 ```
 
 (The exact URLs are random of course; use what you like.) Now pass that value

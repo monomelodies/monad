@@ -6,10 +6,11 @@ pages:
 - Overview:
     - 'Home': 'index.md'
     - 'A little history': 'overview/history.md'
-    - 'Setting up a build script': 'overview/build.md'
     - 'Main concepts': 'overview/main.md'
     - 'Basic customisation': 'overview/customisation.md'
     - 'Authentication': 'overview/authentication.md'
+    - 'Models': 'overview/models.md'
+    - 'Navigation': 'overview/navigation.md'
 - Components:
     - 'Setup': 'components/setup.md'
     - 'Managers': 'components/managers.md'
@@ -24,7 +25,6 @@ pages:
     - 'moListHeader': 'directives/list/header.md'
     - 'moListTable': 'directives/list/table.md'
     - 'moUpdate': 'directives/update.md'
-    - 'moDelete': 'directives/list/delete.md'
     - 'moField': 'directives/field.md'
     - 'moDragDrop': 'directives/dragdrop.md'
 - Examples:
@@ -32,7 +32,6 @@ pages:
     - 'Translating your administrator': 'samples/translate.md'
     - 'CRUD with multiple models': 'samples/multi.md'
     - 'Filtering lists': 'samples/filtering.md'
-    - 'Notifications': 'samples/notifications.md'
     - 'Messages': 'samples/messaging.md'
     - 'Integrating CKEditor': 'samples/ckeditor.md'
     - 'File uploads': 'samples/files.md'
@@ -40,5 +39,5 @@ pages:
     - 'Building reusable components': 'samples/reusable.md'
     - 'Wordpress plugin': 'samples/wordpress.md'
 
-copyright: Copyright &copy; 2015, <a href="http://www.monomelodies.nl/">Marijn Ophorst</a>
+copyright: Copyright &copy; 2015, 2016, <a href="http://www.monomelodies.nl/">Marijn Ophorst</a>
 
