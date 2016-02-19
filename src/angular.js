@@ -32,10 +32,13 @@ angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'mon
             });
     }])
     // Set defaults (these can/should be overridden)
-    .run(['$rootScope', $rootScope => {
+    .run(['$rootScope', '$location', ($rootScope, $location) => {
         $rootScope.languages = ['en', 'nl'];
         $rootScope.title = 'Default generic administrator';
         $rootScope.liveReload = undefined;
+        $rootScope.$on('$routeChangeSuccess', () => {
+            $rootScope.isHome = $location.path().match(/^\/[a-z]{2}\/$/);
+        });
     }])
     // Set default language
     .run(['$rootScope', 'moLanguage', ($rootScope, moLanguage) => {
