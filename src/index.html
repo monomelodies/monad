@@ -32,7 +32,7 @@
                     <a class="navbar-brand"
                         ng-href="#/{{ Language.current }}/"
                         ng-click="Navigation.select('main')"
-                        ng-class="{active: url() == '/' + Language.current + '/'}">
+                        ng-class="{active: isHome}">
                         <img src="../assets/logo.png?__inline=true" width="20" height="20" alt="Monad">
                     </a>
                 </div>
@@ -40,22 +40,22 @@
                     <ul class="nav navbar-nav">
                         <li><a href="/" target="_blank" translate>Site</a></li>
                         <li ng-repeat="item in Navigation.main"
-                            ng-if="item.access()"
+                            ng-if="item.authentication.check"
                             ng-class="{active: item.selected, dropdown: item.items}"
                             uib-dropdown>
                             <a ng-if="item.items" href class="dropdown-toggle" uib-dropdown-toggle>
-                                <span ng-include="item.component + '/menu.html'"></span> <span class="caret"></span>
+                                {{ item.title }} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" ng-if="item.items">
-                                <li ng-repeat="item in item.items" ng-if="item.access()">
-                                    <a mo-path="{{ item.url }}" ng-click="Navigation.select(item)" mo-menu-label item="item">
-                                        <small ng-if="item.manager.notify">{{ item.manager.notify }}</small>
-                                        <span ng-include="item.component + '/menu.html'"></span>
+                                <li ng-repeat="item in item.items" ng-if="item.authentication.check">
+                                    <a ng-href="#/{{ Language.current }}{{ item.url }}" ng-click="Navigation.select(item)" mo-menu-label item="item">
+                                        <small ng-if="item.notify">{{ item.notify }}</small>
+                                        {{ item.title }}
                                     </a>
                             </ul>
-                            <a ng-if="!item.items" mo-path="{{ item.url }}" ng-click="Navigation.select(item)">
-                                <small ng-if="item.manager.notify">{{ item.manager.notify }}</small>
-                                <span ng-include="item.component + '/menu.html'">{{ item.component }}</span>
+                            <a ng-if="!item.items" ng-href="#/{{ Language.current }}{{ item.url }}" ng-click="Navigation.select(item)">
+                                <small ng-if="item.notify">{{ item.notify }}</small>
+                                {{ item.title }}
                             </a>
                         </li>
                     </ul>
@@ -84,7 +84,7 @@
                                 </a>
                             </li>
                             <li ng-repeat="language in languages" ng-class="{active: Language.current == language}">
-                                <a mo-path arguments="{language: language}"><span class="flag" ng-class="language">{{ language }}</span></a>
+                                <a ng-href="#/{{ language }}/"><span class="flag" ng-class="language">{{ language }}</span></a>
                             </li>
                         </ul>
                     </div>
