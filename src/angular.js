@@ -1,7 +1,18 @@
 
 "use strict";
 
+import 'babel-polyfill';
+import 'angular';
+import 'angular-ui-bootstrap';
+import 'angular-route';
+import 'angular-sanitize';
+import 'angular-animate';
+import 'angular-resource';
+import 'autofill-event';
+import 'angular-gettext';
 import 'ng-lollipop';
+import '../i18n';
+import '../templates';
 import ListController from './ListController';
 import Navigation from './services/Navigation';
 import Authentication from './services/Authentication';
