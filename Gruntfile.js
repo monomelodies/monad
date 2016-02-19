@@ -105,8 +105,20 @@ module.exports = function (grunt) {
         }
     });
 
+    grunt.loadNpmTasks('grunt-browserify');
+    grunt.config('browserify', {
+        monad: {
+            src: './src/angular.js',
+            dest: 'dist/monad.js',
+            options: {
+                transform: ['babelify'],
+                watch: true
+            }
+        }
+    });
+
     grunt.registerTask('default', ['build']);
-    grunt.registerTask('build', ['gettext', 'inline', 'includereplace']);
+    grunt.registerTask('build', ['gettext', 'inline', 'includereplace', 'browserify']);
     grunt.registerTask('gettext', ['nggettext_extract', 'nggettext_compile']);
     grunt.registerTask('dev', ['build', 'watch']);
 };
