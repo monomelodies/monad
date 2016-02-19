@@ -57,7 +57,7 @@ module.exports = function (grunt) {
     grunt.config('inline', {
         index: {
             src: 'src/index.html',
-            dest: 'index.html'
+            dest: 'dist/index.html'
         },
         flags: {
             options: {
