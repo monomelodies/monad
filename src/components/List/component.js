@@ -11,7 +11,7 @@ angular.module('monad.components.list', [])
     <a ng-if="$ctrl.create"
         class="glyphicon glyphicon-plus-sign pull-right"
         title="{{ 'Create' | translate }}"
-        mo-path="/:language{{ $ctrl.create }}"></a>
+        ng-href="#/{{ $root.Language.current }}{{ $ctrl.create }}"></a>
     <span ng-transclude></span>
 </h1>`,
         bindings: {create: '@'}
@@ -40,7 +40,7 @@ angular.module('monad.components.list', [])
                 let custom = $transclude().find('td[property="' + col + '"]');
                 let html = custom.html();
                 if (!(html && html.length)) {
-                    html = `<a mo-path="/:language{{ $ctrl.update }}" arguments="row">{{ row.${col} }}</a>`;
+                    html = `<a ng-href="#/{{ $root.Language.current }}{{ $ctrl.update }}" arguments="row">{{ row.${col} }}</a>`;
                 }
                 $templateCache.put('/monad/' + col + '.html', html);
             });
