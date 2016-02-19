@@ -30,7 +30,6 @@ msgstr ""
 msgid "License"
 msgstr ""
 
-#: index.html:82
 #: src/index.html:82
 msgid "Logout"
 msgstr ""
@@ -55,12 +54,10 @@ msgstr ""
 msgid "Saving..."
 msgstr ""
 
-#: index.html:41
 #: src/index.html:41
 msgid "Site"
 msgstr ""
 
-#: index.html:29
 #: src/index.html:29
 msgid "Toggle navigation"
 msgstr ""
