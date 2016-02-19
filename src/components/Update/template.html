@@ -1,5 +1,5 @@
 <h1 class="container-fluid clearfix">
-    <small><a class="glyphicon glyphicon-arrow-up pull-right" mo-path="/:language{{ $ctrl.list }}"></a></small>
+    <small><a class="glyphicon glyphicon-arrow-up pull-right" ng-href="#/{{ $root.Language.current }}{{ $ctrl.list }}"></a></small>
     <span ng-if="!$ctrl.data[$ctrl.type].id" translate>Create new item in <code>{{ $ctrl.type }}</code></span>
     <span ng-if="$ctrl.data[$ctrl.type].id"
         translate>Edit <q>{{ $ctrl.data[$ctrl.type][$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code></span>
