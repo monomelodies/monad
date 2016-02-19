@@ -45,26 +45,23 @@ module.exports = function (grunt) {
     grunt.config('spritesheet', {
         compile: {
             options: {
-                outputImage: 'i18n.png',
-                outputCss: 'flags.css',
+                outputImage: 'src/_sass/i18n.png',
+                outputCss: 'src/_sass/_flags.scss',
                 selector: '.flag'
             },
             files: {'': 'assets/i18n/**/*.png'}
         }
     });
 
-    grunt.loadNpmTasks('grunt-inline');
-    grunt.config('inline', {
-        index: {
-            src: 'src/index.html',
-            dest: 'dist/index.html'
-        },
-        flags: {
+    grunt.loadNpmTasks('grunt-sass');
+    grunt.config('sass', {
+        monad: {
             options: {
-                tag: ''
+                outputStyle: 'compressed',
+                compass: true,
+                sourcemap: 'none'
             },
-            src: 'flags.css',
-            dest: 'src/_sass/_flags.scss'
+            files: {'dist/admin.css': 'src/_sass/default.scss'}
         }
     });
 
@@ -82,13 +79,13 @@ module.exports = function (grunt) {
             files: ['assets/i18n/**/*.png'],
             tasks: ['spritesheet']
         },
+        sass: {
+            files: ['src/_sass/**/*.scss'],
+            tasks: ['sass']
+        },
         templates: {
             files: ['src/**/*.html'],
             tasks: ['ngtemplates']
-        },
-        inline: {
-            files: ['src/index.html', 'flags.css', 'i18n.png'],
-            tasks: ['inline', 'includereplace']
         }
     });
 
@@ -100,7 +97,7 @@ module.exports = function (grunt) {
                     version: pkg.version
                 }
             },
-            src: 'dist/index.html',
+            src: 'src/index.html',
             dest: 'dist/index.html'
         }
     });
@@ -117,8 +114,22 @@ module.exports = function (grunt) {
         }
     });
 
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.config('copy', {
+        logo: {expand: true, cwd: 'assets', src: 'logo.png', dest: 'dist'},
+        bootstrap: {expand: true, cwd: 'node_modules/bootstrap-sass/assets', src: 'fonts/**', dest: 'dist'},
+        flags: {expand: true, cwd: 'src/_sass', src: 'i18n.png', dest: 'dist'}
+    });
+
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.config('uglify', {
+        monad: {
+            files: {'dist/monad.min.js': ['dist/monad.js']}
+        }
+    });
+
     grunt.registerTask('default', ['build']);
-    grunt.registerTask('build', ['gettext', 'inline', 'includereplace', 'browserify']);
+    grunt.registerTask('build', ['gettext', 'spritesheet', 'sass', 'includereplace', 'copy', 'browserify', 'uglify']);
     grunt.registerTask('gettext', ['nggettext_extract', 'nggettext_compile']);
     grunt.registerTask('dev', ['build', 'watch']);
 };
