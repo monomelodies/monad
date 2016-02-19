@@ -1,11 +1,12 @@
 
 "use strict";
 
-angular.module('tests').constant('languages', ['en', 'nl', 'es']);
-
 describe('service: Language', () => {
     let Language;
 
+    beforeEach(inject($rootScope => {
+        $rootScope.languages = ['en', 'nl', 'es'];
+    }));
     beforeEach(inject((moLanguage) => {
         Language = moLanguage;
     }));

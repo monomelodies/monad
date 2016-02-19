@@ -7,14 +7,12 @@ describe('directive: mo-list-table', () => {
     let compile;
     let items = [{id: 1, txt: 'foo'}, {id: 2, txt: 'bar'}];
     let tpl = angular.element(`
-<div mo-list="'test'">
-    <mo-list-table total="1" page="page" rows="items">
-        <table><tr>
-            <th property="id">ID</th>
-            <th property="txt">Text</th>
-        </tr></table>
-    </mo-list-table>
-</div>
+<mo-list-table page="page" rows="items">
+    <table><tr>
+        <th property="id">ID</th>
+        <th property="txt">Text</th>
+    </tr></table>
+</mo-list-table>
     `);
 
     beforeEach(inject(($rootScope, $compile) => {
