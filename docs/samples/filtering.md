@@ -1,73 +1,62 @@
 # Filtering lists
 Often, a simple `SELECT * FROM <table>` is too basic for a proper admin. This is
 why Monad supports _list filters_. These allow you to pass extra parameters to
-the Manager, e.g. `{"someStatus":"1"}`.
+the resource query, e.g. `{"someStatus":"1"}`.
 
 ## Defining a filter
-As a custom resolve on your `monad.list` call, add a `filterUrl` parameter. This
-must point to an HTML snippet we shall `ng-include`:
+Just place some HTML in your `list` template - usually between the header and
+the table, but wherever really. Bind the form elements' `ng-model`s to keys
+on `$ctrl.filter` and the default `moListController` will pick them up!
 
-```javascript
-monad.list('/some/url/', {options}, {filterUrl: () => './some/url/template.html'});
-```
+> If you need to use your own controller, you'll have to implement this yourself
+> of course.
 
-> Since the `filterUrl` is a resolve, we must pass it as the return value
-> of a function for Angular to understand it.
-
-In the HTML snippet, bind your form elements to `list.filter.column` using
-`ng-model`:
+An example:
 
 ```html
-<input type="checkbox" ng-model="list.filter.foo" value="1"> should foo be set?
+<mo-list-header ...></mo-list-header>
+<form><fieldset>
+    <label>
+        <input ng-model="$ctrl.filter.deleted" value="1">
+        Show only deleted items
+    </label>
+</fieldset></form>
+<mo-list-table ...></mo-list-table>
 ```
 
-The contents of `filter` are passed verbatim, where keys are fieldnames, values
-are either an object (subfilter) or the value. How your API deals with that is
-up to you; e.g., in PHP the [Monki simple API](http://monki.monomelodies.nl)
-treats every new nesting level as an inverse `AND/OR` of the parent level.
-
-Values should be escaped and validated server-side; Monad does no checking.
+Depending on your `$resource` implementation, this could result in a query such
+as `/some/url?deleted=1`.
 
 On re-filtering, Monad jumps back to page 1 since it has no way of knowing
 beforehand the current page will still be available after the new filter is
 applied. (TODO: use Manager.count so we CAN know this?)
 
-How exactly your filter should be passed to your API is up to you; e.g., in
-PHP the [Monki simple API](http://monki.monomelodies.nl) supports simply passing
-it as `?filter=JSON_ENCODED_FILTER`.
-
 ## Default filter
-In the same vein, you can also define a _default filter_. This filter
-automatically gets applied if nothing else is selected:
+To apply default values to a filter ("initial state"), use `ng-init`:
 
-```javascipt
-monad.list(/*....*/, {defaultFilter: () => {
-    return {
-        someField: 1,
-        someOtherField: 2
-    };
-}});
+```html
+<form ng-init="$ctrl.filter.deleted = 1"><fieldset>
+    <label>
+        <input ng-model="$ctrl.filter.deleted" value="1">
+        Show only deleted items
+    </label>
+</fieldset></form>
 ```
 
-The default filter can be seen as the "initial state" of your filters.
+## Pagination
+The most ubiquitous filter is of course pagination. To be able to paginate, you
+need to tell Monad the total number of items in a list. How you do that (or if
+it's even possible with your API...) is not up to Monad.
 
-## Filters and custom managers
-The base Manager service itself does nothing to filters, since it has no way of
-knowing how your API expects to receive them. The Manager _does_ offer an
-`applyFilters` method though, which takes as a single argument an object of
-`params` and returns it augmented with the current filter. You should take care
-to apply that in your `list` and `count` implementations, e.g.:
+But, assuming you've defined a `count` property on your list controller, it's
+stock (Angular) Bootstrap from there:
 
-```javascript
-list(filter = {}, options = {}) {
-    // "language" is always in the URL, but we probably don't need it:
-    // (YMMV though)
-    delete filter.language;
-    filter = this.applyFilter(filter);
-    options.limit = options.limit || 10;
-    options.offset = options.offset || 0;
-    return super.list('/admin-api/' + this.constructor.table + '/?filter=' + angular.toJson(filter) + '&options=' + angular.toJson(options));
-}
+```html
+<div class="text-center" ng-if="$ctrl.count > 10">
+    <uib-pagination total-items="$ctrl.count" ng-model="$ctrl.page" boundary-links="true" max-size="10"></uib-pagination>
+</div>
 ```
 
+The property can either come from a resolve or be something on a custom
+controller - whatever your preference is.
 

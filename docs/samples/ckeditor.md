@@ -34,13 +34,13 @@ side language will do:
 <?php
 
 // Replace this with the correct path, obviously:
-$html = file_get_contents('/path/to/node_modules/monad-cms/index.html');
+$html = file_get_contents('/path/to/node_modules/monad-cms/dist/index.html');
 echo str_replace(
-    '<script src="bundle.js"></script>',
+    '<script src="monad.js"></script>',
     <<<EOT
 <script>window.CKEDITOR_BASEPATH = '/ckeditor/'</script>
 <script src="/ckeditor/ckeditor.js"></script>
-<script src="bundle.js"></script>
+<script src="monad.js"></script>
 
 EOT
     ,
@@ -48,33 +48,33 @@ EOT
 );
 ```
 
-You'll also need to change your entry point and import the Angular module for
-CKEditor:
+You'll also need to import the Angular module for CKEditor and add it as a
+module dependency:
 
 ```javascript
-import monad from 'monad-cms/monad';
+// ES6
 import 'angular-ckeditor/angular-ckeditor.js';
+// Browserify
+require('angular-ckeditor');
 
+angular.module('awesome', ['monad', 'ckeditor']);
 // ...and then your normal admin code...
 ```
 
-## Registering the dependency
-In your call to `monad.application`, add the dependency on the `ckeditor`
-module:
-
-```javascript
-monad.application('foobar', ['ckeditor']);
-```
-
 ## Add the attribute where you need it
-Usually this will be in `schema.html`:
+Usually this will be in your CRUD `schema.html`:
 
 ```html
 <mo-update>
     <mo-field>
         <label>WYSIWYG!</label>
-        <textarea ckeditor="options_expression" ng-model="crud.item.the_field"></textarea>
+        <textarea ckeditor="options_expression" ng-model="$ctrl.data.someItem.somefield"></textarea>
     </mo-field>
 </mo-update>
 ```
+
+The `options_expression` is a hash of options for CKEditor. You can set it on a
+custom controller, `resolve` it or even place it on `$rootScope` (which would
+make sense if you have multiple CKEditor instances throughout your application
+with the same settings).
 

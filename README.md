@@ -55,29 +55,28 @@ $ sudo npm install -g grunt-cli
 > Your own project can use a different task runner like Gulp, or none at all.
 
 ## Making Monad publicly available
-Pick a folder (any folder, e.g. `/admin/`) to host your CMS from. Copy, link or
-otherwise include Monad's `./index.html` file from the root there. If you open
-it up in your favourite text editor, you'll notice it tries to load a few
-additional external files:
+Pick a folder (any folder, e.g. `/admin/`) to host your CMS from. Monad will
+expect the following files there, examples (or simply usable versions) of which
+are located in Monad's `./dist` directory:
 
-- #### `admin.css`
-  This must contain your admin styles. If you're not doing anything spectacular,
-  you can generate it using SASS by simply importing Monad's default:
-  `@import '/path/to/monad/src/_sass/default'`.
-  > Note that Monad itself depends on Bootstrap, so e.g. in your Grunt task you
-  > would have to add the following:
-  > `loadPath: ['node_modules/monad-cms/node_modules/bootstrap-sass/assets/stylesheets']`
+- `index.html`: The entry point. The provided one is often good enough; see
+  elsewhere in the manual for hints on how to customise further.
+- `monad.js`: Bundled Javascript library. Normally you should just symlink this
+  into your public folder (or copy/watch using e.g. Grunt).
+- `admin.css`: The default `index.html` expects a stylesheet of that name in the
+  root of your admin. You can use the provided one or build your own theme, as
+  long as you name it `admin.css` (note: if you write your own `index.html` from
+  scratch you can of course call it whatever you like).
+- `logo.png` and `i18n.png`: The Monad logo and a sprite of language icons,
+  respectively. You're prefectly free to substitute these with your own.
+- `fonts`: Folder with Bootstrap fonts.
 
-- #### Glyphicons
-  Bootstrap comes with the Glyphicon icon font set, so you'll also need to copy
-  those files into your public admin:
-  `cp -r node_modules/monad-cms/node_modules/bootstrap-sass/assets/fonts /path/to/public/admin/`
+Monad by default expects your project-specific admin code to live in
+`/your-admin-dir/bundle.js`. You can generate this via either a tool like
+Browserify, or just write all your code in one file - not recommended, but we
+honestly don't care ;)
 
-- #### `bundle.js`
-  This contains all your Javascript admin code. The recommended way is to use
-  Browserify in combination with a transpiler like Babel to generate this. If you
-  don't know how that works, don't fret: we'll explain elsewhere in the
-  documentation.
-
-And that's it! You're ready to roll.
+So either `ln -s`, `cp` or Grunt copy/watch the files you need... And that's it!
+You're ready to roll. Your brand new CMS will now be available under the chosen
+path.
 

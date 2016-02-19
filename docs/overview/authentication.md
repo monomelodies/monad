@@ -4,9 +4,9 @@ user to see if she has access to our admin. We don't make any assumptions
 regarding your authentication scheme, so this is something you'll *have* to
 configure and implement yourself.
 
-## The `mo-login` directive
+## The `mo-login` component
 Sections requiring an access check should be wrapped in the `mo-login`
-directive. Its default behaviour is to show the transcluded content if access
+component. Its default behaviour is to show the transcluded content if access
 is granted, and otherwise show its own template (which should contain something
 useful, like a login form or a notification).
 
