@@ -86,10 +86,6 @@ module.exports = function (grunt) {
         templates: {
             files: ['src/**/*.html'],
             tasks: ['ngtemplates']
-        },
-        inline: {
-            files: ['src/index.html', 'dist/admin.css', 'i18n.png'],
-            tasks: ['inline', 'includereplace']
         }
     });
 
@@ -101,7 +97,7 @@ module.exports = function (grunt) {
                     version: pkg.version
                 }
             },
-            src: 'dist/index.html',
+            src: 'src/index.html',
             dest: 'dist/index.html'
         }
     });
