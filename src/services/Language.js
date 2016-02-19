@@ -2,7 +2,7 @@
 "use strict";
 
 let current = undefined;
-let langs = undefined;
+let scope = undefined;
 let catalog = undefined;
 
 /**
@@ -19,7 +19,7 @@ export default class Language {
      * @return void
      */
     constructor(gettextCatalog, $rootScope) {
-        langs = $rootScope.languages;
+        scope = $rootScope;
         catalog = gettextCatalog;
         $rootScope.$on('$routeChangeSuccess', (event, target) => {
             if (target.params.language && target.params.language != current) {
@@ -45,7 +45,7 @@ export default class Language {
      * @return void
      */
     set current(lang) {
-        if (langs.indexOf(lang) == -1) {
+        if (scope.languages.indexOf(lang) == -1) {
             throw `Language "${lang}" is unavailable, sorry.`;
         }
         current = lang;
@@ -58,7 +58,7 @@ export default class Language {
      * @return array Array of languages available to this application.
      */
     get list() {
-        return langs;
+        return scope.languages;
     }
 
 };
