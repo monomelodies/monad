@@ -62,7 +62,8 @@ are located in Monad's `./dist` directory:
 - `index.html`: The entry point. The provided one is often good enough; see
   elsewhere in the manual for hints on how to customise further.
 - `monad.js`: Bundled Javascript library. Normally you should just symlink this
-  into your public folder (or copy/watch using e.g. Grunt).
+  into your public folder (or copy/watch using e.g. Grunt). There's also a
+  minified `monad.min.js` for production.
 - `admin.css`: The default `index.html` expects a stylesheet of that name in the
   root of your admin. You can use the provided one or build your own theme, as
   long as you name it `admin.css` (note: if you write your own `index.html` from
