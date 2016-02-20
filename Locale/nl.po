@@ -9,32 +9,24 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 1.8.7\n"
 "X-Poedit-KeywordsList: gettext\n"
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/directives/list/header/template.html:4
-msgid "Create"
-msgstr "Aanmaken"
+#: src/components/Update/template.html:3
+msgid "Create new item in <code>{{ $ctrl.type }}</code>"
+msgstr "Voeg item toe in <code>{{ $ctrl.type }}</code>"
 
-#: src/directives/update/template.html:3
-msgid "Create new item in <code>{{ update.component.name }}</code>"
-msgstr "Voeg item toe in <code>{{ update.component.name }}</code>"
-
-#: src/directives/list/table/delete.html:1
-msgid "Delete"
-msgstr "Verwijderen"
-
-#: src/directives/update/template.html:4
+#: src/components/Update/template.html:4
 msgid ""
-"Edit <q>{{ update.item.$title }}</q> in <code>{{ update.component.name }}</"
-"code>"
+"Edit <q>{{ $ctrl.data[$ctrl.type][$ctrl.title ? $ctrl.title : '$title'] }}</"
+"q> in <code>{{ $ctrl.type }}</code>"
 msgstr ""
-"Wijzig <q>{{ update.item.$title }}</q> in <code>{{ update.component.name }}</"
-"code>"
+"Wijzig <q>{{ $ctrl.data[$ctrl.type][$ctrl.title ? $ctrl.title : '$title'] }}"
+"</q> in <code>{{ $ctrl.type }}</code>"
 
-#: src/templates/login.html:21
+#: src/components/Login/template.html:21
 msgid "Go!"
 msgstr "Gaan!"
 
@@ -56,11 +48,7 @@ msgstr ""
 msgid "License"
 msgstr "Licentie"
 
-#: src/directives/list/header/template.html:7
-msgid "List of items in {{ header.component.name }}"
-msgstr "Lijst van items in {{ header.component.name }}"
-
-#: index.html:81 src/index.html:81
+#: src/index.html:82
 msgid "Logout"
 msgstr "Uitloggen"
 
@@ -72,38 +60,56 @@ msgstr ""
 "Let op: dit geldt voor het Monad CMS framework, niet (per se) de site waar "
 "het voor gebruikt is :)"
 
-#: src/templates/login.html:19
+#: src/components/Login/template.html:19
 msgid "Password"
 msgstr "Wachtwoord"
 
-#: src/templates/login.html:6
+#: src/components/Login/template.html:6
 msgid "Please login"
 msgstr "Inloggen a.u.b."
 
-#: src/directives/update/template.html:12
+#: src/components/Update/template.html:13
 msgid "Save changes"
 msgstr "Opslaan"
 
-#: src/controllers/CrudController.js:74
+#: src/components/Update/component.js:50
 msgid "Saving..."
 msgstr "Bezig met opslaan..."
 
-#: index.html:41 src/index.html:41
+#: src/index.html:41
 msgid "Site"
 msgstr "Site"
 
-#: src/directives/list/table/template.html:15
-msgid "Sorry, nothing found."
-msgstr "Sorry, niks gevonden."
-
-#: index.html:29 src/index.html:29
+#: src/index.html:29
 msgid "Toggle navigation"
 msgstr "Navigatie aan/uit"
 
-#: src/templates/login.html:12
+#: src/components/Login/template.html:12
 msgid "Username"
 msgstr "Gebruikersnaam"
 
 #: src/templates/home.html:9
 msgid "Welcome!"
 msgstr "Welkom!"
+
+#~ msgid "Create"
+#~ msgstr "Aanmaken"
+
+#~ msgid "Create new item in <code>{{ update.component.name }}</code>"
+#~ msgstr "Voeg item toe in <code>{{ update.component.name }}</code>"
+
+#~ msgid "Delete"
+#~ msgstr "Verwijderen"
+
+#~ msgid ""
+#~ "Edit <q>{{ update.item.$title }}</q> in <code>{{ update.component.name }}"
+#~ "</code>"
+#~ msgstr ""
+#~ "Wijzig <q>{{ update.item.$title }}</q> in <code>{{ update.component."
+#~ "name }}</code>"
+
+#~ msgid "List of items in {{ header.component.name }}"
+#~ msgstr "Lijst van items in {{ header.component.name }}"
+
+#~ msgid "Sorry, nothing found."
+#~ msgstr "Sorry, niks gevonden."
