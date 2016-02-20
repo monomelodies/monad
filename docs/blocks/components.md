@@ -1,65 +1,15 @@
-# Main concepts
-Monad uses AngularJS "components" together with "resources" to bootstrap a CMS
-for you. Let's say your application is called `awesome` and you need to
-administer a component ("section") called `Foo`. As an oversimplification, you
-can think of `awesome` as the database and `Foo` as the table (though Monad can
-talk to anything that exposes an API).
+# Components
+We saw in the [navigation section](navigation.md) how our routes simply refer to
+a template with a component directive. You'll need to define those for every
+admin-y thing you want to appear in your administrator.
 
-## Component-based routing
-Whip up your favourite text editor and open your admin's `bundle.js` (or,
-preferably, a source file which gets browserified into `bundle.js`).
+> Best practice: use a consistent naming scheme. E.g. `/admin/section/:id?`
+> refers to components `adminSectionList` and `adminSection` respectively. We
+> personally also prefer to break up and group stuff into separate files, e.g.
+> `./src/admin/section/...` and use Browserify to bundle stuff.
 
-> Best practice: we like to create directories for each component containing
-> it's own isolated files, e.g. `./src/admin/Foo/...`. But it's really up to
-> you how you want to organize your project.
-
-As per version 2, Monad uses so-called "component-based routing". In
-Angular-speak this means globally the following:
-
-- A URL (any URL, in this case e.g. `/admin/foo/`) resolves to a basic tamplate
-  like `<awesome-foo></awesome-foo>`.
-- Using `angular.module(...).component(...)`, define a component of that name
-  (in this example that would become `awesomeFoo`).
-- The component (not the router, as previously) now handles everything.
-
-Another thing to note is that most of the times you'll actually have two related
-components for each editable section: the "list" (a list of items) and the
-create/update component.
-
-If our components don't need any special handling (and they won't for now, this
-is a tutorial after all ;)) your Javascript would look much like the following:
-
-```javascript
-"use strict";
-
-// Our main app depends on Monad
-var app = angular.module('awesome', ['monad']);
-
-app.config(['$routeProvider', function ($routeProvider) {
-    $routeProvider.when('/:language/foo', {
-        template: '<awesome-foo-list resource="$resolve.resource"></awesome-foo-list>',
-        resolve: {resource: ['moResource', function (moResource) {
-            return moResource('/api/foo');
-        }]}
-    });
-    $routeProvider.when('/:language/foo/:id', {
-        template: '<awesome-foo data="$resolve.data"></awesome-foo-list>',
-        resolve: {data: ['moResource', '$route', function (moResource, $route) {
-            return {foo: moResource('/api/foo/:id/', {id: '@id'}).get({id: $route.current.params.id})};
-        }]}
-    });
-}]);
-```
-
-In the `config` function for the section, register the routes you need and
-their components. For the default `list` implementation, pass a resolved
-`$resource` object directly (we wrap in Monad's `moResource` factory for
-reasons we'll explain shortly). For the CRUD implementation, pass the
-resource(s) this section can modify under the `data` key.
-
-## The actual components
-These are often pretty simple; Monad does most of the heavy lifting for us. For
-now, let's define them as follows:
+These components are often pretty simple; Monad does most of the heavy lifting
+for us. For now, let's define them as follows:
 
 ```javascript
 app.component('awesomeFooList', {
@@ -78,17 +28,16 @@ Let's break that down:
 - Create a `list` and a CRUD component for these operations. The names are
   technically irrelevant, `name` and `nameList` are just a convention.
 - Note the `bindings` property on the component definition object. This is like
-  `scope` in ordinary directives, but renamed for reasons we can't be bothered
-  to research.
+  `scope` in ordinary directives, but renamed in Angular components for reasons
+  we can't be bothered to research.
 - The `list` variant uses the default `moListController`. This takes are of
   stuff like pagination for you.
 
-## The templates
+## The list template
 We're not going to force you to write your HTML in a certain way, but Monad does
 come bundled with a number of components and directives to kickstart your admin
 templates with.
 
-### Lists
 For the list view, you generally use something like this:
 
 ```html
@@ -113,7 +62,7 @@ binding.
 Finally, the `property` bindings in the `<th>` elements tells Monad which
 property on each item in the list should appear in that column.
 
-### CRUD
+## The CRUD view
 The CRUD view is more interesting, since it's actually going to tell Monad how
 it should handle your data! Let's show a basic example first.
 
@@ -157,6 +106,26 @@ you omit it Monad will guesstimate it.
 Remember how in our component declaration we had a `data` binding? Well, it
 contains the resolved `foo` resource object! We can edit away at will.
 
+## Creating new items
+Obviously we can't use `$resource` to load a new item (since it doesn't exist
+yet, D'OH!). But we have you covered! For the special "add new item" case,
+define a route for creation (often _before_ the update route, since typically
+these will look like `/some/item/:id` and `/some/item/create` and `ngRoute`
+returns whatever matches first). Instead of `$route` we inject the `moModel`
+factory and return its result with the resource as a parameter:
+
+```javascript
+$routeProvider.when('/:language/foo/create', {
+    template: '<awesome-foo data="$resolve.data"></awesome-foo>',
+    resolve: {data: ['moResource', 'moModel', function (moResource, moModel) {
+        return {foo: moModel(moResource('/api/foo/:id/', {id: '@id'}))};
+    }]}
+});
+```
+
+The `moModel` factory creates an _empty_ model object and attaches the specified
+resource, so the model knows what to do when you click "save changes".
+
 ## Custom controllers
 The supplied `moListController` generally does all you need for lists. For CRUD
 components, notice how by default we don't specify any controller. That means
@@ -180,19 +149,19 @@ In your template, you would then have access to it like so:
 <a href ng-click="$ctrl.awesomeOperation()">click me!</a>
 ```
 
-## Bootstrapping the admin
-If you've tried to open your new admin already, you'll not see much happening.
-This is because Monad requires you to manually "bootstrap" the application. Why?
-Because otherwise we'd confine you to a certain `ng-app` name! We don't like to
-confine you.
+To use a custom controller on a list but _still_ be able to use
+`moListController`'s pagination etc., you can simply use `ng-controller` in your
+template and alias the custom controller as e.g. `list`:
 
-At the bottom of `bundle.js`, make sure you have the following:
-
-```javascript
-angular.element(document).ready(() => {
-    angular.bootstrap(document, ['awesome']);
-});
+```html
+<div ng-controller="myCustomController as list">
+    We now have {{ $ctrl.items.length }} items from the parent list,
+    as well as {{ list.customProperty }} available!
+</div>
 ```
 
-Of course, replace `"awesome"` with the actual name of your main module.
+## Non-list/CRUD sections
+You can register anything as a route/component, so if you need a page with e.g.
+user statistics, just build it and add it to the menu! (Or keep it hidden of
+course, nothing requires you to register every URL on a menu.)
 

@@ -24,7 +24,7 @@ $routeProvider.when('/some/url', {
 ```
 
 In your CRUD schema template, refer to `$ctrl.data.mainItem` and
-`$ctrl.data.subItems` where appropriate. If anything is "dirty" and your click
+`$ctrl.data.subItems` where appropriate. If anything is "dirty" and you click
 save, `moUpdate` will save/delete whatever it needs.
 
 ## Extra data based on non-URL properties
@@ -64,5 +64,24 @@ certain defaults to the child objects. An example would be an admin page for a
 <div ng-repeat="tweet in $ctrl.data.tweets">
     ...other HTML for admining a tweet...
 </div>
+```
+
+If this is something common or you need to attach entire complex objects based
+on other things like URL parameters, you could also override/extend the `push`
+method on the resolved array in a custom controller of course. Javascript is
+cool like that. It would look something like this:
+
+```javascript
+app.component('awesomeFoo', {
+    // template, bindings etc.
+    controller: function () {
+        this.data.customList.push = function (newitem) {
+            // Assuming this function returns some sub-object or calculates
+            // a specific value or whatever:
+            newitem.customProperty = myComplexHandler(newitem);
+            [].push.call(this, newitem);
+        };
+    };
+});
 ```
 

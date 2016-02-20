@@ -80,3 +80,9 @@ So either `ln -s`, `cp` or Grunt copy/watch the files you need... And that's it!
 You're ready to roll. Your brand new CMS will now be available under the chosen
 path.
 
+## Now what?
+Well, you'll have to write some code now. See the [building
+blocks](blocks/index.md) section to get you started, and the [advanced
+techniques](advanced/index.md) section afterwards to learn how to wield the
+power of Monad to your customised advantage.
+

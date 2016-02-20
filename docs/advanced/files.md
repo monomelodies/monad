@@ -140,10 +140,14 @@ $routeProvider.when('/some/path/:id/', {
         file: ['Upload', function (Upload) {
         }]
     }
+//...
+app.component('myComponent', {
+    template: '<my-component data="$resolve.data" file="$resolve.file"></my-component>',
+    bindings: {data: '<', file: '<'}
+});
 ```
 
-...and assuming the component registers `$resolve.file` on its `file`
-property...
+...and in your HTML template...
 
 ```html
 <!-- schema.html -->
@@ -190,6 +194,7 @@ language-specific. In PHP for instance, it'd obviously be
 `$_GET['CKEditorFuncNum']`.
 
 You can then do fancy stuff like:
+
 - Auto-closing the popup after selection (`window.close()`);
 - Augmenting the popup with an insta-upload field (note that to use Angular for
   that again, you need to set your popup up correctly; the popup won't "know"
