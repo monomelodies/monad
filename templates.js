@@ -31,54 +31,41 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
   );
 
 
-  $templateCache.put('/monad/directives/list/header/template.html',
-    "<h1 class=clearfix>\n" +
-    "    <a ng-if=header.component.settings.create class=\"glyphicon glyphicon-plus-sign pull-right\" title=\"{{'Create' | translate}}\" mo-path=/:language{{header.component.settings.create.url}}></a>\n" +
-    "    <span ng-transclude></span>\n" +
-    "    <span translate ng-if=!header.transcluded>List of items in {{ header.component.name }}</span>\n" +
-    "</h1>"
-  );
-
-
-  $templateCache.put('/monad/directives/list/table/delete.html',
-    "<button class=\"btn btn-warning\" mo-delete ng-click=\"tbody.refresh(delete(row, tbody.list.Manager))\" translate>Delete</button>"
-  );
-
-
-  $templateCache.put('/monad/directives/list/table/template.html',
-    "<div ng-show=\"tbody.rows && tbody.rows.length\">\n" +
-    "    <table class=\"table table-striped\">\n" +
-    "        <thead></thead>\n" +
-    "        <tbody>\n" +
-    "            <tr ng-repeat=\"row in tbody.rows\" ng-if=!row.$deleted>\n" +
-    "                <td ng-repeat=\"column in tbody.columns\">\n" +
-    "                    <a ng-if=!tbody.templates[column] mo-path=/:language{{tbody.component.settings.update.url}} arguments=row>{{row[column]}}</a>\n" +
-    "                    <div ng-if=tbody.templates[column] ng-include=tbody.templates[column]></div>\n" +
-    "                </td>\n" +
-    "            </tr>\n" +
-    "        </tbody>\n" +
-    "    </table>\n" +
-    "</div>\n" +
-    "<div ng-show=\"!(tbody.rows && tbody.rows.length)\">\n" +
-    "    <uib-alert type=warning><span translate>Sorry, nothing found.</span></uib-alert>\n" +
+  $templateCache.put('/monad/components/Login/template.html',
+    "<div ng-transclude ng-if=$ctrl.auth.check></div>\n" +
+    "<div class=vert-wrapper ng-if=!$ctrl.auth.check>\n" +
+    "    <div class=vert-wrapper-inner>\n" +
+    "        <form ng-submit=$ctrl.auth.attempt($ctrl.credentials) id=auth name=auth novalidate method=post>\n" +
+    "            <fieldset>\n" +
+    "                <legend translate>Please login</legend>\n" +
+    "                <div class=form-group>\n" +
+    "                    <input name=username ng-model=$ctrl.credentials.username class=form-control placeholder=\"{{ 'Username' | translate }}\">\n" +
+    "                </div>\n" +
+    "                <div class=form-group>\n" +
+    "                    <input type=password name=password ng-model=$ctrl.credentials.password class=form-control placeholder=\"{{ 'Password' | translate }}\">\n" +
+    "                </div>\n" +
+    "                <button type=submit class=\"btn btn-default pull-right\" translate>Go!</button>\n" +
+    "            </fieldset>\n" +
+    "        </form>\n" +
+    "    </div>\n" +
     "</div>"
   );
 
 
-  $templateCache.put('/monad/directives/update/template.html',
+  $templateCache.put('/monad/components/Update/template.html',
     "<h1 class=\"container-fluid clearfix\">\n" +
-    "    <small><a class=\"glyphicon glyphicon-arrow-up pull-right\" mo-path=/:language{{update.component.settings.list.url}}></a></small>\n" +
-    "    <span ng-if=update.item.$new translate>Create new item in <code>{{ update.component.name }}</code></span>\n" +
-    "    <span ng-if=!update.item.$new translate>Edit <q>{{ update.item.$title }}</q> in <code>{{ update.component.name }}</code></span>\n" +
+    "    <small><a class=\"glyphicon glyphicon-arrow-up pull-right\" ng-href=\"#/{{ $root.Language.current }}{{ $ctrl.list }}\"></a></small>\n" +
+    "    <span ng-if=!$ctrl.data[$ctrl.type].id translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" +
+    "    <span ng-if=$ctrl.data[$ctrl.type].id translate>Edit <q>{{ $ctrl.data[$ctrl.type][$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code></span>\n" +
     "</h1>\n" +
     "<div class=\"container-fluid clearfix\">\n" +
-    "    <form ng-submit=update.save() id=mo_update_form name=mo_update_form novalidate method=post>\n" +
+    "    <form ng-submit=$ctrl.save() id=mo_update_form name=mo_update_form novalidate method=post>\n" +
     "        <div ng-transclude></div>\n" +
     "        <br style=\"clear: both\">\n" +
     "        <div class=row>\n" +
     "            <div class=\"clearfix col-md-12 spaceme\">\n" +
-    "                <button type=submit class=\"btn btn-primary fixed\" ng-if=\"mo_update_form.$valid && update.$dirty\" translate>Save changes</button>\n" +
-    "                <a href class=\"glyphicon glyphicon-trash text-danger\" ng-if=\"update.delete && !update.item.$new\" ng-click=update.delete()></a>\n" +
+    "                <button type=submit class=\"btn btn-primary fixed\" ng-if=\"mo_update_form.$valid && $ctrl.$dirty\" translate>Save changes</button>\n" +
+    "                <a href class=\"glyphicon glyphicon-trash text-danger\" ng-if=\"$ctrl.delete && $ctrl.data.item.id\" ng-click=$ctrl.delete()></a>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </form>\n" +
@@ -89,7 +76,7 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
   $templateCache.put('/monad/templates/home.html',
     "<article class=jumbotron>\n" +
     "    <div class=container-fluid>\n" +
-    "        <h1>{{monad.title}} administrator</h1>\n" +
+    "        <h1>{{ $root.title }} administrator</h1>\n" +
     "    </div>\n" +
     "</article>\n" +
     "<div class=container-fluid>\n" +
@@ -104,8 +91,8 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
     "        <aside class=col-md-6>\n" +
     "            <div class=\"panel panel-info\">\n" +
     "                <ul class=list-group>\n" +
-    "                    <li class=list-group-item ng-repeat=\"item in monad.Navigation.main\">\n" +
-    "                        <a mo-path={{item.url}} ng-include=\"item.component + '/menu.html'\"></a>\n" +
+    "                    <li class=list-group-item ng-repeat=\"item in $root.Navigation.main\">\n" +
+    "                        <a ng-href=\"#/{{ $root.Language.current }}{{ item.url }}\" ng-click=$root.Navigation.select(item)>{{ item.title }}</a>\n" +
     "                    </li>\n" +
     "                </ul>\n" +
     "            </div>\n" +
@@ -125,43 +112,6 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
     "</div>\n" +
     "<div class=modal-footer>\n" +
     "    <button class=\"btn btn-primary\" ng-click=ok() translate>Got it!</button>\n" +
-    "</div>"
-  );
-
-
-  $templateCache.put('/monad/templates/list.html',
-    "<div class=container-fluid mo-list module=list.module>\n" +
-    "    <mo-list-header></mo-list-header>\n" +
-    "    <div ng-if=list.filterUrl ng-include=list.filterUrl></div>\n" +
-    "    <mo-list-table rows=list.items list=list columns=list.columns templates=list.templates></mo-list-table>\n" +
-    "    <div class=text-center ng-if=\"list.Manager.count > 10\">\n" +
-    "        <pagination total-items=list.Manager.count ng-model=list.page boundary-links=true max-size=10></pagination>\n" +
-    "    </div>\n" +
-    "</div>"
-  );
-
-
-  $templateCache.put('/monad/templates/login.html',
-    "<div ng-transclude ng-if=login.auth.check></div>\n" +
-    "<div class=vert-wrapper ng-if=\"!login.auth.check && login.default\">\n" +
-    "    <div class=vert-wrapper-inner>\n" +
-    "        <form ng-submit=login.auth.attempt(login.credentials) id=auth name=auth novalidate method=post>\n" +
-    "            <fieldset>\n" +
-    "                <legend translate>Please login</legend>\n" +
-    "                <div class=form-group>\n" +
-    "                    <input name=username ng-model=login.credentials.username class=form-control placeholder=\"{{'Username' | translate}}\">\n" +
-    "                </div>\n" +
-    "                <div class=form-group>\n" +
-    "                    <input type=password name=password ng-model=login.credentials.password class=form-control placeholder=\"{{'Password' | translate}}\">\n" +
-    "                </div>\n" +
-    "                <button type=submit class=\"btn btn-default pull-right\" translate>Go!</button>\n" +
-    "            </fieldset>\n" +
-    "        </form>\n" +
-    "    </div>\n" +
-    "</div>\n" +
-    "<div ng-if=\"!login.default && !login.auth.check\">\n" +
-    "    <div ng-if=login.template ng-bind-html=login.template></div>\n" +
-    "    <div ng-if=login.templateUrl ng-include=login.templateUrl></div>\n" +
     "</div>"
   );
 

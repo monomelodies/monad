@@ -1,6 +1,6 @@
 <article class="jumbotron">
     <div class="container-fluid">
-        <h1>{{monad.title}} administrator</h1>
+        <h1>{{ $root.title }} administrator</h1>
     </div>
 </article>
 <div class="container-fluid">
@@ -15,8 +15,8 @@
         <aside class="col-md-6">
             <div class="panel panel-info">
                 <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="item in monad.Navigation.main">
-                        <a mo-path="{{item.url}}" ng-include="item.component + '/menu.html'"></a>
+                    <li class="list-group-item" ng-repeat="item in $root.Navigation.main">
+                        <a ng-href="#/{{ $root.Language.current }}{{ item.url }}" ng-click="$root.Navigation.select(item)">{{ item.title }}</a>
                     </li>
                 </ul>
             </div>

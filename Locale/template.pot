@@ -4,23 +4,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
-#: src/directives/list/header/template.html:4
-msgid "Create"
+#: src/components/Update/template.html:3
+msgid "Create new item in <code>{{ $ctrl.type }}</code>"
 msgstr ""
 
-#: src/directives/update/template.html:3
-msgid "Create new item in <code>{{ update.component.name }}</code>"
+#: src/components/Update/template.html:4
+msgid "Edit <q>{{ $ctrl.data[$ctrl.type][$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code>"
 msgstr ""
 
-#: src/directives/list/table/delete.html:1
-msgid "Delete"
-msgstr ""
-
-#: src/directives/update/template.html:4
-msgid "Edit <q>{{ update.item.$title }}</q> in <code>{{ update.component.name }}</code>"
-msgstr ""
-
-#: src/templates/login.html:21
+#: src/components/Login/template.html:21
 msgid "Go!"
 msgstr ""
 
@@ -38,11 +30,6 @@ msgstr ""
 msgid "License"
 msgstr ""
 
-#: src/directives/list/header/template.html:7
-msgid "List of items in {{ header.component.name }}"
-msgstr ""
-
-#: index.html:82
 #: src/index.html:82
 msgid "Logout"
 msgstr ""
@@ -51,37 +38,31 @@ msgstr ""
 msgid "Note: this applies to the Monad CMS framework, not (necessarily) the site it is used for :)"
 msgstr ""
 
-#: src/templates/login.html:19
+#: src/components/Login/template.html:19
 msgid "Password"
 msgstr ""
 
-#: src/templates/login.html:6
+#: src/components/Login/template.html:6
 msgid "Please login"
 msgstr ""
 
-#: src/directives/update/template.html:12
+#: src/components/Update/template.html:13
 msgid "Save changes"
 msgstr ""
 
-#: src/controllers/CrudController.js:86
+#: src/components/Update/component.js:50
 msgid "Saving..."
 msgstr ""
 
-#: index.html:41
 #: src/index.html:41
 msgid "Site"
 msgstr ""
 
-#: src/directives/list/table/template.html:15
-msgid "Sorry, nothing found."
-msgstr ""
-
-#: index.html:29
 #: src/index.html:29
 msgid "Toggle navigation"
 msgstr ""
 
-#: src/templates/login.html:12
+#: src/components/Login/template.html:12
 msgid "Username"
 msgstr ""
 

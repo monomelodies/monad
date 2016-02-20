@@ -1,15 +1,14 @@
 
 "use strict";
 
-import monad from '../monad';
+import monad from '../src/angular';
 import 'angular-mocks';
 
-angular.module('tests', ['monad.core'])
-    .run(['$httpBackend', $httpBackend => {
-        $httpBackend.when('GET', '../monad/i18n/en.json').respond({});
-        $httpBackend.when('GET', 'i18n/en.json').respond({});
-    }])
-    ;
+angular.module('tests', ['monad'])
+    .service('Authentication', function () {
+        this['status'] = () => {};
+        this.check = () => true;
+    });
 
 beforeEach(angular.mock.module('tests'));
 

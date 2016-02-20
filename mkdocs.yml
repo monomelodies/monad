@@ -6,39 +6,23 @@ pages:
 - Overview:
     - 'Home': 'index.md'
     - 'A little history': 'overview/history.md'
-    - 'Setting up a build script': 'overview/build.md'
-    - 'Main concepts': 'overview/main.md'
-    - 'Basic customisation': 'overview/customisation.md'
-    - 'Authentication': 'overview/authentication.md'
-- Components:
-    - 'Setup': 'components/setup.md'
-    - 'Managers': 'components/managers.md'
-    - 'Models': 'components/models.md'
-    - 'Controllers': 'components/controllers.md'
-    - 'Templates': 'components/templates.md'
-    - 'Custom directives, filters and other stuff': 'components/custom.md'
-- Directives:
-    - 'moPath': 'directives/path.md'
-    - 'moSlug': 'directives/slug.md'
-    - 'moList': 'directives/list.md'
-    - 'moListHeader': 'directives/list/header.md'
-    - 'moListTable': 'directives/list/table.md'
-    - 'moUpdate': 'directives/update.md'
-    - 'moDelete': 'directives/list/delete.md'
-    - 'moField': 'directives/field.md'
-    - 'moDragDrop': 'directives/dragdrop.md'
-- Examples:
-    - 'Adding a custom homepage or dashboard': 'samples/home.md'
-    - 'Translating your administrator': 'samples/translate.md'
-    - 'CRUD with multiple models': 'samples/multi.md'
-    - 'Filtering lists': 'samples/filtering.md'
-    - 'Notifications': 'samples/notifications.md'
-    - 'Messages': 'samples/messaging.md'
-    - 'Integrating CKEditor': 'samples/ckeditor.md'
-    - 'File uploads': 'samples/files.md'
-    - 'Sub-authentication': 'samples/subauthentication.md'
-    - 'Building reusable components': 'samples/reusable.md'
-    - 'Wordpress plugin': 'samples/wordpress.md'
+- Building blocks:
+    - 'Prerequisites': 'blocks/index.md'
+    - 'Navigation': 'blocks/navigation.md'
+    - 'Basic customisation': 'blocks/customisation.md'
+    - 'Components': 'blocks/components.md'
+    - 'Template components and directives': 'blocks/template.md'
+    - 'Models': 'blocks/models.md'
+    - 'Translating your administrator': 'blocks/translate.md'
+    - 'Filtering lists': 'blocks/filtering.md'
+    - 'Messages': 'blocks/messaging.md'
+- Advanced techniques:
+    - 'Adding a custom homepage or dashboard': 'advanced/home.md'
+    - 'CRUD with multiple models': 'advanced/multi.md'
+    - 'Integrating CKEditor': 'advanced/ckeditor.md'
+    - 'File uploads': 'advanced/files.md'
+    - 'Sub-authentication': 'advanced/subauthentication.md'
+    - 'Building reusable components': 'advanced/reusable.md'
 
-copyright: Copyright &copy; 2015, <a href="http://www.monomelodies.nl/">Marijn Ophorst</a>
+copyright: Copyright &copy; 2015, 2016, <a href="http://www.monomelodies.nl/">Marijn Ophorst</a>
 
