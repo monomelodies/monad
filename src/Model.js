@@ -13,7 +13,7 @@ export default class Model {
      * Class constructor. Pass the initial key/values as data. This should be
      * an Angular resource object.
      */
-    constructor(data) {
+    constructor(data = {}) {
         wm.set(this, {initial: undefined, deleted: false});
         let loader = () => {
             wm.get(this).initial = angular.copy(data);
@@ -92,6 +92,15 @@ export default class Model {
      */
     set $deleted(value) {
         wm.get(this).deleted = !!value;
+    }
+
+    /**
+     * For creation, set `$resource` on an empty model.
+     */
+    set $resource(resource) {
+        this.save = () => {
+            resource.save(this);
+        };
     }
 
 };
