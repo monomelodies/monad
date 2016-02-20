@@ -49740,8 +49740,10 @@ var Model = function () {
      * an Angular resource object.
      */
 
-    function Model(data) {
+    function Model() {
         var _this = this;
+
+        var data = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
         _classCallCheck(this, Model);
 
@@ -49834,6 +49836,20 @@ var Model = function () {
         ,
         set: function set(value) {
             wm.get(this).deleted = !!value;
+        }
+
+        /**
+         * For creation, set `$resource` on an empty model.
+         */
+
+    }, {
+        key: '$resource',
+        set: function set(resource) {
+            var _this2 = this;
+
+            this.save = function () {
+                resource.save(_this2);
+            };
         }
     }]);
 
@@ -49958,9 +49974,13 @@ require('./directives/angular');
 
 require('./components/angular');
 
-var _Model = require('./Model');
+var _Model = require('./factories/Model');
 
 var _Model2 = _interopRequireDefault(_Model);
+
+var _Resource = require('./factories/Resource');
+
+var _Resource2 = _interopRequireDefault(_Resource);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -50022,49 +50042,22 @@ angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'mon
 .run(['$rootScope', 'Authentication', function ($rootScope, Authentication) {
     $rootScope.$on('$routeChangeStart', function () {
         return Authentication['status']();
-    }); //.then(() => Navigation.clear()));
+    });
     $rootScope.Authentication = Authentication;
 }])
 // Normalize HTTP data using ng-lollipop
 .run(['normalizeIncomingHttpData', 'postRegularForm', function (a, b) {}])
 
-// Extend default $resource service with save method on queried array.
-// In Monad, we want to be able to easily append a new item to an array of
-// queried resources. This exposes a `save` method on the array.
-.factory('moResource', ['$resource', function ($resource) {
-    return function (url) {
-        var paramDefaults = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-        var actions = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-        var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
-
-        var res = $resource(url, paramDefaults, actions, options);
-        var query = res.query;
-        var get = res.get;
-        res.query = function (parameters, success, error) {
-            var found = query.call(res, parameters, success, error);
-            found.save = function (data, success, error) {
-                return res.save({}, data, success, error);
-            };
-            found.$promise.then(function () {
-                found.map(function (item, i) {
-                    return found[i] = new _Model2.default(item);
-                });
-                return found;
-            });
-            return found;
-        };
-        res.get = function (parameters, success, error) {
-            var found = get.call(res, parameters, success, error);
-            return new _Model2.default(found);
-        };
-        return res;
-    };
-}])
+// Factories
+.factory('moResource', _Resource2.default).factory('moModel', _Model2.default)
 
 // Default controllers
-.controller('moListController', _ListController2.default).service('moNavigation', _Navigation2.default).service('Authentication', _Authentication2.default).service('moLanguage', _Language2.default).service('moReport', _Report2.default);
+.controller('moListController', _ListController2.default)
 
-},{"../i18n":1,"../templates":223,"./ListController":207,"./Model":208,"./components/angular":213,"./directives/angular":215,"./services/Authentication":219,"./services/Language":220,"./services/Navigation":221,"./services/Report":222,"angular":14,"angular-animate":3,"angular-gettext":4,"angular-resource":6,"angular-route":8,"angular-sanitize":10,"angular-ui-bootstrap":12,"autofill-event":15,"babel-polyfill":16,"ng-lollipop":205}],210:[function(require,module,exports){
+// Services
+.service('moNavigation', _Navigation2.default).service('Authentication', _Authentication2.default).service('moLanguage', _Language2.default).service('moReport', _Report2.default);
+
+},{"../i18n":1,"../templates":225,"./ListController":207,"./components/angular":213,"./directives/angular":215,"./factories/Model":219,"./factories/Resource":220,"./services/Authentication":221,"./services/Language":222,"./services/Navigation":223,"./services/Report":224,"angular":14,"angular-animate":3,"angular-gettext":4,"angular-resource":6,"angular-route":8,"angular-sanitize":10,"angular-ui-bootstrap":12,"autofill-event":15,"babel-polyfill":16,"ng-lollipop":205}],210:[function(require,module,exports){
 
 "use strict";
 
@@ -50438,6 +50431,81 @@ exports.default = function () {
 
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Model = require("../Model");
+
+var _Model2 = _interopRequireDefault(_Model);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Simple factory function for new, empty models with attached resource.
+ */
+
+exports.default = function () {
+    return function (resource) {
+        var empty = new _Model2.default();
+        empty.$resource = resource;
+        return empty;
+    };
+};
+
+},{"../Model":208}],220:[function(require,module,exports){
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Model = require('../Model');
+
+var _Model2 = _interopRequireDefault(_Model);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Extend default $resource service with save method on queried array.
+ * In Monad, we want to be able to easily append a new item to an array of
+ * queried resources. This exposes a `save` method on the array.
+ */
+exports.default = ['$resource', function ($resource) {
+    return function (url) {
+        var paramDefaults = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+        var actions = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+        var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
+
+        var res = $resource(url, paramDefaults, actions, options);
+        var query = res.query;
+        var get = res.get;
+        res.query = function (parameters, success, error) {
+            var found = query.call(res, parameters, success, error);
+            found.save = function (data, success, error) {
+                return res.save({}, data, success, error);
+            };
+            found.$promise.then(function () {
+                found.map(function (item, i) {
+                    return found[i] = new _Model2.default(item);
+                });
+                return found;
+            });
+            return found;
+        };
+        res.get = function (parameters, success, error) {
+            var found = get.call(res, parameters, success, error);
+            return new _Model2.default(found);
+        };
+        return res;
+    };
+}];
+
+},{"../Model":208}],221:[function(require,module,exports){
+
+"use strict";
+
 /**
  * Skeleton template ("interface") for Authentication services.
  */
@@ -50514,7 +50582,7 @@ var Authentication = function () {
 exports.default = Authentication;
 ;
 
-},{}],220:[function(require,module,exports){
+},{}],222:[function(require,module,exports){
 
 "use strict";
 
@@ -50609,7 +50677,7 @@ exports.default = Language;
 
 Language.$inject = ['gettextCatalog', '$rootScope'];
 
-},{}],221:[function(require,module,exports){
+},{}],223:[function(require,module,exports){
 
 "use strict";
 
@@ -50767,7 +50835,7 @@ exports.default = Navigation;
 
 Navigation.$inject = ['$location', 'Authentication'];
 
-},{}],222:[function(require,module,exports){
+},{}],224:[function(require,module,exports){
 
 "use strict";
 
@@ -50985,7 +51053,7 @@ exports.default = Report;
 
 Report.$inject = ['$timeout'];
 
-},{}],223:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
 'use strict';
 
 angular.module('monad.templates', []).run(['$templateCache', function ($templateCache) {
