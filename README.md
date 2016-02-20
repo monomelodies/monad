@@ -16,6 +16,12 @@ The quickest way is to use Monad's NPM package:
 $ npm install --save monad-cms
 ```
 
+You can also use Bower:
+
+```bash
+$ bower install --save monad
+```
+
 Alternatively, [download the source from Github](https://github.com/monomelodies/monad/)
 and unpack it somewhere to your liking, or add a Git submodule:
 
@@ -24,15 +30,7 @@ $ cd /path/to/where/you/keep/submodules
 $ git submodule add https://github.com/monomelodies/monad.git
 ```
 
-### Installing dependencies
-If you didn't install the NPM package, you'll need to install the dependencies
-manually:
-
-```bash
-$ cd /path/to/monad-cms
-$ npm install
-```
-
+### Installing dependencies (for development)
 If you're going to hack on Monad itself, you'll want to clone the repo instead
 of installing via NPM.
 
