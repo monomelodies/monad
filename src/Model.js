@@ -23,6 +23,7 @@ export default class Model {
         };
         if (data.$promise) {
             data.$promise.then(loader);
+            Object.defineProperty(this, '$promise', {get: () => data.$promise});
         } else {
             loader();
         }

@@ -49756,6 +49756,9 @@ var Model = function () {
         };
         if (data.$promise) {
             data.$promise.then(loader);
+            Object.defineProperty(this, '$promise', { get: function get() {
+                    return data.$promise;
+                } });
         } else {
             loader();
         }
@@ -50607,8 +50610,8 @@ var Language = function () {
     /**
      * Class constructor.
      *
-     * @param object gettextCatalog Catalog service so a language change can
-     *  lazily load new json files.
+     * @param object gettextCatalog Catalog service so a language change sets
+     *  the new language.
      * @param object $rootScope Injector $rootScope.
      * @return void
      */

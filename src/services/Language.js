@@ -13,8 +13,8 @@ export default class Language {
     /**
      * Class constructor.
      *
-     * @param object gettextCatalog Catalog service so a language change can
-     *  lazily load new json files.
+     * @param object gettextCatalog Catalog service so a language change sets
+     *  the new language.
      * @param object $rootScope Injector $rootScope.
      * @return void
      */
