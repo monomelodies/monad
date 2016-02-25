@@ -88,7 +88,7 @@ module.exports = function (grunt) {
             tasks: ['ngtemplates']
         },
         includereplace: {
-            files: ['src/index.html',
+            files: ['src/index.html'],
             tasks: ['includereplace']
         }
     });
