@@ -49751,6 +49751,9 @@ var Model = function () {
         var loader = function loader() {
             wm.get(_this).initial = angular.copy(data);
             for (var prop in data) {
+                if (prop == '$promise') {
+                    continue;
+                }
                 _this[prop] = data[prop];
             }
         };

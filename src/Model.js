@@ -18,6 +18,9 @@ export default class Model {
         let loader = () => {
             wm.get(this).initial = angular.copy(data);
             for (let prop in data) {
+                if (prop == '$promise') {
+                    continue;
+                }
                 this[prop] = data[prop];
             }
         };
