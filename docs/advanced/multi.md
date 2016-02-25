@@ -53,6 +53,9 @@ Slightly pseudocode to give you an idea:
     }]
 ```
 
+The read-only `$promise` property expost by models is the same promise as the
+underlying Angular resource uses.
+
 ## Setting defaults
 When subitems are related to a "main" object, you'll need a way to persist
 certain defaults to the child objects. An example would be an admin page for a
