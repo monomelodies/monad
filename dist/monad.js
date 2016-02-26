@@ -49767,14 +49767,40 @@ var Model = function () {
         }
     }
 
-    /**
-     * Virtual property to check if this model is "dirty".
-     *
-     * @return boolean True if dirty, false if pristine.
-     */
-
-
     _createClass(Model, [{
+        key: 'setBitflags',
+        value: function setBitflags(source) {
+            var _this2 = this;
+
+            var mapping = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+            var _loop = function _loop(name) {
+                Object.defineProperty(_this2, name, {
+                    get: function get() {
+                        return !!(_this2[source] & mapping[name]);
+                    },
+                    set: function set(value) {
+                        if (!!value) {
+                            _this2[source] |= mapping[name];
+                        } else {
+                            _this2[source] &= ~mapping[name];
+                        }
+                    }
+                });
+            };
+
+            for (var name in mapping) {
+                _loop(name);
+            }
+        }
+
+        /**
+         * Virtual property to check if this model is "dirty".
+         *
+         * @return boolean True if dirty, false if pristine.
+         */
+
+    }, {
         key: '$dirty',
         get: function get() {
             if (wm.get(this).deleted) {
@@ -49851,10 +49877,10 @@ var Model = function () {
     }, {
         key: '$resource',
         set: function set(resource) {
-            var _this2 = this;
+            var _this3 = this;
 
             this.save = function () {
-                resource.save(_this2);
+                resource.save(_this3);
             };
         }
     }]);
