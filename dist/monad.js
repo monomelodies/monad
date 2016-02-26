@@ -49767,14 +49767,40 @@ var Model = function () {
         }
     }
 
-    /**
-     * Virtual property to check if this model is "dirty".
-     *
-     * @return boolean True if dirty, false if pristine.
-     */
-
-
     _createClass(Model, [{
+        key: 'setBitflags',
+        value: function setBitflags(source) {
+            var _this2 = this;
+
+            var mapping = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+            var _loop = function _loop(name) {
+                Object.defineProperty(_this2, name, {
+                    get: function get() {
+                        return !!(_this2[source] & mapping[name]);
+                    },
+                    set: function set(value) {
+                        if (!!value) {
+                            _this2[source] |= mapping[name];
+                        } else {
+                            _this2[source] &= ~mapping[name];
+                        }
+                    }
+                });
+            };
+
+            for (var name in mapping) {
+                _loop(name);
+            }
+        }
+
+        /**
+         * Virtual property to check if this model is "dirty".
+         *
+         * @return boolean True if dirty, false if pristine.
+         */
+
+    }, {
         key: '$dirty',
         get: function get() {
             if (wm.get(this).deleted) {
@@ -49851,10 +49877,10 @@ var Model = function () {
     }, {
         key: '$resource',
         set: function set(resource) {
-            var _this2 = this;
+            var _this3 = this;
 
             this.save = function () {
-                resource.save(_this2);
+                resource.save(_this3);
             };
         }
     }]);
@@ -50487,22 +50513,45 @@ exports.default = ['$resource', function ($resource) {
         var res = $resource(url, paramDefaults, actions, options);
         var query = res.query;
         var get = res.get;
+        var bitflags = undefined;
+        res.setBitflags = function (source) {
+            var mapping = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+            bitflags = { source: source, mapping: mapping };
+        };
         res.query = function (parameters, success, error) {
             var found = query.call(res, parameters, success, error);
             found.save = function (data, success, error) {
                 return res.save({}, data, success, error);
             };
+            found.push = function () {
+                for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+                    args[_key] = arguments[_key];
+                }
+
+                args.map(function (arg, i) {
+                    args[i] = new _Model2.default(arg);
+                    if (bitflags) {
+                        args[i].setBitflags(bitflags.source, bitflags.mapping);
+                    }
+                });
+                [].push.apply(undefined, args);
+            };
             found.$promise.then(function () {
                 found.map(function (item, i) {
                     return found[i] = new _Model2.default(item);
                 });
+                if (bitglags) {
+                    found.map(function (item) {
+                        return item.setBitflags(bitflags.source, bitflags.mapping);
+                    });
+                }
                 return found;
             });
             return found;
         };
         res.get = function (parameters, success, error) {
-            var found = get.call(res, parameters, success, error);
-            return new _Model2.default(found);
+            return new _Model2.default(get.call(res, parameters, success, error));
         };
         return res;
     };

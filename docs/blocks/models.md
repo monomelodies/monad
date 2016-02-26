@@ -59,3 +59,42 @@ Note that this only works if you've used `moResource` to query that API. Apart
 from that, lists are simple (augmented) arrays you can just use in `ng-repeat`
 and other code like you normally would (`ng-if="$ctrl.data.list.length"` etc.).
 
+## Bitflags
+Angular is awesome, but doesn't natively handle bitflags very well (you can't
+write something like `<div ng-if="property & 1">` in a template). So Monad
+models have extended functionality for assigning bitflags and easily flipping
+them from your schema.
+
+> Bitflags are integer fields where each "bit" (1, 2, 4, 8 etc.) represents a
+> certain on/off property. They often come in useful for defining a list of such
+> settings on an item, without having to store each value in a separate column.
+
+After defining a model using `moResource`, call the `setBitflags` method on it.
+It takes two parameters: the name of the "source" property (e.g. `"status"`) and
+an object with a virtual property/bit value mapping. Like so:
+
+```javascript
+var item = moResource('/some/path/:id', {id: '@id'}).get({id: 1});
+item.setBitflags('status', {'$foo': 1, '$bar': 2});
+```
+
+Now you can simply use `item.$foo` and `item.$bar` in your schema as if they
+were regular properties returned by the API:
+
+```html
+<label>
+    <input type="checkbox" ng-model="$ctrl.data.item.$foo"> is $foo on?
+</label>
+```
+
+Often an API will handle this for you. This functionality comes in handy
+mostly when your API doesn't do this natively.
+
+> Best practice: prefix your bitflag mappings with `$` so they won't be
+> persisted accidentally (and would likely cause an error on the server).
+
+### Bitflags on lists
+You can also call `setBitflags` on an `moResource.query` result. The bitflags
+will be applied to each item in the list once the promise resolves, or when a
+new item gets pushed.
+
