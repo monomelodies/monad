@@ -50513,22 +50513,45 @@ exports.default = ['$resource', function ($resource) {
         var res = $resource(url, paramDefaults, actions, options);
         var query = res.query;
         var get = res.get;
+        var bitflags = undefined;
+        res.setBitflags = function (source) {
+            var mapping = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+            bitflags = { source: source, mapping: mapping };
+        };
         res.query = function (parameters, success, error) {
             var found = query.call(res, parameters, success, error);
             found.save = function (data, success, error) {
                 return res.save({}, data, success, error);
             };
+            found.push = function () {
+                for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+                    args[_key] = arguments[_key];
+                }
+
+                args.map(function (arg, i) {
+                    args[i] = new _Model2.default(arg);
+                    if (bitflags) {
+                        args[i].setBitflags(bitflags.source, bitflags.mapping);
+                    }
+                });
+                [].push.apply(undefined, args);
+            };
             found.$promise.then(function () {
                 found.map(function (item, i) {
                     return found[i] = new _Model2.default(item);
                 });
+                if (bitglags) {
+                    found.map(function (item) {
+                        return item.setBitflags(bitflags.source, bitflags.mapping);
+                    });
+                }
                 return found;
             });
             return found;
         };
         res.get = function (parameters, success, error) {
-            var found = get.call(res, parameters, success, error);
-            return new _Model2.default(found);
+            return new _Model2.default(get.call(res, parameters, success, error));
         };
         return res;
     };
