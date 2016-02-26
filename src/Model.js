@@ -32,6 +32,21 @@ export default class Model {
         }
     }
 
+    setBitflags(source, mapping = {}) {
+        for (let name in mapping) {
+            Object.defineProperty(this, name, {
+                get: () => !!(this[source] & mapping[name]),
+                set: value => {
+                    if (!!value) {
+                        this[source] |= mapping[name];
+                    } else {
+                        this[source] &= ~mapping[name];
+                    }
+                }
+            });
+        }
+    }
+
     /**
      * Virtual property to check if this model is "dirty".
      *
