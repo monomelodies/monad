@@ -24,10 +24,7 @@ export default ['$resource', $resource => {
             });
             return found;
         };
-        res.get = (parameters, success, error) => {
-            let found = get.call(res, parameters, success, error);
-            return new Model(found);
-        };
+        res.get = (parameters, success, error) => new Model(get.call(res, parameters, success, error));
         return res;
     };
 }];
