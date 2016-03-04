@@ -50541,7 +50541,7 @@ exports.default = ['$resource', function ($resource) {
                 found.map(function (item, i) {
                     return found[i] = new _Model2.default(item);
                 });
-                if (bitglags) {
+                if (bitflags) {
                     found.map(function (item) {
                         return item.setBitflags(bitflags.source, bitflags.mapping);
                     });
