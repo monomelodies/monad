@@ -33,7 +33,7 @@ export default ['$resource', $resource => {
             };
             found.$promise.then(() => {
                 found.map((item, i) => found[i] = new Model(item));
-                if (bitglags) {
+                if (bitflags) {
                     found.map(item => item.setBitflags(bitflags.source, bitflags.mapping));
                 }
                 return found;
