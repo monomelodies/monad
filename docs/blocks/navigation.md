@@ -66,7 +66,7 @@ app.run(['moNavigation', function (moNavigation) => {
 The default `index.html` template has one menu, and it's called `main`. This is
 the default to add to, but you can specify a `menu` key with your own name if
 you need to. If your admin is multilanguage, you'll also want to inject
-`gettextCatalog` and run the title through its `getString` method.
+`gettext` and run the title through it to mark it as translatable.
 
 ## Notifications
 By "notifications" we mean the common practice of adding a little number next

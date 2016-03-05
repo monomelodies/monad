@@ -44,18 +44,18 @@
                             ng-class="{active: item.selected, dropdown: item.items}"
                             uib-dropdown>
                             <a ng-if="item.items" href class="dropdown-toggle" uib-dropdown-toggle>
-                                {{ item.title }} <span class="caret"></span>
+                                {{ item.title | translate }} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" ng-if="item.items">
                                 <li ng-repeat="item in item.items" ng-if="item.authentication.check">
                                     <a ng-href="#/{{ Language.current }}{{ item.url }}" ng-click="Navigation.select(item)" mo-menu-label item="item">
                                         <small ng-if="item.notify()">{{ item.notify() }}</small>
-                                        {{ item.title }}
+                                        {{ item.title | translate }}
                                     </a>
                             </ul>
                             <a ng-if="!item.items" ng-href="#/{{ Language.current }}{{ item.url }}" ng-click="Navigation.select(item)">
                                 <small ng-if="item.notify()">{{ item.notify() }}</small>
-                                {{ item.title }}
+                                {{ item.title | translate }}
                             </a>
                         </li>
                     </ul>

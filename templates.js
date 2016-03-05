@@ -102,7 +102,7 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
     "            <div class=\"panel panel-info\">\n" +
     "                <ul class=list-group>\n" +
     "                    <li class=list-group-item ng-repeat=\"item in $root.Navigation.main\">\n" +
-    "                        <a ng-href=\"#/{{ $root.Language.current }}{{ item.url }}\" ng-click=$root.Navigation.select(item)>{{ item.title }}</a>\n" +
+    "                        <a ng-href=\"#/{{ $root.Language.current }}{{ item.url }}\" ng-click=$root.Navigation.select(item)>{{ item.title | translate }}</a>\n" +
     "                    </li>\n" +
     "                </ul>\n" +
     "            </div>\n" +

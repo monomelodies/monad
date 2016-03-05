@@ -50158,7 +50158,7 @@ angular.module('monad.components.update', []).component('moUpdate', {
     templateUrl: '/monad/components/Update/template.html',
     transclude: true,
     bindings: { data: '=', list: '@', type: '@', title: '@' },
-    controller: ['gettextCatalog', '$q', 'moReport', '$route', '$uibModal', '$location', 'moLanguage', function (gettextCatalog, $q, moReport, $route, $uibModal, $location, moLangue) {
+    controller: ['gettext', '$q', 'moReport', '$route', '$uibModal', function (gettext, $q, moReport, $route, $uibModal) {
         var _this = this;
 
         this.save = function () {
@@ -50201,22 +50201,24 @@ angular.module('monad.components.update', []).component('moUpdate', {
             for (var i in _this.data) {
                 saveit()(_this.data[i]);
             }
-            moReport.add('info', '<p style="text-align: center">' + gettextCatalog.getString('Saving...') + '</p>' + '<uib-progressbar type="info" class="progress-striped" value="msg.data.progress"></uib-progressbar>', _this, promise);
+            moReport.add('info', '<p style="text-align: center" translate>' + gettext('Saving...') + '</p>' + '<uib-progressbar type="info" class="progress-striped" value="msg.data.progress"></uib-progressbar>', _this, promise);
         };
 
+        var self = this;
         this['delete'] = function () {
             var _this2 = this;
 
             var modalInstance = $uibModal.open({
-                template: '\n<div class="modal-header"><h3 class="modal-title" translate>Delete item</h3></div>\n<div class="modal-body">\n    <p translate>Deleting can\'t be undone, are you sure?</p>\n</div>\n<div class="modal-footer">\n    <button class="btn btn-warning" ng-click="cancel()" translate>Cancel</button>\n    <button class="btn btn-success" ng-click="ok()" translate>Yes, I\'m really sure</button>\n</div>',
-                controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+                templateUrl: 'modal.html',
+                controller: ['$scope', '$uibModalInstance', '$location', 'moLanguage', function ($scope, $uibModalInstance, $location, moLanguage) {
                     $scope.options = _this2.options;
                     $scope.prefix = _this2.prefix;
                     $scope.property = _this2.property;
                     $scope.multiple = _this2.multiple;
                     $scope.ok = function () {
-                        _this2.data.item.$delete();
-                        $location.path('/' + moLanguage.current + '/' + _this2.list);
+                        $uibModalInstance.dismiss('ok');
+                        self.data.item.$delete();
+                        $location.path('/' + moLanguage.current + self.list);
                     };
                     $scope.cancel = function () {
                         $uibModalInstance.dismiss('cancel');
@@ -51142,7 +51144,7 @@ angular.module('monad.templates', []).run(['$templateCache', function ($template
 
   $templateCache.put('/monad/components/Update/template.html', "<h1 class=\"container-fluid clearfix\">\n" + "    <small><a class=\"glyphicon glyphicon-arrow-up pull-right\" ng-href=\"#/{{ $root.Language.current }}{{ $ctrl.list }}\"></a></small>\n" + "    <span ng-if=!$ctrl.data.item.id translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" + "    <span ng-if=$ctrl.data.item.id translate>Edit <q>{{ $ctrl.data.item[$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code></span>\n" + "</h1>\n" + "<div class=\"container-fluid clearfix\">\n" + "    <form ng-submit=$ctrl.save() id=mo_update_form name=mo_update_form novalidate method=post>\n" + "        <div ng-transclude></div>\n" + "        <br style=\"clear: both\">\n" + "        <div class=row>\n" + "            <div class=\"clearfix col-md-12 spaceme\">\n" + "                <button type=submit class=\"btn btn-primary fixed\" ng-if=\"mo_update_form.$valid && $ctrl.$dirty\" translate>Save changes</button>\n" + "                <a href class=\"glyphicon glyphicon-trash text-danger\" ng-if=\"$ctrl.data.item.$delete && $ctrl.data.item.id\" ng-click=$ctrl.delete()></a>\n" + "            </div>\n" + "        </div>\n" + "    </form>\n" + "</div>\n" + "<script type=text/ng-template id=modal.html>\n" + "    <div class=\"modal-header\"><h3 class=\"modal-title\" translate>Delete item</h3></div>\n" + "    <div class=\"modal-body\">\n" + "        <p translate>Deleting can't be undone, are you sure?</p>\n" + "    </div>\n" + "    <div class=\"modal-footer\">\n" + "        <button class=\"btn btn-warning\" ng-click=\"cancel()\" translate>Cancel</button>\n" + "        <button class=\"btn btn-success\" ng-click=\"ok()\" translate>Yes, I'm really sure</button>\n" + "    </div>\n" + "</script>");
 
-  $templateCache.put('/monad/templates/home.html', "<article class=jumbotron>\n" + "    <div class=container-fluid>\n" + "        <h1>{{ $root.title }} administrator</h1>\n" + "    </div>\n" + "</article>\n" + "<div class=container-fluid>\n" + "    <div class=row>\n" + "        <article class=col-md-6>\n" + "            <h2 translate>Welcome!</h2>\n" + "            <p translate>\n" + "                Hi there, you've reached the administrator for this site. Your options are listed here.\n" + "                You can also use the main menu at the top to navigate.\n" + "            </p>\n" + "        </article>\n" + "        <aside class=col-md-6>\n" + "            <div class=\"panel panel-info\">\n" + "                <ul class=list-group>\n" + "                    <li class=list-group-item ng-repeat=\"item in $root.Navigation.main\">\n" + "                        <a ng-href=\"#/{{ $root.Language.current }}{{ item.url }}\" ng-click=$root.Navigation.select(item)>{{ item.title }}</a>\n" + "                    </li>\n" + "                </ul>\n" + "            </div>\n" + "        </aside>\n" + "    </div>\n" + "</div>");
+  $templateCache.put('/monad/templates/home.html', "<article class=jumbotron>\n" + "    <div class=container-fluid>\n" + "        <h1>{{ $root.title }} administrator</h1>\n" + "    </div>\n" + "</article>\n" + "<div class=container-fluid>\n" + "    <div class=row>\n" + "        <article class=col-md-6>\n" + "            <h2 translate>Welcome!</h2>\n" + "            <p translate>\n" + "                Hi there, you've reached the administrator for this site. Your options are listed here.\n" + "                You can also use the main menu at the top to navigate.\n" + "            </p>\n" + "        </article>\n" + "        <aside class=col-md-6>\n" + "            <div class=\"panel panel-info\">\n" + "                <ul class=list-group>\n" + "                    <li class=list-group-item ng-repeat=\"item in $root.Navigation.main\">\n" + "                        <a ng-href=\"#/{{ $root.Language.current }}{{ item.url }}\" ng-click=$root.Navigation.select(item)>{{ item.title | translate }}</a>\n" + "                    </li>\n" + "                </ul>\n" + "            </div>\n" + "        </aside>\n" + "    </div>\n" + "</div>");
 
   $templateCache.put('/monad/templates/license.html', "<div class=modal-header>\n" + "    <h3 class=modal-title translate>License</h3>\n" + "</div>\n" + "<div class=modal-body>\n" + "    <p><strong translate>Note: this applies to the Monad CMS framework, not (necessarily) the site it is used for :)</strong></p>\n" + "    <div ng-include=\"'/monad/LICENSE.html'\"></div>\n" + "</div>\n" + "<div class=modal-footer>\n" + "    <button class=\"btn btn-primary\" ng-click=ok() translate>Got it!</button>\n" + "</div>");
 }]);
