@@ -50152,30 +50152,56 @@ angular.module('monad.components.login', []).component('moLogin', {
 
 "use strict";
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _Model = require('../../Model');
 
 var _Model2 = _interopRequireDefault(_Model);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-angular.module('monad.components.update', []).component('moUpdate', {
-    templateUrl: '/monad/components/Update/template.html',
-    transclude: true,
-    bindings: { data: '=', list: '@', type: '@', title: '@' },
-    controller: ['gettext', '$q', 'moReport', '$route', '$uibModal', function (gettext, $q, moReport, $route, $uibModal) {
-        var _this = this;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-        this.save = function () {
+var gettext = undefined;
+var $q = undefined;
+var moReport = undefined;
+var $route = undefined;
+var $uibModal = undefined;
+var $location = undefined;
+var moLanguage = undefined;
+
+var controller = function () {
+    function controller(_gettext, _$q, _moReport, _$route, _$uibModal, _$location, _moLanguage) {
+        _classCallCheck(this, controller);
+
+        gettext = _gettext;
+        $q = _$q;
+        moReport = _moReport;
+        $route = _$route;
+        $uibModal = _$uibModal;
+        $location = _$location;
+        moLanguage = _moLanguage;
+    }
+
+    _createClass(controller, [{
+        key: 'save',
+        value: function save() {
+            var _this = this;
+
             var promise = $q.defer();
             var operations = 0;
-            _this.progress = 0;
+            this.progress = 0;
             var done = 0;
+            var isNew = !this.data.item.$delete;
             var progress = function progress() {
                 done++;
                 _this.progress = done / operations * 100;
                 if (done == operations) {
                     promise.resolve('ok');
                     $route.reset();
+                    if (isNew) {
+                        $location.path(moLanguage.current + _this.list);
+                    }
                 }
             };
 
@@ -50193,26 +50219,26 @@ angular.module('monad.components.update', []).component('moUpdate', {
                 }
             };
 
-            for (var i in _this.data) {
-                $save(_this.data[i]);
+            for (var i in this.data) {
+                $save(this.data[i]);
             }
-            moReport.add('info', '<p style="text-align: center" translate>' + gettext('Saving...') + '</p>' + '<uib-progressbar type="info" class="progress-striped" value="msg.data.progress"></uib-progressbar>', _this, promise);
-        };
-
-        var self = this;
-        this['delete'] = function () {
+            moReport.add('info', '<p style="text-align: center" translate>' + gettext('Saving...') + '</p>' + '<uib-progressbar type="info" class="progress-striped" value="msg.data.progress"></uib-progressbar>', this, promise);
+        }
+    }, {
+        key: 'delete',
+        value: function _delete() {
             var _this2 = this;
 
             var modalInstance = $uibModal.open({
                 templateUrl: 'modal.html',
-                controller: ['$scope', '$uibModalInstance', '$location', 'moLanguage', function ($scope, $uibModalInstance, $location, moLanguage) {
+                controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
                     $scope.options = _this2.options;
                     $scope.prefix = _this2.prefix;
                     $scope.property = _this2.property;
                     $scope.multiple = _this2.multiple;
                     $scope.ok = function () {
                         $uibModalInstance.dismiss('ok');
-                        self.data.item.$delete();
+                        _this2.data.item.$delete();
                         $location.path('/' + moLanguage.current + self.list);
                     };
                     $scope.cancel = function () {
@@ -50221,24 +50247,36 @@ angular.module('monad.components.update', []).component('moUpdate', {
                 }],
                 size: 'xs'
             });
-        };
-
-        Object.defineProperty(this, '$dirty', { get: function get() {
-                for (var i in _this.data) {
-                    if (angular.isArray(_this.data[i])) {
-                        for (var j = 0; j < _this.data[i].length; j++) {
-                            // Deleted, dirty or new
-                            if (_this.data[i][j].$deleted || _this.data[i][j].$dirty || !('$save' in _this.data[i][j])) {
-                                return true;
-                            }
+        }
+    }, {
+        key: '$dirty',
+        get: function get() {
+            for (var i in this.data) {
+                if (angular.isArray(this.data[i])) {
+                    for (var j = 0; j < this.data[i].length; j++) {
+                        // Deleted, dirty or new
+                        if (this.data[i][j].$deleted || this.data[i][j].$dirty || !('$save' in this.data[i][j])) {
+                            return true;
                         }
-                    } else if (_this.data[i].$deleted || _this.data[i].$dirty) {
-                        return true;
                     }
+                } else if (this.data[i].$deleted || this.data[i].$dirty) {
+                    return true;
                 }
-                return false;
-            } });
-    }]
+            }
+            return false;
+        }
+    }]);
+
+    return controller;
+}();
+
+controller.$inject = ['gettext', '$q', 'moReport', '$route', '$uibModal', '$location', 'moLanguage'];
+
+angular.module('monad.components.update', []).component('moUpdate', {
+    templateUrl: '/monad/components/Update/template.html',
+    transclude: true,
+    bindings: { data: '=', list: '@', type: '@', title: '@' },
+    controller: controller
 });
 
 },{"../../Model":208}],213:[function(require,module,exports){
@@ -50541,7 +50579,7 @@ exports.default = ['$resource', function ($resource) {
 
                 args.map(function (arg, i) {
                     args[i] = new _Model2.default(arg);
-                    args[i].$promise = res;
+                    args[i].$resource = res;
                 });
                 [].push.apply(found, args);
             };
