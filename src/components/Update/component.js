@@ -6,7 +6,7 @@ angular.module('monad.components.update', [])
         templateUrl: '/monad/components/Update/template.html',
         transclude: true,
         bindings: {data: '=', list: '@', type: '@', title: '@'},
-        controller: ['gettextCatalog', '$q', 'moReport', '$route', function (gettextCatalog, $q, moReport, $route) {
+        controller: ['gettextCatalog', '$q', 'moReport', '$route', '$uibModal', '$location', 'moLanguage', function (gettextCatalog, $q, moReport, $route, $uibModal, $location, moLangue) {
             this.save = () => {
                 let promise = $q.defer();
                 let operations = 0;
@@ -52,6 +52,34 @@ angular.module('monad.components.update', [])
                     this,
                     promise
                 );
+            };
+
+            this['delete'] = function () {
+                let modalInstance = modal.open({
+                    template: `
+<div class="modal-header"><h3 class="modal-title" translate>Delete item</h3>/div>
+<div class="modal-body">
+    <p translate>Deleting can't be undone, are you sure?</p>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="cancel()" translate>Cancel</button>
+    <button class="btn btn-success" ng-click="ok()" translate>Yes, I'm really sure</button>
+</div>`,
+                    controller: ['$scope', '$uibModalInstance', ($scope, $uibModalInstance) => {
+                        $scope.options = this.options;
+                        $scope.prefix = this.prefix;
+                        $scope.property = this.property;
+                        $scope.multiple = this.multiple;
+                        $scope.ok = () => {
+                            this.data.item.$delete();
+                            $location.path('/' + moLanguage.current + '/' + this.list);
+                        };
+                        $scope.cancel = () => {
+                            $uibModalInstance.dismiss('cancel');
+                        };
+                    }],
+                    size: 'lg'
+                });
             };
 
             Object.defineProperty(this, '$dirty', {get: () => {
