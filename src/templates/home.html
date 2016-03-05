@@ -16,7 +16,7 @@
             <div class="panel panel-info">
                 <ul class="list-group">
                     <li class="list-group-item" ng-repeat="item in $root.Navigation.main">
-                        <a ng-href="#/{{ $root.Language.current }}{{ item.url }}" ng-click="$root.Navigation.select(item)">{{ item.title }}</a>
+                        <a ng-href="#/{{ $root.Language.current }}{{ item.url }}" ng-click="$root.Navigation.select(item)">{{ item.title | translate }}</a>
                     </li>
                 </ul>
             </div>
