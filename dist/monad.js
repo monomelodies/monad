@@ -50535,7 +50535,7 @@ exports.default = ['$resource', function ($resource) {
                         args[i].setBitflags(bitflags.source, bitflags.mapping);
                     }
                 });
-                [].push.apply(undefined, args);
+                [].push.apply(found, args);
             };
             found.$promise.then(function () {
                 found.map(function (item, i) {
