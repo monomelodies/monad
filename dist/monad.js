@@ -49879,7 +49879,7 @@ var Model = function () {
         set: function set(resource) {
             var _this3 = this;
 
-            this.save = function () {
+            this.$save = function () {
                 resource.save(_this3);
             };
         }
@@ -50152,7 +50152,11 @@ angular.module('monad.components.login', []).component('moLogin', {
 
 "use strict";
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _Model = require('../../Model');
+
+var _Model2 = _interopRequireDefault(_Model);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 angular.module('monad.components.update', []).component('moUpdate', {
     templateUrl: '/monad/components/Update/template.html',
@@ -50175,31 +50179,22 @@ angular.module('monad.components.update', []).component('moUpdate', {
                 }
             };
 
-            function saveit() {
-                var resource = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
-
-                return function (item) {
-                    if (angular.isArray(item)) {
-                        item.map(saveit(item));
-                    } else if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) == 'object') {
-                        if (item.$save) {
-                            if (item.$deleted) {
-                                operations++;
-                                item.$delete({}, progress);
-                            } else if (!item.id || item.$dirty) {
-                                operations++;
-                                item.$save({}, progress);
-                            }
-                        } else if (!item.$deleted) {
-                            operations++;
-                            resource.save(item, progress);
-                        }
+            function $save(item) {
+                if (angular.isArray(item)) {
+                    item.map($save);
+                } else if (item instanceof _Model2.default) {
+                    if (item.$deleted) {
+                        operations++;
+                        item.$delete({}, progress);
+                    } else if (!item.id || item.$dirty) {
+                        operations++;
+                        item.$save({}, progress);
                     }
-                };
+                }
             };
 
             for (var i in _this.data) {
-                saveit()(_this.data[i]);
+                $save(_this.data[i]);
             }
             moReport.add('info', '<p style="text-align: center" translate>' + gettext('Saving...') + '</p>' + '<uib-progressbar type="info" class="progress-striped" value="msg.data.progress"></uib-progressbar>', _this, promise);
         };
@@ -50246,7 +50241,7 @@ angular.module('monad.components.update', []).component('moUpdate', {
     }]
 });
 
-},{}],213:[function(require,module,exports){
+},{"../../Model":208}],213:[function(require,module,exports){
 
 "use strict";
 
@@ -50537,17 +50532,8 @@ exports.default = ['$resource', function ($resource) {
         var res = $resource(url, paramDefaults, actions, options);
         var query = res.query;
         var get = res.get;
-        var bitflags = undefined;
-        res.setBitflags = function (source) {
-            var mapping = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-            bitflags = { source: source, mapping: mapping };
-        };
         res.query = function (parameters, success, error) {
             var found = query.call(res, parameters, success, error);
-            found.save = function (data, success, error) {
-                return res.save({}, data, success, error);
-            };
             found.push = function () {
                 for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
                     args[_key] = arguments[_key];
@@ -50555,9 +50541,7 @@ exports.default = ['$resource', function ($resource) {
 
                 args.map(function (arg, i) {
                     args[i] = new _Model2.default(arg);
-                    if (bitflags) {
-                        args[i].setBitflags(bitflags.source, bitflags.mapping);
-                    }
+                    args[i].$promise = res;
                 });
                 [].push.apply(found, args);
             };
@@ -50565,11 +50549,6 @@ exports.default = ['$resource', function ($resource) {
                 found.map(function (item, i) {
                     return found[i] = new _Model2.default(item);
                 });
-                if (bitflags) {
-                    found.map(function (item) {
-                        return item.setBitflags(bitflags.source, bitflags.mapping);
-                    });
-                }
                 return found;
             });
             return found;
