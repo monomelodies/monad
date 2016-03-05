@@ -29,7 +29,7 @@ export default ['$resource', $resource => {
                         args[i].setBitflags(bitflags.source, bitflags.mapping);
                     }
                 });
-                [].push.apply(this, args);
+                [].push.apply(found, args);
             };
             found.$promise.then(() => {
                 found.map((item, i) => found[i] = new Model(item));
