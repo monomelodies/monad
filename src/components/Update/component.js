@@ -1,6 +1,8 @@
 
 "use strict";
 
+import Model from '../../Model';
+
 angular.module('monad.components.update', [])
     .component('moUpdate', {
         templateUrl: '/monad/components/Update/template.html',
@@ -21,29 +23,22 @@ angular.module('monad.components.update', [])
                     }
                 };
 
-                function saveit(resource = undefined) {
-                    return item => {
-                        if (angular.isArray(item)) {
-                            item.map(saveit(item));
-                        } else if (typeof item == 'object') {
-                            if (item.$save) {
-                                if (item.$deleted) {
-                                    operations++;
-                                    item.$delete({}, progress);
-                                } else if (!item.id || item.$dirty) {
-                                    operations++;
-                                    item.$save({}, progress);
-                                }
-                            } else if (!item.$deleted) {
-                                operations++;
-                                resource.save(item, progress);
-                            }
+                function $save(item) {
+                    if (angular.isArray(item)) {
+                        item.map($save);
+                    } else if (item instanceof Model) {
+                        if (item.$deleted) {
+                            operations++;
+                            item.$delete({}, progress);
+                        } else if (!item.id || item.$dirty) {
+                            operations++;
+                            item.$save({}, progress);
                         }
-                    };
+                    }
                 };
 
                 for (let i in this.data) {
-                    saveit()(this.data[i]);
+                    $save(this.data[i]);
                 }
                 moReport.add(
                     'info',
