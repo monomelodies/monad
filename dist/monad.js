@@ -50158,7 +50158,7 @@ angular.module('monad.components.update', []).component('moUpdate', {
     templateUrl: '/monad/components/Update/template.html',
     transclude: true,
     bindings: { data: '=', list: '@', type: '@', title: '@' },
-    controller: ['gettextCatalog', '$q', 'moReport', '$route', function (gettextCatalog, $q, moReport, $route) {
+    controller: ['gettextCatalog', '$q', 'moReport', '$route', '$uibModal', '$location', 'moLanguage', function (gettextCatalog, $q, moReport, $route, $uibModal, $location, moLangue) {
         var _this = this;
 
         this.save = function () {
@@ -50202,6 +50202,28 @@ angular.module('monad.components.update', []).component('moUpdate', {
                 saveit()(_this.data[i]);
             }
             moReport.add('info', '<p style="text-align: center">' + gettextCatalog.getString('Saving...') + '</p>' + '<uib-progressbar type="info" class="progress-striped" value="msg.data.progress"></uib-progressbar>', _this, promise);
+        };
+
+        this['delete'] = function () {
+            var _this2 = this;
+
+            var modalInstance = modal.open({
+                template: '\n<div class="modal-header"><h3 class="modal-title" translate>Delete item</h3>/div>\n<div class="modal-body">\n    <p translate>Deleting can\'t be undone, are you sure?</p>\n</div>\n<div class="modal-footer">\n    <button class="btn btn-warning" ng-click="cancel()" translate>Cancel</button>\n    <button class="btn btn-success" ng-click="ok()" translate>Yes, I\'m really sure</button>\n</div>',
+                controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+                    $scope.options = _this2.options;
+                    $scope.prefix = _this2.prefix;
+                    $scope.property = _this2.property;
+                    $scope.multiple = _this2.multiple;
+                    $scope.ok = function () {
+                        _this2.data.item.$delete();
+                        $location.path('/' + moLanguage.current + '/' + _this2.list);
+                    };
+                    $scope.cancel = function () {
+                        $uibModalInstance.dismiss('cancel');
+                    };
+                }],
+                size: 'lg'
+            });
         };
 
         Object.defineProperty(this, '$dirty', { get: function get() {
