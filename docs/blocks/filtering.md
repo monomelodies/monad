@@ -69,11 +69,11 @@ To define such a property, one would extend the module definition like so:
 
 ```javascript
 // The route template:
-template: '<my-module-list resource="$resolve.resource" count="$resolve.count"></my-module-list>'
+template: '<my-module-list resource="$resolve.resource" count="$resolve.count.data"></my-module-list>'
 // The resolves:
 {
     resource: ['moResource', moResource => moResource('/api/url/')],
-    count: ['moResource', moResource => moResource('/api/url/for/count/')]
+    count: ['$http', $http => $http.get('/api/url/for/count/')]
 }
 // The component:
 app.component('myModuleList', {
@@ -84,6 +84,12 @@ app.component('myModuleList', {
 
 The property can either come from a resolve or be something on a custom
 controller - whatever your preference is.
+
+Note that `count.data` syntax in the template binding; resolves using
+`$http` get passed the "raw" success data, which is an object incluing headers
+_and_ the retrieved data on a `data` property. Of course you could also use
+e.g. a `$q` promise to directly pass the count, and maybe your API returns
+additional data in that call (so would refer to `count.data.someProperty`).
 
 ## Generically extending resources for filtering
 To extend a common `count` (or other...) implementation for your API, simply use
