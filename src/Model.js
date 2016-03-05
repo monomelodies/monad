@@ -117,7 +117,7 @@ export default class Model {
      * For creation, set `$resource` on an empty model.
      */
     set $resource(resource) {
-        this.save = () => {
+        this.$save = () => {
             resource.save(this);
         };
     }
