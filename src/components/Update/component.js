@@ -6,7 +6,7 @@ angular.module('monad.components.update', [])
         templateUrl: '/monad/components/Update/template.html',
         transclude: true,
         bindings: {data: '=', list: '@', type: '@', title: '@'},
-        controller: ['gettextCatalog', '$q', 'moReport', '$route', function (gettextCatalog, $q, moReport, $route) {
+        controller: ['gettextCatalog', '$q', 'moReport', '$route', '$uibModal', '$location', 'moLanguage', function (gettextCatalog, $q, moReport, $route, $uibModal, $location, moLanguage) {
             this.save = () => {
                 let promise = $q.defer();
                 let operations = 0;
@@ -52,6 +52,28 @@ angular.module('monad.components.update', [])
                     this,
                     promise
                 );
+            };
+
+            let self = this;
+            this['delete'] = function () {
+                let modalInstance = $uibModal.open({
+                    templateUrl: 'modal.html',
+                    controller: ['$scope', '$uibModalInstance', ($scope, $uibModalInstance) => {
+                        $scope.options = this.options;
+                        $scope.prefix = this.prefix;
+                        $scope.property = this.property;
+                        $scope.multiple = this.multiple;
+                        $scope.ok = () => {
+                            $uibModalInstance.dismiss('ok');
+                            self.data.item.$delete();
+                            $location.path('/' + moLanguage.current + self.list);
+                        };
+                        $scope.cancel = () => {
+                            $uibModalInstance.dismiss('cancel');
+                        };
+                    }],
+                    size: 'xs'
+                });
             };
 
             Object.defineProperty(this, '$dirty', {get: () => {

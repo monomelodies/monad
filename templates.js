@@ -55,8 +55,8 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
   $templateCache.put('/monad/components/Update/template.html',
     "<h1 class=\"container-fluid clearfix\">\n" +
     "    <small><a class=\"glyphicon glyphicon-arrow-up pull-right\" ng-href=\"#/{{ $root.Language.current }}{{ $ctrl.list }}\"></a></small>\n" +
-    "    <span ng-if=!$ctrl.data[$ctrl.type].id translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" +
-    "    <span ng-if=$ctrl.data[$ctrl.type].id translate>Edit <q>{{ $ctrl.data[$ctrl.type][$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code></span>\n" +
+    "    <span ng-if=!$ctrl.data.item.id translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" +
+    "    <span ng-if=$ctrl.data.item.id translate>Edit <q>{{ $ctrl.data.item[$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code></span>\n" +
     "</h1>\n" +
     "<div class=\"container-fluid clearfix\">\n" +
     "    <form ng-submit=$ctrl.save() id=mo_update_form name=mo_update_form novalidate method=post>\n" +
@@ -65,11 +65,21 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
     "        <div class=row>\n" +
     "            <div class=\"clearfix col-md-12 spaceme\">\n" +
     "                <button type=submit class=\"btn btn-primary fixed\" ng-if=\"mo_update_form.$valid && $ctrl.$dirty\" translate>Save changes</button>\n" +
-    "                <a href class=\"glyphicon glyphicon-trash text-danger\" ng-if=\"$ctrl.delete && $ctrl.data.item.id\" ng-click=$ctrl.delete()></a>\n" +
+    "                <a href class=\"glyphicon glyphicon-trash text-danger\" ng-if=\"$ctrl.data.item.$delete && $ctrl.data.item.id\" ng-click=$ctrl.delete()></a>\n" +
     "            </div>\n" +
     "        </div>\n" +
     "    </form>\n" +
-    "</div>"
+    "</div>\n" +
+    "<script type=text/ng-template id=modal.html>\n" +
+    "    <div class=\"modal-header\"><h3 class=\"modal-title\" translate>Delete item</h3></div>\n" +
+    "    <div class=\"modal-body\">\n" +
+    "        <p translate>Deleting can't be undone, are you sure?</p>\n" +
+    "    </div>\n" +
+    "    <div class=\"modal-footer\">\n" +
+    "        <button class=\"btn btn-warning\" ng-click=\"cancel()\" translate>Cancel</button>\n" +
+    "        <button class=\"btn btn-success\" ng-click=\"ok()\" translate>Yes, I'm really sure</button>\n" +
+    "    </div>\n" +
+    "</script>"
   );
 
 

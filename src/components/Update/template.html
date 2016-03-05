@@ -1,8 +1,8 @@
 <h1 class="container-fluid clearfix">
     <small><a class="glyphicon glyphicon-arrow-up pull-right" ng-href="#/{{ $root.Language.current }}{{ $ctrl.list }}"></a></small>
-    <span ng-if="!$ctrl.data[$ctrl.type].id" translate>Create new item in <code>{{ $ctrl.type }}</code></span>
-    <span ng-if="$ctrl.data[$ctrl.type].id"
-        translate>Edit <q>{{ $ctrl.data[$ctrl.type][$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code></span>
+    <span ng-if="!$ctrl.data.item.id" translate>Create new item in <code>{{ $ctrl.type }}</code></span>
+    <span ng-if="$ctrl.data.item.id"
+        translate>Edit <q>{{ $ctrl.data.item[$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code></span>
 </h1>
 <div class="container-fluid clearfix">
     <form ng-submit="$ctrl.save()" id="mo_update_form" name="mo_update_form" novalidate method="post">
@@ -11,9 +11,19 @@
         <div class="row">
             <div class="clearfix col-md-12 spaceme">
                 <button type="submit" class="btn btn-primary fixed" ng-if="mo_update_form.$valid && $ctrl.$dirty" translate>Save changes</button>
-                <a href class="glyphicon glyphicon-trash text-danger" ng-if="$ctrl.delete && $ctrl.data.item.id" ng-click="$ctrl.delete()"></a>
+                <a href class="glyphicon glyphicon-trash text-danger" ng-if="$ctrl.data.item.$delete && $ctrl.data.item.id" ng-click="$ctrl.delete()"></a>
             </div>
         </div>
     </form>
 </div>
+<script type="text/ng-template" id="modal.html">
+    <div class="modal-header"><h3 class="modal-title" translate>Delete item</h3></div>
+    <div class="modal-body">
+        <p translate>Deleting can't be undone, are you sure?</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()" translate>Cancel</button>
+        <button class="btn btn-success" ng-click="ok()" translate>Yes, I'm really sure</button>
+    </div>
+</script>
 

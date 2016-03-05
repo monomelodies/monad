@@ -4,12 +4,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
+#: src/components/Update/template.html:25
+msgid "Cancel"
+msgstr ""
+
 #: src/components/Update/template.html:3
 msgid "Create new item in <code>{{ $ctrl.type }}</code>"
 msgstr ""
 
+#: src/components/Update/template.html:20
+msgid "Delete item"
+msgstr ""
+
+#: src/components/Update/template.html:22
+msgid "Deleting can't be undone, are you sure?"
+msgstr ""
+
 #: src/components/Update/template.html:4
-msgid "Edit <q>{{ $ctrl.data[$ctrl.type][$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code>"
+msgid "Edit <q>{{ $ctrl.data.item[$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code>"
 msgstr ""
 
 #: src/components/Login/template.html:21
@@ -68,4 +80,8 @@ msgstr ""
 
 #: src/templates/home.html:9
 msgid "Welcome!"
+msgstr ""
+
+#: src/components/Update/template.html:26
+msgid "Yes, I'm really sure"
 msgstr ""
