@@ -18,7 +18,7 @@ export default ['$resource', $resource => {
             found.push = (...args) => {
                 args.map((arg, i) => {
                     args[i] = new Model(arg);
-                    args[i].$promise = res;
+                    args[i].$resource = res;
                 });
                 [].push.apply(found, args);
             };
