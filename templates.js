@@ -55,8 +55,8 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
   $templateCache.put('/monad/components/Update/template.html',
     "<h1 class=\"container-fluid clearfix\">\n" +
     "    <small><a class=\"glyphicon glyphicon-arrow-up pull-right\" ng-href=\"#/{{ $root.Language.current }}{{ $ctrl.list }}\"></a></small>\n" +
-    "    <span ng-if=!$ctrl.data[$ctrl.type].id translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" +
-    "    <span ng-if=$ctrl.data[$ctrl.type].id translate>Edit <q>{{ $ctrl.data[$ctrl.type][$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code></span>\n" +
+    "    <span ng-if=!$ctrl.data.item.id translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" +
+    "    <span ng-if=$ctrl.data.item.id translate>Edit <q>{{ $ctrl.data.item[$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code></span>\n" +
     "</h1>\n" +
     "<div class=\"container-fluid clearfix\">\n" +
     "    <form ng-submit=$ctrl.save() id=mo_update_form name=mo_update_form novalidate method=post>\n" +
