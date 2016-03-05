@@ -65,6 +65,23 @@ stock (Angular) Bootstrap from there:
 </div>
 ```
 
+To define such a property, one would extend the module definition like so:
+
+```javascript
+// The route template:
+template: '<my-module-list resource="$resolve.resource" count="$resolve.count"></my-module-list>'
+// The resolves:
+{
+    resource: ['moResource', moResource => moResource('/api/url/')],
+    count: ['moResource', moResource => moResource('/api/url/for/count/')]
+}
+// The component:
+app.component('myModuleList', {
+    bindings: {resource: '<', count: '<'},
+    // Further component definitions.
+});
+```
+
 The property can either come from a resolve or be something on a custom
 controller - whatever your preference is.
 
