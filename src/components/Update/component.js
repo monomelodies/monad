@@ -6,7 +6,7 @@ angular.module('monad.components.update', [])
         templateUrl: '/monad/components/Update/template.html',
         transclude: true,
         bindings: {data: '=', list: '@', type: '@', title: '@'},
-        controller: ['gettextCatalog', '$q', 'moReport', '$route', '$uibModal', '$location', 'moLanguage', function (gettextCatalog, $q, moReport, $route, $uibModal, $location, moLanguage) {
+        controller: ['gettext', '$q', 'moReport', '$route', '$uibModal', function (gettext, $q, moReport, $route, $uibModal) {
             this.save = () => {
                 let promise = $q.defer();
                 let operations = 0;
@@ -47,7 +47,7 @@ angular.module('monad.components.update', [])
                 }
                 moReport.add(
                     'info',
-                    '<p style="text-align: center">' + gettextCatalog.getString('Saving...') + '</p>' +
+                    '<p style="text-align: center" translate>' + gettext('Saving...') + '</p>' +
                     '<uib-progressbar type="info" class="progress-striped" value="msg.data.progress"></uib-progressbar>',
                     this,
                     promise
@@ -58,7 +58,7 @@ angular.module('monad.components.update', [])
             this['delete'] = function () {
                 let modalInstance = $uibModal.open({
                     templateUrl: 'modal.html',
-                    controller: ['$scope', '$uibModalInstance', ($scope, $uibModalInstance) => {
+                    controller: ['$scope', '$uibModalInstance', '$location', 'moLanguage', ($scope, $uibModalInstance, $location, moLanguage) => {
                         $scope.options = this.options;
                         $scope.prefix = this.prefix;
                         $scope.property = this.property;
