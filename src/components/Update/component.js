@@ -57,15 +57,7 @@ angular.module('monad.components.update', [])
             let self = this;
             this['delete'] = function () {
                 let modalInstance = $uibModal.open({
-                    template: `
-<div class="modal-header"><h3 class="modal-title" translate>Delete item</h3></div>
-<div class="modal-body">
-    <p translate>Deleting can't be undone, are you sure?</p>
-</div>
-<div class="modal-footer">
-    <button class="btn btn-warning" ng-click="cancel()" translate>Cancel</button>
-    <button class="btn btn-success" ng-click="ok()" translate>Yes, I'm really sure</button>
-</div>`,
+                    templateUrl: 'modal.html',
                     controller: ['$scope', '$uibModalInstance', ($scope, $uibModalInstance) => {
                         $scope.options = this.options;
                         $scope.prefix = this.prefix;
