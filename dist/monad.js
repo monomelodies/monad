@@ -49879,8 +49879,9 @@ var Model = function () {
         set: function set(resource) {
             var _this3 = this;
 
-            this.$save = function () {
-                resource.save(_this3);
+            // Params are ignored here.
+            this.$save = function (params, success, error) {
+                resource.save(_this3, success, error);
             };
         }
     }]);
