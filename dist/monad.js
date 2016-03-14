@@ -49869,21 +49869,6 @@ var Model = function () {
         set: function set(value) {
             wm.get(this).deleted = !!value;
         }
-
-        /**
-         * For creation, set `$resource` on an empty model.
-         */
-
-    }, {
-        key: '$resource',
-        set: function set(resource) {
-            var _this3 = this;
-
-            // Params are ignored here.
-            this.$save = function (params, success, error) {
-                resource.save(_this3, success, error);
-            };
-        }
     }]);
 
     return Model;
@@ -50215,10 +50200,10 @@ var controller = function () {
                 } else if (item instanceof _Model2.default) {
                     if (item.$deleted) {
                         operations++;
-                        item.$delete({}, progress);
+                        item.$delete(progress);
                     } else if (!item.id || item.$dirty) {
                         operations++;
-                        item.$save({}, progress);
+                        item.$save(progress);
                     }
                 }
             };
@@ -50582,8 +50567,11 @@ exports.default = ['$resource', function ($resource) {
                 }
 
                 args.map(function (arg, i) {
-                    args[i] = new _Model2.default(arg);
-                    args[i].$resource = res;
+                    var resource = new res();
+                    for (var prop in arg) {
+                        resource[prop] = arg[prop];
+                    }
+                    args[i] = new _Model2.default(resource);
                 });
                 [].push.apply(found, args);
             };
