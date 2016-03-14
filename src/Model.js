@@ -166,6 +166,9 @@ function differs(a, b) {
             }
         }
     }
+    if ((a instanceof Date) && (b instanceof Date)) {
+        return a < b || a > b;
+    }
     if (typeof a == 'object' && typeof b == 'object') {
         for (let i in a) {
             if (i.substring(0, 1) == '$') {
