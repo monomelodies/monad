@@ -113,16 +113,6 @@ export default class Model {
         wm.get(this).deleted = !!value;
     }
 
-    /**
-     * For creation, set `$resource` on an empty model.
-     */
-    set $resource(resource) {
-        // Params are ignored here.
-        this.$save = (params, success, error) => {
-            resource.save(this, success, error);
-        };
-    }
-
 };
 
 /**
