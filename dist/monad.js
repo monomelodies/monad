@@ -49933,6 +49933,9 @@ function differs(a, b) {
             }
         }
     }
+    if (a instanceof Date && b instanceof Date) {
+        return a < b || a > b;
+    }
     if ((typeof a === 'undefined' ? 'undefined' : _typeof(a)) == 'object' && (typeof b === 'undefined' ? 'undefined' : _typeof(b)) == 'object') {
         for (var i in a) {
             if (i.substring(0, 1) == '$') {
