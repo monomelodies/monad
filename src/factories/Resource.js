@@ -17,8 +17,11 @@ export default ['$resource', $resource => {
             let found = query.call(res, parameters, success, error);
             found.push = (...args) => {
                 args.map((arg, i) => {
-                    args[i] = new Model(arg);
-                    args[i].$resource = res;
+                    let resource = new res();
+                    for (let prop in arg) {
+                        resource[prop] = arg[prop];
+                    }
+                    args[i] = new Model(resource);
                 });
                 [].push.apply(found, args);
             };
