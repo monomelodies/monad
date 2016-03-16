@@ -17,9 +17,10 @@ export default class ListController {
      * Class constructor.
      *
      * @param object $scope Injected scope.
+     * @param object moDelete Injected moDelete service.
      * @return void
      */
-    constructor($scope) {
+    constructor($scope, moDelete) {
         if (!this.items) {
             this.page = _page;
         }
@@ -27,6 +28,9 @@ export default class ListController {
         $scope.$watch('$ctrl.filter', (newvalue) => {
             this.page = 1;
         });
+        this['delete'] = item => {
+            moDelete.ask(item);
+        };
     }
 
     /**
@@ -70,5 +74,5 @@ export default class ListController {
 
 };
 
-ListController.$inject = ['$scope'];
+ListController.$inject = ['$scope', 'moDelete'];
 
