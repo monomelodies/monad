@@ -90,6 +90,10 @@ module.exports = function (grunt) {
         includereplace: {
             files: ['src/index.html'],
             tasks: ['includereplace']
+        },
+        uglify: {
+            files: ['dist/monad.js'],
+            tasks: ['uglify']
         }
     });
 
