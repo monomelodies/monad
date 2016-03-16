@@ -34,7 +34,6 @@ export default class Delete {
             controller: ['$scope', '$uibModalInstance', ($scope, $uibModalInstance) => {
                 $scope.ok = () => {
                     $uibModalInstance.dismiss('ok');
-                    console.log(item);
                     item.$delete();
                     if (list) {
                         $location.path('/' + moLanguage.current + list);
