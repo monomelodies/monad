@@ -7,20 +7,21 @@ let gettext = undefined;
 let $q = undefined;
 let moReport = undefined;
 let $route = undefined;
-let $uibModal = undefined;
 let $location = undefined;
 let moLanguage = undefined;
 
 class controller {
 
-    constructor(_gettext, _$q, _moReport, _$route, _$uibModal, _$location, _moLanguage) {
+    constructor(_gettext, _$q, _moReport, _$route, _$location, _moLanguage, moDelete) {
         gettext = _gettext;
         $q = _$q;
         moReport = _moReport;
         $route = _$route;
-        $uibModal = _$uibModal;
         $location = _$location;
         moLanguage = _moLanguage;
+        this['delete'] = () => {
+            moDelete.ask(this.data.item, this.list);
+        };
     }
 
     save() {
@@ -67,27 +68,6 @@ class controller {
         );
     }
 
-    ['delete']() {
-        let modalInstance = $uibModal.open({
-            templateUrl: 'modal.html',
-            controller: ['$scope', '$uibModalInstance', ($scope, $uibModalInstance) => {
-                $scope.options = this.options;
-                $scope.prefix = this.prefix;
-                $scope.property = this.property;
-                $scope.multiple = this.multiple;
-                $scope.ok = () => {
-                    $uibModalInstance.dismiss('ok');
-                    this.data.item.$delete();
-                    $location.path('/' + moLanguage.current + self.list);
-                };
-                $scope.cancel = () => {
-                    $uibModalInstance.dismiss('cancel');
-                };
-            }],
-            size: 'xs'
-        });
-    }
-
     get ['$dirty']() {
             for (let i in this.data) {
                 if (angular.isArray(this.data[i])) {
@@ -106,7 +86,7 @@ class controller {
 
 }
 
-controller.$inject = ['gettext', '$q', 'moReport', '$route', '$uibModal', '$location', 'moLanguage'];
+controller.$inject = ['gettext', '$q', 'moReport', '$route', '$location', 'moLanguage', 'moDelete'];
 
 angular.module('monad.components.update', [])
     .component('moUpdate', {
