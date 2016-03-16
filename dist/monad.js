@@ -49639,10 +49639,11 @@ var ListController = function () {
      * Class constructor.
      *
      * @param object $scope Injected scope.
+     * @param object moDelete Injected moDelete service.
      * @return void
      */
 
-    function ListController($scope) {
+    function ListController($scope, moDelete) {
         var _this = this;
 
         _classCallCheck(this, ListController);
@@ -49654,6 +49655,9 @@ var ListController = function () {
         $scope.$watch('$ctrl.filter', function (newvalue) {
             _this.page = 1;
         });
+        this['delete'] = function (item) {
+            moDelete.ask(item);
+        };
     }
 
     /**
@@ -49710,7 +49714,7 @@ var ListController = function () {
 exports.default = ListController;
 ;
 
-ListController.$inject = ['$scope'];
+ListController.$inject = ['$scope', 'moDelete'];
 
 },{}],208:[function(require,module,exports){
 
@@ -49987,6 +49991,10 @@ var _Language = require('./services/Language');
 
 var _Language2 = _interopRequireDefault(_Language);
 
+var _Delete = require('./services/Delete');
+
+var _Delete2 = _interopRequireDefault(_Delete);
+
 var _Report = require('./services/Report');
 
 var _Report2 = _interopRequireDefault(_Report);
@@ -50076,9 +50084,9 @@ angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'mon
 .controller('moListController', _ListController2.default)
 
 // Services
-.service('moNavigation', _Navigation2.default).service('Authentication', _Authentication2.default).service('moLanguage', _Language2.default).service('moReport', _Report2.default);
+.service('moNavigation', _Navigation2.default).service('Authentication', _Authentication2.default).service('moLanguage', _Language2.default).service('moReport', _Report2.default).service('moDelete', _Delete2.default);
 
-},{"../i18n":1,"../templates":225,"./ListController":207,"./components/angular":213,"./directives/angular":215,"./factories/Model":219,"./factories/Resource":220,"./services/Authentication":221,"./services/Language":222,"./services/Navigation":223,"./services/Report":224,"angular":14,"angular-animate":3,"angular-gettext":4,"angular-resource":6,"angular-route":8,"angular-sanitize":10,"angular-ui-bootstrap":12,"autofill-event":15,"babel-polyfill":16,"ng-lollipop":205}],210:[function(require,module,exports){
+},{"../i18n":1,"../templates":226,"./ListController":207,"./components/angular":213,"./directives/angular":215,"./factories/Model":219,"./factories/Resource":220,"./services/Authentication":221,"./services/Delete":222,"./services/Language":223,"./services/Navigation":224,"./services/Report":225,"angular":14,"angular-animate":3,"angular-gettext":4,"angular-resource":6,"angular-route":8,"angular-sanitize":10,"angular-ui-bootstrap":12,"autofill-event":15,"babel-polyfill":16,"ng-lollipop":205}],210:[function(require,module,exports){
 
 "use strict";
 
@@ -50155,27 +50163,30 @@ var gettext = undefined;
 var $q = undefined;
 var moReport = undefined;
 var $route = undefined;
-var $uibModal = undefined;
 var $location = undefined;
 var moLanguage = undefined;
 
 var controller = function () {
-    function controller(_gettext, _$q, _moReport, _$route, _$uibModal, _$location, _moLanguage) {
+    function controller(_gettext, _$q, _moReport, _$route, _$location, _moLanguage, moDelete) {
+        var _this = this;
+
         _classCallCheck(this, controller);
 
         gettext = _gettext;
         $q = _$q;
         moReport = _moReport;
         $route = _$route;
-        $uibModal = _$uibModal;
         $location = _$location;
         moLanguage = _moLanguage;
+        this['delete'] = function () {
+            moDelete.ask(_this.data.item, _this.list);
+        };
     }
 
     _createClass(controller, [{
         key: 'save',
         value: function save() {
-            var _this = this;
+            var _this2 = this;
 
             var promise = $q.defer();
             var operations = 0;
@@ -50184,12 +50195,12 @@ var controller = function () {
             var isNew = !this.data.item.$delete;
             var progress = function progress() {
                 done++;
-                _this.progress = done / operations * 100;
+                _this2.progress = done / operations * 100;
                 if (done == operations) {
                     promise.resolve('ok');
                     $route.reset();
                     if (isNew) {
-                        $location.path(moLanguage.current + _this.list);
+                        $location.path(moLanguage.current + _this2.list);
                     }
                 }
             };
@@ -50214,30 +50225,6 @@ var controller = function () {
             moReport.add('info', '<p style="text-align: center" translate>' + gettext('Saving...') + '</p>' + '<uib-progressbar type="info" class="progress-striped" value="msg.data.progress"></uib-progressbar>', this, promise);
         }
     }, {
-        key: 'delete',
-        value: function _delete() {
-            var _this2 = this;
-
-            var modalInstance = $uibModal.open({
-                templateUrl: 'modal.html',
-                controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
-                    $scope.options = _this2.options;
-                    $scope.prefix = _this2.prefix;
-                    $scope.property = _this2.property;
-                    $scope.multiple = _this2.multiple;
-                    $scope.ok = function () {
-                        $uibModalInstance.dismiss('ok');
-                        _this2.data.item.$delete();
-                        $location.path('/' + moLanguage.current + self.list);
-                    };
-                    $scope.cancel = function () {
-                        $uibModalInstance.dismiss('cancel');
-                    };
-                }],
-                size: 'xs'
-            });
-        }
-    }, {
         key: '$dirty',
         get: function get() {
             for (var i in this.data) {
@@ -50259,7 +50246,7 @@ var controller = function () {
     return controller;
 }();
 
-controller.$inject = ['gettext', '$q', 'moReport', '$route', '$uibModal', '$location', 'moLanguage'];
+controller.$inject = ['gettext', '$q', 'moReport', '$route', '$location', 'moLanguage', 'moDelete'];
 
 angular.module('monad.components.update', []).component('moUpdate', {
     templateUrl: '/monad/components/Update/template.html',
@@ -50682,6 +50669,76 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var $uibModal = undefined;
+var moLanguage = undefined;
+var $location = undefined;
+var $route = undefined;
+
+var Delete = function () {
+    function Delete(_$uibModal_, _moLanguage_, _$location_, _$route_) {
+        _classCallCheck(this, Delete);
+
+        $uibModal = _$uibModal_;
+        moLanguage = _moLanguage_;
+        $location = _$location_;
+        $route = _$route_;
+    }
+
+    /**
+     * Ask for confirmation before deleting.
+     *
+     * @param Resource item The resource to delete.
+     * @param string list Optional list URL to navigate to after deletion.
+     */
+
+
+    _createClass(Delete, [{
+        key: 'ask',
+        value: function ask(item) {
+            var list = arguments.length <= 1 || arguments[1] === undefined ? undefined : arguments[1];
+
+            var modalInstance = $uibModal.open({
+                template: '<div class="modal-header"><h3 class="modal-title" translate>Delete item</h3></div>\n<div class="modal-body">\n    <p translate>Deleting can\'t be undone, are you sure?</p>\n</div>\n<div class="modal-footer">\n    <button class="btn btn-warning" ng-click="cancel()" translate>Cancel</button>\n    <button class="btn btn-success" ng-click="ok()" translate>Yes, I\'m really sure</button>\n</div>',
+                controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+                    $scope.ok = function () {
+                        $uibModalInstance.dismiss('ok');
+                        console.log(item);
+                        item.$delete();
+                        if (list) {
+                            $location.path('/' + moLanguage.current + list);
+                        } else {
+                            $route.reset();
+                        }
+                    };
+                    $scope.cancel = function () {
+                        $uibModalInstance.dismiss('cancel');
+                    };
+                }],
+                size: 'xs'
+            });
+        }
+    }]);
+
+    return Delete;
+}();
+
+exports.default = Delete;
+;
+
+Delete.$inject = ['$uibModal', 'moLanguage', '$location', '$route'];
+
+},{}],223:[function(require,module,exports){
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var current = undefined;
 var scope = undefined;
 var catalog = undefined;
@@ -50765,7 +50822,7 @@ exports.default = Language;
 
 Language.$inject = ['gettextCatalog', '$rootScope'];
 
-},{}],223:[function(require,module,exports){
+},{}],224:[function(require,module,exports){
 
 "use strict";
 
@@ -50923,7 +50980,7 @@ exports.default = Navigation;
 
 Navigation.$inject = ['$location', 'Authentication'];
 
-},{}],224:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
 
 "use strict";
 
@@ -51141,7 +51198,7 @@ exports.default = Report;
 
 Report.$inject = ['$timeout'];
 
-},{}],225:[function(require,module,exports){
+},{}],226:[function(require,module,exports){
 'use strict';
 
 angular.module('monad.templates', []).run(['$templateCache', function ($templateCache) {
@@ -51151,7 +51208,7 @@ angular.module('monad.templates', []).run(['$templateCache', function ($template
 
   $templateCache.put('/monad/components/Login/template.html', "<div ng-transclude ng-if=$ctrl.auth.check></div>\n" + "<div class=vert-wrapper ng-if=!$ctrl.auth.check>\n" + "    <div class=vert-wrapper-inner>\n" + "        <form ng-submit=$ctrl.auth.attempt($ctrl.credentials) id=auth name=auth novalidate method=post>\n" + "            <fieldset>\n" + "                <legend translate>Please login</legend>\n" + "                <div class=form-group>\n" + "                    <input name=username ng-model=$ctrl.credentials.username class=form-control placeholder=\"{{ 'Username' | translate }}\">\n" + "                </div>\n" + "                <div class=form-group>\n" + "                    <input type=password name=password ng-model=$ctrl.credentials.password class=form-control placeholder=\"{{ 'Password' | translate }}\">\n" + "                </div>\n" + "                <button type=submit class=\"btn btn-default pull-right\" translate>Go!</button>\n" + "            </fieldset>\n" + "        </form>\n" + "    </div>\n" + "</div>");
 
-  $templateCache.put('/monad/components/Update/template.html', "<h1 class=\"container-fluid clearfix\">\n" + "    <small><a class=\"glyphicon glyphicon-arrow-up pull-right\" ng-href=\"#/{{ $root.Language.current }}{{ $ctrl.list }}\"></a></small>\n" + "    <span ng-if=!$ctrl.data.item.id translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" + "    <span ng-if=$ctrl.data.item.id translate>Edit <q>{{ $ctrl.data.item[$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code></span>\n" + "</h1>\n" + "<div class=\"container-fluid clearfix\">\n" + "    <form ng-submit=$ctrl.save() id=mo_update_form name=mo_update_form novalidate method=post>\n" + "        <div ng-transclude></div>\n" + "        <br style=\"clear: both\">\n" + "        <div class=row>\n" + "            <div class=\"clearfix col-md-12 spaceme\">\n" + "                <button type=submit class=\"btn btn-primary fixed\" ng-if=\"mo_update_form.$valid && $ctrl.$dirty\" translate>Save changes</button>\n" + "                <a href class=\"glyphicon glyphicon-trash text-danger\" ng-if=\"$ctrl.data.item.$delete && $ctrl.data.item.id\" ng-click=$ctrl.delete()></a>\n" + "            </div>\n" + "        </div>\n" + "    </form>\n" + "</div>\n" + "<script type=text/ng-template id=modal.html>\n" + "    <div class=\"modal-header\"><h3 class=\"modal-title\" translate>Delete item</h3></div>\n" + "    <div class=\"modal-body\">\n" + "        <p translate>Deleting can't be undone, are you sure?</p>\n" + "    </div>\n" + "    <div class=\"modal-footer\">\n" + "        <button class=\"btn btn-warning\" ng-click=\"cancel()\" translate>Cancel</button>\n" + "        <button class=\"btn btn-success\" ng-click=\"ok()\" translate>Yes, I'm really sure</button>\n" + "    </div>\n" + "</script>");
+  $templateCache.put('/monad/components/Update/template.html', "<h1 class=\"container-fluid clearfix\">\n" + "    <small><a class=\"glyphicon glyphicon-arrow-up pull-right\" ng-href=\"#/{{ $root.Language.current }}{{ $ctrl.list }}\"></a></small>\n" + "    <span ng-if=!$ctrl.data.item.id translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" + "    <span ng-if=$ctrl.data.item.id translate>Edit <q>{{ $ctrl.data.item[$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code></span>\n" + "</h1>\n" + "<div class=\"container-fluid clearfix\">\n" + "    <form ng-submit=$ctrl.save() id=mo_update_form name=mo_update_form novalidate method=post>\n" + "        <div ng-transclude></div>\n" + "        <br style=\"clear: both\">\n" + "        <div class=row>\n" + "            <div class=\"clearfix col-md-12 spaceme\">\n" + "                <button type=submit class=\"btn btn-primary fixed\" ng-if=\"mo_update_form.$valid && $ctrl.$dirty\" translate>Save changes</button>\n" + "                <a href class=\"glyphicon glyphicon-trash text-danger\" ng-if=\"$ctrl.data.item.$delete && $ctrl.data.item.id\" ng-click=$ctrl.delete()></a>\n" + "            </div>\n" + "        </div>\n" + "    </form>\n" + "</div>");
 
   $templateCache.put('/monad/templates/home.html', "<article class=jumbotron>\n" + "    <div class=container-fluid>\n" + "        <h1>{{ $root.title }} administrator</h1>\n" + "    </div>\n" + "</article>\n" + "<div class=container-fluid>\n" + "    <div class=row>\n" + "        <article class=col-md-6>\n" + "            <h2 translate>Welcome!</h2>\n" + "            <p translate>\n" + "                Hi there, you've reached the administrator for this site. Your options are listed here.\n" + "                You can also use the main menu at the top to navigate.\n" + "            </p>\n" + "        </article>\n" + "        <aside class=col-md-6>\n" + "            <div class=\"panel panel-info\">\n" + "                <ul class=list-group>\n" + "                    <li class=list-group-item ng-repeat=\"item in $root.Navigation.main\">\n" + "                        <a ng-href=\"#/{{ $root.Language.current }}{{ item.url }}\" ng-click=$root.Navigation.select(item)>{{ item.title | translate }}</a>\n" + "                    </li>\n" + "                </ul>\n" + "            </div>\n" + "        </aside>\n" + "    </div>\n" + "</div>");
 
