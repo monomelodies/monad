@@ -17,6 +17,7 @@ import ListController from './ListController';
 import Navigation from './services/Navigation';
 import Authentication from './services/Authentication';
 import Language from './services/Language';
+import Delete from './services/Delete';
 import Report from './services/Report';
 import './directives/angular';
 import './components/angular';
@@ -99,5 +100,6 @@ angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'mon
     .service('Authentication', Authentication)
     .service('moLanguage', Language)
     .service('moReport', Report)
+    .service('moDelete', Delete)
     ;
 
