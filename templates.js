@@ -69,17 +69,7 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
     "            </div>\n" +
     "        </div>\n" +
     "    </form>\n" +
-    "</div>\n" +
-    "<script type=text/ng-template id=modal.html>\n" +
-    "    <div class=\"modal-header\"><h3 class=\"modal-title\" translate>Delete item</h3></div>\n" +
-    "    <div class=\"modal-body\">\n" +
-    "        <p translate>Deleting can't be undone, are you sure?</p>\n" +
-    "    </div>\n" +
-    "    <div class=\"modal-footer\">\n" +
-    "        <button class=\"btn btn-warning\" ng-click=\"cancel()\" translate>Cancel</button>\n" +
-    "        <button class=\"btn btn-success\" ng-click=\"ok()\" translate>Yes, I'm really sure</button>\n" +
-    "    </div>\n" +
-    "</script>"
+    "</div>"
   );
 
 
