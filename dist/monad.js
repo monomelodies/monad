@@ -50702,7 +50702,6 @@ var Delete = function () {
                 controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
                     $scope.ok = function () {
                         $uibModalInstance.dismiss('ok');
-                        console.log(item);
                         item.$delete();
                         if (list) {
                             $location.path('/' + moLanguage.current + list);
