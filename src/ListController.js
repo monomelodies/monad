@@ -20,17 +20,13 @@ export default class ListController {
      * @param object moDelete Injected moDelete service.
      * @return void
      */
-    constructor($scope, moDelete) {
+    constructor(moDelete) {
         if (!this.items) {
             this.page = _page;
         }
         this.filter = {};
-        $scope.$watch('$ctrl.filter', (newvalue) => {
-            this.page = 1;
-        });
-        this['delete'] = item => {
-            moDelete.ask(item);
-        };
+        filter = {};
+        this['delete'] = item => moDelete.ask(item);
     }
 
     /**
@@ -63,16 +59,16 @@ export default class ListController {
         this.items = this.resource.query({filter: this.filter, limit: 10, offset: (page - 1) * 10});
     }
 
-    get filter() {
-        return filter;
+    applyFilter() {
+        this.filter = filter;
+        this.reset();
     }
 
-    set filter(f) {
-        filter = f;
-        this.page = 1;
+    get isFilterApplied() {
+        return this.filter == filter;
     }
 
 };
 
-ListController.$inject = ['$scope', 'moDelete'];
+ListController.$inject = ['moDelete'];
 
