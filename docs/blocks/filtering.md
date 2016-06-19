@@ -15,11 +15,12 @@ An example:
 
 ```html
 <mo-list-header ...></mo-list-header>
-<form><fieldset>
+<form ng-submit="$ctrl.applyFilter()"><fieldset>
     <label>
-        <input ng-model="$ctrl.filter.deleted" value="1">
+        <input ng-model="$ctrl.filter.deleted" value="1" type="checkbox">
         Show only deleted items
     </label>
+    <button type="submit">Apply</button>
 </fieldset></form>
 <mo-list-table ...></mo-list-table>
 ```
@@ -37,11 +38,18 @@ To apply default values to a filter ("initial state"), use `ng-init`:
 ```html
 <form ng-init="$ctrl.filter.deleted = 1"><fieldset>
     <label>
-        <input ng-model="$ctrl.filter.deleted" value="1">
+        <input ng-model="$ctrl.filter.deleted" value="1" type="checkbox">
         Show only deleted items
     </label>
+    <button type="submit">Apply</button>
 </fieldset></form>
 ```
+
+## Auto-filtering
+Manually calling `applyFilter()` makes perfect sense when your filter is a text
+input ("search"), but for checkboxes or radios you might want to automatically
+refresh the list when anything changes. Simply bind `$ctrl.applyFilter()` to an
+`ng-change` directive on the input(s) in question in that case.
 
 ## Pagination
 The most ubiquitous "filter" is of course pagination. This is done seperately
@@ -90,6 +98,13 @@ Note that `count.data` syntax in the template binding; resolves using
 _and_ the retrieved data on a `data` property. Of course you could also use
 e.g. a `$q` promise to directly pass the count, and maybe your API returns
 additional data in that call (so would refer to `count.data.someProperty`).
+
+Any `moListController` can optionally receive a `pageSize` property (via
+directive injection, e.g. `<my-list-component page-size="10">`). This defaults
+to `10` which is reasonable in most cases, but this way you can override it in
+specific cases.
+
+Don't forget to add `pageSize` to your component's bindings in the definition.
 
 ## Generically extending resources for filtering
 To extend a common `count` (or other...) implementation for your API, simply use
