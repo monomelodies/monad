@@ -49646,10 +49646,10 @@ var ListController = function () {
     function ListController(moDelete) {
         _classCallCheck(this, ListController);
 
+        this.pageSize = this.pageSize || 10;
         if (!this.items) {
             this.page = _page;
         }
-        this.pageSize = this.pageSize || 10;
         this.filter = {};
         filter = {};
         this['delete'] = function (item) {
