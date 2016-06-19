@@ -21,10 +21,10 @@ export default class ListController {
      * @return void
      */
     constructor(moDelete) {
+        this.pageSize = this.pageSize || 10;
         if (!this.items) {
             this.page = _page;
         }
-        this.pageSize = this.pageSize || 10;
         this.filter = {};
         filter = {};
         this['delete'] = item => moDelete.ask(item);
