@@ -104,6 +104,8 @@ directive injection, e.g. `<my-list-component page-size="10">`). This defaults
 to `10` which is reasonable in most cases, but this way you can override it in
 specific cases.
 
+Don't forget to add `pageSize` to your component's bindings in the definition.
+
 ## Generically extending resources for filtering
 To extend a common `count` (or other...) implementation for your API, simply use
 a custom `resource` factory that extends `moResource`. Sample implementation:
