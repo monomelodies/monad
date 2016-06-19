@@ -15,11 +15,12 @@ An example:
 
 ```html
 <mo-list-header ...></mo-list-header>
-<form><fieldset>
+<form ng-submit="$ctrl.applyFilter()"><fieldset>
     <label>
-        <input ng-model="$ctrl.filter.deleted" value="1">
+        <input ng-model="$ctrl.filter.deleted" value="1" type="checkbox">
         Show only deleted items
     </label>
+    <button type="submit">Apply</button>
 </fieldset></form>
 <mo-list-table ...></mo-list-table>
 ```
@@ -37,11 +38,18 @@ To apply default values to a filter ("initial state"), use `ng-init`:
 ```html
 <form ng-init="$ctrl.filter.deleted = 1"><fieldset>
     <label>
-        <input ng-model="$ctrl.filter.deleted" value="1">
+        <input ng-model="$ctrl.filter.deleted" value="1" type="checkbox">
         Show only deleted items
     </label>
+    <button type="submit">Apply</button>
 </fieldset></form>
 ```
+
+## Auto-filtering
+Manually calling `applyFilter()` makes perfect sense when your filter is a text
+input ("search"), but for checkboxes or radios you might want to automatically
+refresh the list when anything changes. Simply bind `$ctrl.applyFilter()` to an
+`ng-change` directive on the input(s) in question in that case.
 
 ## Pagination
 The most ubiquitous "filter" is of course pagination. This is done seperately
