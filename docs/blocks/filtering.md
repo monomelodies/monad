@@ -99,6 +99,11 @@ _and_ the retrieved data on a `data` property. Of course you could also use
 e.g. a `$q` promise to directly pass the count, and maybe your API returns
 additional data in that call (so would refer to `count.data.someProperty`).
 
+Any `moListController` can optionally receive a `pageSize` property (via
+directive injection, e.g. `<my-list-component page-size="10">`). This defaults
+to `10` which is reasonable in most cases, but this way you can override it in
+specific cases.
+
 ## Generically extending resources for filtering
 To extend a common `count` (or other...) implementation for your API, simply use
 a custom `resource` factory that extends `moResource`. Sample implementation:
