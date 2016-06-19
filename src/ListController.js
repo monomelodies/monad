@@ -24,6 +24,7 @@ export default class ListController {
         if (!this.items) {
             this.page = _page;
         }
+        this.pageSize = this.pageSize || 10;
         this.filter = {};
         filter = {};
         this['delete'] = item => moDelete.ask(item);
@@ -56,10 +57,11 @@ export default class ListController {
      */
     set page(page) {
         _page = page;
-        this.items = this.resource.query({filter: this.filter, limit: 10, offset: (page - 1) * 10});
+        this.items = this.resource.query({filter: this.filter, limit: this.pageSize, offset: (page - 1) * this.pageSize});
     }
 
     applyFilter() {
+        alert('!');
         this.filter = filter;
         this.reset();
     }
