@@ -49643,20 +49643,16 @@ var ListController = function () {
      * @return void
      */
 
-    function ListController($scope, moDelete) {
-        var _this = this;
-
+    function ListController(moDelete) {
         _classCallCheck(this, ListController);
 
         if (!this.items) {
             this.page = _page;
         }
         this.filter = {};
-        $scope.$watch('$ctrl.filter', function (newvalue) {
-            _this.page = 1;
-        });
+        filter = {};
         this['delete'] = function (item) {
-            moDelete.ask(item);
+            return moDelete.ask(item);
         };
     }
 
@@ -49670,7 +49666,6 @@ var ListController = function () {
     _createClass(ListController, [{
         key: 'reset',
         value: function reset() {
-            route.reset();
             this.page = 1;
         }
 
@@ -49680,6 +49675,12 @@ var ListController = function () {
          * @return integer Current page number.
          */
 
+    }, {
+        key: 'applyFilter',
+        value: function applyFilter() {
+            filter = this.filter;
+            this.reset();
+        }
     }, {
         key: 'page',
         get: function get() {
@@ -49695,16 +49696,12 @@ var ListController = function () {
         ,
         set: function set(page) {
             _page = page;
-            this.items = this.resource.query({ filter: this.filter, limit: 10, offset: (page - 1) * 10 });
+            this.items = this.resource.query({ filter: filter, limit: 10, offset: (page - 1) * 10 });
         }
     }, {
-        key: 'filter',
+        key: 'isFilterApplied',
         get: function get() {
-            return filter;
-        },
-        set: function set(f) {
-            filter = f;
-            this.page = 1;
+            return this.filter == filter;
         }
     }]);
 
@@ -49714,7 +49711,7 @@ var ListController = function () {
 exports.default = ListController;
 ;
 
-ListController.$inject = ['$scope', 'moDelete'];
+ListController.$inject = ['moDelete'];
 
 },{}],208:[function(require,module,exports){
 
