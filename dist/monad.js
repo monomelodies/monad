@@ -49649,6 +49649,7 @@ var ListController = function () {
         if (!this.items) {
             this.page = _page;
         }
+        this.pageSize = this.pageSize || 10;
         this.filter = {};
         filter = {};
         this['delete'] = function (item) {
@@ -49666,6 +49667,7 @@ var ListController = function () {
     _createClass(ListController, [{
         key: 'reset',
         value: function reset() {
+            route.reset();
             this.page = 1;
         }
 
@@ -49678,7 +49680,8 @@ var ListController = function () {
     }, {
         key: 'applyFilter',
         value: function applyFilter() {
-            filter = this.filter;
+            alert('!');
+            this.filter = filter;
             this.reset();
         }
     }, {
@@ -49696,7 +49699,7 @@ var ListController = function () {
         ,
         set: function set(page) {
             _page = page;
-            this.items = this.resource.query({ filter: filter, limit: 10, offset: (page - 1) * 10 });
+            this.items = this.resource.query({ filter: this.filter, limit: this.pageSize, offset: (page - 1) * this.pageSize });
         }
     }, {
         key: 'isFilterApplied',
