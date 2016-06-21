@@ -49622,9 +49622,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var params = undefined;
-var route = undefined;
-var modal = undefined;
 var _page = 1;
 var filter = {};
 
@@ -49638,7 +49635,6 @@ var ListController = function () {
     /**
      * Class constructor.
      *
-     * @param object $scope Injected scope.
      * @param object moDelete Injected moDelete service.
      * @return void
      */
@@ -49647,11 +49643,11 @@ var ListController = function () {
         _classCallCheck(this, ListController);
 
         this.pageSize = this.pageSize || 10;
+        this.filter = this.filter || {};
+        angular.copy(this.filter, filter);
         if (!this.items) {
             this.page = _page;
         }
-        this.filter = {};
-        filter = {};
         this['delete'] = function (item) {
             return moDelete.ask(item);
         };
@@ -49667,7 +49663,6 @@ var ListController = function () {
     _createClass(ListController, [{
         key: 'reset',
         value: function reset() {
-            route.reset();
             this.page = 1;
         }
 
@@ -49680,8 +49675,7 @@ var ListController = function () {
     }, {
         key: 'applyFilter',
         value: function applyFilter() {
-            alert('!');
-            this.filter = filter;
+            angular.copy(this.filter, filter);
             this.reset();
         }
     }, {
@@ -49699,7 +49693,7 @@ var ListController = function () {
         ,
         set: function set(page) {
             _page = page;
-            this.items = this.resource.query({ filter: this.filter, limit: this.pageSize, offset: (page - 1) * this.pageSize });
+            this.items = this.resource.query({ filter: filter, limit: this.pageSize, offset: (page - 1) * this.pageSize });
         }
     }, {
         key: 'isFilterApplied',
