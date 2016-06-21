@@ -20,7 +20,7 @@ export default class ListController {
      * @param object moDelete Injected moDelete service.
      * @return void
      */
-    constructor(moDelete) {
+    constructor(moDelete, $route) {
         this.pageSize = this.pageSize || 10;
         if (!this.items) {
             this.page = _page;
@@ -28,6 +28,7 @@ export default class ListController {
         this.filter = {};
         filter = {};
         this['delete'] = item => moDelete.ask(item);
+        route = $route;
     }
 
     /**
@@ -61,7 +62,6 @@ export default class ListController {
     }
 
     applyFilter() {
-        alert('!');
         this.filter = filter;
         this.reset();
     }
@@ -72,5 +72,5 @@ export default class ListController {
 
 };
 
-ListController.$inject = ['moDelete'];
+ListController.$inject = ['moDelete', '$route'];
 
