@@ -49700,6 +49700,16 @@ var ListController = function () {
         get: function get() {
             return this.filter == filter;
         }
+    }, {
+        key: '$dirty',
+        get: function get() {
+            for (var i = 0; i < this.items.length; i++) {
+                if (this.items[i].$dirty) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }]);
 
     return ListController;
