@@ -110,7 +110,6 @@ mostly when your API doesn't do this natively.
 > persisted accidentally (and would likely cause an error on the server).
 
 ### Bitflags on lists
-You can also call `setBitflags` on an `moResource.query` result. The bitflags
-will be applied to each item in the list once the promise resolves, or when a
-new item gets pushed.
+`setBitflags` works on a resource's `prototype`, so if you need it in lists you
+would only have to call it for a single item.
 
