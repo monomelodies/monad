@@ -64,15 +64,6 @@ export default class ListController {
         return this.filter == filter;
     }
 
-    get ['$dirty']() {
-        for (let i = 0; i < this.items.length; i++) {
-            if (this.items[i].$dirty) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 };
 
 ListController.$inject = ['moDelete'];
