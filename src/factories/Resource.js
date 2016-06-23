@@ -120,7 +120,7 @@ export default ['$resource', $resource => {
             found.prototype.push = function (obj) {
                 [].call(this, 'push', new res(obj));
             };
-            found.prototype.save = function () {
+            found.prototype.$save = function () {
                 for (let i = 0; i < this.length; i++) {
                     if (angular.isArray(this[i]) && 'save' in this[i]) {
                         this[i].save();
