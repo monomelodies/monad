@@ -9,7 +9,7 @@ const wm = new WeakMap();
  * In Monad, we want to be able to easily append a new item to an array of
  * queried resources. This exposes a `save` method on the array.
  */
-export default ['$resource', $resource => {
+export default ['$resource', '$rootScope', ($resource, $rootScope) => {
     return (url, paramDefaults = {}, actions = {}, options = {}) => {
         let res = $resource(url, paramDefaults, actions, options);
 
@@ -117,21 +117,31 @@ export default ['$resource', $resource => {
                 });
                 return found;
             });
-            found.push = function (obj) {
-                [].call(this, 'push', new res(obj));
+            found.append = function (obj) {
+                found.push(new res(obj));
+            };
+
+            found.progress = undefined;
+            function done() {
+                found.progress--;
+                if (found.progress == 0) {
+                    $rootScope.$emit('moListSaved');
+                }
             };
             found.$save = function () {
+                found.promises = [];
                 for (let i = 0; i < this.length; i++) {
                     if (angular.isArray(this[i]) && '$save' in this[i] && this[i].$dirty) {
                         this[i].$save();
                         continue;
                     }
                     if (this[i].$deleted) {
-                        this[i].$delete();
+                        found.promises.push(this[i].$delete(done));
                     } else if (this[i].$dirty) {
-                        this[i].$save();
+                        found.promises.push(this[i].$save(done));
                     }
                 }
+                found.progress = found.promises.length;
             };
             Object.defineProperty(found, '$dirty', {
                 get: function () {
