@@ -160,6 +160,19 @@ template and alias the custom controller as e.g. `list`:
 </div>
 ```
 
+Or you could of course create a component which would be slightly neater and
+also allows you to bind e.g. `$ctrl.items` to it.
+
+## Dirty checking
+For convenience, the `moListController` also supports dirty checking via the
+custom virtual `$dirty` property (read-only):
+
+```html
+<div ng-if="$ctrl.$dirty">I'm so dirty right now</div>
+```
+
+A list is considered dirty if at least one item in it is dirty.
+
 ## Non-list/CRUD sections
 You can register anything as a route/component, so if you need a page with e.g.
 user statistics, just build it and add it to the menu! (Or keep it hidden of

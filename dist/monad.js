@@ -49714,237 +49714,6 @@ ListController.$inject = ['moDelete'];
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var wm = new WeakMap();
-var promise = new WeakMap();
-
-/**
- * A data object with dirty checking and other virtual helpers.
- */
-
-var Model = function () {
-
-    /**
-     * Class constructor. Pass the initial key/values as data. This should be
-     * an Angular resource object.
-     */
-
-    function Model() {
-        var _this = this;
-
-        var data = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-        _classCallCheck(this, Model);
-
-        wm.set(this, { initial: undefined, deleted: false });
-        var loader = function loader() {
-            wm.get(_this).initial = angular.copy(data);
-            for (var prop in data) {
-                if (prop == '$promise') {
-                    continue;
-                }
-                _this[prop] = data[prop];
-            }
-        };
-        if (data.$promise) {
-            data.$promise.then(loader);
-            Object.defineProperty(this, '$promise', { get: function get() {
-                    return data.$promise;
-                } });
-        } else {
-            loader();
-        }
-    }
-
-    _createClass(Model, [{
-        key: 'setBitflags',
-        value: function setBitflags(source) {
-            var _this2 = this;
-
-            var mapping = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-            var _loop = function _loop(name) {
-                Object.defineProperty(_this2, name, {
-                    get: function get() {
-                        return !!(_this2[source] & mapping[name]);
-                    },
-                    set: function set(value) {
-                        if (!!value) {
-                            _this2[source] |= mapping[name];
-                        } else {
-                            _this2[source] &= ~mapping[name];
-                        }
-                    }
-                });
-            };
-
-            for (var name in mapping) {
-                _loop(name);
-            }
-        }
-
-        /**
-         * Virtual property to check if this model is "dirty".
-         *
-         * @return boolean True if dirty, false if pristine.
-         */
-
-    }, {
-        key: '$dirty',
-        get: function get() {
-            if (wm.get(this).deleted) {
-                return true;
-            }
-            var initial = wm.get(this).initial || {};
-            for (var prop in this) {
-                if (prop.substring(0, 1) == '$') {
-                    continue;
-                }
-                if (differs(this[prop], initial[prop])) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /**
-         * Guesstimate the "title" of a particular model instance.
-         *
-         * @return string A guesstimated title.
-         */
-
-    }, {
-        key: '$title',
-        get: function get() {
-            // First, the usual suspects:
-            if ('title' in this) {
-                return this.title;
-            }
-            if ('name' in this) {
-                return this.name;
-            }
-            // If any field is an actual string _and_ its length is shorter
-            // than 255 chars (reasonable maximum...) use that:
-            for (var prop in this) {
-                if (prop.substring(0, 1) == '$') {
-                    continue;
-                }
-                if (typeof this[prop] == 'string' && this[prop].length && this[prop].length <= 255) {
-                    return this[prop];
-                }
-            }
-            return '[Untitled]';
-        }
-
-        /**
-         * Get private deleted state.
-         *
-         * @return bool
-         */
-
-    }, {
-        key: '$deleted',
-        get: function get() {
-            return wm.get(this).deleted;
-        }
-
-        /**
-         * Set the deleted state. Note that this does _not_ call the "$delete"
-         * resource method.
-         *
-         * @param mixed value Truthy for "scheduled for deletion".
-         */
-        ,
-        set: function set(value) {
-            wm.get(this).deleted = !!value;
-        }
-    }]);
-
-    return Model;
-}();
-
-exports.default = Model;
-;
-
-/**
- * Private helper to check if a field is actually set.
- * Unset is defined as undefined or null, string with no length OR
- * a string consisting only of <p></p> (for WYSIWTYG fields).
- *
- * @param mixed val The value to check.
- * @return bool True if the value is considered "empty", else false.
- */
-function isset(val) {
-    return !!(val !== undefined && val !== null && ('' + val).trim().length && !('' + val).trim().match(/^<p>(\s|\n|&nbsp;)*<\/p>$/));
-}
-
-/**
- * Private helper to determine if two values differ. Values can be of any type;
- * the helper guesstimates and recurses as needed.
- *
- * @param mixed a Value to check.
- * @param mixed b Value to compare to.
- * @return bool
- */
-function differs(a, b) {
-    if (!isset(a) && isset(b) || isset(a) && !isset(b)) {
-        return true;
-    }
-    if (!a && !b) {
-        return false;
-    }
-    // If `a` is "dirty" we don't even have to do any other checks.
-    if (a instanceof Model) {
-        return a.$dirty || a.$deleted;
-    }
-    if (angular.isArray(a) && angular.isArray(b)) {
-        if (a.length != b.length) {
-            return true;
-        }
-        for (var i = 0; i < a.length; i++) {
-            if (differs(a[i], b[i])) {
-                return true;
-            }
-        }
-    }
-    if (a instanceof Date && b instanceof Date) {
-        return a < b || a > b;
-    }
-    if ((typeof a === 'undefined' ? 'undefined' : _typeof(a)) == 'object' && (typeof b === 'undefined' ? 'undefined' : _typeof(b)) == 'object') {
-        for (var i in a) {
-            if (i.substring(0, 1) == '$') {
-                continue;
-            }
-            if (differs(a[i], b[i])) {
-                return true;
-            }
-        }
-        for (var i in b) {
-            if (i.substring(0, 1) == '$') {
-                continue;
-            }
-            if (!(i in a)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    return ('' + a).trim() != ('' + b).trim();
-}
-
-},{}],209:[function(require,module,exports){
-
-"use strict";
-
 require('babel-polyfill');
 
 require('angular');
@@ -49996,10 +49765,6 @@ var _Report2 = _interopRequireDefault(_Report);
 require('./directives/angular');
 
 require('./components/angular');
-
-var _Model = require('./factories/Model');
-
-var _Model2 = _interopRequireDefault(_Model);
 
 var _Resource = require('./factories/Resource');
 
@@ -50072,7 +49837,7 @@ angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'mon
 .run(['normalizeIncomingHttpData', 'postRegularForm', function (a, b) {}])
 
 // Factories
-.factory('moResource', _Resource2.default).factory('moModel', _Model2.default)
+.factory('moResource', _Resource2.default)
 
 // Default controllers
 .controller('moListController', _ListController2.default)
@@ -50080,7 +49845,7 @@ angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'mon
 // Services
 .service('moNavigation', _Navigation2.default).service('Authentication', _Authentication2.default).service('moLanguage', _Language2.default).service('moReport', _Report2.default).service('moDelete', _Delete2.default);
 
-},{"../i18n":1,"../templates":226,"./ListController":207,"./components/angular":213,"./directives/angular":215,"./factories/Model":219,"./factories/Resource":220,"./services/Authentication":221,"./services/Delete":222,"./services/Language":223,"./services/Navigation":224,"./services/Report":225,"angular":14,"angular-animate":3,"angular-gettext":4,"angular-resource":6,"angular-route":8,"angular-sanitize":10,"angular-ui-bootstrap":12,"autofill-event":15,"babel-polyfill":16,"ng-lollipop":205}],210:[function(require,module,exports){
+},{"../i18n":1,"../templates":224,"./ListController":207,"./components/angular":212,"./directives/angular":214,"./factories/Resource":218,"./services/Authentication":219,"./services/Delete":220,"./services/Language":221,"./services/Navigation":222,"./services/Report":223,"angular":14,"angular-animate":3,"angular-gettext":4,"angular-resource":6,"angular-route":8,"angular-sanitize":10,"angular-ui-bootstrap":12,"autofill-event":15,"babel-polyfill":16,"ng-lollipop":205}],209:[function(require,module,exports){
 
 "use strict";
 
@@ -50126,7 +49891,7 @@ angular.module('monad.components.list', []).component('moListHeader', {
     bindings: { rows: '=', update: '@' }
 });
 
-},{}],211:[function(require,module,exports){
+},{}],210:[function(require,module,exports){
 
 "use strict";
 
@@ -50139,17 +49904,11 @@ angular.module('monad.components.login', []).component('moLogin', {
     transclude: true
 });
 
-},{}],212:[function(require,module,exports){
+},{}],211:[function(require,module,exports){
 
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _Model = require('../../Model');
-
-var _Model2 = _interopRequireDefault(_Model);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -50202,7 +49961,7 @@ var controller = function () {
             function $save(item) {
                 if (angular.isArray(item)) {
                     item.map($save);
-                } else if (item instanceof _Model2.default) {
+                } else {
                     if (item.$deleted) {
                         operations++;
                         item.$delete(progress);
@@ -50249,7 +50008,7 @@ angular.module('monad.components.update', []).component('moUpdate', {
     controller: controller
 });
 
-},{"../../Model":208}],213:[function(require,module,exports){
+},{}],212:[function(require,module,exports){
 
 "use strict";
 
@@ -50261,7 +50020,7 @@ require('./Update/component');
 
 angular.module('monad.components', ['monad.components.login', 'monad.components.list', 'monad.components.update']);
 
-},{"./List/component":210,"./Login/component":211,"./Update/component":212}],214:[function(require,module,exports){
+},{"./List/component":209,"./Login/component":210,"./Update/component":211}],213:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -50280,7 +50039,7 @@ exports.default = function () {
     };
 };
 
-},{}],215:[function(require,module,exports){
+},{}],214:[function(require,module,exports){
 
 "use strict";
 
@@ -50304,7 +50063,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 angular.module('monad.directives', []).directive('moField', _Field2.default).directive('moDragDrop', _dragDrop2.default).directive('moSlug', _slug2.default).directive('moMessage', _message2.default);
 
-},{"./Field":214,"./dragDrop":216,"./message":217,"./slug":218}],216:[function(require,module,exports){
+},{"./Field":213,"./dragDrop":215,"./message":216,"./slug":217}],215:[function(require,module,exports){
 
 "use strict";
 
@@ -50391,7 +50150,7 @@ function link($scope, elem, attrs) {
     });
 }
 
-},{}],217:[function(require,module,exports){
+},{}],216:[function(require,module,exports){
 
 "use strict";
 
@@ -50432,7 +50191,7 @@ exports.default = ['$compile', function ($compile) {
     };
 }];
 
-},{}],218:[function(require,module,exports){
+},{}],217:[function(require,module,exports){
 
 "use strict";
 
@@ -50486,7 +50245,7 @@ exports.default = function () {
     };
 };
 
-},{}],219:[function(require,module,exports){
+},{}],218:[function(require,module,exports){
 
 "use strict";
 
@@ -50494,40 +50253,13 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _Model = require("../Model");
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _Model2 = _interopRequireDefault(_Model);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var wm = new WeakMap();
 
 /**
- * Simple factory function for new, empty models with attached resource.
- */
-
-exports.default = function () {
-    return function (resource) {
-        var empty = new _Model2.default();
-        empty.$resource = resource;
-        return empty;
-    };
-};
-
-},{"../Model":208}],220:[function(require,module,exports){
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _Model = require('../Model');
-
-var _Model2 = _interopRequireDefault(_Model);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Extend default $resource service with save method on queried array.
+ * Extend default $resource service so it returns more intelligent resource
+ * objects, e.g. with dirty checking.
  * In Monad, we want to be able to easily append a new item to an array of
  * queried resources. This exposes a `save` method on the array.
  */
@@ -50538,40 +50270,246 @@ exports.default = ['$resource', function ($resource) {
         var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
 
         var res = $resource(url, paramDefaults, actions, options);
+
+        /**
+         * Helper method to quickly (un)set bitflags on a model.
+         *
+         * @param string source The name of the bitflag field. This should of
+         *  course contain an integer.
+         * @param object mapping A hash mapping names to flags, e.g. {on: 1}.
+         *  From then on you can say `if (obj.on) { ... }` and `obj.on = false`.
+         */
+        res.prototype.setBitflags = function (source) {
+            var _this = this;
+
+            var mapping = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+            var _loop = function _loop(name) {
+                Object.defineProperty(_this, name, {
+                    get: function get() {
+                        return !!(_this[source] & mapping[name]);
+                    },
+                    set: function set(value) {
+                        if (!!value) {
+                            _this[source] |= mapping[name];
+                        } else {
+                            _this[source] &= ~mapping[name];
+                        }
+                    }
+                });
+            };
+
+            for (var name in mapping) {
+                _loop(name);
+            }
+        };
+
+        Object.defineProperty(res.prototype, '$dirty', {
+            /**
+             * Virtual property to check if res model is "dirty".
+             *
+             * @return boolean True if dirty, false if pristine.
+             */
+            get: function get() {
+                if (wm.get(this).deleted) {
+                    return true;
+                }
+                var initial = wm.get(this).initial || {};
+                for (var prop in this) {
+                    if (prop.substring(0, 1) == '$') {
+                        continue;
+                    }
+                    if (differs(res, this[prop], initial[prop])) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+        Object.defineProperty(res.prototype, '$title', {
+            /**
+             * Guesstimate the "title" of a particular model instance.
+             *
+             * @return string A guesstimated title.
+             */
+            get: function get() {
+                // First, the usual suspects:
+                if ('title' in this) {
+                    return this.title;
+                }
+                if ('name' in this) {
+                    return this.name;
+                }
+                // If any field is an actual string _and_ its length is shorter
+                // than 255 chars (reasonable maximum...) use that:
+                for (var prop in this) {
+                    if (prop.substring(0, 1) == '$') {
+                        continue;
+                    }
+                    if (typeof this[prop] == 'string' && this[prop].length && res[prop].length <= 255) {
+                        return this[prop];
+                    }
+                }
+                return '[Untitled]';
+            }
+        });
+
+        Object.defineProperty(res.prototype, '$deleted', {
+            /**
+             * Get private deleted state.
+             *
+             * @return bool
+             */
+            get: function get() {
+                return wm.get(this).deleted;
+            },
+            /**
+             * Set the deleted state. Note that res does _not_ call the "$delete"
+             * resource method.
+             *
+             * @param mixed value Truthy for "scheduled for deletion".
+             */
+            set: function set(value) {
+                wm.get(this).deleted = !!value;
+            }
+        });
+
         var query = res.query;
         var get = res.get;
         res.query = function (parameters, success, error) {
             var found = query.call(res, parameters, success, error);
-            found.push = function () {
-                for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-                    args[_key] = arguments[_key];
-                }
-
-                args.map(function (arg, i) {
-                    var resource = new res();
-                    for (var prop in arg) {
-                        resource[prop] = arg[prop];
-                    }
-                    args[i] = new _Model2.default(resource);
-                });
-                [].push.apply(found, args);
-            };
             found.$promise.then(function () {
-                found.map(function (item, i) {
-                    return found[i] = new _Model2.default(item);
+                found.map(function (item) {
+                    wm.set(item, { initial: copy(item), deleted: false });
                 });
                 return found;
+            });
+            found.prototype.push = function (obj) {
+                [].call(this, 'push', new res(obj));
+            };
+            found.prototype.$save = function () {
+                for (var i = 0; i < this.length; i++) {
+                    if (angular.isArray(this[i]) && 'save' in this[i]) {
+                        this[i].save();
+                        continue;
+                    }
+                    if (this[i].$dirty) {
+                        this[i].$save();
+                    }
+                }
+            };
+            Object.defineProperty(found.prototype, '$diry', {
+                get: function get() {
+                    for (var i = 0; i < this.length; i++) {
+                        if (this[i].$dirty) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
             });
             return found;
         };
         res.get = function (parameters, success, error) {
-            return new _Model2.default(get.call(res, parameters, success, error));
+            var resource = get.call(res, parameters, success, error);
+            wm.set(resource, { initial: undefined, deleted: false });
+            resource.$promise.then(function () {
+                wm.get(resource).initial = copy(resource);
+            });
+            return resource;
         };
         return res;
     };
 }];
 
-},{"../Model":208}],221:[function(require,module,exports){
+/**
+ * Private helper to copy a resource, values only.
+ *
+ * @param Resource resource An Angular resource instance to copy (or anything
+ *  else, really - it just copies objects excluding properties starting with $
+ *  (special in Angular) and methods.
+ */
+
+function copy(resource) {
+    var copied = angular.copy(resource);
+    var store = {};
+    for (var i in copied) {
+        if (i.substring(0, 1) != '$' && typeof copied[i] != 'function') {
+            store[i] = copied[i];
+        }
+    }
+    return store;
+}
+
+/**
+ * Private helper to check if a field is actually set.
+ * Unset is defined as undefined or null, string with no length OR
+ * a string consisting only of <p></p> (for WYSIWTYG fields).
+ *
+ * @param mixed val The value to check.
+ * @return bool True if the value is considered "empty", else false.
+ */
+function isset(val) {
+    return !!(val !== undefined && val !== null && ('' + val).trim().length && !('' + val).trim().match(/^<p>(\s|\n|&nbsp;)*<\/p>$/));
+}
+
+/**
+ * Private helper to determine if two values differ. Values can be of any type;
+ * the helper guesstimates and recurses as needed.
+ *
+ * @param Resource comp Resource to check type against.
+ * @param mixed a Value to check.
+ * @param mixed b Value to compare to.
+ * @return bool
+ */
+function differs(comp, a, b) {
+    if (!isset(a) && isset(b) || isset(a) && !isset(b)) {
+        return true;
+    }
+    if (!a && !b) {
+        return false;
+    }
+    // If `a` is "dirty" we don't even have to do any other checks.
+    if (a instanceof comp) {
+        return a.$dirty || a.$deleted;
+    }
+    if (angular.isArray(a) && angular.isArray(b)) {
+        if (a.length != b.length) {
+            return true;
+        }
+        for (var i = 0; i < a.length; i++) {
+            if (differs(comp, a[i], b[i])) {
+                return true;
+            }
+        }
+    }
+    if (a instanceof Date && b instanceof Date) {
+        return a < b || a > b;
+    }
+    if ((typeof a === 'undefined' ? 'undefined' : _typeof(a)) == 'object' && (typeof b === 'undefined' ? 'undefined' : _typeof(b)) == 'object') {
+        for (var i in a) {
+            if (i.substring(0, 1) == '$') {
+                continue;
+            }
+            if (differs(comp, a[i], b[i])) {
+                return true;
+            }
+        }
+        for (var i in b) {
+            if (i.substring(0, 1) == '$') {
+                continue;
+            }
+            if (!(i in a)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    return ('' + a).trim() != ('' + b).trim();
+}
+
+},{}],219:[function(require,module,exports){
 
 "use strict";
 
@@ -50651,7 +50589,7 @@ var Authentication = function () {
 exports.default = Authentication;
 ;
 
-},{}],222:[function(require,module,exports){
+},{}],220:[function(require,module,exports){
 
 "use strict";
 
@@ -50720,7 +50658,7 @@ exports.default = Delete;
 
 Delete.$inject = ['$uibModal', 'moLanguage', '$location', '$route'];
 
-},{}],223:[function(require,module,exports){
+},{}],221:[function(require,module,exports){
 
 "use strict";
 
@@ -50815,7 +50753,7 @@ exports.default = Language;
 
 Language.$inject = ['gettextCatalog', '$rootScope'];
 
-},{}],224:[function(require,module,exports){
+},{}],222:[function(require,module,exports){
 
 "use strict";
 
@@ -50973,7 +50911,7 @@ exports.default = Navigation;
 
 Navigation.$inject = ['$location', 'Authentication'];
 
-},{}],225:[function(require,module,exports){
+},{}],223:[function(require,module,exports){
 
 "use strict";
 
@@ -51191,7 +51129,7 @@ exports.default = Report;
 
 Report.$inject = ['$timeout'];
 
-},{}],226:[function(require,module,exports){
+},{}],224:[function(require,module,exports){
 'use strict';
 
 angular.module('monad.templates', []).run(['$templateCache', function ($templateCache) {
@@ -51208,4 +51146,4 @@ angular.module('monad.templates', []).run(['$templateCache', function ($template
   $templateCache.put('/monad/templates/license.html', "<div class=modal-header>\n" + "    <h3 class=modal-title translate>License</h3>\n" + "</div>\n" + "<div class=modal-body>\n" + "    <p><strong translate>Note: this applies to the Monad CMS framework, not (necessarily) the site it is used for :)</strong></p>\n" + "    <div ng-include=\"'/monad/LICENSE.html'\"></div>\n" + "</div>\n" + "<div class=modal-footer>\n" + "    <button class=\"btn btn-primary\" ng-click=ok() translate>Got it!</button>\n" + "</div>");
 }]);
 
-},{}]},{},[209]);
+},{}]},{},[208]);
