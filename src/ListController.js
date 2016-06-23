@@ -16,7 +16,7 @@ export default class ListController {
      * @param object moDelete Injected moDelete service.
      * @return void
      */
-    constructor(moDelete) {
+    constructor(moDelete, $rootScope) {
         this.pageSize = this.pageSize || 10;
         this.filter = this.filter || {};
         angular.copy(this.filter, filter);
@@ -24,6 +24,7 @@ export default class ListController {
             this.page = _page;
         }
         this['delete'] = item => moDelete.ask(item);
+        $rootScope.$on('moListSaved', () => this.reset());
     }
 
     /**
@@ -66,5 +67,5 @@ export default class ListController {
 
 };
 
-ListController.$inject = ['moDelete'];
+ListController.$inject = ['moDelete', '$rootScope'];
 
