@@ -49959,16 +49959,12 @@ var controller = function () {
             };
 
             function $save(item) {
-                if (angular.isArray(item)) {
-                    item.map($save);
-                } else {
-                    if (item.$deleted) {
-                        operations++;
-                        item.$delete(progress);
-                    } else if (!item.id || item.$dirty) {
-                        operations++;
-                        item.$save(progress);
-                    }
+                if (item.$deleted) {
+                    operations++;
+                    item.$delete(progress);
+                } else if (item.$dirty) {
+                    operations++;
+                    item.$save(progress);
                 }
             };
 
