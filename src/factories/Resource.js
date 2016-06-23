@@ -48,7 +48,7 @@ export default ['$resource', $resource => {
                 }
                 let initial = wm.get(this).initial || {};
                 for (let prop in this) {
-                    if (prop.substring(0, 1) == '$') {
+                    if (prop.substring(0, 1) == '$' || typeof this[prop] == 'function') {
                         continue;
                     }
                     if (differs(res, this[prop], initial[prop])) {
@@ -117,10 +117,10 @@ export default ['$resource', $resource => {
                 });
                 return found;
             });
-            found.prototype.push = function (obj) {
+            found.push = function (obj) {
                 [].call(this, 'push', new res(obj));
             };
-            found.prototype.$save = function () {
+            found.$save = function () {
                 for (let i = 0; i < this.length; i++) {
                     if (angular.isArray(this[i]) && '$save' in this[i] && this[i].$dirty) {
                         this[i].$save();
@@ -133,7 +133,7 @@ export default ['$resource', $resource => {
                     }
                 }
             };
-            Object.defineProperty(found.prototype, '$dirty', {
+            Object.defineProperty(found, '$dirty', {
                 get: function () {
                     for (let i = 0; i < this.length; i++) {
                         if (this[i].$dirty) {
