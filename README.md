@@ -82,6 +82,6 @@ path.
 ## Now what?
 Well, you'll have to write some code now. See the [building
 blocks](blocks/index.md) section to get you started, and the [advanced
-techniques](advanced/index.md) section afterwards to learn how to wield the
+techniques](advanced/home.md) section afterwards to learn how to wield the
 power of Monad to your customised advantage.
 
