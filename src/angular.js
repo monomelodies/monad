@@ -21,7 +21,6 @@ import Delete from './services/Delete';
 import Report from './services/Report';
 import './directives/angular';
 import './components/angular';
-import Model from './factories/Model';
 import Resource from './factories/Resource';
 
 angular.module('monad.ng', ['ng', 'ngRoute', 'ngSanitize', 'ngAnimate', 'ngResource']);
@@ -90,7 +89,6 @@ angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'mon
 
     // Factories
     .factory('moResource', Resource)
-    .factory('moModel', Model)
 
     // Default controllers
     .controller('moListController', ListController)
