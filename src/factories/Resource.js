@@ -126,7 +126,9 @@ export default ['$resource', $resource => {
                         this[i].save();
                         continue;
                     }
-                    if (this[i].$dirty) {
+                    if (this[i].$deleted) {
+                        this[i].$delete();
+                    } else if (this[i].$dirty) {
                         this[i].$save();
                     }
                 }
