@@ -49639,7 +49639,9 @@ var ListController = function () {
      * @return void
      */
 
-    function ListController(moDelete) {
+    function ListController(moDelete, $rootScope) {
+        var _this = this;
+
         _classCallCheck(this, ListController);
 
         this.pageSize = this.pageSize || 10;
@@ -49651,6 +49653,9 @@ var ListController = function () {
         this['delete'] = function (item) {
             return moDelete.ask(item);
         };
+        $rootScope.$on('moListSaved', function () {
+            return _this.reset();
+        });
     }
 
     /**
@@ -49708,7 +49713,7 @@ var ListController = function () {
 exports.default = ListController;
 ;
 
-ListController.$inject = ['moDelete'];
+ListController.$inject = ['moDelete', '$rootScope'];
 
 },{}],208:[function(require,module,exports){
 
@@ -50259,7 +50264,7 @@ var wm = new WeakMap();
  * In Monad, we want to be able to easily append a new item to an array of
  * queried resources. This exposes a `save` method on the array.
  */
-exports.default = ['$resource', function ($resource) {
+exports.default = ['$resource', '$rootScope', function ($resource, $rootScope) {
     return function (url) {
         var paramDefaults = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
         var actions = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
@@ -50312,7 +50317,7 @@ exports.default = ['$resource', function ($resource) {
                 }
                 var initial = wm.get(this).initial || {};
                 for (var prop in this) {
-                    if (prop.substring(0, 1) == '$') {
+                    if (prop.substring(0, 1) == '$' || typeof this[prop] == 'function') {
                         continue;
                     }
                     if (differs(res, this[prop], initial[prop])) {
@@ -50381,21 +50386,33 @@ exports.default = ['$resource', function ($resource) {
                 });
                 return found;
             });
-            found.prototype.push = function (obj) {
-                [].call(this, 'push', new res(obj));
+            found.append = function (obj) {
+                found.push(new res(obj));
             };
-            found.prototype.$save = function () {
-                for (var i = 0; i < this.length; i++) {
-                    if (angular.isArray(this[i]) && 'save' in this[i]) {
-                        this[i].save();
-                        continue;
-                    }
-                    if (this[i].$dirty) {
-                        this[i].$save();
-                    }
+
+            found.progress = undefined;
+            function done() {
+                found.progress--;
+                if (found.progress == 0) {
+                    $rootScope.$emit('moListSaved');
                 }
             };
-            Object.defineProperty(found.prototype, '$diry', {
+            found.$save = function () {
+                found.promises = [];
+                for (var i = 0; i < this.length; i++) {
+                    if (angular.isArray(this[i]) && '$save' in this[i] && this[i].$dirty) {
+                        this[i].$save();
+                        continue;
+                    }
+                    if (this[i].$deleted) {
+                        found.promises.push(this[i].$delete(done));
+                    } else if (this[i].$dirty) {
+                        found.promises.push(this[i].$save(done));
+                    }
+                }
+                found.progress = found.promises.length;
+            };
+            Object.defineProperty(found, '$dirty', {
                 get: function get() {
                     for (var i = 0; i < this.length; i++) {
                         if (this[i].$dirty) {
