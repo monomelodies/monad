@@ -52,12 +52,28 @@ related to the main item we're editing, like an article with associated images)
 it's trivial to append one:
 
 ```html
-<a href ng-click="$ctrl.data.list.push({})">Add an item</a>
+<a href ng-click="$ctrl.data.list.append({})">Add an item</a>
 ```
 
 Note that this only works if you've used `moResource` to query that API. Apart
 from that, lists are simple (augmented) arrays you can just use in `ng-repeat`
 and other code like you normally would (`ng-if="$ctrl.data.list.length"` etc.).
+
+The `append` method automatically wraps the object in a resource. Note that you
+can also easily pass defaults this way. For example, the items in a list under a
+`schema.html` CRUD are usually related to the main model:
+
+```html
+<a href ng-click="$ctrl.data.list.append({owner: $ctrl.data.item.id})">Add an item</a>
+```
+
+## Dirty-checking a list
+List arrays too have a virtual `$dirty` property, which will be true if any of
+the models in it can be considered dirty.
+
+## Saving a list
+Also, lists can be saved as a whole using the `$save()` method. It will only
+save models which are considered dirty.
 
 ## Bitflags
 Angular is awesome, but doesn't natively handle bitflags very well (you can't
@@ -94,7 +110,6 @@ mostly when your API doesn't do this natively.
 > persisted accidentally (and would likely cause an error on the server).
 
 ### Bitflags on lists
-You can also call `setBitflags` on an `moResource.query` result. The bitflags
-will be applied to each item in the list once the promise resolves, or when a
-new item gets pushed.
+`setBitflags` works on a resource's `prototype`, so if you need it in lists you
+would only have to call it for a single item.
 

@@ -1,8 +1,6 @@
 
 "use strict";
 
-import Model from '../../Model';
-
 let gettext = undefined;
 let $q = undefined;
 let moReport = undefined;
@@ -43,16 +41,12 @@ class controller {
         };
 
         function $save(item) {
-            if (angular.isArray(item)) {
-                item.map($save);
-            } else if (item instanceof Model) {
-                if (item.$deleted) {
-                    operations++;
-                    item.$delete(progress);
-                } else if (!item.id || item.$dirty) {
-                    operations++;
-                    item.$save(progress);
-                }
+            if (item.$deleted) {
+                operations++;
+                item.$delete(progress);
+            } else if (item.$dirty) {
+                operations++;
+                item.$save(progress);
             }
         };
 

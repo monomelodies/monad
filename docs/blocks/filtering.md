@@ -17,7 +17,10 @@ An example:
 <mo-list-header ...></mo-list-header>
 <form ng-submit="$ctrl.applyFilter()"><fieldset>
     <label>
-        <input ng-model="$ctrl.filter.deleted" value="1" type="checkbox">
+        <input ng-model="$ctrl.filter.deleted"
+            ng-true-value="1"
+            ng-false-value="0"
+            type="checkbox">
         Show only deleted items
     </label>
     <button type="submit">Apply</button>
@@ -33,16 +36,14 @@ beforehand the current page will still be available after the new filter is
 applied. (TODO: use Manager.count so we CAN know this?)
 
 ## Default filter
-To apply default values to a filter ("initial state"), use `ng-init`:
+To apply default values to a filter ("initial state"), simply add it as a
+binding to your list component:
 
-```html
-<form ng-init="$ctrl.filter.deleted = 1"><fieldset>
-    <label>
-        <input ng-model="$ctrl.filter.deleted" value="1" type="checkbox">
-        Show only deleted items
-    </label>
-    <button type="submit">Apply</button>
-</fieldset></form>
+```javascript
+// ...
+    template: '<my-list ... filter="{deleted: 1}"></my-list>',
+    bindings: { ... , filter: '<'}
+// ...
 ```
 
 ## Auto-filtering

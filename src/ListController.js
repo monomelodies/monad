@@ -1,9 +1,6 @@
 
 "use strict";
 
-let params = undefined;
-let route = undefined;
-let modal = undefined;
 let _page = 1;
 let filter = {};
 
@@ -16,18 +13,18 @@ export default class ListController {
     /**
      * Class constructor.
      *
-     * @param object $scope Injected scope.
      * @param object moDelete Injected moDelete service.
      * @return void
      */
-    constructor(moDelete) {
+    constructor(moDelete, $rootScope) {
         this.pageSize = this.pageSize || 10;
+        this.filter = this.filter || {};
+        angular.copy(this.filter, filter);
         if (!this.items) {
             this.page = _page;
         }
-        this.filter = {};
-        filter = {};
         this['delete'] = item => moDelete.ask(item);
+        $rootScope.$on('moListSaved', () => this.reset());
     }
 
     /**
@@ -36,7 +33,6 @@ export default class ListController {
      * @return void
      */
     reset() {
-        route.reset();
         this.page = 1;
     }
 
@@ -57,12 +53,11 @@ export default class ListController {
      */
     set page(page) {
         _page = page;
-        this.items = this.resource.query({filter: this.filter, limit: this.pageSize, offset: (page - 1) * this.pageSize});
+        this.items = this.resource.query({filter, limit: this.pageSize, offset: (page - 1) * this.pageSize});
     }
 
     applyFilter() {
-        alert('!');
-        this.filter = filter;
+        angular.copy(this.filter, filter);
         this.reset();
     }
 
@@ -72,5 +67,5 @@ export default class ListController {
 
 };
 
-ListController.$inject = ['moDelete'];
+ListController.$inject = ['moDelete', '$rootScope'];
 

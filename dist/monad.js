@@ -49622,9 +49622,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var params = undefined;
-var route = undefined;
-var modal = undefined;
 var _page = 1;
 var filter = {};
 
@@ -49638,23 +49635,27 @@ var ListController = function () {
     /**
      * Class constructor.
      *
-     * @param object $scope Injected scope.
      * @param object moDelete Injected moDelete service.
      * @return void
      */
 
-    function ListController(moDelete) {
+    function ListController(moDelete, $rootScope) {
+        var _this = this;
+
         _classCallCheck(this, ListController);
 
+        this.pageSize = this.pageSize || 10;
+        this.filter = this.filter || {};
+        angular.copy(this.filter, filter);
         if (!this.items) {
             this.page = _page;
         }
-        this.pageSize = this.pageSize || 10;
-        this.filter = {};
-        filter = {};
         this['delete'] = function (item) {
             return moDelete.ask(item);
         };
+        $rootScope.$on('moListSaved', function () {
+            return _this.reset();
+        });
     }
 
     /**
@@ -49667,7 +49668,6 @@ var ListController = function () {
     _createClass(ListController, [{
         key: 'reset',
         value: function reset() {
-            route.reset();
             this.page = 1;
         }
 
@@ -49680,8 +49680,7 @@ var ListController = function () {
     }, {
         key: 'applyFilter',
         value: function applyFilter() {
-            alert('!');
-            this.filter = filter;
+            angular.copy(this.filter, filter);
             this.reset();
         }
     }, {
@@ -49699,7 +49698,7 @@ var ListController = function () {
         ,
         set: function set(page) {
             _page = page;
-            this.items = this.resource.query({ filter: this.filter, limit: this.pageSize, offset: (page - 1) * this.pageSize });
+            this.items = this.resource.query({ filter: filter, limit: this.pageSize, offset: (page - 1) * this.pageSize });
         }
     }, {
         key: 'isFilterApplied',
@@ -49714,7 +49713,7 @@ var ListController = function () {
 exports.default = ListController;
 ;
 
-ListController.$inject = ['moDelete'];
+ListController.$inject = ['moDelete', '$rootScope'];
 
 },{}],208:[function(require,module,exports){
 
@@ -50003,10 +50002,6 @@ require('./directives/angular');
 
 require('./components/angular');
 
-var _Model = require('./factories/Model');
-
-var _Model2 = _interopRequireDefault(_Model);
-
 var _Resource = require('./factories/Resource');
 
 var _Resource2 = _interopRequireDefault(_Resource);
@@ -50078,7 +50073,7 @@ angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'mon
 .run(['normalizeIncomingHttpData', 'postRegularForm', function (a, b) {}])
 
 // Factories
-.factory('moResource', _Resource2.default).factory('moModel', _Model2.default)
+.factory('moResource', _Resource2.default)
 
 // Default controllers
 .controller('moListController', _ListController2.default)
@@ -50086,7 +50081,7 @@ angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'mon
 // Services
 .service('moNavigation', _Navigation2.default).service('Authentication', _Authentication2.default).service('moLanguage', _Language2.default).service('moReport', _Report2.default).service('moDelete', _Delete2.default);
 
-},{"../i18n":1,"../templates":226,"./ListController":207,"./components/angular":213,"./directives/angular":215,"./factories/Model":219,"./factories/Resource":220,"./services/Authentication":221,"./services/Delete":222,"./services/Language":223,"./services/Navigation":224,"./services/Report":225,"angular":14,"angular-animate":3,"angular-gettext":4,"angular-resource":6,"angular-route":8,"angular-sanitize":10,"angular-ui-bootstrap":12,"autofill-event":15,"babel-polyfill":16,"ng-lollipop":205}],210:[function(require,module,exports){
+},{"../i18n":1,"../templates":225,"./ListController":207,"./components/angular":213,"./directives/angular":215,"./factories/Resource":219,"./services/Authentication":220,"./services/Delete":221,"./services/Language":222,"./services/Navigation":223,"./services/Report":224,"angular":14,"angular-animate":3,"angular-gettext":4,"angular-resource":6,"angular-route":8,"angular-sanitize":10,"angular-ui-bootstrap":12,"autofill-event":15,"babel-polyfill":16,"ng-lollipop":205}],210:[function(require,module,exports){
 
 "use strict";
 
@@ -50500,84 +50495,275 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _Model = require("../Model");
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _Model2 = _interopRequireDefault(_Model);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var wm = new WeakMap();
 
 /**
- * Simple factory function for new, empty models with attached resource.
- */
-
-exports.default = function () {
-    return function (resource) {
-        var empty = new _Model2.default();
-        empty.$resource = resource;
-        return empty;
-    };
-};
-
-},{"../Model":208}],220:[function(require,module,exports){
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _Model = require('../Model');
-
-var _Model2 = _interopRequireDefault(_Model);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Extend default $resource service with save method on queried array.
+ * Extend default $resource service so it returns more intelligent resource
+ * objects, e.g. with dirty checking.
  * In Monad, we want to be able to easily append a new item to an array of
  * queried resources. This exposes a `save` method on the array.
  */
-exports.default = ['$resource', function ($resource) {
+exports.default = ['$resource', '$rootScope', function ($resource, $rootScope) {
     return function (url) {
         var paramDefaults = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
         var actions = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
         var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
 
         var res = $resource(url, paramDefaults, actions, options);
+
+        /**
+         * Helper method to quickly (un)set bitflags on a model.
+         *
+         * @param string source The name of the bitflag field. This should of
+         *  course contain an integer.
+         * @param object mapping A hash mapping names to flags, e.g. {on: 1}.
+         *  From then on you can say `if (obj.on) { ... }` and `obj.on = false`.
+         */
+        res.prototype.setBitflags = function (source) {
+            var _this = this;
+
+            var mapping = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+            var _loop = function _loop(name) {
+                Object.defineProperty(_this.prototype, name, {
+                    get: function get() {
+                        return !!(_this[source] & mapping[name]);
+                    },
+                    set: function set(value) {
+                        if (!!value) {
+                            _this[source] |= mapping[name];
+                        } else {
+                            _this[source] &= ~mapping[name];
+                        }
+                    }
+                });
+            };
+
+            for (var name in mapping) {
+                _loop(name);
+            }
+        };
+
+        Object.defineProperty(res.prototype, '$dirty', {
+            /**
+             * Virtual property to check if res model is "dirty".
+             *
+             * @return boolean True if dirty, false if pristine.
+             */
+            get: function get() {
+                if (wm.get(this).deleted) {
+                    return true;
+                }
+                var initial = wm.get(this).initial || {};
+                for (var prop in this) {
+                    if (prop.substring(0, 1) == '$' || typeof this[prop] == 'function') {
+                        continue;
+                    }
+                    if (differs(res, this[prop], initial[prop])) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+
+        Object.defineProperty(res.prototype, '$title', {
+            /**
+             * Guesstimate the "title" of a particular model instance.
+             *
+             * @return string A guesstimated title.
+             */
+            get: function get() {
+                // First, the usual suspects:
+                if ('title' in this) {
+                    return this.title;
+                }
+                if ('name' in this) {
+                    return this.name;
+                }
+                // If any field is an actual string _and_ its length is shorter
+                // than 255 chars (reasonable maximum...) use that:
+                for (var prop in this) {
+                    if (prop.substring(0, 1) == '$') {
+                        continue;
+                    }
+                    if (typeof this[prop] == 'string' && this[prop].length && res[prop].length <= 255) {
+                        return this[prop];
+                    }
+                }
+                return '[Untitled]';
+            }
+        });
+
+        Object.defineProperty(res.prototype, '$deleted', {
+            /**
+             * Get private deleted state.
+             *
+             * @return bool
+             */
+            get: function get() {
+                return wm.get(this).deleted;
+            },
+            /**
+             * Set the deleted state. Note that res does _not_ call the "$delete"
+             * resource method.
+             *
+             * @param mixed value Truthy for "scheduled for deletion".
+             */
+            set: function set(value) {
+                wm.get(this).deleted = !!value;
+            }
+        });
+
         var query = res.query;
         var get = res.get;
         res.query = function (parameters, success, error) {
             var found = query.call(res, parameters, success, error);
-            found.push = function () {
-                for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-                    args[_key] = arguments[_key];
-                }
-
-                args.map(function (arg, i) {
-                    var resource = new res();
-                    for (var prop in arg) {
-                        resource[prop] = arg[prop];
-                    }
-                    args[i] = new _Model2.default(resource);
-                });
-                [].push.apply(found, args);
-            };
             found.$promise.then(function () {
-                found.map(function (item, i) {
-                    return found[i] = new _Model2.default(item);
+                found.map(function (item) {
+                    wm.set(item, { initial: copy(item), deleted: false });
                 });
                 return found;
+            });
+            found.append = function (obj) {
+                found.push(new res(obj));
+            };
+
+            found.progress = undefined;
+            function done() {
+                found.progress--;
+                if (found.progress == 0) {
+                    $rootScope.$emit('moListSaved');
+                }
+            };
+            found.$save = function () {
+                found.promises = [];
+                for (var i = 0; i < this.length; i++) {
+                    if (angular.isArray(this[i]) && '$save' in this[i] && this[i].$dirty) {
+                        this[i].$save();
+                        continue;
+                    }
+                    if (this[i].$deleted) {
+                        found.promises.push(this[i].$delete(done));
+                    } else if (this[i].$dirty) {
+                        found.promises.push(this[i].$save(done));
+                    }
+                }
+                found.progress = found.promises.length;
+            };
+            Object.defineProperty(found, '$dirty', {
+                get: function get() {
+                    for (var i = 0; i < this.length; i++) {
+                        if (this[i].$dirty) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
             });
             return found;
         };
         res.get = function (parameters, success, error) {
-            return new _Model2.default(get.call(res, parameters, success, error));
+            var resource = get.call(res, parameters, success, error);
+            wm.set(resource, { initial: undefined, deleted: false });
+            resource.$promise.then(function () {
+                wm.get(resource).initial = copy(resource);
+            });
+            return resource;
         };
         return res;
     };
 }];
 
-},{"../Model":208}],221:[function(require,module,exports){
+/**
+ * Private helper to copy a resource, values only.
+ *
+ * @param Resource resource An Angular resource instance to copy (or anything
+ *  else, really - it just copies objects excluding properties starting with $
+ *  (special in Angular) and methods.
+ */
+
+function copy(resource) {
+    var copied = angular.copy(resource);
+    var store = {};
+    for (var i in copied) {
+        if (i.substring(0, 1) != '$' && typeof copied[i] != 'function') {
+            store[i] = copied[i];
+        }
+    }
+    return store;
+}
+
+/**
+ * Private helper to check if a field is actually set.
+ * Unset is defined as undefined or null, string with no length OR
+ * a string consisting only of <p></p> (for WYSIWTYG fields).
+ *
+ * @param mixed val The value to check.
+ * @return bool True if the value is considered "empty", else false.
+ */
+function isset(val) {
+    return !!(val !== undefined && val !== null && ('' + val).trim().length && !('' + val).trim().match(/^<p>(\s|\n|&nbsp;)*<\/p>$/));
+}
+
+/**
+ * Private helper to determine if two values differ. Values can be of any type;
+ * the helper guesstimates and recurses as needed.
+ *
+ * @param Resource comp Resource to check type against.
+ * @param mixed a Value to check.
+ * @param mixed b Value to compare to.
+ * @return bool
+ */
+function differs(comp, a, b) {
+    if (!isset(a) && isset(b) || isset(a) && !isset(b)) {
+        return true;
+    }
+    if (!a && !b) {
+        return false;
+    }
+    // If `a` is "dirty" we don't even have to do any other checks.
+    if (a instanceof comp) {
+        return a.$dirty || a.$deleted;
+    }
+    if (angular.isArray(a) && angular.isArray(b)) {
+        if (a.length != b.length) {
+            return true;
+        }
+        for (var i = 0; i < a.length; i++) {
+            if (differs(comp, a[i], b[i])) {
+                return true;
+            }
+        }
+    }
+    if (a instanceof Date && b instanceof Date) {
+        return a < b || a > b;
+    }
+    if ((typeof a === 'undefined' ? 'undefined' : _typeof(a)) == 'object' && (typeof b === 'undefined' ? 'undefined' : _typeof(b)) == 'object') {
+        for (var i in a) {
+            if (i.substring(0, 1) == '$') {
+                continue;
+            }
+            if (differs(comp, a[i], b[i])) {
+                return true;
+            }
+        }
+        for (var i in b) {
+            if (i.substring(0, 1) == '$') {
+                continue;
+            }
+            if (!(i in a)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    return ('' + a).trim() != ('' + b).trim();
+}
+
+},{}],220:[function(require,module,exports){
 
 "use strict";
 
@@ -50657,7 +50843,7 @@ var Authentication = function () {
 exports.default = Authentication;
 ;
 
-},{}],222:[function(require,module,exports){
+},{}],221:[function(require,module,exports){
 
 "use strict";
 
@@ -50726,7 +50912,7 @@ exports.default = Delete;
 
 Delete.$inject = ['$uibModal', 'moLanguage', '$location', '$route'];
 
-},{}],223:[function(require,module,exports){
+},{}],222:[function(require,module,exports){
 
 "use strict";
 
@@ -50821,7 +51007,7 @@ exports.default = Language;
 
 Language.$inject = ['gettextCatalog', '$rootScope'];
 
-},{}],224:[function(require,module,exports){
+},{}],223:[function(require,module,exports){
 
 "use strict";
 
@@ -50979,7 +51165,7 @@ exports.default = Navigation;
 
 Navigation.$inject = ['$location', 'Authentication'];
 
-},{}],225:[function(require,module,exports){
+},{}],224:[function(require,module,exports){
 
 "use strict";
 
@@ -51197,7 +51383,7 @@ exports.default = Report;
 
 Report.$inject = ['$timeout'];
 
-},{}],226:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
 'use strict';
 
 angular.module('monad.templates', []).run(['$templateCache', function ($templateCache) {
