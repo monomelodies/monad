@@ -122,8 +122,8 @@ export default ['$resource', $resource => {
             };
             found.prototype.$save = function () {
                 for (let i = 0; i < this.length; i++) {
-                    if (angular.isArray(this[i]) && 'save' in this[i]) {
-                        this[i].save();
+                    if (angular.isArray(this[i]) && '$save' in this[i] && this[i].$dirty) {
+                        this[i].$save();
                         continue;
                     }
                     if (this[i].$deleted) {
@@ -133,7 +133,7 @@ export default ['$resource', $resource => {
                     }
                 }
             };
-            Object.defineProperty(found.prototype, '$diry', {
+            Object.defineProperty(found.prototype, '$dirty', {
                 get: function () {
                     for (let i = 0; i < this.length; i++) {
                         if (this[i].$dirty) {
