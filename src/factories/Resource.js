@@ -3,6 +3,15 @@
 
 const wm = new WeakMap();
 
+function get(obj) {
+    let test = undefined;
+    if (test = wm.get(obj)) {
+        return test;
+    }
+    wm.set(obj, {initial: undefined, deleted: false});
+    return wm.get(obj);
+};
+
 /**
  * Extend default $resource service so it returns more intelligent resource
  * objects, e.g. with dirty checking.
@@ -36,17 +45,17 @@ export default ['$resource', '$rootScope', ($resource, $rootScope) => {
             }
         };
 
-        Object.defineProperty(res.prototype, '$dirty', {
+        Object.defineProperty(res, '$dirty', {
             /**
              * Virtual property to check if res model is "dirty".
              *
              * @return boolean True if dirty, false if pristine.
              */
             get: function () {
-                if (wm.get(this).deleted) {
+                if (get(this).deleted) {
                     return true;
                 }
-                let initial = wm.get(this).initial || {};
+                let initial = get(this).initial || {};
                 for (let prop in this) {
                     if (prop.substring(0, 1) == '$' || typeof this[prop] == 'function') {
                         continue;
@@ -59,7 +68,7 @@ export default ['$resource', '$rootScope', ($resource, $rootScope) => {
             }
         });
 
-        Object.defineProperty(res.prototype, '$title', {
+        Object.defineProperty(res, '$title', {
             /**
              * Guesstimate the "title" of a particular model instance.
              *
@@ -79,7 +88,7 @@ export default ['$resource', '$rootScope', ($resource, $rootScope) => {
                     if (prop.substring(0, 1) == '$') {
                         continue;
                     }
-                    if (typeof this[prop] == 'string' && this[prop].length && this[prop].length <= 255) {
+                    if (typeof this[prop] == 'string' && this[prop].length && res[prop].length <= 255) {
                         return this[prop];
                     }
                 }
@@ -87,14 +96,14 @@ export default ['$resource', '$rootScope', ($resource, $rootScope) => {
             }
         });
 
-        Object.defineProperty(res.prototype, '$deleted', {
+        Object.defineProperty(res, '$deleted', {
             /**
              * Get private deleted state.
              *
              * @return bool
              */
             get: function () {
-                return wm.get(this).deleted;
+                return get(this).deleted;
             },
             /**
              * Set the deleted state. Note that res does _not_ call the "$delete"
@@ -103,7 +112,7 @@ export default ['$resource', '$rootScope', ($resource, $rootScope) => {
              * @param mixed value Truthy for "scheduled for deletion".
              */
             set: function (value) {
-                wm.get(this).deleted = !!value;
+                get(this).deleted = !!value;
             }
         });
 
