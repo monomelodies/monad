@@ -64,6 +64,10 @@ class controller {
 
     get ['$dirty']() {
             for (let i in this.data) {
+                if (this.data[i] == undefined) {
+                    // A resolving promise, so ignore (it'll show up on the next iteration)
+                    continue;
+                }
                 if (angular.isArray(this.data[i])) {
                     for (let j = 0; j < this.data[i].length; j++) {
                         // Deleted, dirty or new
