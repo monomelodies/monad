@@ -3,7 +3,7 @@
 
 const wm = new WeakMap();
 
-function get(obj) {
+function local(obj) {
     let test = undefined;
     if (test = wm.get(obj)) {
         return test;
@@ -45,76 +45,70 @@ export default ['$resource', '$rootScope', ($resource, $rootScope) => {
             }
         };
 
-        Object.defineProperty(res, '$dirty', {
-            /**
-             * Virtual property to check if res model is "dirty".
-             *
-             * @return boolean True if dirty, false if pristine.
-             */
-            get: function () {
-                if (get(this).deleted) {
+        /**
+         * Checks if this model is "dirty".
+         *
+         * @return boolean True if dirty, false if pristine.
+         */
+        res.prototype.$dirty = function () {
+            if (local(this).deleted) {
+                return true;
+            }
+            let initial = local(this).initial || {};
+            for (let prop in this) {
+                if (prop.substring(0, 1) == '$' || typeof this[prop] == 'function') {
+                    continue;
+                }
+                if (differs(res, this[prop], initial[prop])) {
                     return true;
                 }
-                let initial = get(this).initial || {};
-                for (let prop in this) {
-                    if (prop.substring(0, 1) == '$' || typeof this[prop] == 'function') {
-                        continue;
-                    }
-                    if (differs(res, this[prop], initial[prop])) {
-                        return true;
-                    }
-                }
-                return false;
             }
-        });
+            return false;
+        };
 
-        Object.defineProperty(res, '$title', {
-            /**
-             * Guesstimate the "title" of a particular model instance.
-             *
-             * @return string A guesstimated title.
-             */
-            get: function () {
-                // First, the usual suspects:
-                if ('title' in this) {
-                    return this.title;
-                }
-                if ('name' in this) {
-                    return this.name;
-                }
-                // If any field is an actual string _and_ its length is shorter
-                // than 255 chars (reasonable maximum...) use that:
-                for (let prop in this) {
-                    if (prop.substring(0, 1) == '$') {
-                        continue;
-                    }
-                    if (typeof this[prop] == 'string' && this[prop].length && res[prop].length <= 255) {
-                        return this[prop];
-                    }
-                }
-                return '[Untitled]';
+        /**
+         * Guesstimate the "title" of a particular model instance.
+         *
+         * @return string A guesstimated title.
+         */
+        res.prototype.$title = function () {
+            // First, the usual suspects:
+            if ('title' in this) {
+                return this.title;
             }
-        });
+            if ('name' in this) {
+                return this.name;
+            }
+            // If any field is an actual string _and_ its length is shorter
+            // than 255 chars (reasonable maximum...) use that:
+            for (let prop in this) {
+                if (prop.substring(0, 1) == '$') {
+                    continue;
+                }
+                if (typeof this[prop] == 'string' && this[prop].length && res[prop].length <= 255) {
+                    return this[prop];
+                }
+            }
+            return '[Untitled]';
+        };
 
-        Object.defineProperty(res, '$deleted', {
-            /**
-             * Get private deleted state.
-             *
-             * @return bool
-             */
-            get: function () {
-                return get(this).deleted;
-            },
-            /**
-             * Set the deleted state. Note that res does _not_ call the "$delete"
-             * resource method.
-             *
-             * @param mixed value Truthy for "scheduled for deletion".
-             */
-            set: function (value) {
-                get(this).deleted = !!value;
+        /**
+         * Get or set private deleted state.
+         *
+         * @param bool newval True (deleted) or false (not deleted), or
+         *  undefined (default) to just return current value.
+         * @return bool
+         */
+        res.prototype.$deleted = function (newval = undefined) {
+            if (newval !== undefined) {
+                /**
+                 * Set the deleted state. Note that res does _not_ call the "$delete"
+                 * resource method.
+                 */
+                local(this).deleted = !!value;
             }
-        });
+            return local(this).deleted;
+        };
 
         let query = res.query;
         let get = res.get;
@@ -140,28 +134,26 @@ export default ['$resource', '$rootScope', ($resource, $rootScope) => {
             found.$save = function () {
                 found.promises = [];
                 for (let i = 0; i < this.length; i++) {
-                    if (angular.isArray(this[i]) && '$save' in this[i] && this[i].$dirty) {
+                    if (angular.isArray(this[i]) && '$save' in this[i] && this[i].$dirty()) {
                         this[i].$save();
                         continue;
                     }
                     if (this[i].$deleted) {
                         found.promises.push(this[i].$delete(done));
-                    } else if (this[i].$dirty) {
+                    } else if (this[i].$dirty()) {
                         found.promises.push(this[i].$save(done));
                     }
                 }
                 found.progress = found.promises.length;
             };
-            Object.defineProperty(found, '$dirty', {
-                get: function () {
-                    for (let i = 0; i < this.length; i++) {
-                        if (this[i].$dirty) {
-                            return true;
-                        }
+            found.$dirty = function () {
+                for (let i = 0; i < this.length; i++) {
+                    if (this[i].$dirty()) {
+                        return true;
                     }
-                    return false;
                 }
-            });
+                return false;
+            };
             return found;
         };
         res.get = (parameters, success, error) => {
@@ -224,7 +216,7 @@ function differs(comp, a, b) {
     }
     // If `a` is "dirty" we don't even have to do any other checks.
     if (a instanceof comp) {
-        return a.$dirty || a.$deleted;
+        return a.$dirty() || a.$deleted();
     }
     if (angular.isArray(a) && angular.isArray(b)) {
         if (a.length != b.length) {
