@@ -50,7 +50,7 @@ angular.module('monad.components.list', [])
                 <th ng-repeat="header in $ctrl.headers" ng-bind-html="header"></th>
             </tr></thead>
             <tbody>
-                <tr ng-repeat="row in $ctrl.rows" ng-if="!row.$deleted">
+                <tr ng-repeat="row in $ctrl.rows" ng-if="!row.$deleted()">
                     <td ng-repeat="column in $ctrl.columns" ng-include="'/monad/' + column + '.html'"></td>
                 </tr>
             </tbody>
