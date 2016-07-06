@@ -20,6 +20,9 @@ class controller {
         this['delete'] = () => {
             moDelete.ask(this.data.item, this.list);
         };
+        if (typeof this.data.item == 'function') {
+            this.data.item = new this.data.item;
+        }
     }
 
     save() {
@@ -41,10 +44,10 @@ class controller {
         };
 
         function $save(item) {
-            if (item.$deleted) {
+            if (item.$deleted()) {
                 operations++;
                 item.$delete(progress);
-            } else if (item.$dirty) {
+            } else if (item.$dirty()) {
                 operations++;
                 item.$save(progress);
             }
@@ -62,24 +65,24 @@ class controller {
         );
     }
 
-    get ['$dirty']() {
-            for (let i in this.data) {
-                if (this.data[i] == undefined) {
-                    // A resolving promise, so ignore (it'll show up on the next iteration)
-                    continue;
-                }
-                if (angular.isArray(this.data[i])) {
-                    for (let j = 0; j < this.data[i].length; j++) {
-                        // Deleted, dirty or new
-                        if (this.data[i][j].$deleted || this.data[i][j].$dirty || !('$save' in this.data[i][j])) {
-                            return true;
-                        }
-                    }
-                } else if (this.data[i].$deleted || this.data[i].$dirty) {
-                    return true;
-                }
+    ['$dirty']() {
+        for (let i in this.data) {
+            if (this.data[i] == undefined) {
+                // A resolving promise, so ignore (it'll show up on the next iteration)
+                continue;
             }
-            return false;
+            if (angular.isArray(this.data[i])) {
+                for (let j = 0; j < this.data[i].length; j++) {
+                    // Deleted, dirty or new
+                    if (this.data[i][j].$deleted() || this.data[i][j].$dirty() || !('$save' in this.data[i][j])) {
+                        return true;
+                    }
+                }
+            } else if (this.data[i].$deleted() || this.data[i].$dirty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
