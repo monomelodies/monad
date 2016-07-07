@@ -89,12 +89,13 @@ class controller {
 
 controller.$inject = ['gettext', '$q', 'moReport', '$route', '$location', 'moLanguage', 'moDelete'];
 
-angular.module('monad.components.update', [])
+export default angular.module('monad.components.update', [])
     .component('moUpdate', {
         templateUrl: '/monad/components/Update/template.html',
         transclude: true,
         bindings: {data: '=', list: '@', type: '@', title: '@'},
         controller
     })
+    .name
     ;
 
