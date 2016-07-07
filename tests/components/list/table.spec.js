@@ -3,8 +3,8 @@
 
 describe('directive: mo-list-table', () => {
     let element;
-    let scope;
-    let compile;
+    let $rootScope;
+    let $compile;
     let items = [{id: 1, txt: 'foo'}, {id: 2, txt: 'bar'}];
     let tpl = angular.element(`
 <mo-list-table page="page" rows="items">
@@ -15,18 +15,18 @@ describe('directive: mo-list-table', () => {
 </mo-list-table>
     `);
 
-    beforeEach(inject(($rootScope, $compile) => {
-        scope = $rootScope;
-        compile = $compile;
+    beforeEach(inject((_$rootScope_, _$compile_) => {
+        $rootScope = _$rootScope_;
+        $compile = _$compile_;
     }));
 
     it('should insert the table into the element', () => {
-        scope.$apply(() => {
-            scope.items = items;
-            scope.page = 1;
+        $rootScope.$apply(() => {
+            $rootScope.items = items;
+            $rootScope.page = 1;
         });
-        element = compile(tpl)(scope);
-        scope.$digest();
+        element = $compile(tpl)($rootScope);
+        $rootScope.$digest();
         expect(element.find('tbody').find('tr').length).toBe(2);
         expect(element.find('thead').length).toBe(1);
         expect(element.find('thead').find('th').length).toBe(2);
