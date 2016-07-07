@@ -49719,6 +49719,10 @@ ListController.$inject = ['moDelete', '$rootScope'];
 
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 require('babel-polyfill');
 
 require('angular');
@@ -49779,7 +49783,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 angular.module('monad.ng', ['ng', 'ngRoute', 'ngSanitize', 'ngAnimate', 'ngResource']);
 angular.module('monad.externals', ['gettext', 'ui.bootstrap', 'lollipop']);
-angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'monad.components', 'monad.templates'])
+exports.default = angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'monad.components', 'monad.templates'])
 // No HTML5 mode please
 .config(['$locationProvider', function ($locationProvider) {
     $locationProvider.html5Mode(false);
@@ -50296,13 +50300,13 @@ exports.default = ['$resource', '$rootScope', function ($resource, $rootScope) {
          * @param object mapping A hash mapping names to flags, e.g. {on: 1}.
          *  From then on you can say `if (obj.on) { ... }` and `obj.on = false`.
          */
-        res.prototype.setBitflags = function (source) {
+        res.setBitflags = function (source) {
             var _this = this;
 
             var mapping = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
             var _loop = function _loop(name) {
-                Object.defineProperty(_this.prototype, name, {
+                Object.defineProperty(res.prototype, name, {
                     get: function get() {
                         return !!(_this[source] & mapping[name]);
                     },
