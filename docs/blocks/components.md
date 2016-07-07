@@ -165,10 +165,10 @@ also allows you to bind e.g. `$ctrl.items` to it.
 
 ## Dirty checking
 For convenience, the `moListController` also supports dirty checking via the
-custom virtual `$dirty` property (read-only):
+custom `$dirty()` method:
 
 ```html
-<div ng-if="$ctrl.$dirty">I'm so dirty right now</div>
+<div ng-if="$ctrl.$dirty()">I'm so dirty right now</div>
 ```
 
 A list is considered dirty if at least one item in it is dirty.
