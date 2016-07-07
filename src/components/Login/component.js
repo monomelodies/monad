@@ -1,7 +1,7 @@
 
 "use strict";
 
-angular.module('monad.components.login', [])
+export default angular.module('monad.components.login', [])
     .component('moLogin', {
         templateUrl: '/monad/components/Login/template.html',
         controller: ['Authentication', function (auth) {
@@ -9,5 +9,7 @@ angular.module('monad.components.login', [])
             this.credentials = {};
         }],
         transclude: true
-    });
+    })
+    .name
+    ;
 
