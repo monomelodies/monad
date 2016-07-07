@@ -1,4 +1,5 @@
-angular.module('monad.templates', []).run(['$templateCache', function($templateCache) {
+console.log('ahoy');
+angular.module('monad.templates').run(['$templateCache', function($templateCache) {
   'use strict';
 
   $templateCache.put('/monad/LICENSE.html',
@@ -64,7 +65,7 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
     "        <br style=\"clear: both\">\n" +
     "        <div class=row>\n" +
     "            <div class=\"clearfix col-md-12 spaceme\">\n" +
-    "                <button type=submit class=\"btn btn-primary fixed\" ng-if=\"mo_update_form.$valid && $ctrl.$dirty\" translate>Save changes</button>\n" +
+    "                <button type=submit class=\"btn btn-primary fixed\" ng-disabled=!mo_update_form.$valid ng-if=$ctrl.$dirty() translate>Save changes</button>\n" +
     "                <a href class=\"glyphicon glyphicon-trash text-danger\" ng-if=\"$ctrl.data.item.$delete && $ctrl.data.item.id\" ng-click=$ctrl.delete()></a>\n" +
     "            </div>\n" +
     "        </div>\n" +
