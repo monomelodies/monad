@@ -25,7 +25,7 @@ import Resource from './factories/Resource';
 
 angular.module('monad.ng', ['ng', 'ngRoute', 'ngSanitize', 'ngAnimate', 'ngResource']);
 angular.module('monad.externals', ['gettext', 'ui.bootstrap', 'lollipop']);
-angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'monad.components', 'monad.templates'])
+export default angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'monad.components', 'monad.templates'])
     // No HTML5 mode please
     .config(['$locationProvider', $locationProvider => {
         $locationProvider.html5Mode(false);
