@@ -32,6 +32,7 @@ module.exports = function (grunt) {
                     removeScriptTypeAttributes: true,
                     removeStyleLinkTypeAttributes: true
                 },
+                standalone: true,
                 prefix: '/monad/'
             },
             cwd: 'src',
