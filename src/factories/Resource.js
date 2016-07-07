@@ -30,9 +30,9 @@ export default ['$resource', '$rootScope', ($resource, $rootScope) => {
          * @param object mapping A hash mapping names to flags, e.g. {on: 1}.
          *  From then on you can say `if (obj.on) { ... }` and `obj.on = false`.
          */
-        res.prototype.setBitflags = function (source, mapping = {}) {
+        res.setBitflags = function (source, mapping = {}) {
             for (let name in mapping) {
-                Object.defineProperty(this.prototype, name, {
+                Object.defineProperty(res.prototype, name, {
                     get: () => !!(this[source] & mapping[name]),
                     set: value => {
                         if (!!value) {
