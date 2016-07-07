@@ -2,15 +2,15 @@
 "use strict";
 
 import 'babel-polyfill';
-import 'angular';
-import 'angular-ui-bootstrap';
-import 'angular-route';
-import 'angular-sanitize';
-import 'angular-animate';
-import 'angular-resource';
+import angular from 'angular';
+import uiBootstrap from 'angular-ui-bootstrap';
+import ngRoute from 'angular-route';
+import ngSanitize from 'angular-sanitize';
+import ngAnimate from 'angular-animate';
+import ngResource from 'angular-resource';
 import 'autofill-event';
 import 'angular-gettext';
-import 'ng-lollipop';
+import lollipop from 'ng-lollipop';
 import '../i18n';
 import '../templates';
 import ListController from './ListController';
@@ -19,13 +19,13 @@ import Authentication from './services/Authentication';
 import Language from './services/Language';
 import Delete from './services/Delete';
 import Report from './services/Report';
-import './directives/angular';
-import './components/angular';
+import directives from './directives/angular';
+import components from './components/angular';
 import Resource from './factories/Resource';
 
-angular.module('monad.ng', ['ng', 'ngRoute', 'ngSanitize', 'ngAnimate', 'ngResource']);
-angular.module('monad.externals', ['gettext', 'ui.bootstrap', 'lollipop']);
-export default angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'monad.components', 'monad.templates'])
+let ng = angular.module('monad.ng', ['ng', ngRoute, ngSanitize, ngAnimate, ngResource]).name;
+let externals = angular.module('monad.externals', ['gettext', uiBootstrap, lollipop]).name;
+export default angular.module('monad', [ng, externals, directives, components, 'monad.templates'])
     // No HTML5 mode please
     .config(['$locationProvider', $locationProvider => {
         $locationProvider.html5Mode(false);
