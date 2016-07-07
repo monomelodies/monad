@@ -59,15 +59,13 @@ are located in Monad's `./dist` directory:
 
 - `index.html`: The entry point. The provided one is often good enough; see
   elsewhere in the manual for hints on how to customise further.
-- `monad.js`: Bundled Javascript library. Normally you should just symlink this
-  into your public folder (or copy/watch using e.g. Grunt). There's also a
-  minified `monad.min.js` for production.
+- `monad.js`: Monad's browserified bundle.
 - `admin.css`: The default `index.html` expects a stylesheet of that name in the
   root of your admin. You can use the provided one or build your own theme, as
   long as you name it `admin.css` (note: if you write your own `index.html` from
   scratch you can of course call it whatever you like).
 - `logo.png` and `i18n.png`: The Monad logo and a sprite of language icons,
-  respectively. You're prefectly free to substitute these with your own.
+  respectively. You're perfectly free to substitute these with your own.
 - `fonts`: Folder with Bootstrap fonts.
 
 Monad by default expects your project-specific admin code to live in
@@ -75,7 +73,16 @@ Monad by default expects your project-specific admin code to live in
 Browserify, or just write all your code in one file - not recommended, but we
 honestly don't care ;)
 
-So either `ln -s`, `cp` or Grunt copy/watch the files you need... And that's it!
+To create an admin `bundle.js` including Monad, point Browserify to an entry
+poiny (e.g. `./src/admin/myProject.js`) and create an Angular module that
+depends on (at least) Monad:
+
+```javascript
+"use strict";
+angular.module('myProjectAdmin', ['monad']);
+```
+
+And either `ln -s`, `cp` or Grunt copy/watch the files you need... That's it!
 You're ready to roll. Your brand new CMS will now be available under the chosen
 path.
 

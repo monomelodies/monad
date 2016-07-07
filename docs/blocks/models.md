@@ -14,7 +14,7 @@ we could cause an entire section to only show up if something was edited on the
 model (that's actually what `moUpdate` does to its submit button):
 
 ```html
-<div ng-if="$ctrl.data.myModel.$dirty">YOU CHANGED ME!!!</div>
+<div ng-if="$ctrl.data.myModel.$dirty()">YOU CHANGED ME!!!</div>
 ```
 
 > Angular forms offer the `ng-pristine`/`ng-dirty` class for this, but it won't
@@ -68,8 +68,8 @@ can also easily pass defaults this way. For example, the items in a list under a
 ```
 
 ## Dirty-checking a list
-List arrays too have a virtual `$dirty` property, which will be true if any of
-the models in it can be considered dirty.
+List arrays too have a `$dirty()` method, which will be true if any of the
+ models in it can be considered dirty.
 
 ## Saving a list
 Also, lists can be saved as a whole using the `$save()` method. It will only
@@ -90,12 +90,15 @@ It takes two parameters: the name of the "source" property (e.g. `"status"`) and
 an object with a virtual property/bit value mapping. Like so:
 
 ```javascript
-var item = moResource('/some/path/:id', {id: '@id'}).get({id: 1});
-item.setBitflags('status', {'$foo': 1, '$bar': 2});
+var resource = moResource('/some/path/:id', {id: '@id'});
+resource.setBitflags('status', {'$foo': 1, '$bar': 2});
+var item = resource.get({id: 1});
+// If item.status == 5, this would log true, false:
+console.log(item.$foo, item.$bar);
 ```
 
 Now you can simply use `item.$foo` and `item.$bar` in your schema as if they
-were regular properties returned by the API:
+were regular boolean properties returned by the API:
 
 ```html
 <label>
@@ -108,8 +111,6 @@ mostly when your API doesn't do this natively.
 
 > Best practice: prefix your bitflag mappings with `$` so they won't be
 > persisted accidentally (and would likely cause an error on the server).
-
-### Bitflags on lists
-`setBitflags` works on a resource's `prototype`, so if you need it in lists you
-would only have to call it for a single item.
+> Monad automatically ignores any property whose name begins with `$` or is a
+> method when saving.
 
