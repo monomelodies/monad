@@ -1,7 +1,7 @@
 
 "use strict";
 
-angular.module('monad.components.list', [])
+export default angular.module('monad.components.list', [])
     .component('moListHeader', {
         transclude: true,
         controller: ['$transclude', function ($transclude) {
@@ -60,5 +60,6 @@ angular.module('monad.components.list', [])
         </div>`,
         bindings: {rows: '=', update: '@'}
     })
+    .name
     ;
 
