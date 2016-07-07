@@ -32,7 +32,6 @@ module.exports = function (grunt) {
                     removeScriptTypeAttributes: true,
                     removeStyleLinkTypeAttributes: true
                 },
-                standalone: true,
                 prefix: '/monad/'
             },
             cwd: 'src',
@@ -113,6 +112,7 @@ module.exports = function (grunt) {
             dest: 'dist/monad.js',
             options: {
                 transform: ['babelify'],
+                standalone: 'monad',
                 watch: true
             }
         }
