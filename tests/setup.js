@@ -4,7 +4,7 @@
 import monad from '../src/angular';
 import 'angular-mocks';
 
-angular.module('tests', ['monad'])
+angular.module('tests', [monad.name])
     .service('Authentication', function () {
         this['status'] = () => {};
         this.check = () => true;
