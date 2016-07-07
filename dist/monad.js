@@ -49372,6 +49372,8 @@ module.exports = require('./modules/$.core');
 
 var app = angular.module('lollipop', []);
 
+module.exports = app.name;
+
 app.service('postRegularForm', ['$http', function ($http) {
     delete $http.defaults.headers.common['X-Requested-With'];
     $http.defaults.withCredentials = true;
@@ -49725,23 +49727,37 @@ Object.defineProperty(exports, "__esModule", {
 
 require('babel-polyfill');
 
-require('angular');
+var _angular = require('angular');
 
-require('angular-ui-bootstrap');
+var _angular2 = _interopRequireDefault(_angular);
 
-require('angular-route');
+var _angularUiBootstrap = require('angular-ui-bootstrap');
 
-require('angular-sanitize');
+var _angularUiBootstrap2 = _interopRequireDefault(_angularUiBootstrap);
 
-require('angular-animate');
+var _angularRoute = require('angular-route');
 
-require('angular-resource');
+var _angularRoute2 = _interopRequireDefault(_angularRoute);
+
+var _angularSanitize = require('angular-sanitize');
+
+var _angularSanitize2 = _interopRequireDefault(_angularSanitize);
+
+var _angularAnimate = require('angular-animate');
+
+var _angularAnimate2 = _interopRequireDefault(_angularAnimate);
+
+var _angularResource = require('angular-resource');
+
+var _angularResource2 = _interopRequireDefault(_angularResource);
 
 require('autofill-event');
 
 require('angular-gettext');
 
-require('ng-lollipop');
+var _ngLollipop = require('ng-lollipop');
+
+var _ngLollipop2 = _interopRequireDefault(_ngLollipop);
 
 require('../i18n');
 
@@ -49771,9 +49787,13 @@ var _Report = require('./services/Report');
 
 var _Report2 = _interopRequireDefault(_Report);
 
-require('./directives/angular');
+var _angular3 = require('./directives/angular');
 
-require('./components/angular');
+var _angular4 = _interopRequireDefault(_angular3);
+
+var _angular5 = require('./components/angular');
+
+var _angular6 = _interopRequireDefault(_angular5);
 
 var _Resource = require('./factories/Resource');
 
@@ -49781,9 +49801,9 @@ var _Resource2 = _interopRequireDefault(_Resource);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-angular.module('monad.ng', ['ng', 'ngRoute', 'ngSanitize', 'ngAnimate', 'ngResource']);
-angular.module('monad.externals', ['gettext', 'ui.bootstrap', 'lollipop']);
-exports.default = angular.module('monad', ['monad.ng', 'monad.externals', 'monad.directives', 'monad.components', 'monad.templates'])
+var ng = _angular2.default.module('monad.ng', ['ng', _angularRoute2.default, _angularSanitize2.default, _angularAnimate2.default, _angularResource2.default]).name;
+var externals = _angular2.default.module('monad.externals', ['gettext', _angularUiBootstrap2.default, _ngLollipop2.default]).name;
+exports.default = _angular2.default.module('monad', [ng, externals, _angular4.default, _angular6.default, 'monad.templates'])
 // No HTML5 mode please
 .config(['$locationProvider', function ($locationProvider) {
     $locationProvider.html5Mode(false);
@@ -49858,7 +49878,10 @@ exports.default = angular.module('monad', ['monad.ng', 'monad.externals', 'monad
 
 "use strict";
 
-angular.module('monad.components.list', []).component('moListHeader', {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = angular.module('monad.components.list', []).component('moListHeader', {
     transclude: true,
     controller: ['$transclude', function ($transclude) {
         this.transcluded = !!$transclude().length;
@@ -49898,24 +49921,31 @@ angular.module('monad.components.list', []).component('moListHeader', {
     }],
     template: '<table class="table table-striped" ng-show="$ctrl.rows.length">\n            <thead><tr>\n                <th ng-repeat="header in $ctrl.headers" ng-bind-html="header"></th>\n            </tr></thead>\n            <tbody>\n                <tr ng-repeat="row in $ctrl.rows" ng-if="!row.$deleted()">\n                    <td ng-repeat="column in $ctrl.columns" ng-include="\'/monad/\' + column + \'.html\'"></td>\n                </tr>\n            </tbody>\n        </table>\n        <div ng-show="!$ctrl.rows.length">\n            <uib-alert type="warning"><span translate>Sorry, nothing found.</span></uib-alert>\n        </div>',
     bindings: { rows: '=', update: '@' }
-});
+}).name;
 
 },{}],210:[function(require,module,exports){
 
 "use strict";
 
-angular.module('monad.components.login', []).component('moLogin', {
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = angular.module('monad.components.login', []).component('moLogin', {
     templateUrl: '/monad/components/Login/template.html',
     controller: ['Authentication', function (auth) {
         this.auth = auth;
         this.credentials = {};
     }],
     transclude: true
-});
+}).name;
 
 },{}],211:[function(require,module,exports){
 
 "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -50013,24 +50043,36 @@ var controller = function () {
 
 controller.$inject = ['gettext', '$q', 'moReport', '$route', '$location', 'moLanguage', 'moDelete'];
 
-angular.module('monad.components.update', []).component('moUpdate', {
+exports.default = angular.module('monad.components.update', []).component('moUpdate', {
     templateUrl: '/monad/components/Update/template.html',
     transclude: true,
     bindings: { data: '=', list: '@', type: '@', title: '@' },
     controller: controller
-});
+}).name;
 
 },{}],212:[function(require,module,exports){
 
 "use strict";
 
-require('./Login/component');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-require('./List/component');
+var _component = require('./Login/component');
 
-require('./Update/component');
+var _component2 = _interopRequireDefault(_component);
 
-angular.module('monad.components', ['monad.components.login', 'monad.components.list', 'monad.components.update']);
+var _component3 = require('./List/component');
+
+var _component4 = _interopRequireDefault(_component3);
+
+var _component5 = require('./Update/component');
+
+var _component6 = _interopRequireDefault(_component5);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = angular.module('monad.components', [_component2.default, _component4.default, _component6.default]).name;
 
 },{"./List/component":209,"./Login/component":210,"./Update/component":211}],213:[function(require,module,exports){
 'use strict';
@@ -50055,6 +50097,10 @@ exports.default = function () {
 
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _Field = require('./Field');
 
 var _Field2 = _interopRequireDefault(_Field);
@@ -50073,7 +50119,7 @@ var _message2 = _interopRequireDefault(_message);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-angular.module('monad.directives', []).directive('moField', _Field2.default).directive('moDragDrop', _dragDrop2.default).directive('moSlug', _slug2.default).directive('moMessage', _message2.default);
+exports.default = angular.module('monad.directives', []).directive('moField', _Field2.default).directive('moDragDrop', _dragDrop2.default).directive('moSlug', _slug2.default).directive('moMessage', _message2.default).name;
 
 },{"./Field":213,"./dragDrop":215,"./message":216,"./slug":217}],215:[function(require,module,exports){
 
@@ -51159,14 +51205,15 @@ Report.$inject = ['$timeout'];
 },{}],224:[function(require,module,exports){
 'use strict';
 
-angular.module('monad.templates', []).run(['$templateCache', function ($templateCache) {
+console.log('ahoy');
+angular.module('monad.templates').run(['$templateCache', function ($templateCache) {
   'use strict';
 
   $templateCache.put('/monad/LICENSE.html', "<p>The MIT License (MIT)</p>\n" + "<p>\n" + "    Copyright (c) 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016\n" + "    Marijn Ophorst <a href=mailto:marijn@monmomelodies.nl>&lt;marijn@monomelodies.nl&gt;</a>\n" + "</p>\n" + "<p>\n" + "    Permission is hereby granted, free of charge, to any person obtaining a copy\n" + "    of this software and associated documentation files (the \"Software\"), to deal\n" + "    in the Software without restriction, including without limitation the rights\n" + "    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell\n" + "    copies of the Software, and to permit persons to whom the Software is\n" + "    furnished to do so, subject to the following conditions:\n" + "</p>\n" + "<p>\n" + "    The above copyright notice and this permission notice shall be included in all\n" + "    copies or substantial portions of the Software.\n" + "</p>\n" + "<p>\n" + "    THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n" + "    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\n" + "    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\n" + "    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n" + "    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n" + "    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n" + "    SOFTWARE.\n" + "</p>");
 
   $templateCache.put('/monad/components/Login/template.html', "<div ng-transclude ng-if=$ctrl.auth.check></div>\n" + "<div class=vert-wrapper ng-if=!$ctrl.auth.check>\n" + "    <div class=vert-wrapper-inner>\n" + "        <form ng-submit=$ctrl.auth.attempt($ctrl.credentials) id=auth name=auth novalidate method=post>\n" + "            <fieldset>\n" + "                <legend translate>Please login</legend>\n" + "                <div class=form-group>\n" + "                    <input name=username ng-model=$ctrl.credentials.username class=form-control placeholder=\"{{ 'Username' | translate }}\">\n" + "                </div>\n" + "                <div class=form-group>\n" + "                    <input type=password name=password ng-model=$ctrl.credentials.password class=form-control placeholder=\"{{ 'Password' | translate }}\">\n" + "                </div>\n" + "                <button type=submit class=\"btn btn-default pull-right\" translate>Go!</button>\n" + "            </fieldset>\n" + "        </form>\n" + "    </div>\n" + "</div>");
 
-  $templateCache.put('/monad/components/Update/template.html', "<h1 class=\"container-fluid clearfix\">\n" + "    <small><a class=\"glyphicon glyphicon-arrow-up pull-right\" ng-href=\"#/{{ $root.Language.current }}{{ $ctrl.list }}\"></a></small>\n" + "    <span ng-if=!$ctrl.data.item.id translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" + "    <span ng-if=$ctrl.data.item.id translate>Edit <q>{{ $ctrl.data.item[$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code></span>\n" + "</h1>\n" + "<div class=\"container-fluid clearfix\">\n" + "    <form ng-submit=$ctrl.save() id=mo_update_form name=mo_update_form novalidate method=post>\n" + "        <div ng-transclude></div>\n" + "        <br style=\"clear: both\">\n" + "        <div class=row>\n" + "            <div class=\"clearfix col-md-12 spaceme\">\n" + "                <button type=submit class=\"btn btn-primary fixed\" ng-if=\"mo_update_form.$valid && $ctrl.$dirty\" translate>Save changes</button>\n" + "                <a href class=\"glyphicon glyphicon-trash text-danger\" ng-if=\"$ctrl.data.item.$delete && $ctrl.data.item.id\" ng-click=$ctrl.delete()></a>\n" + "            </div>\n" + "        </div>\n" + "    </form>\n" + "</div>");
+  $templateCache.put('/monad/components/Update/template.html', "<h1 class=\"container-fluid clearfix\">\n" + "    <small><a class=\"glyphicon glyphicon-arrow-up pull-right\" ng-href=\"#/{{ $root.Language.current }}{{ $ctrl.list }}\"></a></small>\n" + "    <span ng-if=!$ctrl.data.item.id translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" + "    <span ng-if=$ctrl.data.item.id translate>Edit <q>{{ $ctrl.data.item[$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code></span>\n" + "</h1>\n" + "<div class=\"container-fluid clearfix\">\n" + "    <form ng-submit=$ctrl.save() id=mo_update_form name=mo_update_form novalidate method=post>\n" + "        <div ng-transclude></div>\n" + "        <br style=\"clear: both\">\n" + "        <div class=row>\n" + "            <div class=\"clearfix col-md-12 spaceme\">\n" + "                <button type=submit class=\"btn btn-primary fixed\" ng-disabled=!mo_update_form.$valid ng-if=$ctrl.$dirty() translate>Save changes</button>\n" + "                <a href class=\"glyphicon glyphicon-trash text-danger\" ng-if=\"$ctrl.data.item.$delete && $ctrl.data.item.id\" ng-click=$ctrl.delete()></a>\n" + "            </div>\n" + "        </div>\n" + "    </form>\n" + "</div>");
 
   $templateCache.put('/monad/templates/home.html', "<article class=jumbotron>\n" + "    <div class=container-fluid>\n" + "        <h1>{{ $root.title }} administrator</h1>\n" + "    </div>\n" + "</article>\n" + "<div class=container-fluid>\n" + "    <div class=row>\n" + "        <article class=col-md-6>\n" + "            <h2 translate>Welcome!</h2>\n" + "            <p translate>\n" + "                Hi there, you've reached the administrator for this site. Your options are listed here.\n" + "                You can also use the main menu at the top to navigate.\n" + "            </p>\n" + "        </article>\n" + "        <aside class=col-md-6>\n" + "            <div class=\"panel panel-info\">\n" + "                <ul class=list-group>\n" + "                    <li class=list-group-item ng-repeat=\"item in $root.Navigation.main\">\n" + "                        <a ng-href=\"#/{{ $root.Language.current }}{{ item.url }}\" ng-click=$root.Navigation.select(item)>{{ item.title | translate }}</a>\n" + "                    </li>\n" + "                </ul>\n" + "            </div>\n" + "        </aside>\n" + "    </div>\n" + "</div>");
 
