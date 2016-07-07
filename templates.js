@@ -1,5 +1,4 @@
-console.log('ahoy');
-angular.module('monad.templates').run(['$templateCache', function($templateCache) {
+angular.module('monad.templates', []).run(['$templateCache', function($templateCache) {
   'use strict';
 
   $templateCache.put('/monad/LICENSE.html',
