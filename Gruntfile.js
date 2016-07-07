@@ -90,10 +90,6 @@ module.exports = function (grunt) {
         includereplace: {
             files: ['src/index.html'],
             tasks: ['includereplace']
-        },
-        uglify: {
-            files: ['dist/monad.js'],
-            tasks: ['uglify']
         }
     });
 
@@ -129,15 +125,8 @@ module.exports = function (grunt) {
         flags: {expand: true, cwd: 'src/_sass', src: 'i18n.png', dest: 'dist'}
     });
 
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.config('uglify', {
-        monad: {
-            files: {'dist/monad.min.js': ['dist/monad.js']}
-        }
-    });
-
     grunt.registerTask('default', ['build']);
-    grunt.registerTask('build', ['gettext', 'spritesheet', 'sass', 'includereplace', 'copy', 'browserify', 'uglify']);
+    grunt.registerTask('build', ['gettext', 'spritesheet', 'sass', 'includereplace', 'copy', 'browserify']);
     grunt.registerTask('gettext', ['nggettext_extract', 'nggettext_compile']);
     grunt.registerTask('dev', ['build', 'watch']);
 };
