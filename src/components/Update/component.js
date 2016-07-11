@@ -50,6 +50,8 @@ class controller {
             } else if (item.$dirty && item.$dirty()) {
                 operations++;
                 item.$save(progress);
+            } else if (!(item.$deleted && item.$dirty) && angular.isArray(item)) {
+                item.map($save);
             }
         };
 
