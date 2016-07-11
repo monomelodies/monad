@@ -44,10 +44,10 @@ class controller {
         };
 
         function $save(item) {
-            if (item.$deleted()) {
+            if (item.$deleted && item.$deleted()) {
                 operations++;
                 item.$delete(progress);
-            } else if (item.$dirty()) {
+            } else if (item.$dirty && item.$dirty()) {
                 operations++;
                 item.$save(progress);
             }
