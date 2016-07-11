@@ -138,7 +138,7 @@ export default ['$resource', '$rootScope', ($resource, $rootScope) => {
                         this[i].$save();
                         continue;
                     }
-                    if (this[i].$deleted) {
+                    if (this[i].$deleted()) {
                         found.promises.push(this[i].$delete(done));
                     } else if (this[i].$dirty()) {
                         found.promises.push(this[i].$save(done));
@@ -154,6 +154,7 @@ export default ['$resource', '$rootScope', ($resource, $rootScope) => {
                 }
                 return false;
             };
+            found.$deleted = () => false;
             return found;
         };
         res.get = (parameters, success, error) => {
