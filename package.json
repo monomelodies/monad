@@ -1,6 +1,6 @@
 {
   "name": "monad-cms",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "Generic AngularJS-based CMS framework",
   "main": "dist/monad.js",
   "files": ["dist/**"],
@@ -19,7 +19,7 @@
     "autofill-event": "0.0.1",
     "babel-polyfill": "^6.9.1",
     "bootstrap-sass": "~3.3.6",
-    "ng-lollipop": "^0.1.4"
+    "ng-lollipop": "^0.2.1"
   },
   "devDependencies": {
     "angular-gettext-tools": "^2.2.2",
