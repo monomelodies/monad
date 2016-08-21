@@ -55075,20 +55075,18 @@ exports.default = ['$resource', '$rootScope', function ($resource, $rootScope) {
          *  From then on you can say `if (obj.on) { ... }` and `obj.on = false`.
          */
         res.setBitflags = function (source) {
-            var _this = this;
-
             var mapping = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
             var _loop = function _loop(name) {
                 Object.defineProperty(res.prototype, name, {
                     get: function get() {
-                        return !!(_this[source] & mapping[name]);
+                        return !!(this[source] & mapping[name]);
                     },
                     set: function set(value) {
                         if (!!value) {
-                            _this[source] |= mapping[name];
+                            this[source] |= mapping[name];
                         } else {
-                            _this[source] &= ~mapping[name];
+                            this[source] &= ~mapping[name];
                         }
                     }
                 });
