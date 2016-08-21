@@ -46,6 +46,13 @@ export default ['$resource', '$rootScope', ($resource, $rootScope) => {
         };
 
         /**
+         * Manually mark this model as "clean" (i.e. not "dirty").
+         */
+        res.prototype.$markClean = function () {
+            wm.set(this, {initial: this, deleted: false});
+        };            
+
+        /**
          * Checks if this model is "dirty".
          *
          * @return boolean True if dirty, false if pristine.
