@@ -33,8 +33,10 @@ export default ['$resource', '$rootScope', ($resource, $rootScope) => {
         res.setBitflags = function (source, mapping = {}) {
             for (let name in mapping) {
                 Object.defineProperty(res.prototype, name, {
-                    get: () => !!(this[source] & mapping[name]),
-                    set: value => {
+                    get: function () {
+                        return !!(this[source] & mapping[name]);
+                    },
+                    set: function (value) {
                         if (!!value) {
                             this[source] |= mapping[name];
                         } else {
