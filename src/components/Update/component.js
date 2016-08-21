@@ -23,6 +23,21 @@ class controller {
         if (typeof this.data.item == 'function') {
             this.data.item = new this.data.item;
         }
+        let data = undefined;
+        if (data = $location.search().data) {
+            data = angular.fromJson(data);
+            for (let prop in data) {
+                if (this.data[prop] != undefined) {
+                    for (let sub in data[prop]) {
+                        if (this.data[prop][sub] == undefined) {
+                            this.data[prop][sub] = data[prop][sub];
+                        }
+                    }
+                    this.data[prop].$markClean();
+                }
+            }
+        }
+        console.log(this.data);
     }
 
     save() {
