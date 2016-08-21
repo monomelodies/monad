@@ -118,3 +118,12 @@ angular.module('myAdmin', ['monad'])
 </a>
 ```
 
+Each key/value in `data` is applied to the resolved `data` property on the
+update controller, _if_ the key exists at the root. I.e., in the above examples
+the data is only applied if `data` has a key `item`. Other defaults are ignored
+silently. Also note that if for whatever reason an entry in `data` _already_
+has a property passed as a default (from whatever source), it is _also_ ignored.
+Finally, note that after setting defaults the corresponding model is
+automatically marked as "clean" again, even if for whatever reason other values
+were already changed and the model is in fact "dirty".
+
