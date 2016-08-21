@@ -88,3 +88,33 @@ app.component('awesomeFoo', {
 });
 ```
 
+To pass defaults from one page to another (e.g. an "add subitem" link that
+points to a separate component) you may pass a "data" property in the search
+string of your URL:
+
+```html
+<a ng-href="#/{{ $root.Language.current }}/my_component/create/?data={&quot;item&quot;:{&quot;property&quot;:value}}">
+    click to add a subitem!
+</a>
+```
+
+Remember to HTML-encode the double quotes! They are needed for it to be valid
+JSON.
+
+If you find yourself doing this a lot you probably want to write a simple
+function or filter for this, e.g.
+
+```javascript
+angular.module('myAdmin', ['monad'])
+    // ...
+    .filter('json', object => angular.toJson(object));
+```
+
+...and use it like so:
+
+```html
+<a ng-href="#/{{ $root.Language.current }}/my_component/create/?data={{ {item: {property: 'value'}}|json }}">
+    click to add a subitem!
+</a>
+```
+
