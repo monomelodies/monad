@@ -50,7 +50,7 @@ msgstr ""
 msgid "Save changes"
 msgstr ""
 
-#: src/components/Update/component.js:63
+#: src/components/Update/component.js:78
 msgid "Saving..."
 msgstr ""
 

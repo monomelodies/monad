@@ -54145,6 +54145,21 @@ var controller = function () {
         if (typeof this.data.item == 'function') {
             this.data.item = new this.data.item();
         }
+        var data = undefined;
+        if (data = $location.search().data) {
+            data = angular.fromJson(data);
+            for (var prop in data) {
+                if (this.data[prop] != undefined) {
+                    for (var sub in data[prop]) {
+                        if (this.data[prop][sub] == undefined) {
+                            this.data[prop][sub] = data[prop][sub];
+                        }
+                    }
+                    this.data[prop].$markClean();
+                }
+            }
+        }
+        console.log(this.data);
     }
 
     _createClass(controller, [{
@@ -54540,6 +54555,13 @@ exports.default = ['$resource', '$rootScope', function ($resource, $rootScope) {
             for (var name in mapping) {
                 _loop(name);
             }
+        };
+
+        /**
+         * Manually mark this model as "clean" (i.e. not "dirty").
+         */
+        res.prototype.$markClean = function () {
+            wm.set(this, { initial: this, deleted: false });
         };
 
         /**
