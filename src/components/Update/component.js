@@ -37,7 +37,6 @@ class controller {
                 }
             }
         }
-        console.log(this.data);
     }
 
     save() {
