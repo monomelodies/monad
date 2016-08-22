@@ -76,8 +76,20 @@ export default class Navigation {
             if (!found) {
                 found = {
                     title: option['parent'],
-                    items: []
+                    items: [],
+                    authentication: {}
                 };
+                Object.defineProperty(found.authentication, 'check', {
+                    get: () => {
+                        let ok = false;
+                        found.items.map(item => {
+                            if (item.authentication.check) {
+                                ok = true;
+                            }
+                        });
+                        return ok;
+                    }
+                });
                 paths[option.menu].push(found);
                 work = found.items;
             } else {
