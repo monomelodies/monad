@@ -81,8 +81,7 @@ export default class Navigation {
                 paths[option.menu].push(found);
                 work = found.items;
             } else {
-                let down = angular.copy(found);
-                found.items = found.items || [down];
+                found.items = found.items || [];
                 work = found.items;
             }
         }
