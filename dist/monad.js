@@ -55664,8 +55664,7 @@ var Navigation = function () {
                     paths[_option.menu].push(found);
                     work = found.items;
                 } else {
-                    var down = angular.copy(found);
-                    found.items = found.items || [down];
+                    found.items = found.items || [];
                     work = found.items;
                 }
             }
