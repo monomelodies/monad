@@ -80,6 +80,10 @@ export default class Navigation {
                 };
                 paths[option.menu].push(found);
                 work = found.items;
+            } else {
+                let down = angular.copy(found);
+                found.items = found.items || [down];
+                work = found.items;
             }
         }
         if (!('url' in option)) {
