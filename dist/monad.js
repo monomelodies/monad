@@ -55101,7 +55101,7 @@ exports.default = ['$resource', '$rootScope', function ($resource, $rootScope) {
          * Manually mark this model as "clean" (i.e. not "dirty").
          */
         res.prototype.$markClean = function () {
-            wm.set(this, { initial: this, deleted: false });
+            wm.set(this, { initial: copy(this), deleted: false });
         };
 
         /**
