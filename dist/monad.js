@@ -55650,23 +55650,37 @@ var Navigation = function () {
                     } });
             }
             if ('parent' in _option) {
-                var found = undefined;
-                paths[_option.menu].map(function (item) {
-                    if (item.title == _option['parent']) {
-                        found = item;
+                (function () {
+                    var found = undefined;
+                    paths[_option.menu].map(function (item) {
+                        if (item.title == _option['parent']) {
+                            found = item;
+                        }
+                    });
+                    if (!found) {
+                        found = {
+                            title: _option['parent'],
+                            items: [],
+                            authentication: {}
+                        };
+                        Object.defineProperty(found.authentication, 'check', {
+                            get: function get() {
+                                var ok = false;
+                                found.items.map(function (item) {
+                                    if (item.authentication.check) {
+                                        ok = true;
+                                    }
+                                });
+                                return ok;
+                            }
+                        });
+                        paths[_option.menu].push(found);
+                        work = found.items;
+                    } else {
+                        found.items = found.items || [];
+                        work = found.items;
                     }
-                });
-                if (!found) {
-                    found = {
-                        title: _option['parent'],
-                        items: []
-                    };
-                    paths[_option.menu].push(found);
-                    work = found.items;
-                } else {
-                    found.items = found.items || [];
-                    work = found.items;
-                }
+                })();
             }
             if (!('url' in _option)) {
                 throw 'Each menu option needs to specify a URL.';
