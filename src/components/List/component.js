@@ -55,7 +55,7 @@ export default angular.module('monad.components.list', [])
                 </tr>
             </tbody>
         </table>
-        <div ng-show="!$ctrl.rows.length" type="warning"><span translate>Sorry, nothing found.</span></div>`,
+        <div ng-show="!$ctrl.rows.length" uib-alert class="alert-warning"><span translate>Sorry, nothing found.</span></div>`,
         bindings: {rows: '=', update: '@'}
     })
     .name
