@@ -95,9 +95,9 @@
         <aside id="tray">
             <ul>
                 <li ng-repeat="msg in messages">
-                    <uib-alert type="{{ msg.type }}">
+                    <div uib-alert type="{{ msg.type }}">
                         <mo-message data="msg"></mo-message>
-                    </uib-alert>
+                    </div>
                 </li>
             </ul>
         </aside>
