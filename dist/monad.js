@@ -54631,7 +54631,7 @@ exports.default = angular.module('monad.components.list', []).component('moListH
             $templateCache.put('/monad/' + col + '.html', html);
         });
     }],
-    template: '<table class="table table-striped" ng-show="$ctrl.rows.length">\n            <thead><tr>\n                <th ng-repeat="header in $ctrl.headers" ng-bind-html="header"></th>\n            </tr></thead>\n            <tbody>\n                <tr ng-repeat="row in $ctrl.rows" ng-if="!row.$deleted()">\n                    <td ng-repeat="column in $ctrl.columns" ng-include="\'/monad/\' + column + \'.html\'"></td>\n                </tr>\n            </tbody>\n        </table>\n        <div ng-show="!$ctrl.rows.length">\n            <uib-alert type="warning"><span translate>Sorry, nothing found.</span></uib-alert>\n        </div>',
+    template: '<table class="table table-striped" ng-show="$ctrl.rows.length">\n            <thead><tr>\n                <th ng-repeat="header in $ctrl.headers" ng-bind-html="header"></th>\n            </tr></thead>\n            <tbody>\n                <tr ng-repeat="row in $ctrl.rows" ng-if="!row.$deleted()">\n                    <td ng-repeat="column in $ctrl.columns" ng-include="\'/monad/\' + column + \'.html\'"></td>\n                </tr>\n            </tbody>\n        </table>\n        <div ng-show="!$ctrl.rows.length" type="warning"><span translate>Sorry, nothing found.</span></div>',
     bindings: { rows: '=', update: '@' }
 }).name;
 
