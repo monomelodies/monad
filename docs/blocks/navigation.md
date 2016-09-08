@@ -21,18 +21,16 @@ much like the following:
 "use strict";
 
 // Our main app depends on Monad
-var app = angular.module('awesome', ['monad']);
+let app = angular.module('awesome', ['monad']);
 
-app.config(['$routeProvider', function ($routeProvider) {
+app.config(['$routeProvider', $routeProvider => {
     $routeProvider.when('/:language/foo', {
         template: '<awesome-foo-list resource="$resolve.resource"></awesome-foo-list>',
-        resolve: {resource: ['moResource', function (moResource) {
-            return moResource('/api/foo');
-        }]}
+        resolve: {resource: ['moResource', moResource => moResource('/api/foo')]}
     });
     $routeProvider.when('/:language/foo/:id', {
         template: '<awesome-foo data="$resolve.data"></awesome-foo-list>',
-        resolve: {data: ['moResource', '$route', function (moResource, $route) {
+        resolve: {data: ['moResource', '$route', (moResource, $route) => {
             return {foo: moResource('/api/foo/:id/', {id: '@id'}).get({id: $route.current.params.id})};
         }]}
     });
