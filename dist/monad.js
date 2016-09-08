@@ -54533,13 +54533,23 @@ exports.default = _angular2.default.module('monad', [ng, externals, _angular4.de
     });
 }])
 // Set defaults (these can/should be overridden)
-.run(['$rootScope', '$location', function ($rootScope, $location) {
+.run(['$rootScope', '$location', '$uibModal', function ($rootScope, $location, $uibModal) {
     $rootScope.languages = ['en', 'nl'];
     $rootScope.title = 'Default generic administrator';
     $rootScope.liveReload = undefined;
     $rootScope.$on('$routeChangeSuccess', function () {
         $rootScope.isHome = $location.path().match(/^\/[a-z]{2}\/$/);
     });
+    $rootScope.license = function () {
+        $uibModal.open({
+            templateUrl: '/monad/templates/license.html',
+            controller: ['$uibModalInstance', '$scope', function ($uibModalInstance, $scope) {
+                $scope.ok = function () {
+                    return $uibModalInstance.dismiss();
+                };
+            }]
+        });
+    };
 }])
 // Set default language
 .run(['$rootScope', 'moLanguage', function ($rootScope, moLanguage) {
