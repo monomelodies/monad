@@ -54,7 +54,7 @@ also exposes `monad.Authentication` which is the main auth service, and wraps
 your entire admin in a "global" login directive as well - i.e., any user will at
 the very least need to be logged in before Monad shows anything.
 
-> Important: Your API should of course to its own authentication checks and not
+> Important: Your API should of course do its own authentication checks and not
 > solely rely on the client side hiding stuff from users.
 
 The default behaviour is to show a form with `username` and `password` fields.
