@@ -40,7 +40,7 @@ class controller {
     }
 
     save() {
-        let promise = $q.defer();
+        let deferred = $q.defer();
         let operations = 0;
         this.progress = 0;
         let done = 0;
@@ -49,7 +49,7 @@ class controller {
             done++;
             this.progress = (done / operations) * 100;
             if (done == operations) {
-                promise.resolve('ok');
+                deferred.resolve('ok');
                 $route.reset();
                 if (isNew) {
                     $location.path(moLanguage.current + this.list);
@@ -77,7 +77,7 @@ class controller {
             '<p style="text-align: center" translate>' + gettext('Saving...') + '</p>' +
             '<uib-progressbar type="info" class="progress-striped" value="msg.data.progress"></uib-progressbar>',
             this,
-            promise
+            deferred.promise
         );
     }
 
