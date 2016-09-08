@@ -1,6 +1,6 @@
 {
   "name": "monad-cms",
-  "version": "2.5.11",
+  "version": "2.5.12",
   "description": "Generic AngularJS-based CMS framework",
   "main": "dist/monad.js",
   "files": ["dist/**"],
