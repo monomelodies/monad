@@ -54710,7 +54710,7 @@ var controller = function () {
         value: function save() {
             var _this2 = this;
 
-            var promise = $q.defer();
+            var deferred = $q.defer();
             var operations = 0;
             this.progress = 0;
             var done = 0;
@@ -54719,7 +54719,7 @@ var controller = function () {
                 done++;
                 _this2.progress = done / operations * 100;
                 if (done == operations) {
-                    promise.resolve('ok');
+                    deferred.resolve('ok');
                     $route.reset();
                     if (isNew) {
                         $location.path(moLanguage.current + _this2.list);
@@ -54742,7 +54742,7 @@ var controller = function () {
             for (var i in this.data) {
                 $save(this.data[i]);
             }
-            moReport.add('info', '<p style="text-align: center" translate>' + gettext('Saving...') + '</p>' + '<uib-progressbar type="info" class="progress-striped" value="msg.data.progress"></uib-progressbar>', this, promise);
+            moReport.add('info', '<p style="text-align: center" translate>' + gettext('Saving...') + '</p>' + '<uib-progressbar type="info" class="progress-striped" value="msg.data.progress"></uib-progressbar>', this, deferred.promise);
         }
     }, {
         key: '$dirty',
