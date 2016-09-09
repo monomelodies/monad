@@ -54696,7 +54696,9 @@ var controller = function () {
         this['delete'] = function () {
             moDelete.ask(_this.data.item, _this.list);
         };
+        this.creating = false;
         if (typeof this.data.item == 'function') {
+            this.creating = true;
             this.data.item = new this.data.item();
         }
         var data = undefined;
@@ -54724,14 +54726,13 @@ var controller = function () {
             var operations = 0;
             this.progress = 0;
             var done = 0;
-            var isNew = !this.data.item.$delete;
             var progress = function progress() {
                 done++;
                 _this2.progress = done / operations * 100;
                 if (done == operations) {
                     deferred.resolve('ok');
                     $route.reset();
-                    if (isNew) {
+                    if (_this2.creating) {
                         $location.path(moLanguage.current + _this2.list);
                     }
                 }
