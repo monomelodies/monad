@@ -20,7 +20,9 @@ class controller {
         this['delete'] = () => {
             moDelete.ask(this.data.item, this.list);
         };
+        this.creating = false;
         if (typeof this.data.item == 'function') {
+            this.creating = true;
             this.data.item = new this.data.item;
         }
         let data = undefined;
@@ -44,14 +46,13 @@ class controller {
         let operations = 0;
         this.progress = 0;
         let done = 0;
-        let isNew = !this.data.item.$delete;
         let progress = () => {
             done++;
             this.progress = (done / operations) * 100;
             if (done == operations) {
                 deferred.resolve('ok');
                 $route.reset();
-                if (isNew) {
+                if (this.creating) {
                     $location.path(moLanguage.current + this.list);
                 }
             }
