@@ -19,8 +19,9 @@ import Authentication from './services/Authentication';
 import Language from './services/Language';
 import Delete from './services/Delete';
 import Report from './services/Report';
-import directives from './directives/angular';
-import components from './components/angular';
+import Progress from './services/Progress';
+import directives from './directives';
+import components from './components';
 import Resource from './factories/Resource';
 
 let ng = angular.module('monad.ng', ['ng', ngRoute, ngSanitize, ngAnimate, ngResource]).name;
@@ -107,5 +108,6 @@ export default angular.module('monad', [ng, externals, directives, components, '
     .service('moLanguage', Language)
     .service('moReport', Report)
     .service('moDelete', Delete)
+    .service('moProgress', Progress)
     ;
 
