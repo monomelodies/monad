@@ -55019,20 +55019,6 @@ exports.default = ['$resource', '$rootScope', 'moProgress', function ($resource,
                 found.push(new res(obj));
             };
 
-            found.progress = undefined;
-            function done() {
-                var callback = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
-
-                return function () {
-                    found.progress--;
-                    if (found.progress == 0) {
-                        if (callback) {
-                            callback();
-                        }
-                        $rootScope.$emit('moListSaved');
-                    }
-                };
-            };
             found.$save = function (callback) {
                 for (var i = 0; i < this.length; i++) {
                     if (angular.isArray(this[i]) && '$save' in this[i] && this[i].$dirty()) {
