@@ -7,18 +7,20 @@ let moReport = undefined;
 let $route = undefined;
 let $location = undefined;
 let moLanguage = undefined;
+let moProgress = undefined;
 
 class controller {
 
-    constructor(_gettext, _$q, _moReport, _$route, _$location, _moLanguage, moDelete) {
-        gettext = _gettext;
-        $q = _$q;
-        moReport = _moReport;
-        $route = _$route;
-        $location = _$location;
-        moLanguage = _moLanguage;
-        this['delete'] = () => {
-            moDelete.ask(this.data.item, this.list);
+    constructor(_gettext_, _$q_, _moReport_, _$route_, _$location_, _moLanguage_, moDelete, _moProgress_) {
+        gettext = _gettext_;
+        $q = _$q_;
+        moReport = _moReport_;
+        $route = _$route_;
+        $location = _$location_;
+        moLanguage = _moLanguage_;
+        moProgress = _moProgress_
+        this['delete'] = (item, newurl) => {
+            moDelete.ask(item, newurl);
         };
         this.creating = false;
         if (typeof this.data.item == 'function') {
@@ -42,31 +44,16 @@ class controller {
     }
 
     save() {
-        let deferred = $q.defer();
-        let operations = 0;
-        this.progress = 0;
-        let done = 0;
-        let progress = () => {
-            done++;
-            this.progress = (done / operations) * 100;
-            if (done == operations) {
-                deferred.resolve('ok');
-                $route.reset();
-                if (this.creating) {
-                    $location.path(moLanguage.current + this.list);
-                }
-            }
-        };
 
         function $save(item) {
+            if (angular.isArray(item)) {
+                item.$save();
+                return;
+            }
             if (item.$deleted && item.$deleted()) {
-                operations++;
-                item.$delete(progress);
+                moProgress.schedule(item, '$delete');
             } else if (item.$dirty && item.$dirty()) {
-                operations++;
-                item.$save(progress);
-            } else if (!(item.$deleted && item.$dirty) && angular.isArray(item)) {
-                item.map($save);
+                moProgress.schedule(item, '$save');
             }
         };
 
@@ -78,7 +65,12 @@ class controller {
             '<p style="text-align: center" translate>' + gettext('Saving...') + '</p>' +
             '<uib-progressbar type="info" class="progress-striped" value="msg.data.progress"></uib-progressbar>',
             this,
-            deferred.promise
+            moProgress.run().then(() => {
+                $route.reset();
+                if (this.creating) {
+                    $location.path(moLanguage.current + this.list);
+                }
+            })
         );
     }
 
@@ -104,7 +96,7 @@ class controller {
 
 }
 
-controller.$inject = ['gettext', '$q', 'moReport', '$route', '$location', 'moLanguage', 'moDelete'];
+controller.$inject = ['gettext', '$q', 'moReport', '$route', '$location', 'moLanguage', 'moDelete', 'moProgress'];
 
 export default angular.module('monad.components.update', [])
     .component('moUpdate', {
