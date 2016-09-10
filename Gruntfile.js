@@ -109,7 +109,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-browserify');
     grunt.config('browserify', {
         monad: {
-            src: 'src/angular.js',
+            src: 'src/index.js',
             dest: 'dist/monad.js',
             options: {
                 transform: ['babelify'],
