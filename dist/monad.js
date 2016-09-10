@@ -55000,7 +55000,7 @@ exports.default = ['$resource', '$rootScope', 'moProgress', function ($resource,
                  * Set the deleted state. Note that res does _not_ call the "$delete"
                  * resource method.
                  */
-                local(this).deleted = !!value;
+                local(this).deleted = !!newval;
             }
             return local(this).deleted;
         };
