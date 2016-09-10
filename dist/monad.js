@@ -54500,13 +54500,17 @@ var _Report = require('./services/Report');
 
 var _Report2 = _interopRequireDefault(_Report);
 
-var _angular3 = require('./directives/angular');
+var _Progress = require('./services/Progress');
 
-var _angular4 = _interopRequireDefault(_angular3);
+var _Progress2 = _interopRequireDefault(_Progress);
 
-var _angular5 = require('./components/angular');
+var _directives = require('./directives');
 
-var _angular6 = _interopRequireDefault(_angular5);
+var _directives2 = _interopRequireDefault(_directives);
+
+var _components = require('./components');
+
+var _components2 = _interopRequireDefault(_components);
 
 var _Resource = require('./factories/Resource');
 
@@ -54516,7 +54520,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var ng = _angular2.default.module('monad.ng', ['ng', _angularRoute2.default, _angularSanitize2.default, _angularAnimate2.default, _angularResource2.default]).name;
 var externals = _angular2.default.module('monad.externals', ['gettext', _angularUiBootstrap2.default, _ngLollipop2.default]).name;
-exports.default = _angular2.default.module('monad', [ng, externals, _angular4.default, _angular6.default, 'monad.templates'])
+exports.default = _angular2.default.module('monad', [ng, externals, _directives2.default, _components2.default, 'monad.templates'])
 // No HTML5 mode please
 .config(['$locationProvider', function ($locationProvider) {
     $locationProvider.html5Mode(false);
@@ -54595,9 +54599,9 @@ exports.default = _angular2.default.module('monad', [ng, externals, _angular4.de
 .controller('moListController', _ListController2.default)
 
 // Services
-.service('moNavigation', _Navigation2.default).service('Authentication', _Authentication2.default).service('moLanguage', _Language2.default).service('moReport', _Report2.default).service('moDelete', _Delete2.default);
+.service('moNavigation', _Navigation2.default).service('Authentication', _Authentication2.default).service('moLanguage', _Language2.default).service('moReport', _Report2.default).service('moDelete', _Delete2.default).service('moProgress', _Progress2.default);
 
-},{"../i18n":1,"../templates":339,"./ListController":322,"./components/angular":327,"./directives/angular":329,"./factories/Resource":333,"./services/Authentication":334,"./services/Delete":335,"./services/Language":336,"./services/Navigation":337,"./services/Report":338,"angular":14,"angular-animate":3,"angular-gettext":4,"angular-resource":6,"angular-route":8,"angular-sanitize":10,"angular-ui-bootstrap":12,"autofill-event":15,"babel-polyfill":16,"ng-lollipop":311}],324:[function(require,module,exports){
+},{"../i18n":1,"../templates":340,"./ListController":322,"./components":327,"./directives":330,"./factories/Resource":333,"./services/Authentication":334,"./services/Delete":335,"./services/Language":336,"./services/Navigation":337,"./services/Progress":338,"./services/Report":339,"angular":14,"angular-animate":3,"angular-gettext":4,"angular-resource":6,"angular-route":8,"angular-sanitize":10,"angular-ui-bootstrap":12,"autofill-event":15,"babel-polyfill":16,"ng-lollipop":311}],324:[function(require,module,exports){
 
 "use strict";
 
@@ -54680,21 +54684,21 @@ var moReport = undefined;
 var $route = undefined;
 var $location = undefined;
 var moLanguage = undefined;
+var moProgress = undefined;
 
 var controller = function () {
-    function controller(_gettext, _$q, _moReport, _$route, _$location, _moLanguage, moDelete) {
-        var _this = this;
-
+    function controller(_gettext_, _$q_, _moReport_, _$route_, _$location_, _moLanguage_, moDelete, _moProgress_) {
         _classCallCheck(this, controller);
 
-        gettext = _gettext;
-        $q = _$q;
-        moReport = _moReport;
-        $route = _$route;
-        $location = _$location;
-        moLanguage = _moLanguage;
-        this['delete'] = function () {
-            moDelete.ask(_this.data.item, _this.list);
+        gettext = _gettext_;
+        $q = _$q_;
+        moReport = _moReport_;
+        $route = _$route_;
+        $location = _$location_;
+        moLanguage = _moLanguage_;
+        moProgress = _moProgress_;
+        this['delete'] = function (item, newurl) {
+            moDelete.ask(item, newurl);
         };
         this.creating = false;
         if (typeof this.data.item == 'function') {
@@ -54720,40 +54724,29 @@ var controller = function () {
     _createClass(controller, [{
         key: 'save',
         value: function save() {
-            var _this2 = this;
-
-            var deferred = $q.defer();
-            var operations = 0;
-            this.progress = 0;
-            var done = 0;
-            var progress = function progress() {
-                done++;
-                _this2.progress = done / operations * 100;
-                if (done == operations) {
-                    deferred.resolve('ok');
-                    $route.reset();
-                    if (_this2.creating) {
-                        $location.path(moLanguage.current + _this2.list);
-                    }
-                }
-            };
+            var _this = this;
 
             function $save(item) {
+                if (angular.isArray(item)) {
+                    item.$save();
+                    return;
+                }
                 if (item.$deleted && item.$deleted()) {
-                    operations++;
-                    item.$delete(progress);
+                    moProgress.schedule(item, '$delete');
                 } else if (item.$dirty && item.$dirty()) {
-                    operations++;
-                    item.$save(progress);
-                } else if (!(item.$deleted && item.$dirty) && angular.isArray(item)) {
-                    item.map($save);
+                    moProgress.schedule(item, '$save');
                 }
             };
 
             for (var i in this.data) {
                 $save(this.data[i]);
             }
-            moReport.add('info', '<p style="text-align: center" translate>' + gettext('Saving...') + '</p>' + '<uib-progressbar type="info" class="progress-striped" value="msg.data.progress"></uib-progressbar>', this, deferred.promise);
+            moReport.add('info', '<p style="text-align: center" translate>' + gettext('Saving...') + '</p>' + '<uib-progressbar type="info" class="progress-striped" value="msg.data.progress"></uib-progressbar>', this, moProgress.run().then(function () {
+                $route.reset();
+                if (_this.creating) {
+                    $location.path(moLanguage.current + _this.list);
+                }
+            }));
         }
     }, {
         key: '$dirty',
@@ -54781,7 +54774,7 @@ var controller = function () {
     return controller;
 }();
 
-controller.$inject = ['gettext', '$q', 'moReport', '$route', '$location', 'moLanguage', 'moDelete'];
+controller.$inject = ['gettext', '$q', 'moReport', '$route', '$location', 'moLanguage', 'moDelete', 'moProgress'];
 
 exports.default = angular.module('monad.components.update', []).component('moUpdate', {
     templateUrl: '/monad/components/Update/template.html',
@@ -54834,34 +54827,6 @@ exports.default = function () {
 };
 
 },{}],329:[function(require,module,exports){
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _Field = require('./Field');
-
-var _Field2 = _interopRequireDefault(_Field);
-
-var _dragDrop = require('./dragDrop');
-
-var _dragDrop2 = _interopRequireDefault(_dragDrop);
-
-var _slug = require('./slug');
-
-var _slug2 = _interopRequireDefault(_slug);
-
-var _message = require('./message');
-
-var _message2 = _interopRequireDefault(_message);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = angular.module('monad.directives', []).directive('moField', _Field2.default).directive('moDragDrop', _dragDrop2.default).directive('moSlug', _slug2.default).directive('moMessage', _message2.default).name;
-
-},{"./Field":328,"./dragDrop":330,"./message":331,"./slug":332}],330:[function(require,module,exports){
 
 "use strict";
 
@@ -54948,7 +54913,35 @@ function link($scope, elem, attrs) {
     });
 }
 
-},{}],331:[function(require,module,exports){
+},{}],330:[function(require,module,exports){
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Field = require('./Field');
+
+var _Field2 = _interopRequireDefault(_Field);
+
+var _dragDrop = require('./dragDrop');
+
+var _dragDrop2 = _interopRequireDefault(_dragDrop);
+
+var _slug = require('./slug');
+
+var _slug2 = _interopRequireDefault(_slug);
+
+var _message = require('./message');
+
+var _message2 = _interopRequireDefault(_message);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = angular.module('monad.directives', []).directive('moField', _Field2.default).directive('moDragDrop', _dragDrop2.default).directive('moSlug', _slug2.default).directive('moMessage', _message2.default).name;
+
+},{"./Field":328,"./dragDrop":329,"./message":331,"./slug":332}],331:[function(require,module,exports){
 
 "use strict";
 
@@ -55070,7 +55063,7 @@ function local(obj) {
  * In Monad, we want to be able to easily append a new item to an array of
  * queried resources. This exposes a `save` method on the array.
  */
-exports.default = ['$resource', '$rootScope', function ($resource, $rootScope) {
+exports.default = ['$resource', '$rootScope', 'moProgress', function ($resource, $rootScope, moProgress) {
     return function (url) {
         var paramDefaults = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
         var actions = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
@@ -55199,25 +55192,30 @@ exports.default = ['$resource', '$rootScope', function ($resource, $rootScope) {
 
             found.progress = undefined;
             function done() {
-                found.progress--;
-                if (found.progress == 0) {
-                    $rootScope.$emit('moListSaved');
-                }
+                var callback = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
+
+                return function () {
+                    found.progress--;
+                    if (found.progress == 0) {
+                        if (callback) {
+                            callback();
+                        }
+                        $rootScope.$emit('moListSaved');
+                    }
+                };
             };
-            found.$save = function () {
-                found.promises = [];
+            found.$save = function (callback) {
                 for (var i = 0; i < this.length; i++) {
                     if (angular.isArray(this[i]) && '$save' in this[i] && this[i].$dirty()) {
                         this[i].$save();
                         continue;
                     }
                     if (this[i].$deleted()) {
-                        found.promises.push(this[i].$delete(done));
+                        moProgress.schedule(this[i], '$delete');
                     } else if (this[i].$dirty()) {
-                        found.promises.push(this[i].$save(done));
+                        moProgress.schedule(this[i], '$save');
                     }
                 }
-                found.progress = found.promises.length;
             };
             found.$dirty = function () {
                 for (var i = 0; i < this.length; i++) {
@@ -55755,6 +55753,62 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var promises = [];
+var $q = undefined;
+
+var Progress = function () {
+    function Progress(_$q_) {
+        _classCallCheck(this, Progress);
+
+        $q = _$q_;
+    }
+
+    _createClass(Progress, [{
+        key: 'schedule',
+        value: function schedule(obj, callback) {
+            promises.push({ obj: obj, callback: callback });
+        }
+    }, {
+        key: 'run',
+        value: function run() {
+            var deferred = $q.defer();
+            promises.map(function (promise, idx) {
+                promise.obj[promise.callback](function () {
+                    promises.splice(idx, 1);
+                    if (!promises.length) {
+                        deferred.resolve('done');
+                    }
+                });
+            });
+            return deferred.promise;
+        }
+    }, {
+        key: 'progress',
+        get: function get() {
+            return promises.length;
+        }
+    }]);
+
+    return Progress;
+}();
+
+exports.default = Progress;
+;
+
+Progress.$inject = ['$q'];
+
+},{}],339:[function(require,module,exports){
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -55964,7 +56018,7 @@ exports.default = Report;
 
 Report.$inject = ['$timeout'];
 
-},{}],339:[function(require,module,exports){
+},{}],340:[function(require,module,exports){
 'use strict';
 
 angular.module('monad.templates', []).run(['$templateCache', function ($templateCache) {
