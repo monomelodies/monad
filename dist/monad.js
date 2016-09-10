@@ -54437,177 +54437,6 @@ ListController.$inject = ['moDelete', '$rootScope'];
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-require('babel-polyfill');
-
-var _angular = require('angular');
-
-var _angular2 = _interopRequireDefault(_angular);
-
-var _angularUiBootstrap = require('angular-ui-bootstrap');
-
-var _angularUiBootstrap2 = _interopRequireDefault(_angularUiBootstrap);
-
-var _angularRoute = require('angular-route');
-
-var _angularRoute2 = _interopRequireDefault(_angularRoute);
-
-var _angularSanitize = require('angular-sanitize');
-
-var _angularSanitize2 = _interopRequireDefault(_angularSanitize);
-
-var _angularAnimate = require('angular-animate');
-
-var _angularAnimate2 = _interopRequireDefault(_angularAnimate);
-
-var _angularResource = require('angular-resource');
-
-var _angularResource2 = _interopRequireDefault(_angularResource);
-
-require('autofill-event');
-
-require('angular-gettext');
-
-var _ngLollipop = require('ng-lollipop');
-
-var _ngLollipop2 = _interopRequireDefault(_ngLollipop);
-
-require('../i18n');
-
-require('../templates');
-
-var _ListController = require('./ListController');
-
-var _ListController2 = _interopRequireDefault(_ListController);
-
-var _Navigation = require('./services/Navigation');
-
-var _Navigation2 = _interopRequireDefault(_Navigation);
-
-var _Authentication = require('./services/Authentication');
-
-var _Authentication2 = _interopRequireDefault(_Authentication);
-
-var _Language = require('./services/Language');
-
-var _Language2 = _interopRequireDefault(_Language);
-
-var _Delete = require('./services/Delete');
-
-var _Delete2 = _interopRequireDefault(_Delete);
-
-var _Report = require('./services/Report');
-
-var _Report2 = _interopRequireDefault(_Report);
-
-var _Progress = require('./services/Progress');
-
-var _Progress2 = _interopRequireDefault(_Progress);
-
-var _directives = require('./directives');
-
-var _directives2 = _interopRequireDefault(_directives);
-
-var _components = require('./components');
-
-var _components2 = _interopRequireDefault(_components);
-
-var _Resource = require('./factories/Resource');
-
-var _Resource2 = _interopRequireDefault(_Resource);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ng = _angular2.default.module('monad.ng', ['ng', _angularRoute2.default, _angularSanitize2.default, _angularAnimate2.default, _angularResource2.default]).name;
-var externals = _angular2.default.module('monad.externals', ['gettext', _angularUiBootstrap2.default, _ngLollipop2.default]).name;
-exports.default = _angular2.default.module('monad', [ng, externals, _directives2.default, _components2.default, 'monad.templates'])
-// No HTML5 mode please
-.config(['$locationProvider', function ($locationProvider) {
-    $locationProvider.html5Mode(false);
-}])
-// Bare bones routing
-.config(['$routeProvider', function ($routeProvider) {
-    $routeProvider.when('/', {
-        template: '<noop></noop>',
-        controller: ['moLanguage', '$location', function (moLanguage, $location) {
-            $location.path('/' + moLanguage.current + '/');
-        }]
-    }).when('/:language/', {
-        templateUrl: '/monad/templates/home.html'
-    });
-}])
-// Set defaults (these can/should be overridden)
-.run(['$rootScope', '$location', '$uibModal', function ($rootScope, $location, $uibModal) {
-    $rootScope.languages = ['en', 'nl'];
-    $rootScope.title = 'Default generic administrator';
-    $rootScope.liveReload = undefined;
-    $rootScope.$on('$routeChangeSuccess', function () {
-        $rootScope.isHome = $location.path().match(/^\/[a-z]{2}\/$/);
-    });
-    $rootScope.license = function () {
-        $uibModal.open({
-            templateUrl: '/monad/templates/license.html',
-            controller: ['$uibModalInstance', '$scope', function ($uibModalInstance, $scope) {
-                $scope.ok = function () {
-                    return $uibModalInstance.dismiss();
-                };
-            }]
-        });
-    };
-}])
-// Set default language
-.run(['$rootScope', 'moLanguage', function ($rootScope, moLanguage) {
-    moLanguage.current = $rootScope.languages[0];
-    $rootScope.Language = moLanguage;
-}])
-// Register route reset handler
-.run(['$rootScope', '$route', '$cacheFactory', function ($rootScope, $route, $cacheFactory) {
-    $route.reset = function () {
-        var caches = $cacheFactory.info();
-        for (var cache in caches) {
-            if (cache == 'templates') {
-                continue;
-            }
-            $cacheFactory.get(cache).removeAll();
-        }
-        $route.reload();
-        $rootScope.$broadcast('monad:reset');
-    };
-}])
-// Register navigation service
-.run(['$rootScope', 'moNavigation', function ($rootScope, moNavigation) {
-    $rootScope.Navigation = moNavigation;
-}])
-// Register reporting service
-.run(['$rootScope', 'moReport', function ($rootScope, moReport) {
-    $rootScope.messages = moReport.messages;
-}])
-// Initialize session
-.run(['$rootScope', 'Authentication', function ($rootScope, Authentication) {
-    $rootScope.$on('$routeChangeStart', function () {
-        return Authentication['status']();
-    });
-    $rootScope.Authentication = Authentication;
-}])
-// Normalize HTTP data using ng-lollipop
-.run(['normalizeIncomingHttpData', 'postRegularForm', function (a, b) {}])
-
-// Factories
-.factory('moResource', _Resource2.default)
-
-// Default controllers
-.controller('moListController', _ListController2.default)
-
-// Services
-.service('moNavigation', _Navigation2.default).service('Authentication', _Authentication2.default).service('moLanguage', _Language2.default).service('moReport', _Report2.default).service('moDelete', _Delete2.default).service('moProgress', _Progress2.default);
-
-},{"../i18n":1,"../templates":340,"./ListController":322,"./components":327,"./directives":330,"./factories/Resource":333,"./services/Authentication":334,"./services/Delete":335,"./services/Language":336,"./services/Navigation":337,"./services/Progress":338,"./services/Report":339,"angular":14,"angular-animate":3,"angular-gettext":4,"angular-resource":6,"angular-route":8,"angular-sanitize":10,"angular-ui-bootstrap":12,"autofill-event":15,"babel-polyfill":16,"ng-lollipop":311}],324:[function(require,module,exports){
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 exports.default = angular.module('monad.components.list', []).component('moListHeader', {
     transclude: true,
     controller: ['$transclude', function ($transclude) {
@@ -54650,7 +54479,7 @@ exports.default = angular.module('monad.components.list', []).component('moListH
     bindings: { rows: '=', update: '@' }
 }).name;
 
-},{}],325:[function(require,module,exports){
+},{}],324:[function(require,module,exports){
 
 "use strict";
 
@@ -54666,7 +54495,7 @@ exports.default = angular.module('monad.components.login', []).component('moLogi
     transclude: true
 }).name;
 
-},{}],326:[function(require,module,exports){
+},{}],325:[function(require,module,exports){
 
 "use strict";
 
@@ -54783,7 +54612,7 @@ exports.default = angular.module('monad.components.update', []).component('moUpd
     controller: controller
 }).name;
 
-},{}],327:[function(require,module,exports){
+},{}],326:[function(require,module,exports){
 
 "use strict";
 
@@ -54807,7 +54636,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('monad.components', [_component2.default, _component4.default, _component6.default]).name;
 
-},{"./List/component":324,"./Login/component":325,"./Update/component":326}],328:[function(require,module,exports){
+},{"./List/component":323,"./Login/component":324,"./Update/component":325}],327:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54826,7 +54655,7 @@ exports.default = function () {
     };
 };
 
-},{}],329:[function(require,module,exports){
+},{}],328:[function(require,module,exports){
 
 "use strict";
 
@@ -54913,7 +54742,7 @@ function link($scope, elem, attrs) {
     });
 }
 
-},{}],330:[function(require,module,exports){
+},{}],329:[function(require,module,exports){
 
 "use strict";
 
@@ -54941,7 +54770,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = angular.module('monad.directives', []).directive('moField', _Field2.default).directive('moDragDrop', _dragDrop2.default).directive('moSlug', _slug2.default).directive('moMessage', _message2.default).name;
 
-},{"./Field":328,"./dragDrop":329,"./message":331,"./slug":332}],331:[function(require,module,exports){
+},{"./Field":327,"./dragDrop":328,"./message":330,"./slug":331}],330:[function(require,module,exports){
 
 "use strict";
 
@@ -54982,7 +54811,7 @@ exports.default = ['$compile', function ($compile) {
     };
 }];
 
-},{}],332:[function(require,module,exports){
+},{}],331:[function(require,module,exports){
 
 "use strict";
 
@@ -55036,7 +54865,7 @@ exports.default = function () {
     };
 };
 
-},{}],333:[function(require,module,exports){
+},{}],332:[function(require,module,exports){
 
 "use strict";
 
@@ -55328,7 +55157,178 @@ function differs(comp, a, b) {
     return ('' + a).trim() != ('' + b).trim();
 }
 
-},{}],334:[function(require,module,exports){
+},{}],333:[function(require,module,exports){
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+require('babel-polyfill');
+
+var _angular = require('angular');
+
+var _angular2 = _interopRequireDefault(_angular);
+
+var _angularUiBootstrap = require('angular-ui-bootstrap');
+
+var _angularUiBootstrap2 = _interopRequireDefault(_angularUiBootstrap);
+
+var _angularRoute = require('angular-route');
+
+var _angularRoute2 = _interopRequireDefault(_angularRoute);
+
+var _angularSanitize = require('angular-sanitize');
+
+var _angularSanitize2 = _interopRequireDefault(_angularSanitize);
+
+var _angularAnimate = require('angular-animate');
+
+var _angularAnimate2 = _interopRequireDefault(_angularAnimate);
+
+var _angularResource = require('angular-resource');
+
+var _angularResource2 = _interopRequireDefault(_angularResource);
+
+require('autofill-event');
+
+require('angular-gettext');
+
+var _ngLollipop = require('ng-lollipop');
+
+var _ngLollipop2 = _interopRequireDefault(_ngLollipop);
+
+require('../i18n');
+
+require('../templates');
+
+var _ListController = require('./ListController');
+
+var _ListController2 = _interopRequireDefault(_ListController);
+
+var _Navigation = require('./services/Navigation');
+
+var _Navigation2 = _interopRequireDefault(_Navigation);
+
+var _Authentication = require('./services/Authentication');
+
+var _Authentication2 = _interopRequireDefault(_Authentication);
+
+var _Language = require('./services/Language');
+
+var _Language2 = _interopRequireDefault(_Language);
+
+var _Delete = require('./services/Delete');
+
+var _Delete2 = _interopRequireDefault(_Delete);
+
+var _Report = require('./services/Report');
+
+var _Report2 = _interopRequireDefault(_Report);
+
+var _Progress = require('./services/Progress');
+
+var _Progress2 = _interopRequireDefault(_Progress);
+
+var _directives = require('./directives');
+
+var _directives2 = _interopRequireDefault(_directives);
+
+var _components = require('./components');
+
+var _components2 = _interopRequireDefault(_components);
+
+var _Resource = require('./factories/Resource');
+
+var _Resource2 = _interopRequireDefault(_Resource);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ng = _angular2.default.module('monad.ng', ['ng', _angularRoute2.default, _angularSanitize2.default, _angularAnimate2.default, _angularResource2.default]).name;
+var externals = _angular2.default.module('monad.externals', ['gettext', _angularUiBootstrap2.default, _ngLollipop2.default]).name;
+exports.default = _angular2.default.module('monad', [ng, externals, _directives2.default, _components2.default, 'monad.templates'])
+// No HTML5 mode please
+.config(['$locationProvider', function ($locationProvider) {
+    $locationProvider.html5Mode(false);
+}])
+// Bare bones routing
+.config(['$routeProvider', function ($routeProvider) {
+    $routeProvider.when('/', {
+        template: '<noop></noop>',
+        controller: ['moLanguage', '$location', function (moLanguage, $location) {
+            $location.path('/' + moLanguage.current + '/');
+        }]
+    }).when('/:language/', {
+        templateUrl: '/monad/templates/home.html'
+    });
+}])
+// Set defaults (these can/should be overridden)
+.run(['$rootScope', '$location', '$uibModal', function ($rootScope, $location, $uibModal) {
+    $rootScope.languages = ['en', 'nl'];
+    $rootScope.title = 'Default generic administrator';
+    $rootScope.liveReload = undefined;
+    $rootScope.$on('$routeChangeSuccess', function () {
+        $rootScope.isHome = $location.path().match(/^\/[a-z]{2}\/$/);
+    });
+    $rootScope.license = function () {
+        $uibModal.open({
+            templateUrl: '/monad/templates/license.html',
+            controller: ['$uibModalInstance', '$scope', function ($uibModalInstance, $scope) {
+                $scope.ok = function () {
+                    return $uibModalInstance.dismiss();
+                };
+            }]
+        });
+    };
+}])
+// Set default language
+.run(['$rootScope', 'moLanguage', function ($rootScope, moLanguage) {
+    moLanguage.current = $rootScope.languages[0];
+    $rootScope.Language = moLanguage;
+}])
+// Register route reset handler
+.run(['$rootScope', '$route', '$cacheFactory', function ($rootScope, $route, $cacheFactory) {
+    $route.reset = function () {
+        var caches = $cacheFactory.info();
+        for (var cache in caches) {
+            if (cache == 'templates') {
+                continue;
+            }
+            $cacheFactory.get(cache).removeAll();
+        }
+        $route.reload();
+        $rootScope.$broadcast('monad:reset');
+    };
+}])
+// Register navigation service
+.run(['$rootScope', 'moNavigation', function ($rootScope, moNavigation) {
+    $rootScope.Navigation = moNavigation;
+}])
+// Register reporting service
+.run(['$rootScope', 'moReport', function ($rootScope, moReport) {
+    $rootScope.messages = moReport.messages;
+}])
+// Initialize session
+.run(['$rootScope', 'Authentication', function ($rootScope, Authentication) {
+    $rootScope.$on('$routeChangeStart', function () {
+        return Authentication['status']();
+    });
+    $rootScope.Authentication = Authentication;
+}])
+// Normalize HTTP data using ng-lollipop
+.run(['normalizeIncomingHttpData', 'postRegularForm', function (a, b) {}])
+
+// Factories
+.factory('moResource', _Resource2.default)
+
+// Default controllers
+.controller('moListController', _ListController2.default)
+
+// Services
+.service('moNavigation', _Navigation2.default).service('Authentication', _Authentication2.default).service('moLanguage', _Language2.default).service('moReport', _Report2.default).service('moDelete', _Delete2.default).service('moProgress', _Progress2.default);
+
+},{"../i18n":1,"../templates":340,"./ListController":322,"./components":326,"./directives":329,"./factories/Resource":332,"./services/Authentication":334,"./services/Delete":335,"./services/Language":336,"./services/Navigation":337,"./services/Progress":338,"./services/Report":339,"angular":14,"angular-animate":3,"angular-gettext":4,"angular-resource":6,"angular-route":8,"angular-sanitize":10,"angular-ui-bootstrap":12,"autofill-event":15,"babel-polyfill":16,"ng-lollipop":311}],334:[function(require,module,exports){
 
 "use strict";
 
@@ -56035,4 +56035,4 @@ angular.module('monad.templates', []).run(['$templateCache', function ($template
   $templateCache.put('/monad/templates/license.html', "<div class=modal-header>\n" + "    <h3 class=modal-title translate>License</h3>\n" + "</div>\n" + "<div class=modal-body>\n" + "    <p><strong translate>Note: this applies to the Monad CMS framework, not (necessarily) the site it is used for :)</strong></p>\n" + "    <div ng-include=\"'/monad/LICENSE.html'\"></div>\n" + "</div>\n" + "<div class=modal-footer>\n" + "    <button class=\"btn btn-primary\" ng-click=ok() translate>Got it!</button>\n" + "</div>");
 }]);
 
-},{}]},{},[323]);
+},{}]},{},[333]);
