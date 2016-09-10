@@ -1,7 +1,7 @@
 
 "use strict";
 
-import monad from '../src/angular';
+import monad from '../src';
 import 'angular-mocks';
 
 let test = angular.module('tests', [monad.name])
