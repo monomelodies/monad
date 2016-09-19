@@ -55019,10 +55019,12 @@ exports.default = ['$resource', '$rootScope', 'moProgress', function ($resource,
                 found.push(new res(obj));
             };
 
-            found.$save = function (callback) {
+            found.$save = function () {
+                var nested = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+
                 for (var i = 0; i < this.length; i++) {
                     if (angular.isArray(this[i]) && '$save' in this[i] && this[i].$dirty()) {
-                        this[i].$save();
+                        this[i].$save(true);
                         continue;
                     }
                     if (this[i].$deleted()) {
@@ -55030,6 +55032,9 @@ exports.default = ['$resource', '$rootScope', 'moProgress', function ($resource,
                     } else if (this[i].$dirty()) {
                         moProgress.schedule(this[i], '$save');
                     }
+                }
+                if (!nested) {
+                    return moProgress.run();
                 }
             };
             found.$dirty = function () {
@@ -55762,10 +55767,12 @@ var Progress = function () {
         key: 'run',
         value: function run() {
             var deferred = $q.defer();
+            var todo = promises.length;
+            var done = 0;
             promises.map(function (promise, idx) {
                 promise.obj[promise.callback](function () {
-                    promises.splice(idx, 1);
-                    if (!promises.length) {
+                    if (++done == todo) {
+                        promises = [];
                         deferred.resolve('done');
                     }
                 });
