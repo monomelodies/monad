@@ -16,10 +16,12 @@ export default class Progress {
 
     run() {
         let deferred = $q.defer();
+        let todo = promises.length;
+        let done = 0;
         promises.map((promise, idx) => {
             promise.obj[promise.callback](() => {
-                promises.splice(idx, 1);
-                if (!promises.length) {
+                if (++done == todo) {
+                    promises = [];
                     deferred.resolve('done');
                 }
             });
