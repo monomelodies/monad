@@ -146,7 +146,7 @@ export default ['$resource', '$rootScope', 'moProgress', ($resource, $rootScope,
                     }
                 }
                 if (!nested) {
-                    moProgress.run();
+                    return moProgress.run();
                 }
             };
             found.$dirty = function () {
