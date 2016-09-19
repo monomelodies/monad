@@ -133,10 +133,10 @@ export default ['$resource', '$rootScope', 'moProgress', ($resource, $rootScope,
                 found.push(new res(obj));
             };
 
-            found.$save = function (callback) {
+            found.$save = function (nested = false) {
                 for (let i = 0; i < this.length; i++) {
                     if (angular.isArray(this[i]) && '$save' in this[i] && this[i].$dirty()) {
-                        this[i].$save();
+                        this[i].$save(true);
                         continue;
                     }
                     if (this[i].$deleted()) {
@@ -144,6 +144,9 @@ export default ['$resource', '$rootScope', 'moProgress', ($resource, $rootScope,
                     } else if (this[i].$dirty()) {
                         moProgress.schedule(this[i], '$save');
                     }
+                }
+                if (!nested) {
+                    moProgress.run();
                 }
             };
             found.$dirty = function () {
