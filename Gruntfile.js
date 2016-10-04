@@ -127,7 +127,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', ['build']);
-    grunt.registerTask('build', ['gettext', 'sass', 'includereplace', 'copy', 'browserify']);
+    grunt.registerTask('build', ['ngtemplates', 'gettext', 'sass', 'includereplace', 'copy', 'browserify']);
     grunt.registerTask('gettext', ['nggettext_extract', 'nggettext_compile']);
     grunt.registerTask('dev', ['build', 'watch']);
 };
