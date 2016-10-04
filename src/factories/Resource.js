@@ -131,6 +131,7 @@ export default ['$resource', '$rootScope', 'moProgress', ($resource, $rootScope,
             });
             found.append = function (obj) {
                 found.push(new res(obj));
+                return found;
             };
 
             found.$save = function (nested = false) {
