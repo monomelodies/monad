@@ -1,6 +1,50 @@
 angular.module('monad.templates', []).run(['$templateCache', function($templateCache) {
   'use strict';
 
+  $templateCache.put('/monad/components/Login/template.html',
+    "<div ng-transclude ng-if=$ctrl.auth.check></div>\n" +
+    "<div class=vert-wrapper ng-if=!$ctrl.auth.check>\n" +
+    "    <div class=vert-wrapper-inner>\n" +
+    "        <form ng-submit=$ctrl.auth.attempt($ctrl.credentials) id=auth name=auth novalidate method=post>\n" +
+    "            <fieldset>\n" +
+    "                <legend translate>Please login</legend>\n" +
+    "                <div class=form-group>\n" +
+    "                    <input name=username ng-model=$ctrl.credentials.username class=form-control placeholder=\"{{ 'Username' | translate }}\">\n" +
+    "                </div>\n" +
+    "                <div class=form-group>\n" +
+    "                    <input type=password name=password ng-model=$ctrl.credentials.password class=form-control placeholder=\"{{ 'Password' | translate }}\">\n" +
+    "                </div>\n" +
+    "                <button type=submit class=\"btn btn-default pull-right\" translate>Go!</button>\n" +
+    "            </fieldset>\n" +
+    "        </form>\n" +
+    "    </div>\n" +
+    "</div>\n" +
+    "\n"
+  );
+
+
+  $templateCache.put('/monad/components/Update/template.html',
+    "<h1 class=\"container-fluid clearfix\">\n" +
+    "    <small><a class=\"glyphicon glyphicon-arrow-up pull-right\" ng-href=\"#/{{ $root.Language.current }}{{ $ctrl.list }}\"></a></small>\n" +
+    "    <span ng-if=!$ctrl.data.item.id translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" +
+    "    <span ng-if=$ctrl.data.item.id translate>Edit <q>{{ $ctrl.data.item[$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code></span>\n" +
+    "</h1>\n" +
+    "<div class=\"container-fluid clearfix\">\n" +
+    "    <form ng-submit=$ctrl.save() id=mo_update_form name=mo_update_form novalidate method=post>\n" +
+    "        <div ng-transclude></div>\n" +
+    "        <br style=\"clear: both\">\n" +
+    "        <div class=row>\n" +
+    "            <div class=\"clearfix col-md-12 spaceme\">\n" +
+    "                <button type=submit class=\"btn btn-primary fixed\" ng-disabled=!mo_update_form.$valid ng-if=$ctrl.$dirty() translate>Save changes</button>\n" +
+    "                <a href class=\"glyphicon glyphicon-trash text-danger\" ng-if=\"$ctrl.data.item.$delete && $ctrl.data.item.id\" ng-click=\"$ctrl.delete($ctrl.data.item, $ctrl.list)\"></a>\n" +
+    "            </div>\n" +
+    "        </div>\n" +
+    "    </form>\n" +
+    "</div>\n" +
+    "\n"
+  );
+
+
   $templateCache.put('/monad/LICENSE.html',
     "<p>The MIT License (MIT)</p>\n" +
     "<p>\n" +
@@ -27,49 +71,8 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
     "    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n" +
     "    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n" +
     "    SOFTWARE.\n" +
-    "</p>"
-  );
-
-
-  $templateCache.put('/monad/components/Login/template.html',
-    "<div ng-transclude ng-if=$ctrl.auth.check></div>\n" +
-    "<div class=vert-wrapper ng-if=!$ctrl.auth.check>\n" +
-    "    <div class=vert-wrapper-inner>\n" +
-    "        <form ng-submit=$ctrl.auth.attempt($ctrl.credentials) id=auth name=auth novalidate method=post>\n" +
-    "            <fieldset>\n" +
-    "                <legend translate>Please login</legend>\n" +
-    "                <div class=form-group>\n" +
-    "                    <input name=username ng-model=$ctrl.credentials.username class=form-control placeholder=\"{{ 'Username' | translate }}\">\n" +
-    "                </div>\n" +
-    "                <div class=form-group>\n" +
-    "                    <input type=password name=password ng-model=$ctrl.credentials.password class=form-control placeholder=\"{{ 'Password' | translate }}\">\n" +
-    "                </div>\n" +
-    "                <button type=submit class=\"btn btn-default pull-right\" translate>Go!</button>\n" +
-    "            </fieldset>\n" +
-    "        </form>\n" +
-    "    </div>\n" +
-    "</div>"
-  );
-
-
-  $templateCache.put('/monad/components/Update/template.html',
-    "<h1 class=\"container-fluid clearfix\">\n" +
-    "    <small><a class=\"glyphicon glyphicon-arrow-up pull-right\" ng-href=\"#/{{ $root.Language.current }}{{ $ctrl.list }}\"></a></small>\n" +
-    "    <span ng-if=!$ctrl.data.item.id translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" +
-    "    <span ng-if=$ctrl.data.item.id translate>Edit <q>{{ $ctrl.data.item[$ctrl.title ? $ctrl.title : '$title'] }}</q> in <code>{{ $ctrl.type }}</code></span>\n" +
-    "</h1>\n" +
-    "<div class=\"container-fluid clearfix\">\n" +
-    "    <form ng-submit=$ctrl.save() id=mo_update_form name=mo_update_form novalidate method=post>\n" +
-    "        <div ng-transclude></div>\n" +
-    "        <br style=\"clear: both\">\n" +
-    "        <div class=row>\n" +
-    "            <div class=\"clearfix col-md-12 spaceme\">\n" +
-    "                <button type=submit class=\"btn btn-primary fixed\" ng-disabled=!mo_update_form.$valid ng-if=$ctrl.$dirty() translate>Save changes</button>\n" +
-    "                <a href class=\"glyphicon glyphicon-trash text-danger\" ng-if=\"$ctrl.data.item.$delete && $ctrl.data.item.id\" ng-click=$ctrl.delete()></a>\n" +
-    "            </div>\n" +
-    "        </div>\n" +
-    "    </form>\n" +
-    "</div>"
+    "</p>\n" +
+    "\n"
   );
 
 
@@ -98,7 +101,8 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
     "            </div>\n" +
     "        </aside>\n" +
     "    </div>\n" +
-    "</div>"
+    "</div>\n" +
+    "\n"
   );
 
 
@@ -112,7 +116,8 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
     "</div>\n" +
     "<div class=modal-footer>\n" +
     "    <button class=\"btn btn-primary\" ng-click=ok() translate>Got it!</button>\n" +
-    "</div>"
+    "</div>\n" +
+    "\n"
   );
 
 }]);
