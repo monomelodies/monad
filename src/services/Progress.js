@@ -16,8 +16,8 @@ export default class Progress {
 
     run() {
         let deferred = $q.defer();
-        let this.todo = promises.length;
-        let this.done = 0;
+        this.todo = promises.length;
+        this.done = 0;
         promises.map((promise, idx) => {
             promise.obj[promise.callback](() => {
                 if (++this.done == this.todo) {
