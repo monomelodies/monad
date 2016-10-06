@@ -47,7 +47,7 @@ class controller {
 
         function $save(item) {
             if (angular.isArray(item)) {
-                item.$save();
+                item.$save(true);
                 return;
             }
             if (item.$deleted && item.$deleted()) {
