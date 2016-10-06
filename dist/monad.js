@@ -54557,7 +54557,7 @@ var controller = function () {
 
             function $save(item) {
                 if (angular.isArray(item)) {
-                    item.$save();
+                    item.$save(true);
                     return;
                 }
                 if (item.$deleted && item.$deleted()) {
@@ -55767,12 +55767,14 @@ var Progress = function () {
     }, {
         key: 'run',
         value: function run() {
+            var _this = this;
+
             var deferred = $q.defer();
-            var todo = promises.length;
-            var done = 0;
+            this.todo = promises.length;
+            this.done = 0;
             promises.map(function (promise, idx) {
                 promise.obj[promise.callback](function () {
-                    if (++done == todo) {
+                    if (++_this.done == _this.todo) {
                         promises = [];
                         deferred.resolve('done');
                     }
@@ -55783,7 +55785,7 @@ var Progress = function () {
     }, {
         key: 'progress',
         get: function get() {
-            return promises.length;
+            return Math.round(this.done / this.todo * 100);
         }
     }]);
 
