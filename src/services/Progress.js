@@ -16,11 +16,11 @@ export default class Progress {
 
     run() {
         let deferred = $q.defer();
-        let todo = promises.length;
-        let done = 0;
+        let this.todo = promises.length;
+        let this.done = 0;
         promises.map((promise, idx) => {
             promise.obj[promise.callback](() => {
-                if (++done == todo) {
+                if (++this.done == this.todo) {
                     promises = [];
                     deferred.resolve('done');
                 }
@@ -30,7 +30,7 @@ export default class Progress {
     }
 
     get progress() {
-        return promises.length;
+        return Math.round(this.done / this.todo * 100);
     }
 
 };
