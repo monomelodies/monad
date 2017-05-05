@@ -1,7 +1,7 @@
 
 "use strict";
 
-return () => ({
+export default () => ({
     restrict: 'A',
     requires: ['^moListTable'],
 
