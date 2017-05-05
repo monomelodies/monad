@@ -45,7 +45,7 @@ module.exports = function (grunt) {
     grunt.config('spritesheet', {
         compile: {
             options: {
-                outputImage: 'src/_sass/i18n.png',
+                outputImage: 'dist/i18n.png',
                 outputCss: 'src/_sass/_flags.scss',
                 selector: '.flag'
             },
@@ -53,6 +53,7 @@ module.exports = function (grunt) {
         }
     });
 
+    /*
     grunt.loadNpmTasks('grunt-sass');
     grunt.config('sass', {
         monad: {
@@ -64,6 +65,7 @@ module.exports = function (grunt) {
             files: {'dist/admin.css': 'src/_sass/default.scss'}
         }
     });
+    */
 
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.config('watch', {
@@ -129,7 +131,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', ['build']);
-    grunt.registerTask('build', ['ngtemplates', 'gettext', 'sass', 'includereplace', 'copy'/*, 'browserify'*/]);
+    grunt.registerTask('build', ['ngtemplates', 'gettext', /*'sass',*/ 'includereplace', 'copy'/*, 'browserify'*/]);
     grunt.registerTask('gettext', ['nggettext_extract', 'nggettext_compile']);
     grunt.registerTask('dev', ['build', 'watch']);
 };
