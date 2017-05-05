@@ -102,6 +102,20 @@ $ grunt prod
 Then load whichever way you prefer (`require('/path/to/monad/es5')` or using
 `<script src="path/to/monad/dist/monad.js"></script>`).
 
+## Public files
+Until now we don't have anything to load in a browser yet. Let's change that.
+Pick a public folder (the name doesn't matter, so let's assume `/admin/`).
+Using your favourite text editor, add the following `index.html` there:
+
+```html
+<!doctype html>
+<html ng-strict-di ng-app="name-of-your-admin-module">
+    <head monad-head="{css: 'admin.css'}"></head>
+    <body>
+    </body>
+</html>
+```
+
 Pick a folder (any folder, e.g. `/admin/`) to host your CMS from. Monad will
 expect the following files there, examples (or simply usable versions) of which
 are located in Monad's `./dist` directory:
