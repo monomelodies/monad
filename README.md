@@ -9,19 +9,19 @@ backend, communicating with your site via APIs.
 
 Full documentation: [http://monad.monomelodies.nl/docs/](http://monad.monomelodies.nl/docs/)
 
-## Getting the code
-The quickest way is to use Monad's NPM package:
+## Installation
 
+### NPM
 ```bash
 $ npm install --save monad-cms
 ```
 
-You can also use Bower:
-
+### Bower
 ```bash
 $ bower install --save monad
 ```
 
+### Manual
 Alternatively, [download the source from Github](https://github.com/monomelodies/monad/)
 and unpack it somewhere to your liking, or add a Git submodule:
 
@@ -31,8 +31,8 @@ $ git submodule add https://github.com/monomelodies/monad.git
 ```
 
 ### Installing dependencies (for development)
-If you're going to hack on Monad itself, you'll want to clone the repo instead
-of installing via NPM.
+If you're going to hack on Monad itself, you'll want to clone or fork the repo
+instead of installing via NPM.
 
 ```bash
 $ git clone https://github.com/monomelodies/monad.git
@@ -40,8 +40,9 @@ $ git clone https://github.com/monomelodies/monad.git
 $ npm install
 ```
 
-> Note that the NPM package is called `monad-cms`, but the repo is simply named
-> `monad`. `monad` was already taken on NPM, that's why.
+> Note that the NPM package is called `monad-cms`, but the Bower package and
+> repository are simply named `monad`. `monad` was already taken on NPM, that's
+> why.
 
 Monad uses [Grunt](http://gruntjs.com/) for building, so in that case you'll
 want that too:
@@ -52,7 +53,55 @@ $ sudo npm install -g grunt-cli
 
 > Your own project can use a different task runner like Gulp, or none at all.
 
-## Making Monad publicly available
+## Including Monad in your project
+
+### When installed via NPM
+Monad is transpiled to ES5 in the CommonJS format, so assuming you're using
+Browserify or something compatible you can do this in your admin's main entry
+point (e.g. `./src/admin/my-awesome-admin.js`):
+
+```js
+var monad = require('monad-cms');
+```
+
+...or, if you're more into ES6 and transpiling like us:
+
+```js
+import monad from 'monad-cms';
+```
+
+### When installed via Bower
+Add a link to the bundled ES5 file in your HTML template:
+
+```html
+    <!-- other html... -->
+    <script src="bower_components/monad/dist/monad.js"></script>
+    <!-- ...or: -->
+    <script src="bower_components/monad/dist/monad.min.js"></script>
+    <!-- now load your own Javascript for the admin: -->
+    <script src="my-awesome-admin.js"></script>
+</body>
+```
+
+Make sure Monad comes _before_ your own admin scripts. No need to `require` it
+now!
+
+### When installed manually (download, clone, fork etc.)
+You'll need to build the package first. Use either of these:
+
+To build for development and start watching for changes:
+```sh
+$ grunt dev
+```
+
+To build for production (no watch, but do minify/uglify):
+```sh
+$ grunt prod
+```
+
+Then load whichever way you prefer (`require('/path/to/monad/es5')` or using
+`<script src="path/to/monad/dist/monad.js"></script>`).
+
 Pick a folder (any folder, e.g. `/admin/`) to host your CMS from. Monad will
 expect the following files there, examples (or simply usable versions) of which
 are located in Monad's `./dist` directory:
