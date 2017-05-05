@@ -4,8 +4,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
+#: src/services/Delete.js:31
+msgid "Cancel"
+msgstr ""
+
+#: src/components/List/component.js:13
+msgid "Create"
+msgstr ""
+
 #: src/components/Update/template.html:3
 msgid "Create new item in <code>{{ $ctrl.type }}</code>"
+msgstr ""
+
+#: src/services/Delete.js:26
+msgid "Delete item"
+msgstr ""
+
+#: src/services/Delete.js:28
+msgid "Deleting can't be undone, are you sure?"
 msgstr ""
 
 #: src/components/Update/template.html:4
@@ -30,7 +46,7 @@ msgstr ""
 msgid "License"
 msgstr ""
 
-#: src/index.html:82
+#: src/index.html:76
 msgid "Logout"
 msgstr ""
 
@@ -54,11 +70,15 @@ msgstr ""
 msgid "Saving..."
 msgstr ""
 
-#: src/index.html:41
+#: src/index.html:35
 msgid "Site"
 msgstr ""
 
-#: src/index.html:29
+#: src/components/List/component.js:58
+msgid "Sorry, nothing found."
+msgstr ""
+
+#: src/index.html:23
 msgid "Toggle navigation"
 msgstr ""
 
@@ -68,4 +88,8 @@ msgstr ""
 
 #: src/templates/home.html:9
 msgid "Welcome!"
+msgstr ""
+
+#: src/services/Delete.js:32
+msgid "Yes, I'm really sure"
 msgstr ""
