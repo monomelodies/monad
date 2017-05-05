@@ -106,6 +106,7 @@ module.exports = function (grunt) {
         }
     });
 
+    /*
     grunt.loadNpmTasks('grunt-browserify');
     grunt.config('browserify', {
         monad: {
@@ -118,6 +119,7 @@ module.exports = function (grunt) {
             }
         }
     });
+    */
 
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.config('copy', {
@@ -127,7 +129,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', ['build']);
-    grunt.registerTask('build', ['ngtemplates', 'gettext', 'sass', 'includereplace', 'copy', 'browserify']);
+    grunt.registerTask('build', ['ngtemplates', 'gettext', 'sass', 'includereplace', 'copy'/*, 'browserify'*/]);
     grunt.registerTask('gettext', ['nggettext_extract', 'nggettext_compile']);
     grunt.registerTask('dev', ['build', 'watch']);
 };
