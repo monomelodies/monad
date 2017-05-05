@@ -18,5 +18,6 @@
 bower_components
 node_modules
 dist
+es5
 
 tmp
