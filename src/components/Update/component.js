@@ -98,7 +98,7 @@ class controller {
 
 controller.$inject = ['gettext', '$q', 'moReport', '$route', '$location', 'moLanguage', 'moDelete', 'moProgress'];
 
-export default angular.module('monad.components.update', [])
+export default angular.module('monad.components.update', ['monad.cms'])
     .component('moUpdate', {
         templateUrl: '/monad/components/Update/template.html',
         transclude: true,
