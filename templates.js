@@ -1,7 +1,7 @@
 angular.module('monad.templates', []).run(['$templateCache', function($templateCache) {
   'use strict';
 
-  $templateCache.put('/monad/components/Login/template.html',
+  $templateCache.put('Monad/components/Login/template.html',
     "<div ng-transclude ng-if=$ctrl.auth.check></div>\n" +
     "<div class=vert-wrapper ng-if=!$ctrl.auth.check>\n" +
     "    <div class=vert-wrapper-inner>\n" +
@@ -23,7 +23,7 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
   );
 
 
-  $templateCache.put('/monad/components/Update/template.html',
+  $templateCache.put('Monad/components/Update/template.html',
     "<h1 class=\"container-fluid clearfix\">\n" +
     "    <small><a class=\"glyphicon glyphicon-arrow-up pull-right\" ng-href=\"#/{{ $root.Language.current }}{{ $ctrl.list }}\"></a></small>\n" +
     "    <span ng-if=!$ctrl.data.item.id translate>Create new item in <code>{{ $ctrl.type }}</code></span>\n" +
@@ -45,7 +45,7 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
   );
 
 
-  $templateCache.put('/monad/LICENSE.html',
+  $templateCache.put('Monad/LICENSE.html',
     "<p>The MIT License (MIT)</p>\n" +
     "<p>\n" +
     "    Copyright (c) 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016\n" +
@@ -76,7 +76,7 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
   );
 
 
-  $templateCache.put('/monad/templates/home.html',
+  $templateCache.put('Monad/templates/home.html',
     "<article class=jumbotron>\n" +
     "    <div class=container-fluid>\n" +
     "        <h1>{{ $root.title }} administrator</h1>\n" +
@@ -106,7 +106,7 @@ angular.module('monad.templates', []).run(['$templateCache', function($templateC
   );
 
 
-  $templateCache.put('/monad/templates/license.html',
+  $templateCache.put('Monad/templates/license.html',
     "<div class=modal-header>\n" +
     "    <h3 class=modal-title translate>License</h3>\n" +
     "</div>\n" +
