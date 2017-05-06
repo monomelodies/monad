@@ -9,10 +9,8 @@ import ngSanitize from 'angular-sanitize';
 import ngAnimate from 'angular-animate';
 import ngResource from 'angular-resource';
 import 'autofill-event';
-import 'angular-gettext';
 import lollipop from 'ng-lollipop';
-import '../i18n';
-import '../templates';
+import './templates';
 import ListController from './ListController';
 import Navigation from './services/Navigation';
 import Authentication from './services/Authentication';
@@ -25,8 +23,11 @@ import components from './components';
 import Resource from './factories/Resource';
 
 let ng = angular.module('monad.ng', ['ng', ngRoute, ngSanitize, ngAnimate, ngResource]).name;
-let externals = angular.module('monad.externals', ['gettext', uiBootstrap, lollipop]).name;
-export default angular.module('monad', [ng, externals, directives, components, 'monad.templates'])
+let externals = angular.module('monad.externals', [uiBootstrap, lollipop]).name;
+export default angular.module('monad.cms', [ng, externals, directives, components, 'monad.templates'])
+    .factory('monadLanguageService', () => false)
+    .factory('gettext', () => txt => txt)
+    .filter('translate', () => txt => txt)
     // No HTML5 mode please
     .config(['$locationProvider', $locationProvider => {
         $locationProvider.html5Mode(false);
@@ -91,7 +92,6 @@ export default angular.module('monad', [ng, externals, directives, components, '
     // Initialize session
     .run(['$rootScope', 'Authentication', ($rootScope, Authentication) => {
         $rootScope.$on('$routeChangeStart', () => Authentication['status']());
-        $rootScope.Authentication = Authentication;
     }])
     // Normalize HTTP data using ng-lollipop
     .run(['normalizeIncomingHttpData', 'postRegularForm', (a, b) => {}])
