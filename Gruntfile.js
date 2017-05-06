@@ -33,11 +33,11 @@ module.exports = function (grunt) {
                     removeStyleLinkTypeAttributes: true
                 },
                 standalone: true,
-                prefix: '/monad/'
+                prefix: 'Monad/'
             },
             cwd: 'src',
             src: ['**/*.html', '!index.html'],
-            dest: 'templates.js'
+            dest: 'es5/templates.js'
         }
     });
 
