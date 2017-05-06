@@ -1,7 +1,7 @@
 
 "use strict";
 
-export default angular.module('monad.components.list', [])
+export default angular.module('monad.components.list', ['monad.cms'])
     .component('moListHeader', {
         transclude: true,
         controller: ['$transclude', function ($transclude) {
