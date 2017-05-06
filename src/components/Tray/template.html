@@ -1,0 +1,10 @@
+<aside id="tray">
+    <ul>
+        <li ng-repeat="msg in messages">
+            <div class="alert alert-{{ msg.type }}">
+                <mo-message data="msg"></mo-message>
+            </div>
+        </li>
+    </ul>
+</aside>
+
