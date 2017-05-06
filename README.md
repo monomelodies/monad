@@ -75,9 +75,9 @@ Add a link to the bundled ES5 file in your HTML template:
 
 ```html
     <!-- other html... -->
-    <script src="bower_components/monad/dist/monad.js"></script>
+    <script src="bower_components/monad/dist/bundle.js"></script>
     <!-- ...or: -->
-    <script src="bower_components/monad/dist/monad.min.js"></script>
+    <script src="bower_components/monad/dist/bundle.min.js"></script>
     <!-- now load your own Javascript for the admin: -->
     <script src="my-awesome-admin.js"></script>
 </body>
@@ -110,8 +110,10 @@ Using your favourite text editor, add the following `index.html` there:
 ```html
 <!doctype html>
 <html ng-strict-di ng-app="name-of-your-admin-module">
-    <head monad-head="{css: 'admin.css'}"></head>
+    <head monad-head="{css: '/path/to/your/admin.css'}"></head>
     <body>
+        <!-- optional: bower bundle, see above -->
+        <script src="/path/to/your/bundle.js"></script>
     </body>
 </html>
 ```
