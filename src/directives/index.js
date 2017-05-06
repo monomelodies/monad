@@ -6,7 +6,7 @@ import DragDrop from './dragDrop';
 import Slug from './slug';
 import Message from './message';
 
-export default angular.module('monad.directives', [])
+export default angular.module('monad.directives', ['monad.cms'])
     .directive('moField', Field)
     .directive('moDragDrop', DragDrop)
     .directive('moSlug', Slug)
