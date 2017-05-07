@@ -2,21 +2,7 @@
 module.exports = function (grunt) {
 
     var pkg = grunt.file.readJSON('package.json');
-    grunt.initConfig({pkg: pkg});
-
-    grunt.loadNpmTasks('grunt-angular-gettext');
-    grunt.config('nggettext_extract', {
-        pot: {
-            files: {
-                'Locale/template.pot': ['src/**/*.{js,html}', 'index.html']
-            }
-        },
-    });
-    grunt.config('nggettext_compile', {
-        all: {
-            files: {'i18n.js': ['Locale/*.po']}
-        }
-    });
+    grunt.initConfig({pkg});
 
     grunt.loadNpmTasks('grunt-angular-templates');
     grunt.config('ngtemplates', {
@@ -67,47 +53,18 @@ module.exports = function (grunt) {
     });
     */
 
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.config('watch', {
-        gettext_extract: {
-            files: ['src/**/*.{js,html}', 'index.html'],
-            tasks: ['nggettext_extract']
+    grunt.loadNpmTasks('grunt-babel');
+    grunt.config('babel', {
+        options: {
+            sourceMap: true,
+            presets: ['es2015']
         },
-        gettext_compile: {
-            files: ['Locale/*.po'],
-            tasks: ['nggettext_compile']
-        },
-        spritesheet: {
-            files: ['assets/i18n/**/*.png'],
-            tasks: ['spritesheet']
-        },
-        sass: {
-            files: ['src/_sass/**/*.scss'],
-            tasks: ['sass']
-        },
-        templates: {
-            files: ['src/**/*.html'],
-            tasks: ['ngtemplates']
-        },
-        includereplace: {
-            files: ['src/index.html'],
-            tasks: ['includereplace']
+        dist: {
+            files: {
+                'es5/': 'src/**/*.js'
+            }
         }
     });
-
-    grunt.loadNpmTasks('grunt-include-replace');
-    grunt.config('includereplace', {
-        index: {
-            options: {
-                globals: {
-                    version: pkg.version
-                }
-            },
-            src: 'src/index.html',
-            dest: 'dist/index.html'
-        }
-    });
-
     /*
     grunt.loadNpmTasks('grunt-browserify');
     grunt.config('browserify', {
@@ -130,9 +87,37 @@ module.exports = function (grunt) {
         flags: {expand: true, cwd: 'src/_sass', src: 'i18n.png', dest: 'dist'}
     });
 
+    grunt.loadNpmTasks('grunt-shell');
+    grunt.config('shell', {
+        es5: { command: 'npm run build' }
+    });
+
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.config('watch', {
+        spritesheet: {
+            files: ['assets/i18n/**/*.png'],
+            tasks: ['spritesheet']
+        },
+        es5: {
+            files: ['src/**/*.js'],
+            tasks: ['shell:es5']
+        },
+        sass: {
+            files: ['src/_sass/**/*.scss'],
+            tasks: ['sass']
+        },
+        templates: {
+            files: ['src/**/*.html'],
+            tasks: ['ngtemplates']
+        },
+        includereplace: {
+            files: ['src/index.html'],
+            tasks: ['includereplace']
+        }
+    });
+
     grunt.registerTask('default', ['build']);
-    grunt.registerTask('build', ['ngtemplates', 'gettext', /*'sass',*/ 'includereplace', 'copy'/*, 'browserify'*/]);
-    grunt.registerTask('gettext', ['nggettext_extract', 'nggettext_compile']);
+    grunt.registerTask('build', ['ngtemplates', /*'sass',*/ 'shell:es5', 'copy'/*, 'browserify'*/]);
     grunt.registerTask('dev', ['build', 'watch']);
 };
 
