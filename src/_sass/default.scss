@@ -135,44 +135,6 @@ img {
     max-width: 100%;
     height: auto;
     }
-legend {
-    clear: both;
-    }
-fieldset {
-    display: table-cell;
-    width: 100%;
-    }
-button.fixed {
-    transition: opacity .5s ease;
-    position: fixed;
-    bottom: 32px;
-    right: 15px;
-
-    &.ng-enter {
-        opacity: 0;
-
-        &.ng-enter-active {
-            opacity: 1;
-            }
-        }
-    &.ng-leave {
-        opacity: 1;
-
-        &.ng-leave-active {
-            opacity: 0;
-            }
-        }
-    }
-.form-control {
-    &.ng-invalid {
-        box-shadow: 0 0 1px 1px #fcc;
-        }
-    &[type=checkbox], &[type=radio] {
-        display: inline-block;
-        width: auto;
-        height: auto;
-        }
-    }
 #tray {
     position: fixed;
     bottom: 34px;
