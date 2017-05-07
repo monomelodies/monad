@@ -39,7 +39,6 @@ module.exports = function (grunt) {
         }
     });
 
-    /*
     grunt.loadNpmTasks('grunt-sass');
     grunt.config('sass', {
         monad: {
@@ -48,24 +47,10 @@ module.exports = function (grunt) {
                 compass: true,
                 sourcemap: 'none'
             },
-            files: {'dist/admin.css': 'src/_sass/default.scss'}
+            files: {'dist/monad.css': 'src/style.scss'}
         }
     });
-    */
 
-    grunt.loadNpmTasks('grunt-babel');
-    grunt.config('babel', {
-        options: {
-            sourceMap: true,
-            presets: ['es2015']
-        },
-        dist: {
-            files: {
-                'es5/': 'src/**/*.js'
-            }
-        }
-    });
-    /*
     grunt.loadNpmTasks('grunt-browserify');
     grunt.config('browserify', {
         monad: {
@@ -78,7 +63,6 @@ module.exports = function (grunt) {
             }
         }
     });
-    */
 
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.config('copy', {
@@ -117,7 +101,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', ['build']);
-    grunt.registerTask('build', ['ngtemplates', /*'sass',*/ 'shell:es5', 'copy'/*, 'browserify'*/]);
+    grunt.registerTask('build', ['ngtemplates', /*'sass',*/ 'shell:es5', 'copy', 'browserify']);
     grunt.registerTask('dev', ['build', 'watch']);
 };
 
