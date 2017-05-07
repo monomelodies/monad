@@ -16,19 +16,39 @@ Full documentation: [http://monad.monomelodies.nl/docs/](http://monad.monomelodi
 $ npm install --save monad-cms
 ```
 
+Monad is transpiled to ES5 in the CommonJS format, so assuming you're using
+Browserify or something compatible you can do this in your admin's main entry
+point (e.g. `./src/admin/my-awesome-admin.js`):
+
+```js
+var monad = require('monad-cms');
+```
+
+...or, if you're more into ES6 and transpiling like us:
+
+```js
+import monad from 'monad-cms';
+```
+
 ### Bower
 ```bash
 $ bower install --save monad
 ```
 
-### Manual
-Alternatively, [download the source from Github](https://github.com/monomelodies/monad/)
-and unpack it somewhere to your liking, or add a Git submodule:
+Add a link to the bundled ES5 file in your HTML template:
 
-```bash
-$ cd /path/to/where/you/keep/submodules
-$ git submodule add https://github.com/monomelodies/monad.git
+```html
+    <!-- other html... -->
+    <script src="bower_components/monad/dist/monad.js"></script>
+    <!-- ...or: -->
+    <script src="bower_components/monad/dist/monad.min.js"></script>
+    <!-- now load your own Javascript for the admin: -->
+    <script src="my-awesome-admin.js"></script>
+</body>
 ```
+
+Make sure Monad comes _before_ your own admin scripts. No need to `require` it
+now!
 
 ### Installing dependencies (for development)
 If you're going to hack on Monad itself, you'll want to clone or fork the repo
@@ -54,37 +74,76 @@ $ sudo npm install -g grunt-cli
 > Your own project can use a different task runner like Gulp, or none at all.
 
 ## Including Monad in your project
-
-### When installed via NPM
-Monad is transpiled to ES5 in the CommonJS format, so assuming you're using
-Browserify or something compatible you can do this in your admin's main entry
-point (e.g. `./src/admin/my-awesome-admin.js`):
-
-```js
-var monad = require('monad-cms');
-```
-
-...or, if you're more into ES6 and transpiling like us:
-
-```js
-import monad from 'monad-cms';
-```
-
-### When installed via Bower
-Add a link to the bundled ES5 file in your HTML template:
+Until now we don't have anything to load in a browser yet. Let's change that.
+Pick a public folder (the name doesn't matter, so let's assume `/admin/`).
+Using your favourite text editor, add the following `index.html` there:
 
 ```html
-    <!-- other html... -->
-    <script src="bower_components/monad/dist/bundle.js"></script>
-    <!-- ...or: -->
-    <script src="bower_components/monad/dist/bundle.min.js"></script>
-    <!-- now load your own Javascript for the admin: -->
-    <script src="my-awesome-admin.js"></script>
-</body>
+<!doctype html>
+<html ng-strict-di ng-app="name-of-your-admin-module">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Title of your project admin</title>
+        <link href="/path/to/your/admin.css" rel="stylesheet">
+        <base href="./">
+    </head>
+    <body role="document">
+        <monad-login>
+            <div class="theme-showcase" role="main" ng-view></div>
+        </monad-login>
+        <monad-footer></monad-footer>
+        <!-- optional: bower bundle, see above -->
+        <script src="/path/to/your/bundle.js"></script>
+    </body>
+</html>
 ```
 
-Make sure Monad comes _before_ your own admin scripts. No need to `require` it
-now!
+The `<meta>` tags are optional but usually a good idea, as is `ng-strict-di`.
+Note the `<base href="./">` tag - this is required for Angular routing to work.
+
+We already added two directives included in the core CMS package:
+`<monad-login>` and `<monad-footer>`. The first shows a login screen if the
+current user isn't authenticated (which is likely what you'll get when you run
+this example since we haven't defined authentication yet...), the second shows
+Monad's default footer with optional logout button and language selection, as
+well as our copyright notice.
+
+Typically admins are only open to selected users, so usually you'll want to wrap
+your `ng-view` directive in `monad-login`. `monad-footer` is entirely optional.
+Please note that the MIT license _does_ require you to include it, so if you
+write your own implementation please take care of that!
+
+## Writing your admin
+You now write your admin code in Javascript in whatever way you please! Wait, is
+that all??? Of course not. As per version 3 Monad uses a plugin based
+architecture, much like you would include Angular dependencies in a "normal"
+project. For starters, these are the officially maintained plugins:
+
+- [monad-navigation](https://github.com/monomelodies/monad-navigation) A menu
+  builder component for easy navigation of your admin.
+- [monad-multilang](https://github.com/monomelodies/monad-multilang) Multi
+  language support for your admin.
+- [monad-crud](https://github.com/monomelodies/monad-crud) Easy CRUD operations
+  for your project's data.
+
+Install plugins using NPM or Bower, and `require` or add script tags for them as
+needed. Then, add them as an extra dependency for your main module. See the
+individual plugins for documentation on their usage.
+
+The rest of Monad is "just" an Angular application, so simply define routes
+using `$routeProvider` and start coding admin stuff! Monad includes the
+[Bootstrap CSS framework](https://getbootstrap.com) to get you started quickly,
+but is also completely customisable if you'd rather rebrand to for your
+project's own style. Speaking of which...
+
+## Styling
+
+
+### When installed via NPM
+
+### When installed via Bower
 
 ### When installed manually (download, clone, fork etc.)
 You'll need to build the package first. Use either of these:
@@ -101,22 +160,6 @@ $ grunt prod
 
 Then load whichever way you prefer (`require('/path/to/monad/es5')` or using
 `<script src="path/to/monad/dist/monad.js"></script>`).
-
-## Public files
-Until now we don't have anything to load in a browser yet. Let's change that.
-Pick a public folder (the name doesn't matter, so let's assume `/admin/`).
-Using your favourite text editor, add the following `index.html` there:
-
-```html
-<!doctype html>
-<html ng-strict-di ng-app="name-of-your-admin-module">
-    <head monad-head="{css: '/path/to/your/admin.css'}"></head>
-    <body>
-        <!-- optional: bower bundle, see above -->
-        <script src="/path/to/your/bundle.js"></script>
-    </body>
-</html>
-```
 
 Pick a folder (any folder, e.g. `/admin/`) to host your CMS from. Monad will
 expect the following files there, examples (or simply usable versions) of which
