@@ -8,8 +8,6 @@ pages:
     - 'A little history': 'overview/history.md'
 - Building blocks:
     - 'Prerequisites': 'blocks/index.md'
-    - 'Navigation': 'blocks/navigation.md'
-    - 'Basic customisation': 'blocks/customisation.md'
     - 'Components': 'blocks/components.md'
     - 'Template components and directives': 'blocks/template.md'
     - 'Models': 'blocks/models.md'
