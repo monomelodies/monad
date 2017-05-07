@@ -73,7 +73,16 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-shell');
     grunt.config('shell', {
-        es5: { command: 'npm run build' }
+        es5: { command: 'npm run build' },
+        clean: { command: 'rm -rf dist/* && rm -rf es5/*' }
+    });
+
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.config('uglify', {
+        js: {
+            src: 'dist/monad.js',
+            dest: 'dist/monad.min.js'
+        }
     });
 
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -93,15 +102,12 @@ module.exports = function (grunt) {
         templates: {
             files: ['src/**/*.html'],
             tasks: ['ngtemplates']
-        },
-        includereplace: {
-            files: ['src/index.html'],
-            tasks: ['includereplace']
         }
     });
 
     grunt.registerTask('default', ['build']);
-    grunt.registerTask('build', ['ngtemplates', /*'sass',*/ 'shell:es5', 'copy', 'browserify']);
+    grunt.registerTask('build', ['sass', 'shell:es5', 'ngtemplates', 'browserify', 'copy']);
     grunt.registerTask('dev', ['build', 'watch']);
+    grunt.registerTask('prod', ['shell:clean', 'build', 'uglify']);
 };
 
