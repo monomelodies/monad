@@ -1,13 +1,11 @@
 
 "use strict";
 
-import Field from './Field';
 import DragDrop from './dragDrop';
 import Slug from './slug';
 import Message from './message';
 
 export default angular.module('monad.directives', ['monad.cms'])
-    .directive('moField', Field)
     .directive('moDragDrop', DragDrop)
     .directive('moSlug', Slug)
     .directive('moMessage', Message)
