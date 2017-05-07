@@ -29,12 +29,12 @@ is implementation-specific.
 ### Quick and dirty for PHP users
 If your site's built on PHP but doesn't use some framework already supplying an
 API out of the box, you might want to check out our [Monki API
-bootstrapper](http://monki.monomelodies.nl). It's a Composer package to easily
-expose (parts of) your application's database via a simple "default API",
-including access control. It should at least get you up and running quickly, and
-for admin purposes usually offers enough functionality (if you're building a
-public facing API as well, you'll probably need to manually write out all the
-calls anyway).
+bootstrapper](https://packagist.org/packages/monomelodies/monki). It's a
+Composer package to easily expose (parts of) your application's database via a
+simple "default API", including access control. It should at least get you up
+and running quickly, and for admin purposes usually offers enough functionality
+(if you're building a public facing API as well, you'll probably need to
+manually write out all the calls anyway).
 
 ## Authentication
 Since Monad is a client-side framework, we'll need some way of authenticating a
@@ -42,24 +42,22 @@ user to see if she has access to our admin. We don't make any assumptions
 regarding your authentication scheme, so this is something you'll *have* to
 configure and implement yourself. Even Monki won't do it for you...
 
-### The `mo-login` component
-Sections requiring an access check should be wrapped in the `mo-login`
+### The `monad-login` component
+Sections requiring an access check should be wrapped in the `monad-login`
 component. Its default behaviour is to show the transcluded content if access
 is granted, and otherwise show its own template (which should contain something
 useful, like a login form or a notification).
 
-`mo-login` requires a scope parameter called `auth`. This is normally the
-Authentication object for your current component. The `monad` root controller
-also exposes `monad.Authentication` which is the main auth service, and wraps
-your entire admin in a "global" login directive as well - i.e., any user will at
-the very least need to be logged in before Monad shows anything.
+`monad-login` requires a scope parameter called `auth`. This is normally the
+Authentication object for your current component and defaults to the global
+authentication service.
 
 > Important: Your API should of course do its own authentication checks and not
 > solely rely on the client side hiding stuff from users.
 
 The default behaviour is to show a form with `username` and `password` fields.
 If your admin requires a different authentication method (e.g. two tier using
-text messages), you should override the `mo-login` directive and/or template.
+text messages), you should override the `monad-login` directive and/or template.
 
 Since Monad prebundles all its templates using `$templateCache`, overwriting the
 key `/monad/components/Login/template.html` should do the trick. The actual
@@ -111,14 +109,16 @@ and methods. In any case, register your custom implementation as a service on
 your admin's main module:
 
 ```javascript
-angular.module('awesome', ['monad'])
+angular.module('awesome', ['monad-cms'])
     .service('Authentication', function () {
         // Your custom implementation
     });
 ```
 
-> Note that this is the global authentication for your entire application, as
-> referenced by the `$rootScope`.
+> Note that this is now the global authentication for your entire application.
+> In other words, if you need to support "roles" or such, you would need
+> multiple authentication services, e.g. `AuthenticateAuthor`,
+> `AuthenticateCommenter` etc.
 
 Generally you'll inject Angular's `$http` service to somehow talk to your
 backend, e.g. `GET /api/session`. But you could also use other schemes, e.g.
