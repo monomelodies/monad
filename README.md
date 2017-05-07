@@ -2,7 +2,7 @@
 
 Generic AngularJS-based CMS framework
 
-Adding an amdministrative backend to a dynamic website is almost always
+Adding an administrative backend to a dynamic website is almost always
 necessary, but a lot of work by default. Monad aims to provide a platform
 agnostic toolkit which allows for easy and quick scaffolding of such a
 backend, communicating with your site via APIs.
