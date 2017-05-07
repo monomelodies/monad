@@ -14,7 +14,6 @@ import 'autofill-event';
 import lollipop from 'ng-lollipop';
 import '../es5/templates';
 import Authentication from './services/Authentication';
-import Delete from './services/Delete';
 import Report from './services/Report';
 import Progress from './services/Progress';
 import Location from './services/Location';
