@@ -43,14 +43,6 @@ export default angular.module('monad.cms', [ng, externals, directives, component
         $rootScope.$on('$routeChangeSuccess', () => {
             $rootScope.isHome = $location.path().match(/^\/[a-z]{2}\/$/);
         });
-        $rootScope.license = () => {
-            $uibModal.open({
-                templateUrl: '/monad/templates/license.html',
-                controller: ['$uibModalInstance', '$scope', function ($uibModalInstance, $scope) {
-                    $scope.ok = () => $uibModalInstance.dismiss();
-                }]
-            });
-        };
     }])
     // Register route reset handler
     .run(['$rootScope', '$route', '$cacheFactory', ($rootScope, $route, $cacheFactory) => {
