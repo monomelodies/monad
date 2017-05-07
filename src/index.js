@@ -1,6 +1,8 @@
 
 "use strict";
 
+const version = '3.0.0';
+
 import 'babel-polyfill';
 import angular from 'angular';
 import uiBootstrap from 'angular-ui-bootstrap';
@@ -25,6 +27,7 @@ import Resource from './factories/Resource';
 let ng = angular.module('monad.ng', ['ng', ngRoute, ngSanitize, ngAnimate, ngResource]).name;
 let externals = angular.module('monad.externals', [uiBootstrap, lollipop]).name;
 export default angular.module('monad.cms', [ng, externals, directives, components, 'monad.templates'])
+    .constant('MONAD_VERSION', version)
     .factory('monadLanguageService', () => false)
     .factory('gettext', () => txt => txt)
     .filter('translate', () => txt => txt)
