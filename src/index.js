@@ -12,40 +12,28 @@ import ngAnimate from 'angular-animate';
 import ngResource from 'angular-resource';
 import 'autofill-event';
 import lollipop from 'ng-lollipop';
-import './templates';
-import ListController from './ListController';
-import Navigation from './services/Navigation';
+import '../es5/templates';
 import Authentication from './services/Authentication';
-import Language from './services/Language';
 import Delete from './services/Delete';
 import Report from './services/Report';
 import Progress from './services/Progress';
+import Location from './services/Location';
+import Language from './services/Language';
 import directives from './directives';
 import components from './components';
-import Resource from './factories/Resource';
 
-let ng = angular.module('monad.ng', ['ng', ngRoute, ngSanitize, ngAnimate, ngResource]).name;
+let ng = angular.module('monad.ng', ['ng', ngRoute, ngSanitize, ngAnimate]).name;
 let externals = angular.module('monad.externals', [uiBootstrap, lollipop]).name;
 export default angular.module('monad.cms', [ng, externals, directives, components, 'monad.templates'])
     .constant('MONAD_VERSION', version)
-    .factory('monadLanguageService', () => false)
+    .service('monadLanguageService', Language)
     .factory('gettext', () => txt => txt)
     .filter('translate', () => txt => txt)
-    // No HTML5 mode please
-    .config(['$locationProvider', $locationProvider => {
-        $locationProvider.html5Mode(false);
-    }])
     // Bare bones routing
     .config(['$routeProvider', $routeProvider => {
         $routeProvider.
             when('/', {
-                template: '<noop></noop>',
-                controller: ['moLanguage', '$location', (moLanguage, $location) => {
-                    $location.path('/' + moLanguage.current + '/');
-                }]
-            }).
-            when('/:language/', {
-                templateUrl: '/monad/templates/home.html'
+                templateUrl: 'Monad/templates/home.html'
             });
     }])
     // Set defaults (these can/should be overridden)
@@ -65,11 +53,6 @@ export default angular.module('monad.cms', [ng, externals, directives, component
             });
         };
     }])
-    // Set default language
-    .run(['$rootScope', 'moLanguage', ($rootScope, moLanguage) => {
-        moLanguage.current = $rootScope.languages[0];
-        $rootScope.Language = moLanguage;
-    }])
     // Register route reset handler
     .run(['$rootScope', '$route', '$cacheFactory', ($rootScope, $route, $cacheFactory) => {
         $route.reset = () => {
@@ -84,13 +67,9 @@ export default angular.module('monad.cms', [ng, externals, directives, component
             $rootScope.$broadcast('monad:reset');
         };
     }])
-    // Register navigation service
-    .run(['$rootScope', 'moNavigation', ($rootScope, moNavigation) => {
-        $rootScope.Navigation = moNavigation;
-    }])
     // Register reporting service
-    .run(['$rootScope', 'moReport', ($rootScope, moReport) => {
-        $rootScope.messages = moReport.messages;
+    .run(['$rootScope', 'monadReport', ($rootScope, monadReport) => {
+        $rootScope.messages = monadReport.messages;
     }])
     // Initialize session
     .run(['$rootScope', 'Authentication', ($rootScope, Authentication) => {
@@ -99,18 +78,9 @@ export default angular.module('monad.cms', [ng, externals, directives, component
     // Normalize HTTP data using ng-lollipop
     .run(['normalizeIncomingHttpData', 'postRegularForm', (a, b) => {}])
 
-    // Factories
-    .factory('moResource', Resource)
-
-    // Default controllers
-    .controller('moListController', ListController)
-
-    // Services
-    .service('moNavigation', Navigation)
     .service('Authentication', Authentication)
-    .service('moLanguage', Language)
-    .service('moReport', Report)
-    .service('moDelete', Delete)
-    .service('moProgress', Progress)
+    .service('monadLocation', Location)
+    .service('monadReport', Report)
+    .service('monadProgress', Progress)
     ;
 
