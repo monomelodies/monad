@@ -2,12 +2,13 @@
 "use strict";
 
 let monadLanguageService = undefined;
+let Authentication = undefined;
 
 class controller {
 
-    constructor(_monadLanguageService_, Authentication) {
+    constructor(_monadLanguageService_, _Authentication_) {
         monadLanguageService = _monadLanguageService_;
-        this.authenticated = Authentication.check;
+        Authentication = _Authentication_;
     }
 
     get language() {
@@ -16,6 +17,10 @@ class controller {
 
     get languages() {
         return monadLanguageService.list || ['en'];
+    }
+
+    get authenticated() {
+        return Authentication.check;
     }
 
 };
