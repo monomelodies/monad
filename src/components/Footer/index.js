@@ -3,12 +3,14 @@
 
 let monadLanguageService = undefined;
 let Authentication = undefined;
+let $uibModal = undefined;
 
 class controller {
 
-    constructor(_monadLanguageService_, _Authentication_, MONAD_VERSION) {
+    constructor(_monadLanguageService_, _Authentication_, _$uibModal_, MONAD_VERSION) {
         monadLanguageService = _monadLanguageService_;
         Authentication = _Authentication_;
+        $uibModal = _$uibModal_;
         this.version = MONAD_VERSION;
     }
 
@@ -24,9 +26,18 @@ class controller {
         return Authentication.check;
     }
 
+    license() {
+        $uibModal.open({
+            templateUrl: 'Monad/templates/license.html',
+            controller: ['$uibModalInstance', '$scope', function ($uibModalInstance, $scope) {
+                $scope.ok = () => $uibModalInstance.dismiss();
+            }]
+        });
+    };
+
 };
 
-controller.$inject = ['monadLanguageService', 'Authentication', 'MONAD_VERSION'];
+controller.$inject = ['monadLanguageService', 'Authentication', '$uibModal', 'MONAD_VERSION'];
 
 export default angular.module('monad.components.footer', ['monad.cms'])
     .component('monadFooter', {
