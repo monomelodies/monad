@@ -100,8 +100,9 @@ Using your favourite text editor, add the following `index.html` there:
 </html>
 ```
 
-The `<meta>` tags are optional but usually a good idea, as is `ng-strict-di`.
-Note the `<base href="./">` tag - this is required for Angular routing to work.
+> The `<meta>` tags are optional but usually a good idea, as is `ng-strict-di`.
+> Note the `<base href="./">` tag - this is required for Angular routing to
+> work.
 
 We already added two directives included in the core CMS package:
 `<monad-login>` and `<monad-footer>`. The first shows a login screen if the
@@ -138,65 +139,22 @@ using `$routeProvider` and start coding admin stuff! Monad includes the
 but is also completely customisable if you'd rather rebrand to for your
 project's own style. Speaking of which...
 
+## Authentication
+Monad supports multiple levels of authentication out of the box. E.g., all
+sections of your admin would be available to "root users", but only "writing
+blog posts" is available to editors. See [the corresponding section in the
+documentation](advanced/authentication.md) for info on how to do that. It also
+explains how minimal authentication should work (i.e., one user, admin-only).
+
 ## Styling
+If you installed via NPM you can `@import` the `style.css` file from the `lib`
+directory (if it's available publicly). When using `sass`, you can also
+`@import '/path/to/monad-cms/lib/default'`.
 
+If you installed via Bower you'll want to add a link to
+`'bower_components/monad/dist/style.css'` to the `<head>` of your admin's
+`index.html`.
 
-### When installed via NPM
-
-### When installed via Bower
-
-### When installed manually (download, clone, fork etc.)
-You'll need to build the package first. Use either of these:
-
-To build for development and start watching for changes:
-```sh
-$ grunt dev
-```
-
-To build for production (no watch, but do minify/uglify):
-```sh
-$ grunt prod
-```
-
-Then load whichever way you prefer (`require('/path/to/monad/es5')` or using
-`<script src="path/to/monad/dist/monad.js"></script>`).
-
-Pick a folder (any folder, e.g. `/admin/`) to host your CMS from. Monad will
-expect the following files there, examples (or simply usable versions) of which
-are located in Monad's `./dist` directory:
-
-- `index.html`: The entry point. The provided one is often good enough; see
-  elsewhere in the manual for hints on how to customise further.
-- `monad.js`: Monad's browserified bundle.
-- `admin.css`: The default `index.html` expects a stylesheet of that name in the
-  root of your admin. You can use the provided one or build your own theme, as
-  long as you name it `admin.css` (note: if you write your own `index.html` from
-  scratch you can of course call it whatever you like).
-- `logo.png` and `i18n.png`: The Monad logo and a sprite of language icons,
-  respectively. You're perfectly free to substitute these with your own.
-- `fonts`: Folder with Bootstrap fonts.
-
-Monad by default expects your project-specific admin code to live in
-`/your-admin-dir/bundle.js`. You can generate this via either a tool like
-Browserify, or just write all your code in one file - not recommended, but we
-honestly don't care ;)
-
-To create an admin `bundle.js` including Monad, point Browserify to an entry
-poiny (e.g. `./src/admin/myProject.js`) and create an Angular module that
-depends on (at least) Monad:
-
-```javascript
-"use strict";
-angular.module('myProjectAdmin', ['monad']);
-```
-
-And either `ln -s`, `cp` or Grunt copy/watch the files you need... That's it!
-You're ready to roll. Your brand new CMS will now be available under the chosen
-path.
-
-## Now what?
-Well, you'll have to write some code now. See the [building
-blocks](blocks/index.md) section to get you started, and the [advanced
-techniques](advanced/home.md) section afterwards to learn how to wield the
-power of Monad to your customised advantage.
+Or you could write your own CSS from scratch. That's fine by us. In that case,
+starting by including Bootstrap will give you a running start.
 
