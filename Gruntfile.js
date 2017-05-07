@@ -23,7 +23,7 @@ module.exports = function (grunt) {
             },
             cwd: 'src',
             src: ['**/*.html', '!index.html'],
-            dest: 'es5/templates.js'
+            dest: 'lib/templates.js'
         }
     });
 
@@ -73,8 +73,8 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-shell');
     grunt.config('shell', {
-        es5: { command: 'npm run build' },
-        clean: { command: 'rm -rf dist/* && rm -rf es5/*' }
+        lib: { command: 'npm run build' },
+        clean: { command: 'rm -rf dist/* && rm -rf lib/*' }
     });
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -91,9 +91,9 @@ module.exports = function (grunt) {
             files: ['assets/i18n/**/*.png'],
             tasks: ['spritesheet']
         },
-        es5: {
+        lib: {
             files: ['src/**/*.js'],
-            tasks: ['shell:es5']
+            tasks: ['shell:lib']
         },
         sass: {
             files: ['src/_sass/**/*.scss'],
@@ -106,7 +106,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', ['build']);
-    grunt.registerTask('build', ['sass', 'shell:es5', 'ngtemplates', 'browserify', 'copy']);
+    grunt.registerTask('build', ['sass', 'shell:lib', 'ngtemplates', 'browserify', 'copy']);
     grunt.registerTask('dev', ['build', 'watch']);
     grunt.registerTask('prod', ['shell:clean', 'build', 'uglify']);
 };
