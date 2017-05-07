@@ -12,7 +12,7 @@ import ngAnimate from 'angular-animate';
 import ngResource from 'angular-resource';
 import 'autofill-event';
 import lollipop from 'ng-lollipop';
-import '../es5/templates';
+import '../lib/templates';
 import Authentication from './services/Authentication';
 import Report from './services/Report';
 import Progress from './services/Progress';
