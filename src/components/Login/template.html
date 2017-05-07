@@ -1,7 +1,7 @@
-<div ng-transclude ng-if="$ctrl.auth.check"></div>
-<div class="vert-wrapper" ng-if="!$ctrl.auth.check">
+<div ng-transclude ng-if="$ctrl.check"></div>
+<div class="vert-wrapper" ng-if="!$ctrl.check">
     <div class="vert-wrapper-inner">
-        <form ng-submit="$ctrl.auth.attempt($ctrl.credentials)" id="auth" name="auth" novalidate method="post">
+        <form ng-submit="$ctrl.attempt($ctrl.credentials)" id="auth" name="auth" novalidate method="post">
             <fieldset>
                 <legend translate>Please login</legend>
                 <div class="form-group">
