@@ -5,20 +5,22 @@ let monadLanguageService = undefined;
 
 class controller {
 
-    constructor(_monadLanguageService_, languages, Authentication) {
+    constructor(_monadLanguageService_, Authentication) {
         monadLanguageService = _monadLanguageService_;
-        this.languages = language;
         this.authenticated = Authentication.check;
-        console.log(Authentication, this.authenticated);
     }
 
     get language() {
-        return monadLanguageService.current;
+        return monadLanguageService.current || 'en';
+    }
+
+    get languages() {
+        return monadLanguageService.list || ['en'];
     }
 
 };
 
-controller.$inject = ['monadLanguageService', 'languages'];
+controller.$inject = ['monadLanguageService', 'Authentication'];
 
 export default angular.module('monad.components.footer', ['monad.cms'])
     .component('monadFooter', {
