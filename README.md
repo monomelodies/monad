@@ -73,6 +73,21 @@ $ sudo npm install -g grunt-cli
 
 > Your own project can use a different task runner like Gulp, or none at all.
 
+## Upgrading from 2.x
+If you're upgrading from Monad 2.x keep the following in mind:
+
+### Plugin architecture
+Monad 3.x uses a plugin-based architecture and many functionality has been moved
+to such a plugin. As such, you'll most likely want to install one or more
+plugins for your admin to behave like before.
+
+### New prefix for components, directives, services etc.
+Monad 1.x and 2.x used the `mo` prefix for these. Monad 3.x uses the slightly
+more verbose but clearer `monad` prefix.
+
+Currently, for backwards compatibility, everything is still available under the
+old name as well, but this will be removed in a future version.
+
 ## Including Monad in your project
 Until now we don't have anything to load in a browser yet. Let's change that.
 Pick a public folder (the name doesn't matter, so let's assume `/admin/`).
