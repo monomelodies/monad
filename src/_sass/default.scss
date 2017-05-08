@@ -1,4 +1,5 @@
 
+@import 'compass';
 @import 'variables';
 @import 'flags';
 @import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
@@ -105,11 +106,11 @@ body {
         }
     }
 #auth {
+    @include border-radius(8px);
     max-width: 400px;
     margin: 0 auto;
     background: $container_bg;
     padding: 1em;
-    border-radius: 8px;
     }
 .over {
     opacity: 0;
