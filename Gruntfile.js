@@ -47,7 +47,7 @@ module.exports = function (grunt) {
                 compass: true,
                 sourcemap: 'none'
             },
-            files: {'dist/monad.css': 'src/_sass/default.scss'}
+            files: {'dist/monad.css': 'src/style.scss'}
         }
     });
 
