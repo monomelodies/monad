@@ -143,6 +143,11 @@ project. For starters, these are the officially maintained plugins:
   language support for your admin.
 - [monad-crud](https://github.com/monomelodies/monad-crud) Easy CRUD operations
   for your project's data.
+- [monad-drag-drop](https://github.com/monomelodies/monad-drag-drop) Drag and
+  drop support.
+- [monad-sortable](https://github.com/monomelodies/monad-sortable) Sortable data
+  lists.
+- [monad-slug](https://github.com/monomelodies/monad-slug) Support for slugs.
 
 Install plugins using NPM or Bower, and `require` or add script tags for them as
 needed. Then, add them as an extra dependency for your main module. See the
