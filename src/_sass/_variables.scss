@@ -1,27 +1,21 @@
 
-$dark: #333;
-$nav_dark: #666;
-$nav_border: #999;
-$lighter: #bbb;
-$lightest: #eee;
-$white: #fff;
-$yellow: #fea;
+$dark: #333 !default;
+$nav_dark: #666 !default;
+$nav_border: #999 !default;
+$lighter: #bbb !default;
+$lightest: #eee !default;
+$white: #fff !default;
+$yellow: #fea !default;
 
-$body_bg: $white;
-$nav_bg: $nav_dark;
-$container_bg: $white;
-$header_fg: $white;
-$header_border1: #dfdfdf;
-$header_border2: $lightest;
-$header_bg: $lighter;
-$footer_fg: $white;
-$footer_anchor_fg: $yellow;
+$body_bg: $white !default;
+$nav_bg: $nav_dark !default;
+$container_bg: $white !default;
+$header_fg: $white !default;
+$header_border1: #dfdfdf !default;
+$header_border2: $lightest !default;
+$header_bg: $lighter !default;
+$footer_fg: $white !default;
+$footer_anchor_fg: $yellow !default;
 
-$icon-font-path: 'fonts/bootstrap/';
-
-@mixin border-radius($how) {
-    -moz-border-radius: $how;
-    -webkit-border-radius: $how;
-    border-radius: $how;
-};
+$icon-font-path: 'fonts/bootstrap/' !default;
 
