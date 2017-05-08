@@ -1,12 +1,11 @@
 {
   "name": "monad",
-  "version": "2.0.0",
   "authors": [
     "Marijn Ophorst <marijn@monomelodies.nl>"
   ],
   "description": "Generic AngularJS-based CMS framework",
-  "main": "dist/monad.js",
-  "moduleType": [],
+  "main": ["lib/index.js", "src/_sass_default.scss"],
+  "moduleType": ["node"],
   "keywords": [
     "angular",
     "cms"
@@ -14,7 +13,7 @@
   "license": "MIT",
   "homepage": "http://monad.monomelodies.nl",
   "ignore": [
-    "**/.*",
+    "src",
     "node_modules",
     "bower_components",
     "test",
