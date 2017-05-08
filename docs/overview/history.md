@@ -27,8 +27,8 @@ particular project we learned it for sported a Laravel backend, which worked
 fine but seemed a little weird - there were all these APIs to power the Angular
 frontend, but the backend essentially duplicated that in plain old PHP.
 
-In 2014 we built a custom CMS in Angular for a different client, and this was
-actually pretty awesome. We could reuse most of the API code from the
+In early 2014 we built a custom CMS in Angular for a different client, and this
+was actually pretty awesome. We could reuse most of the API code from the
 (front-end) Angular site, but more importantly we could use directives to
 handle all custom data formatting and validation options.
 
@@ -48,16 +48,28 @@ Problem was, we would have to rewrite Monad too, and think of a way to make it
 extendable and suitable for integration (the old framework relied on specific
 `include_path` settings for that, which isn't very compatible with PSR-4) and,
 in our newfound spirit of decoupling, as independent of other (PHP) modules as
-possible.
+possible. In fact, ideally it wouldn't even be dependent on PHP _at all_.
 
-We were also slightly concerned about Angular 2.0 coming up, as well as ES6. It
-would be a breaking change, but there was no exact roadmap on support or even
-release yet.
+In the past we'd already written custom (Monolyth) frontends for Wordpress
+backends, and the same project with the Angular CMS also talked to Wordpress in
+the frontend via Wordpress's API. That set us thinking: provided an application
+offers an API, would it be feasible to create an admin entirely in Angular that
+simply talks to that API for its operations? After all, why would the admin code
+even need to _know_ how your application actually _stores_ stuff? If it can call
+`$save()` on a resource, that's really good enough.
 
-## Transpiling
-So, we bit the bullet and started transpiling Javascript using Babel. The
-underlying code is still Angular 1.x, but when Angular 2 comes around it will be
-much easier to port. And the new Monad was born!
+So we bit the bullet and started writing the "new" Monad. The source is written
+in ES6 which is transpiled to ES5 (for NPM installations) and bundled using
+Browserify (for Bower installations).
+
+## Modules and plugins
+As of version 3.x, Monad uses a plugin-based architecture which is even more
+"the Angular way". Only the core of the framework is included in the package
+you're now reading the README for; additional functionality can be added simply
+by installing plugins (via `npm install` or `bower install`) and adding them to
+your main module's dependencies.
+
+And the new Monad was born!
 
 There was much rejoicing.
 
