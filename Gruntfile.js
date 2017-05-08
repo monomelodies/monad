@@ -31,7 +31,7 @@ module.exports = function (grunt) {
     grunt.config('spritesheet', {
         compile: {
             options: {
-                outputImage: 'dist/i18n.png',
+                outputImage: 'assets/i18n.png',
                 outputCss: 'src/_sass/_flags.scss',
                 selector: '.flag'
             },
@@ -68,7 +68,7 @@ module.exports = function (grunt) {
     grunt.config('copy', {
         logo: {expand: true, cwd: 'assets', src: 'logo.png', dest: 'dist'},
         bootstrap: {expand: true, cwd: 'node_modules/bootstrap-sass/assets', src: 'fonts/**', dest: 'dist'},
-        flags: {expand: true, cwd: 'src/_sass', src: 'i18n.png', dest: 'dist'}
+        flags: {expand: true, cwd: 'asserts', src: 'i18n.png', dest: 'dist'}
     });
 
     grunt.loadNpmTasks('grunt-shell');
