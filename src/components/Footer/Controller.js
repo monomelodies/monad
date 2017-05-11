@@ -22,6 +22,10 @@ export default class controller {
         });
     };
 
+    get authenticated() {
+        return Authentication.check;
+    }
+
 };
 
 controller.$inject = ['Authentication', '$uibModal', 'MONAD_VERSION', 'MONAD_COPYRIGHT'];
