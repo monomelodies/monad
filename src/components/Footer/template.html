@@ -6,7 +6,7 @@
                     <li id="copyright" class="pull-right"><p class="navbar-text">
                         {{ $ctrl.version }}
                         &copy; <a href="http://www.monomelodies.nl/" target="_blank" class="navbar-link">MonoMelodies</a>
-                        <span class="hidden-xs">2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017</span> &bull;
+                        <span class="hidden-xs">{{ $ctrl.copyright.join(', ') }}</span> &bull;
                         <a href ng-click="$ctrl.license()">MIT</a>
                     </p></li>
                     <li id="menu-logout" ng-if="$ctrl.authenticated">
