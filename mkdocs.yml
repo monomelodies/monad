@@ -6,8 +6,8 @@ pages:
 - Overview:
     - 'Home': 'index.md'
     - 'A little history': 'overview/history.md'
+    - 'Prerequisites': 'overview/prerequisites.md'
 - Building blocks:
-    - 'Prerequisites': 'blocks/index.md'
     - 'Components': 'blocks/components.md'
     - 'Template components and directives': 'blocks/template.md'
     - 'Models': 'blocks/models.md'
@@ -22,6 +22,8 @@ pages:
     - 'File uploads': 'advanced/files.md'
     - 'Sub-authentication': 'advanced/subauthentication.md'
     - 'Building reusable components': 'advanced/reusable.md'
+- Examples:
+    - 'Multi-level authentication': 'examples/authentication.md'
 
 copyright: Copyright &copy; 2015, 2016, 2017 <a href="http://www.monomelodies.nl/">Marijn Ophorst</a>
 
