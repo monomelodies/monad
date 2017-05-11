@@ -25,6 +25,7 @@ let ng = angular.module('monad.ng', ['ng', ngRoute, ngSanitize, ngAnimate]).name
 let externals = angular.module('monad.externals', [uiBootstrap, lollipop]).name;
 export default angular.module('monad.cms', [ng, externals, directives, components, 'monad.templates'])
     .constant('MONAD_VERSION', version)
+    .constant('MONAD_COPYRIGHT', [2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017])
     .service('monadLanguageService', Language)
     .factory('gettext', () => txt => txt)
     .filter('translate', () => txt => txt)
