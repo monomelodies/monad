@@ -9,6 +9,8 @@ backend, communicating with your site via APIs.
 
 Full documentation: [http://monad.monomelodies.nl/docs/](http://monad.monomelodies.nl/docs/)
 
+[Read about the history for this project.](overview/history.md)
+
 ## Installation
 
 ### NPM
@@ -162,9 +164,10 @@ project's own style. Speaking of which...
 ## Authentication
 Monad supports multiple levels of authentication out of the box. E.g., all
 sections of your admin would be available to "root users", but only "writing
-blog posts" is available to editors. See [the corresponding section in the
-documentation](advanced/authentication.md) for info on how to do that. It also
-explains how minimal authentication should work (i.e., one user, admin-only).
+blog posts" is available to editors. Authentication is explained in the
+[prerequisites section](overview/prerequisites.md) and there's also a [more
+detailed example](examples/authentication.md) showing how to identify various
+roles in your application.
 
 ## Styling
 If you installed via NPM you can `@import` the `style.css` file from the `lib`
@@ -177,4 +180,20 @@ If you installed via Bower you'll want to add a link to
 
 Or you could write your own CSS from scratch. That's fine by us. In that case,
 starting by including Bootstrap will give you a running start.
+
+## Further reading
+You'll notice that up until now we haven't said a word about server side code,
+database queries etc. That's because Monad doesn't care by design - but you
+_will_ need them. [See the prerequisites section](overview/prerequisites.md) (up
+next) for some hints on how to actually start administering something.
+
+## Contributing
+Bug reports, feature requests etc. should go via Github. If you feel like fixing
+something yourself (awesome, you!) issue a pull request. In lieu of a formal
+style guide, please try to be consistent with existing coding styles.
+
+If you've simply created a plugin that you think other people might also find
+useful (I don't know, e.g. something to easily integrate with Laravel projects),
+please drop me a line. We'll advertise it as a user contributed plugin (assuming
+it works properly ;)).
 
