@@ -4,7 +4,9 @@
   "description": "Generic AngularJS-based CMS framework",
   "main": "lib/index.js",
   "files": [
-    "lib/**"
+    "lib/**",
+    "assets/**",
+    "docs/**"
   ],
   "directories": {
     "doc": "docs",
