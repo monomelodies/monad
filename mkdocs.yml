@@ -18,12 +18,12 @@ pages:
     - 'Adding a custom homepage or dashboard': 'advanced/home.md'
     - 'Authentication example': 'advanced/authentication.md'
     - 'CRUD with multiple models': 'advanced/multi.md'
-    - 'Integrating CKEditor': 'advanced/ckeditor.md'
     - 'File uploads': 'advanced/files.md'
     - 'Sub-authentication': 'advanced/subauthentication.md'
     - 'Building reusable components': 'advanced/reusable.md'
 - Examples:
     - 'Multi-level authentication': 'examples/authentication.md'
+    - 'Integrating CKEditor': 'examples/ckeditor.md'
 
 copyright: Copyright &copy; 2015, 2016, 2017 <a href="http://www.monomelodies.nl/">Marijn Ophorst</a>
 
