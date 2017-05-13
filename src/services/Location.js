@@ -2,11 +2,13 @@
 "use strict";
 
 let $location = undefined;
+let base = '';
 
 export default class Location {
 
     constructor(_$location_) {
         $location = _$location_;
+        base = document.querySelector('base').href;
     }
 
     path(...args) {
@@ -18,7 +20,7 @@ export default class Location {
     }
 
     make(url) {
-        return url;
+        return (base + url).replace(/\/{2,}\//, '/');
     }
 
 };
