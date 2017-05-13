@@ -180,7 +180,7 @@ starting by including Bootstrap will give you a running start.
 
 Monad includes the [Bootstrap CSS framework](https://getbootstrap.com) by to get you started quickly,
 but is also completely customisable if you'd rather rebrand to for your
-project's own style. 
+project's own style.
 
 ## Further reading
 You'll notice that up until now we haven't said a word about server side code,
