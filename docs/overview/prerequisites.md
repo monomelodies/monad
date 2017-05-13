@@ -85,7 +85,7 @@ service needs to implement the following "interface":
 > but this is transpiled to ES5 using Babel anyway so you're free to write all
 > your own code directly in "old skool" ES5.
 
-```javascript
+```js
 export default class AuthenticationService {
 
     ['status']() {
@@ -120,7 +120,7 @@ this default implementation, so you'll quickly notice when you forget to define
 and methods. In any case, register your custom implementation as a service on
 your admin's main module:
 
-```javascript
+```js
 
 import Authentication from 'monad-cms/services/Authentication';
 
