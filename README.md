@@ -156,10 +156,7 @@ needed. Then, add them as an extra dependency for your main module. See the
 individual plugins for documentation on their usage.
 
 The rest of Monad is "just" an Angular application, so simply define routes
-using `$routeProvider` and start coding admin stuff! Monad includes the
-[Bootstrap CSS framework](https://getbootstrap.com) to get you started quickly,
-but is also completely customisable if you'd rather rebrand to for your
-project's own style. Speaking of which...
+using `$routeProvider` and start coding admin stuff! Speaking of which...
 
 ## Authentication
 Monad supports multiple levels of authentication out of the box. E.g., all
@@ -180,6 +177,10 @@ If you installed via Bower you'll want to add a link to
 
 Or you could write your own CSS from scratch. That's fine by us. In that case,
 starting by including Bootstrap will give you a running start.
+
+Monad includes the [Bootstrap CSS framework](https://getbootstrap.com) by to get you started quickly,
+but is also completely customisable if you'd rather rebrand to for your
+project's own style. 
 
 ## Further reading
 You'll notice that up until now we haven't said a word about server side code,
