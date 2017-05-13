@@ -20,7 +20,7 @@ export default class Location {
     }
 
     make(url) {
-        return (base + url).replace(/\/{2,}\//, '/');
+        return (base + url).replace(/\/{2,}/, '/');
     }
 
 };
