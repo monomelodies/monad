@@ -6,7 +6,7 @@ service, taken from an (anonymised) actual project.
 These days we write our JS in ES6 and transpile it using Babel. The service
 would look like this, with some added comments:
 
-```javascript
+```js
 "use strict";
 
 let http = undefined;
@@ -71,7 +71,7 @@ app.service('Authentication', Authentication);
 ## ES5
 In plain ol' ES5, the same service would look something like this:
 
-```javascript
+```js
 "use strict";
 
 app.service('Authentication', ['$http', '$route', function ($http, $route) {
@@ -104,4 +104,10 @@ app.service('Authentication', ['$http', '$route', function ($http, $route) {
     }
 }]);
 ```
+
+> *Important:* when implemented as a virtual property (like the above example),
+> be aware that `check()` will get called on every Angular digest, so that
+> means *often*. *Do not* make actual Ajax requests _inside_ it, but use a
+> cached variable. Use the `status` method for data retrieval and store it
+> somewhere (property, weakmap, whatever).
 
