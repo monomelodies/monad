@@ -8,7 +8,7 @@ export default class Location {
 
     constructor(_$location_) {
         $location = _$location_;
-        base = document.querySelector('base').href;
+        base = document.querySelector('base').href.replace(/^https?:\/\/.*?\//, '/');
     }
 
     path(...args) {
@@ -20,7 +20,7 @@ export default class Location {
     }
 
     make(url) {
-        return (base + url).replace(/\/{2,}/, '/');
+        return (base + url).replace(/\/{2,}/g, '/');
     }
 
 };
