@@ -85,10 +85,8 @@ plugins for your admin to behave like before.
 
 ### New prefix for components, directives, services etc.
 Monad 1.x and 2.x used the `mo` prefix for these. Monad 3.x uses the slightly
-more verbose but clearer `monad` prefix.
-
-Currently, for backwards compatibility, everything is still available under the
-old name as well, but this will be removed in a future version.
+more verbose but clearer `monad` prefix. You should rename them, and also keep
+in mind that not all 3.x components are 100% backwards compatible.
 
 ## Including Monad in your project
 Until now we don't have anything to load in a browser yet. Let's change that.
