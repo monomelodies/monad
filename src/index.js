@@ -73,8 +73,6 @@ export default angular.module('monad.cms', [ng, externals, directives, component
     .service('Authentication', Authentication)
     .service('monadLocation', Location)
     .service('monadReport', Report)
-    .service('moReport', Report)
     .service('monadProgress', Progress)
-    .service('moProgress', Progress)
     ;
 
