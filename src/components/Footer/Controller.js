@@ -26,6 +26,10 @@ export default class controller {
         return Authentication.check;
     }
 
+    revoke() {
+        return Authentication.revoke();
+    }
+
 };
 
 controller.$inject = ['Authentication', '$uibModal', 'MONAD_VERSION', 'MONAD_COPYRIGHT'];
