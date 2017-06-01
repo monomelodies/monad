@@ -67,8 +67,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.config('copy', {
         logo: {expand: true, cwd: 'assets', src: 'logo.png', dest: 'dist'},
-        bootstrap: {expand: true, cwd: 'node_modules/bootstrap-sass/assets', src: 'fonts/**', dest: 'dist'},
-        flags: {expand: true, cwd: 'assets', src: 'i18n.png', dest: 'dist'}
+        bootstrap: {expand: true, cwd: 'node_modules/bootstrap-sass/assets', src: 'fonts/**', dest: 'assets'},
+        css: {expand: true, cwd: 'src', src: '**/*.scss', dest: 'assets/sass'}
     });
 
     grunt.loadNpmTasks('grunt-shell');
