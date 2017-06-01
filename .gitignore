@@ -4,5 +4,7 @@ bower_components
 node_modules
 dist
 lib
+assets/sass
+assets/fonts
 
 tmp
