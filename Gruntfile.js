@@ -27,30 +27,6 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.loadNpmTasks('node-spritesheet');
-    grunt.config('spritesheet', {
-        compile: {
-            options: {
-                outputImage: 'assets/i18n.png',
-                outputCss: 'src/partials/_flags.scss',
-                selector: '.flag'
-            },
-            files: {'': 'assets/i18n/**/*.png'}
-        }
-    });
-
-    grunt.loadNpmTasks('grunt-contrib-sass');
-    grunt.config('sass', {
-        monad: {
-            options: {
-                style: 'compressed',
-                compass: true,
-                sourcemap: 'none'
-            },
-            files: {'dist/monad.css': 'src/style.scss'}
-        }
-    });
-
     grunt.loadNpmTasks('grunt-browserify');
     grunt.config('browserify', {
         monad: {
@@ -62,13 +38,6 @@ module.exports = function (grunt) {
                 watch: true
             }
         }
-    });
-
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.config('copy', {
-        logo: {expand: true, cwd: 'assets', src: 'logo.png', dest: 'dist'},
-        bootstrap: {expand: true, cwd: 'node_modules/bootstrap-sass/assets', src: 'fonts/**', dest: 'assets'},
-        css: {expand: true, cwd: 'src', src: '**/*.scss', dest: 'assets/sass'}
     });
 
     grunt.loadNpmTasks('grunt-shell');
@@ -87,17 +56,9 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.config('watch', {
-        spritesheet: {
-            files: ['assets/i18n/**/*.png'],
-            tasks: ['spritesheet']
-        },
         lib: {
             files: ['src/**/*.js'],
             tasks: ['shell:lib']
-        },
-        sass: {
-            files: ['src/_sass/**/*.scss'],
-            tasks: ['sass']
         },
         templates: {
             files: ['src/**/*.html'],
@@ -106,7 +67,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', ['build']);
-    grunt.registerTask('build', ['sass', 'shell:lib', 'ngtemplates', 'browserify', 'copy']);
+    grunt.registerTask('build', ['shell:lib', 'ngtemplates', 'browserify']);
     grunt.registerTask('dev', ['build', 'watch']);
     grunt.registerTask('prod', ['shell:clean', 'build', 'uglify']);
 };
