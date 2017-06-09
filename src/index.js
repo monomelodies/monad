@@ -1,7 +1,8 @@
 
 "use strict";
 
-const version = '3.0.2';
+import pkg from '../package.json';
+const version = pkg.version;
 
 import 'babel-polyfill';
 import angular from 'angular';
