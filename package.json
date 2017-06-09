@@ -1,6 +1,6 @@
 {
   "name": "monad-cms",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Generic AngularJS-based CMS framework",
   "main": "lib/index.js",
   "files": [
@@ -21,7 +21,6 @@
     "angular-ui-bootstrap": "~2.5.0",
     "autofill-event": "0.0.1",
     "babel-polyfill": "^6.23.0",
-    "bootstrap-sass": "~3.3.7",
     "ng-lollipop": "^0.2.1"
   },
   "devDependencies": {
@@ -39,7 +38,6 @@
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-uglify": "^2.3.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-shell": "^2.1.0",
@@ -66,5 +64,6 @@
     "cms"
   ],
   "author": "Marijn Ophorst <marijn@monomelodies.nl> (http://monomelodies.nl)",
-  "license": "MIT"
+  "license": "MIT",
+  "false": {}
 }
