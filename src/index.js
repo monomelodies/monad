@@ -10,7 +10,6 @@ import uiBootstrap from 'angular-ui-bootstrap';
 import ngRoute from 'angular-route';
 import ngSanitize from 'angular-sanitize';
 import ngAnimate from 'angular-animate';
-import ngResource from 'angular-resource';
 import 'autofill-event';
 import lollipop from 'ng-lollipop';
 import '../lib/templates';
