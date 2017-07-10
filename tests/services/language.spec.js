@@ -2,7 +2,7 @@
 "use strict";
 
 describe('service: Language', () => {
-    let Language;
+    let Language = undefined;
 
     beforeEach(inject($rootScope => {
         $rootScope.languages = ['en', 'nl', 'es'];
