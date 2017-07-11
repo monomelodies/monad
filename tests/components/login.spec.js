@@ -6,19 +6,7 @@ describe('Login component', () => {
     let $rootScope = undefined;
     let $compile = undefined;
 
-    let mod = angular.module('tests.login', []).service('Authentication', ['$q', function ($q) {
-        this.check = false;
-        this.attempt = credentials => {
-            if (credentials.username == 'test' && credentials.password == 'test') {
-                this.check = true;
-            }
-        };
-        this.status = () => {
-            let deferred = $q.defer();
-            deferred.resolve(this.check);
-            return deferred.promise;
-        };
-    }]);
+    let mod = angular.module('tests.login', ['tests']);
     beforeEach(angular.mock.module(mod.name));
 
     beforeEach(inject((_$rootScope_, _$compile_) => {
