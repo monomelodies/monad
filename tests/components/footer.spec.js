@@ -14,7 +14,7 @@ describe('Footer component', () => {
                 this.check = true;
             }
         };
-        this.status = () => $rootScope.check;
+        this.status = () => this.check;
     });
     beforeEach(angular.mock.module(mod.name));
 
