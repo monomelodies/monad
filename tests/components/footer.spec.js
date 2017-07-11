@@ -23,11 +23,11 @@ describe('Footer component', () => {
     }));
 
     describe('Footer while not logged in', () => {
-        it('should not display a logout button', () => {
+        it('should only display one li', () => {
             let tpl = angular.element('<monad-footer></monad-footer>');
             element = $compile(tpl)($rootScope);
             $rootScope.$digest();
-            expect(element.find('#logout').length).toBe(0);
+            expect(element.find('li').length).toBe(1);
         });
     });
 });
