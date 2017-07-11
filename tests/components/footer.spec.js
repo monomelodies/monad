@@ -7,15 +7,7 @@ describe('Footer component', () => {
     let $compile = undefined;
     let Authentication = undefined;
 
-    let mod = angular.module('tests.footer', []).service('Authentication', function () {
-        this.check = false;
-        this.attempt = credentials => {
-            if (credentials.username == 'test' && credentials.password == 'test') {
-                this.check = true;
-            }
-        };
-        this.status = () => this.check;
-    });
+    let mod = angular.module('tests.footer', ['tests']);
     beforeEach(angular.mock.module(mod.name));
 
     beforeEach(inject((_$rootScope_, _$compile_, _Authentication_) => {
