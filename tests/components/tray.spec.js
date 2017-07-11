@@ -5,23 +5,10 @@ describe('Try component', () => {
     let element = undefined;
     let $rootScope = undefined;
     let $compile = undefined;
-    let Authentication = undefined;
 
-    let mod = angular.module('tests.try', []).service('Authentication', function () {
-        this.check = false;
-        this.attempt = credentials => {
-            if (credentials.username == 'test' && credentials.password == 'test') {
-                this.check = true;
-            }
-        };
-        this.status = () => this.check;
-    });
-    beforeEach(angular.mock.module(mod.name));
-
-    beforeEach(inject((_$rootScope_, _$compile_, _Authentication_) => {
+    beforeEach(inject((_$rootScope_, _$compile_) => {
         $rootScope = _$rootScope_;
         $compile = _$compile_;
-        Authentication = _Authentication_;
     }));
 
     describe('Tray component', () => {
