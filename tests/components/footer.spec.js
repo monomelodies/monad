@@ -7,15 +7,19 @@ describe('Footer component', () => {
     let $compile = undefined;
     let Authentication = undefined;
 
-    let mod = angular.module('tests.footer', []).service('Authentication', function () {
+    let mod = angular.module('tests.footer', []).service('Authentication', ['$q', function ($q) {
         this.check = false;
         this.attempt = credentials => {
             if (credentials.username == 'test' && credentials.password == 'test') {
                 this.check = true;
             }
         };
-        this.status = () => this.check;
-    });
+        this.status = () => {
+            let deferred = $q.defer();
+            deferred.resolve(this.check);
+            return deferred.promise;
+        };
+    }]);
     beforeEach(angular.mock.module(mod.name));
 
     beforeEach(inject((_$rootScope_, _$compile_, _Authentication_) => {
