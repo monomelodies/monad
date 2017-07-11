@@ -50,5 +50,21 @@ describe('Login component', () => {
             expect(element.find('h1').length).toBe(1);
         });
     });
+
+    describe('Wrong credentials', () => {
+        it('should display the login form', () => {
+            let tpl = angular.element(`
+            <monad-login>
+                <h1>logged in</h1>
+            </monad-login>
+            `);
+            element = $compile(tpl)($rootScope);
+            $rootScope.$digest();
+            element.find('input').eq(0).val('bla').triggerHandler('input');
+            element.find('input').eq(1).val('bla').triggerHandler('input')
+            element.find('form').triggerHandler('submit');
+            expect(element.find('form').length).toBe(1);
+        });
+    });
 });
 
