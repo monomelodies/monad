@@ -21,7 +21,9 @@ export default class ListController {
         this.filter = this.filter || {};
         angular.copy(this.filter, filter);
         if (!this.items) {
-            this.page = _page;
+            this.$onInit = () => {
+                this.page = _page;
+            };
         }
         this['delete'] = item => moDelete.ask(item);
         $rootScope.$on('moListSaved', () => this.reset());
