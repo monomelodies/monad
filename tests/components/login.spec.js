@@ -8,6 +8,10 @@ describe('Login component', () => {
 
     let mod = angular.module('tests.login', ['tests']);
     beforeEach(angular.mock.module(mod.name));
+    let html = `<monad-login>
+        <h1>logged in</h1>
+    </monad-login>
+    `;
 
     beforeEach(inject((_$rootScope_, _$compile_) => {
         $rootScope = _$rootScope_;
@@ -16,11 +20,7 @@ describe('Login component', () => {
 
     describe('Not logged in', () => {
         it('should show the login form prior to authentication', () => {
-            let tpl = angular.element(`
-            <monad-login>
-                <h1>logged in</h1>
-            </monad-login>
-            `);
+            let tpl = angular.element(html);
             element = $compile(tpl)($rootScope);
             $rootScope.$digest();
             expect(element.find('form').length).toBe(1);
@@ -29,11 +29,7 @@ describe('Login component', () => {
 
     describe('Logged in', () => {
         it('should display a h1', () => {
-            let tpl = angular.element(`
-            <monad-login>
-                <h1>logged in</h1>
-            </monad-login>
-            `);
+            let tpl = angular.element(html);
             element = $compile(tpl)($rootScope);
             $rootScope.$digest();
             element.find('input').eq(0).val('test').triggerHandler('input');
@@ -44,12 +40,8 @@ describe('Login component', () => {
     });
 
     describe('Wrong credentials', () => {
-        it('should display the login form', () => {
-            let tpl = angular.element(`
-            <monad-login>
-                <h1>logged in</h1>
-            </monad-login>
-            `);
+        it('should keep displaying the login form when authentication fails', () => {
+            let tpl = angular.element(html);
             element = $compile(tpl)($rootScope);
             $rootScope.$digest();
             element.find('input').eq(0).val('bla').triggerHandler('input');

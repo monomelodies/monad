@@ -7,7 +7,7 @@ necessary, but a lot of work by default. Monad aims to provide a platform
 agnostic toolkit which allows for easy and quick scaffolding of such a
 backend, communicating with your site via APIs.
 
-Full documentation: [http://monad.monomelodies.nl/docs/](http://monad.monomelodies.nl/docs/)
+Full documentation: [http://monad.monomelodies.nl/monad/docs/](http://monad.monomelodies.nl/monad/docs/)
 
 [Read about the history for this project.](overview/history.md)
 
