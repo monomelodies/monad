@@ -8,7 +8,7 @@ export default class Location {
 
     constructor(_$location_) {
         $location = _$location_;
-        base = document.querySelector('base').href.replace(/^https?:\/\/.*?\//, '/');
+        base = document.querySelector('base') ? document.querySelector('base').href.replace(/^https?:\/\/.*?\//, '/') : '/';
     }
 
     path(...args) {
