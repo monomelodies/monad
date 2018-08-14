@@ -18,7 +18,6 @@ import Report from './services/Report';
 import Progress from './services/Progress';
 import Location from './services/Location';
 import Language from './services/Language';
-import ResolveProperty from './services/ResolveProperty';
 import directives from './directives';
 import components from './components';
 
@@ -75,6 +74,5 @@ export default angular.module('monad.cms', [ng, externals, directives, component
     .service('monadLocation', Location)
     .service('monadReport', Report)
     .service('monadProgress', Progress)
-    .service('monadResolveProperty', ResolveProperty)
     ;
 
