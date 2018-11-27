@@ -12,6 +12,7 @@ export default class Location {
     }
 
     path(...args) {
+        args[0] = removeBase(args[0]);
         $location.path(...args);
     }
 
@@ -23,6 +24,12 @@ export default class Location {
         return (base + url).replace(/\/{2,}/g, '/');
     }
 
+};
+
+function removeBase(url) {
+    const regEx = new RegExp(`^${base}`);
+    url = url.replace(regEx, '/');
+    return url;
 };
 
 Location.$inject = ['$location'];
