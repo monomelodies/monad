@@ -1,6 +1,6 @@
 {
   "name": "monad-cms",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "Generic AngularJS-based CMS framework",
   "main": "lib/index.js",
   "files": [
